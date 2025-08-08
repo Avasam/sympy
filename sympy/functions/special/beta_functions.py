@@ -4,7 +4,9 @@ from sympy.core.symbol import Dummy, uniquely_named_symbol
 from sympy.functions.special.gamma_functions import gamma, digamma
 from sympy.functions.combinatorial.numbers import catalan
 from sympy.functions.elementary.complexes import conjugate
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 # See mpmath #569 and SymPy #20569
 def betainc_mpmath_fix(a, b, x1, x2, reg=0):

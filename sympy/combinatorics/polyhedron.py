@@ -5,7 +5,9 @@ from sympy.sets import FiniteSet
 from sympy.utilities.iterables import (minlex, unflatten, flatten)
 from sympy.utilities.misc import as_int
 import sympy.sets.sets
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 rmul = Perm.rmul
 

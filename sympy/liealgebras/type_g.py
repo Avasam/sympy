@@ -5,7 +5,9 @@ from sympy.core.backend import Matrix
 import sympy.matrices
 from sympy.liealgebras.cartan_type import Standard_Cartan
 from typing import Literal
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 class TypeG(Standard_Cartan):
 

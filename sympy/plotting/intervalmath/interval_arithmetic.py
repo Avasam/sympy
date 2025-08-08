@@ -38,7 +38,9 @@ from sympy.simplify.simplify import nsimplify
 
 from .interval_membership import intervalMembership
 from types import NotImplementedType
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class interval:

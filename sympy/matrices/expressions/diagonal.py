@@ -7,7 +7,9 @@ from sympy.functions.special.tensor_functions import KroneckerDelta
 import sympy
 from sympy.core.expr import Expr
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class DiagonalMatrix(MatrixExpr):

@@ -28,7 +28,9 @@ from sympy.geometry.line import Line, Line2D, Line3D, Segment, Segment2D, Segmen
 from sympy.geometry.point import Point, Point2D, Point3D
 from types import NotImplementedType
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 x, y, T = [Dummy('polygon_dummy', real=True) for i in range(3)]

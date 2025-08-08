@@ -4,7 +4,9 @@ from .cartan_type import Standard_Cartan
 from sympy.core.backend import eye, Rational
 from sympy.core.singleton import S
 from sympy.liealgebras.cartan_type import Standard_Cartan
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 class TypeE(Standard_Cartan):
 

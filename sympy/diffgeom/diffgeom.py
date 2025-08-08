@@ -32,7 +32,9 @@ import sympy.core.function
 import sympy.tensor.array.dense_ndim_array
 from sympy.matrices.immutable import ImmutableDenseMatrix
 from sympy.series.order import Order
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Manifold(Basic):

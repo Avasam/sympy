@@ -7,7 +7,9 @@ from sympy.liealgebras.type_e import TypeE
 from sympy.liealgebras.type_f import TypeF
 from sympy.liealgebras.type_g import TypeG
 from typing import Any, Callable
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class CartanType_generator():

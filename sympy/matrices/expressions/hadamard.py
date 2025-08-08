@@ -13,7 +13,9 @@ from sympy.strategies import (
 )
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.core.basic import Basic
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 def hadamard_product(*matrices):

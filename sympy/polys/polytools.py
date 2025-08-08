@@ -69,7 +69,9 @@ from mpmath.libmp.libhyper import NoConvergence
 import sympy.core.add
 import sympy.core.expr
 from types import NotImplementedType
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 if TYPE_CHECKING:

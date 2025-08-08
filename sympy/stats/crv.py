@@ -33,7 +33,9 @@ from sympy.stats.rv import (RandomSymbol, RandomDomain, SingleDomain, Conditiona
         ProductDomain, PSpace, SinglePSpace, random_symbols, NamedArgsMixin, Distribution)
 import sympy
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class ContinuousDomain(RandomDomain):

@@ -4,7 +4,9 @@ from sympy.core import Basic, Integer
 import operator
 from types import NotImplementedType
 from typing import Literal
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class OmegaPower(Basic):

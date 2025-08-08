@@ -24,7 +24,9 @@ from sympy.matrices.expressions.matexpr import MatrixExpr
 from sympy.matrices.expressions.special import GenericIdentity, GenericZeroMatrix, ZeroMatrix
 from sympy.series.order import Order
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 # XXX: MatMul should perhaps not subclass directly from Mul

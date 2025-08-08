@@ -24,6 +24,7 @@ from sympy.matrices.repmatrix import MutableRepMatrix, RepMatrix
 from sympy.series.order import Order
 
 
+
 if TYPE_CHECKING:
     from typing_extensions import Self
 

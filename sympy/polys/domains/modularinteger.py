@@ -12,7 +12,9 @@ from sympy.polys.domains.domainelement import DomainElement
 from sympy.utilities import public
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from types import NotImplementedType
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 @public
 class ModularInteger(PicklableWithSlots, DomainElement):

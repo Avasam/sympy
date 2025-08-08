@@ -4,7 +4,9 @@ from sympy.core.singleton import S
 from sympy.core.symbol import (Symbol, symbols)
 from sympy.printing import sstr
 from sympy.core.sympify import sympify
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 def RecurrenceOperators(base, generator) -> tuple[RecurrenceOperatorAlgebra, RecurrenceOperator]:

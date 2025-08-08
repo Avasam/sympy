@@ -37,7 +37,9 @@ from sympy.series.order import Order
 from sympy.stats.crv import ProductContinuousDomain
 from sympy.stats.drv import ProductDiscreteDomain
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class FiniteDensity(dict):

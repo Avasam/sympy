@@ -6,7 +6,9 @@ from sympy.sets.sets import Set, SetKind
 from sympy.core.kind import NumberKind
 from .matexpr import MatrixExpr
 from sympy.core.basic import Basic
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class MatrixSet(Set):

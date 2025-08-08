@@ -8,7 +8,9 @@ from sympy.sets.sets import Complement
 from sympy.utilities.iterables import uniq, is_sequence
 from sympy.core.basic import Basic
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Order(Expr):

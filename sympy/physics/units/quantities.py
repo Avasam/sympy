@@ -8,7 +8,9 @@ from sympy.core.sympify import sympify
 from sympy.physics.units.dimensions import Dimension, _QuantityMapper
 from sympy.physics.units.prefixes import Prefix
 from sympy.core.add import Add
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Quantity(AtomicExpr):

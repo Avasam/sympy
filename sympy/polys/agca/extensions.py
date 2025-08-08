@@ -8,7 +8,9 @@ from sympy.polys.polytools import Poly
 from sympy.printing.defaults import DefaultPrinting
 from types import NotImplementedType
 from typing import Literal
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class ExtensionElement(DomainElement, DefaultPrinting):

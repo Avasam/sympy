@@ -19,7 +19,9 @@ import sympy
 import sympy.core.add
 from sympy.series.order import Order
 from typing import Any, Callable
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Vector(BasisDependent):

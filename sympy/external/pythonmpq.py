@@ -37,7 +37,9 @@ from fractions import Fraction
 import sys
 from typing import Any, Type
 from types import NotImplementedType
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 # Used for __hash__

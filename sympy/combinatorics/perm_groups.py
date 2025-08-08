@@ -25,6 +25,7 @@ from sympy.combinatorics.pc_groups import PolycyclicGroup
 from sympy.core.function import UndefinedFunction
 from typing import Any, TYPE_CHECKING
 
+
 if TYPE_CHECKING:
     from typing_extensions import Self
 

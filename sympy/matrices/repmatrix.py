@@ -26,7 +26,10 @@ from .matrixbase import classof, MatrixBase
 from .kind import MatrixKind
 from sympy import MatrixBase
 from sympy.matrices.kind import MatrixKind
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
+
 
 
 if TYPE_CHECKING:

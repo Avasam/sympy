@@ -20,7 +20,9 @@ from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.ntheory import multiplicity, perfect_power
 from sympy.ntheory.factor_ import factorint
 from typing import TYPE_CHECKING, Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 if TYPE_CHECKING:
     from sympy.core.basic import Basic

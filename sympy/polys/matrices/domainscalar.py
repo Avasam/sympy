@@ -14,7 +14,9 @@ from ..constructor import construct_domain
 from sympy.polys.domains import Domain, ZZ
 from types import NotImplementedType
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class DomainScalar:

@@ -10,7 +10,9 @@ from sympy.utilities.misc import filldedent
 from sympy.core.basic import Basic
 from sympy.core.mul import Mul
 from typing import Literal
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 ###############################################################################

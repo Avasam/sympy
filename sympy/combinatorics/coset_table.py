@@ -5,6 +5,7 @@ from itertools import chain, product
 from bisect import bisect_left
 from typing import TYPE_CHECKING
 
+
 if TYPE_CHECKING:
     from typing_extensions import Self
 

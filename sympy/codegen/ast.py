@@ -142,6 +142,7 @@ from sympy.utilities.iterables import (iterable, topological_sort,
 from collections.abc import Iterator
 from sympy.core.function import UndefinedFunction
 
+
 if TYPE_CHECKING:
     from typing_extensions import Self
 

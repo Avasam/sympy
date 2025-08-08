@@ -9,7 +9,9 @@ from .arrayop import derive_by_array
 from sympy.matrices.expressions.matexpr import MatrixExpr
 from sympy.matrices.expressions.special import ZeroMatrix
 from sympy.matrices.expressions.matexpr import _matrix_derivative
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class ArrayDerivative(Derivative):

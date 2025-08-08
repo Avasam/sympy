@@ -3,7 +3,9 @@ from sympy.core.sympify import _sympify
 from sympy.matrices.expressions.transpose import transpose
 from sympy.matrices.expressions.slice import MatrixSlice
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class DotProduct(Expr):

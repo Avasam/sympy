@@ -6,7 +6,9 @@ from sympy.polys.domains.domain import Domain, Er
 from sympy.polys.polyerrors import ExactQuotientFailed, NotInvertible, NotReversible
 
 from sympy.utilities import public
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 if TYPE_CHECKING:
     from sympy.polys.agca.ideals import ModuleImplementedIdeal

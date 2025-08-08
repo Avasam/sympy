@@ -16,7 +16,9 @@ from sympy.functions import sign
 from sympy.simplify.simplify import simplify
 from sympy.solvers.solvers import solve
 from sympy.core.basic import Basic
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Parabola(GeometrySet):

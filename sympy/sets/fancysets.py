@@ -22,7 +22,9 @@ from .sets import tfn, Set, Interval, Union, FiniteSet, ProductSet, SetKind
 from sympy.utilities.misc import filldedent
 from collections.abc import Generator, Iterator
 from typing import Any, NoReturn
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Rationals(Set, metaclass=Singleton):

@@ -21,7 +21,9 @@ from sympy.utilities.iterables import sift
 from sympy.core.expr import Expr
 from sympy.core.kind import Kind, _UndefinedKind
 from sympy.core.operations import AssocOp
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 # internal marker to indicate:

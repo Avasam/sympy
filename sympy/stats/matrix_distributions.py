@@ -14,7 +14,9 @@ from sympy.stats.rv import (_value_check, RandomMatrixSymbol, NamedArgsMixin, PS
 from sympy.external import import_module
 import sympy.matrices.expressions.sets
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 ################################################################################

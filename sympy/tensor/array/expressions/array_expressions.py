@@ -36,7 +36,9 @@ from sympy.combinatorics.permutations import _af_invert
 from sympy.core.sympify import _sympify
 import ctypes
 import sympy
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class _ArrayExpr(Expr):

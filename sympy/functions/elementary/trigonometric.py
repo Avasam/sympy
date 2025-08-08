@@ -25,7 +25,9 @@ from sympy.polys.specialpolys import symmetric_poly
 from sympy.utilities.iterables import numbered_symbols
 from sympy.core.mul import Mul
 from typing import TYPE_CHECKING, Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 if TYPE_CHECKING:
     from sympy.calculus.accumulationbounds import AccumBounds

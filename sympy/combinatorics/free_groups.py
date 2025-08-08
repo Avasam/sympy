@@ -12,6 +12,7 @@ from sympy.utilities.misc import as_int
 from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
+
 if TYPE_CHECKING:
     from typing_extensions import Self
 

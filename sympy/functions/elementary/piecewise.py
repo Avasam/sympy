@@ -14,7 +14,9 @@ from sympy.utilities.misc import filldedent, func_name
 
 from itertools import product
 from collections.abc import Iterator
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 Undefined = S.NaN  # Piecewise()
 

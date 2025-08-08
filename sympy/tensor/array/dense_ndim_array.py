@@ -10,7 +10,9 @@ from sympy.tensor.array.ndim_array import NDimArray, ImmutableNDimArray, ArrayKi
 from sympy.utilities.iterables import flatten
 from sympy import Indexed
 from sympy.matrices import Matrix
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class DenseNDimArray(NDimArray):

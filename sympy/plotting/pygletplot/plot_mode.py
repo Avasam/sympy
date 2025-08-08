@@ -6,7 +6,9 @@ from sympy.core.sympify import sympify
 from sympy.geometry.entity import GeometryEntity
 from sympy.utilities.iterables import is_sequence
 from sympy.plotting.pygletplot.plot_object import PlotObject
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class PlotMode(PlotObject):

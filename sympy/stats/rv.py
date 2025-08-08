@@ -55,7 +55,9 @@ from sympy.stats.stochastic_process import StochasticPSpace
 from sympy.stats.symbolic_multivariate_probability import ExpectationMatrix
 from sympy.stats.symbolic_probability import Expectation, Probability
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 __doctest_requires__ = {('sample',): ['scipy']}

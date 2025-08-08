@@ -11,7 +11,9 @@ from sympy.core import S, Add, Mul
 from sympy.core.expr import Expr
 from sympy.series.order import Order
 from sympy.vector.vector import BaseVector
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 if TYPE_CHECKING:
     from sympy.vector.vector import BaseVector

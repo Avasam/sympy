@@ -4,7 +4,9 @@ import sympy.core.numbers
 import sympy.matrices
 from sympy.liealgebras.cartan_type import Standard_Cartan
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class TypeF(Standard_Cartan):

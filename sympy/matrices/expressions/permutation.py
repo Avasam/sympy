@@ -8,7 +8,9 @@ from sympy.core.basic import Basic
 from sympy.matrices.expressions.matexpr import MatrixExpr
 from sympy.matrices.expressions.special import Identity, OneMatrix, ZeroMatrix
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class PermutationMatrix(MatrixExpr):

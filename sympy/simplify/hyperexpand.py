@@ -82,7 +82,9 @@ from sympy.simplify.powsimp import powdenest
 from sympy.utilities.iterables import sift
 from sympy.core.function import UndefinedFunction
 from typing import Any, Callable
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 # function to define "buckets"
 def _mod1(x):

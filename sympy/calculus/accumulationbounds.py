@@ -13,6 +13,7 @@ import sympy.core.power
 from types import NotImplementedType
 from typing import TYPE_CHECKING
 
+
 if TYPE_CHECKING:
     from typing_extensions import Self
 

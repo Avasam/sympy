@@ -4,7 +4,9 @@ from sympy.core.singleton import S
 from sympy.core.sympify import sympify
 from sympy.matrices.exceptions import NonSquareMatrixError
 from sympy.matrices.matrixbase import MatrixBase
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Determinant(Expr):

@@ -29,7 +29,9 @@ from sympy.core.expr import Expr
 from sympy.core.power import Pow
 import sympy.matrices
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class _QuantityMapper:

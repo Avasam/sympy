@@ -3,7 +3,9 @@ from sympy.core.sympify import _sympify
 from sympy.printing.pretty.stringpict import prettyForm
 from sympy.printing.precedence import PRECEDENCE
 from sympy.core.kind import NumberKind
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class BaseScalar(AtomicExpr):

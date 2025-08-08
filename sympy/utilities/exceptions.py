@@ -8,7 +8,9 @@ import contextlib
 from textwrap import dedent
 from collections.abc import Generator
 from typing import Any, Callable
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class SymPyDeprecationWarning(DeprecationWarning):

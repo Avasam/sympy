@@ -22,6 +22,7 @@ from sympy.utilities.iterables import iterable
 import ast
 from typing import TYPE_CHECKING
 
+
 if TYPE_CHECKING:
     from typing_extensions import Self
 

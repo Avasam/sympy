@@ -30,7 +30,9 @@ from sympy.physics.control.routh_table import negative_real_part_conditions
 from mpmath.libmp.libmpf import prec_to_dps
 from sympy.series.order import Order
 from types import NotImplementedType
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = ['TransferFunction', 'PIDController', 'Series', 'MIMOSeries', 'Parallel', 'MIMOParallel',
     'Feedback', 'MIMOFeedback', 'TransferFunctionMatrix', 'StateSpace', 'gbt', 'bilinear', 'forward_diff', 'backward_diff',

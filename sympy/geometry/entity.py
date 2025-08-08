@@ -38,7 +38,9 @@ from sympy.solvers.solvers import solve
 from sympy.utilities.misc import func_name
 from sympy.utilities.iterables import is_sequence
 import sympy.sets.sets
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 # How entities are ordered; used by __cmp__ in GeometryEntity

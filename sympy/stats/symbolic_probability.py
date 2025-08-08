@@ -23,7 +23,9 @@ from sympy.series.order import Order
 from sympy.stats.frv_types import BernoulliDistribution
 from sympy.stats.symbolic_multivariate_probability import CrossCovarianceMatrix, ExpectationMatrix, VarianceMatrix
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = ['Probability', 'Expectation', 'Variance', 'Covariance']
 

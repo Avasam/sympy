@@ -2,7 +2,9 @@
 
 from sympy.core import Basic
 import sympy.core.basic
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class EPath:

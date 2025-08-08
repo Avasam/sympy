@@ -28,7 +28,9 @@ from sympy.utilities import filldedent
 from sympy.core.sympify import _sympify
 import sympy
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class DiscreteDistribution(Distribution):

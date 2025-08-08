@@ -13,7 +13,9 @@ from sympy.polys.domains.field import Field
 from sympy.polys.domains.ring import Ring
 from types import NotImplementedType
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class GaussianElement(DomainElement):

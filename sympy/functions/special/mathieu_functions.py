@@ -5,7 +5,9 @@ from sympy.core.function import Function, UndefinedFunction, DefinedFunction, Ar
 from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.functions.elementary.trigonometric import sin, cos
 from sympy.core.mul import Mul
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class MathieuBase(DefinedFunction):

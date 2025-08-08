@@ -11,7 +11,9 @@ from sympy.matrices.repmatrix import RepMatrix
 from sympy.matrices.sparse import SparseRepMatrix
 from sympy.multipledispatch import dispatch
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 def sympify_matrix(arg):

@@ -64,7 +64,9 @@ from collections.abc import Generator
 from sympy.combinatorics.permutations import Perm
 from sympy.tensor.array.expressions.array_expressions import ArrayContraction, ArrayElement, ArrayTensorProduct, PermuteDims, ZeroArray
 from types import NotImplementedType
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 def deprecate_data() -> None:

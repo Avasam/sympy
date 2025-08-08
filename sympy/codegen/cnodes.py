@@ -11,6 +11,7 @@ from sympy.core.containers import Tuple
 from sympy.core.sympify import sympify
 from typing import TYPE_CHECKING
 
+
 if TYPE_CHECKING:
     from typing_extensions import Self
 

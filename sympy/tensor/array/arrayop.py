@@ -14,7 +14,9 @@ import sympy
 import sympy.tensor.array.expressions.array_expressions
 from sympy.tensor.array.array_derivatives import ArrayDerivative
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 def _arrayfy(a):

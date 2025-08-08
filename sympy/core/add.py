@@ -15,7 +15,9 @@ from .expr import Expr
 from .kind import UndefinedKind, _UndefinedKind
 from sympy.utilities.iterables import is_sequence, sift
 from .mul import Mul
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 if TYPE_CHECKING:

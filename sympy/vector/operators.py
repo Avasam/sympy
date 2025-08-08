@@ -6,7 +6,9 @@ from sympy.vector.vector import VectorZero, Vector, VectorMul, VectorAdd, Cross,
 from sympy.core.function import Derivative
 from sympy.core.add import Add
 from sympy.core.mul import Mul
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 def _get_coord_systems(expr):

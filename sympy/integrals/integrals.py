@@ -32,7 +32,9 @@ from sympy.tensor.functions import shape
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.utilities.iterables import is_sequence
 from sympy.utilities.misc import filldedent
-from typing_extensions import Self, Unpack
+
+if TYPE_CHECKING:
+    from typing_extensions import Self, Unpack
 
 
 if TYPE_CHECKING:

@@ -4,7 +4,9 @@ from sympy.core.containers import Tuple
 from sympy.functions.elementary.integers import floor
 from sympy.core.function import UndefinedFunction
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 def normalize(i, parentsize) -> tuple[Any | int, Any, Any | int]:
     if isinstance(i, slice):

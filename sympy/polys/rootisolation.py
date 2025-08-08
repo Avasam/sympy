@@ -28,7 +28,9 @@ from sympy.polys.polyerrors import (
 from sympy.polys.sqfreetools import (
     dup_sqf_part, dup_sqf_list)
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 def dup_sturm(f, K) -> list[Any | list]:

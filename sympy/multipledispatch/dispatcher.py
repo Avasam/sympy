@@ -8,7 +8,9 @@ import itertools as itl
 from collections.abc import Generator, ValuesView
 from itertools import islice
 from typing import Any, Callable
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class MDNotImplementedError(NotImplementedError):

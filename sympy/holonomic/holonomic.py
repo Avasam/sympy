@@ -39,7 +39,9 @@ from .holonomicerrors import (NotPowerSeriesError, NotHyperSeriesError,
     SingularityError, NotHolonomicError)
 from sympy.holonomic.recurrence import HolonomicSequence
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 def _find_nonzero_solution(r, homosys):

@@ -36,7 +36,9 @@ from sympy.core.expr import Expr
 from sympy.core.relational import Relational
 from sympy.stats.frv import ProductFiniteDomain
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 # __all__ = ['marginal_distribution']
 

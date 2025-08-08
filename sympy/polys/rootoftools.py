@@ -32,7 +32,9 @@ from itertools import chain
 import sympy.core.numbers
 from sympy.series.order import Order
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 __all__ = ['CRootOf']

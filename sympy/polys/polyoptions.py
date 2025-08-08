@@ -6,7 +6,9 @@ from sympy.core.basic import Basic
 from sympy.core.symbol import Symbol
 from sympy.polys.orderings import LexOrder
 from typing import Any, Callable, NoReturn
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = ["Options"]
 

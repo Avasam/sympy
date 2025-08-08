@@ -9,7 +9,9 @@ this stuff for general purpose.
 
 from __future__ import annotations
 from typing import Optional
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 # Type of a fuzzy bool
 FuzzyBool = Optional[bool]

@@ -20,7 +20,9 @@ from sympy.tensor.array import ArrayComprehension
 import sympy
 from sympy.core.relational import Relational
 from typing import Literal
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = [
     'CircularEnsemble',

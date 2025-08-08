@@ -22,7 +22,9 @@ from sympy.matrices.immutable import ImmutableDenseMatrix
 from sympy.series.order import Order
 from types import NotImplementedType
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 def kronecker_product(*matrices) -> NotImplementedType | GenericIdentity | Order | object | Identity:

@@ -96,7 +96,9 @@ from .lll import ddm_lll, ddm_lll_transform
 from sympy.polys.matrices.sdm import SDM
 from types import NotImplementedType
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 if GROUND_TYPES != 'flint':

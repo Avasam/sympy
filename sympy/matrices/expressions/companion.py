@@ -5,7 +5,9 @@ from sympy.polys.polytools import Poly
 from .matexpr import MatrixExpr
 from sympy.matrices.expressions.matexpr import MatrixExpr
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class CompanionMatrix(MatrixExpr):

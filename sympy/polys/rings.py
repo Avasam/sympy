@@ -47,7 +47,9 @@ from sympy.utilities.magic import pollute
 from collections.abc import Iterator
 from sympy.polys.fields import FracField
 from sympy.series.order import Order
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 if TYPE_CHECKING:

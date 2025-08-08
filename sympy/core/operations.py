@@ -18,7 +18,9 @@ from sympy.multipledispatch.dispatcher import (Dispatcher,
     ambiguity_register_error_ignore_dup,
     str_signature, RaiseNotImplementedError)
 from sympy.core.basic import Basic
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 if TYPE_CHECKING:

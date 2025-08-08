@@ -1,5 +1,7 @@
 from sympy.tensor.array.ndim_array import NDimArray
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class MutableNDimArray(NDimArray):

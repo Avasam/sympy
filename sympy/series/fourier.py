@@ -17,7 +17,9 @@ from collections.abc import Generator
 from sympy.core.basic import Basic
 from sympy.series.order import Order
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 __doctest_requires__ = {('fourier_series',): ['matplotlib']}

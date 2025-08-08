@@ -20,7 +20,9 @@ from sympy.multipledispatch import Dispatcher
 from .basic import Basic
 from .mul import Mul
 from .numbers import Number
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 if TYPE_CHECKING:
     from sympy.series.order import Order

@@ -67,7 +67,9 @@ from mpmath.libmp.libmpf import prec_to_dps
 import inspect
 from .kind import Kind
 from types import NotImplementedType
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 if TYPE_CHECKING:
     from sympy.tensor.array.array_derivatives import ArrayDerivative

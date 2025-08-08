@@ -5,7 +5,9 @@ import sympy
 from sympy.stats.crv import ProductContinuousDomain
 from sympy.stats.drv import ProductDiscreteDomain
 from sympy.stats.frv import ProductFiniteDomain
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class StochasticPSpace(ProductPSpace):

@@ -211,7 +211,9 @@ from .sympify import sympify
 
 from sympy.core.random import _assumptions_shuffle as shuffle
 from sympy.core.assumptions_generated import generated_assumptions as _assumptions
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 def _load_pre_generated_assumption_rules() -> FactRules:
     """ Load the assumption rules from pre-generated data

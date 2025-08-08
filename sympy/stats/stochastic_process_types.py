@@ -54,7 +54,9 @@ import sympy
 from collections.abc import Generator
 from sympy.series.order import Order
 from sympy.stats.symbolic_multivariate_probability import ExpectationMatrix
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 EmptySet = S.EmptySet
 

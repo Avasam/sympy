@@ -9,7 +9,9 @@ from sympy.polys.domains.simpledomain import SimpleDomain
 from sympy.polys.polyutils import PicklableWithSlots
 from sympy.utilities import public
 from types import NotImplementedType
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 eflags = {"deep": False, "mul": True, "power_exp": False, "power_base": False,
               "basic": False, "multinomial": False, "log": False}

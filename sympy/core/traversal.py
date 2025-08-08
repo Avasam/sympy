@@ -8,7 +8,9 @@ from .sympify import sympify
 from sympy.utilities.iterables import iterable
 from collections.abc import Generator
 from sympy.core.basic import Basic
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 

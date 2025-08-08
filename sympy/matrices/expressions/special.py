@@ -8,7 +8,9 @@ from .matexpr import MatrixExpr
 from sympy.core.basic import Basic
 from sympy.matrices.expressions.matexpr import MatrixExpr
 from typing import Literal
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class ZeroMatrix(MatrixExpr):

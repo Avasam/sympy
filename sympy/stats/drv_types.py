@@ -35,7 +35,9 @@ from sympy.functions.special.zeta_functions import (polylog, zeta)
 from sympy.stats.drv import SingleDiscreteDistribution, SingleDiscretePSpace
 from sympy.stats.rv import RandomSymbol, _value_check, is_random
 import sympy
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 __all__ = ['FlorySchulz',

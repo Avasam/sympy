@@ -29,7 +29,9 @@ from sympy.geometry.entity import GeometryEntity
 from sympy.geometry.line import Line3D, Ray3D, Segment3D
 from sympy.geometry.point import Point, Point2D, Point3D
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 x, y, z, t = [Dummy('plane_dummy') for i in range(4)]

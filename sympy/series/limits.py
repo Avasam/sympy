@@ -12,7 +12,9 @@ from sympy.polys import PolynomialError, factor
 from sympy.series.order import Order
 from .gruntz import gruntz
 from sympy.core.basic import Basic
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 def limit(e, z, z0, dir="+"):
     """Computes the limit of ``e(z)`` at the point ``z0``.

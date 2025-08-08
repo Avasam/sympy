@@ -64,7 +64,9 @@ from sympy.polys.matrices.ddm import DDM
 from sympy.polys.matrices.domainscalar import DomainScalar
 from sympy.polys.matrices.sdm import SDM
 from types import NotImplementedType
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 if GROUND_TYPES != 'flint':

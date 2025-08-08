@@ -2,7 +2,9 @@ from itertools import combinations
 
 from sympy.combinatorics.graycode import GrayCode
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Subset():

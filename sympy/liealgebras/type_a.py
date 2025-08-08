@@ -1,6 +1,8 @@
 from sympy.liealgebras.cartan_type import Standard_Cartan
 from sympy.core.backend import eye
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class TypeA(Standard_Cartan):

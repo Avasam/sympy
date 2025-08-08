@@ -11,7 +11,9 @@ from sympy.functions.elementary.piecewise import Piecewise
 from sympy.utilities.iterables import has_dups
 from sympy.core.basic import Basic
 from typing import Literal
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 ###############################################################################
 ###################### Kronecker Delta, Levi-Civita etc. ######################

@@ -6,7 +6,9 @@ from sympy.core.symbol import uniquely_named_symbol
 from sympy.core.sympify import sympify
 from sympy.matrices.matrixbase import MatrixBase
 from sympy.matrices.exceptions import NonSquareMatrixError
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Trace(Expr):

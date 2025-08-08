@@ -2,7 +2,9 @@ from sympy.core import Expr
 from sympy.core.decorators import call_highest_priority, _sympifyit
 from .fancysets import ImageSet
 from .sets import set_add, set_sub, set_mul, set_div, set_pow, set_function
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class SetExpr(Expr):

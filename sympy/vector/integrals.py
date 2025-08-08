@@ -12,7 +12,9 @@ from sympy.vector.operators import _get_coord_systems
 from sympy import Equality, Ne
 from sympy.core.relational import Relational
 from typing import Literal
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class ParametricIntegral(Basic):

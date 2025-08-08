@@ -12,6 +12,7 @@ from sympy.core.relational import Eq, Ne, Gt, Lt, Ge, Le
 from sympy.logic.boolalg import conjuncts, Not
 from sympy.core.basic import Basic
 
+
 if TYPE_CHECKING:
     from typing_extensions import Self
 

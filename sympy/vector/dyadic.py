@@ -8,7 +8,9 @@ from sympy.matrices.immutable import ImmutableDenseMatrix as Matrix
 import sympy.vector
 from sympy.series.order import Order
 from sympy.vector.vector import VectorZero
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Dyadic(BasisDependent):

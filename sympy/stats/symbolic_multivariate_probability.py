@@ -13,7 +13,9 @@ from sympy.stats.rv import RandomSymbol, is_random
 from sympy.core.sympify import _sympify
 from sympy.stats.symbolic_probability import Variance, Covariance, Expectation
 from sympy import Basic
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class ExpectationMatrix(Expectation, MatrixExpr):

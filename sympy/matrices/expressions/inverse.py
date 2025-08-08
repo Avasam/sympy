@@ -4,7 +4,9 @@ from sympy.core import S, Basic
 from sympy.matrices.exceptions import NonSquareMatrixError
 from sympy.matrices.expressions.matpow import MatPow
 import sympy.core.basic
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Inverse(MatPow):

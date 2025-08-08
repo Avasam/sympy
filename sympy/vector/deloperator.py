@@ -2,7 +2,9 @@ from sympy.core import Basic
 from sympy.vector.operators import Curl, Divergence, Gradient, gradient, divergence, curl
 from sympy.core.add import Add
 from sympy.vector.vector import VectorAdd, VectorZero
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Del(Basic):

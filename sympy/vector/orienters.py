@@ -6,7 +6,9 @@ from sympy.matrices.immutable import ImmutableDenseMatrix as Matrix
 from sympy.core.cache import cacheit
 from sympy.core.symbol import Str
 import sympy.vector
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Orienter(Basic):

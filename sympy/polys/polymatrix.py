@@ -10,7 +10,9 @@ from sympy.polys.matrices import DomainMatrix
 from sympy.polys.matrices.domainscalar import DomainScalar
 from types import NotImplementedType
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class MutablePolyDenseMatrix:

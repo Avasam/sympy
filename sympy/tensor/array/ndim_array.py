@@ -16,7 +16,9 @@ from sympy.tensor.array.array_derivatives import ArrayDerivative
 from sympy.tensor.array.expressions.array_expressions import ArrayContraction, ArrayTensorProduct, PermuteDims, ZeroArray
 from types import NotImplementedType
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class ArrayKind(Kind):

@@ -14,7 +14,9 @@ from sympy.geometry import Point
 from sympy.ntheory.factor_ import core
 import sympy
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class ImplicitRegion(Basic):

@@ -8,7 +8,9 @@ from sympy.solvers import solve
 from sympy.geometry import Point, Segment, Curve, Ellipse, Polygon
 from sympy.vector import ImplicitRegion
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class ParametricRegion(Basic):

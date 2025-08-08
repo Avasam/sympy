@@ -12,7 +12,9 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 from .contains import Contains
 from .sets import Set, Union, FiniteSet, SetKind
 from sympy.sets.sets import Complement, FiniteSet, Intersection, Set, Union
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 adummy = Dummy('conditionset')

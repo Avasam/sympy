@@ -17,7 +17,9 @@ from sympy.core.basic import Basic
 from sympy.core.relational import Equality, Ne, Relational
 from sympy.series.order import Order
 from typing import Any
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Product(ExprWithIntLimits):

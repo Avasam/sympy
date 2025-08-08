@@ -13,6 +13,7 @@ from sympy.core.singleton import S
 from sympy.logic.boolalg import Or, And, Not, Xnor, Equivalent, ITE, Implies, Nand, Nor, Xor, And
 from typing import Any, TYPE_CHECKING
 
+
 if TYPE_CHECKING:
     from typing_extensions import Self
 

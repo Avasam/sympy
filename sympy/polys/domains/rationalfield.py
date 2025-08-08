@@ -13,7 +13,9 @@ from sympy.utilities import public
 from sympy.core.numbers import Integer, Rational
 from sympy.external.pythonmpq import PythonMPQ
 from types import NotImplementedType
-from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 @public
 class RationalField(Field[MPQ], CharacteristicZero, SimpleDomain):
