@@ -1,6 +1,7 @@
 """
 This module adds several functions for interactive source code inspection.
 """
+from __future__ import annotations
 from typing import Any
 
 

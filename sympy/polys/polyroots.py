@@ -1,4 +1,5 @@
 """Algorithms for computing symbolic roots of polynomials. """
+from __future__ import annotations
 
 
 import math

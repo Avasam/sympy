@@ -1,3 +1,4 @@
+from __future__ import annotations
 from sympy.core import Atom, Basic
 from sympy.liealgebras.type_a import TypeA
 from sympy.liealgebras.type_b import TypeB

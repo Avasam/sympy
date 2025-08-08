@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Any, Callable, Type
 from sympy import Interval, numer, Rational, solveset
 from sympy.core.add import Add

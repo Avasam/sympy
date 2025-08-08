@@ -1,4 +1,5 @@
 """Implementation of :class:`PythonIntegerRing` class. """
+from __future__ import annotations
 
 
 from sympy.core.numbers import Integer, int_valued

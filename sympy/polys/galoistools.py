@@ -1,4 +1,5 @@
 """Dense univariate polynomials with coefficients in Galois fields. """
+from __future__ import annotations
 
 from math import ceil as _ceil, sqrt as _sqrt, prod
 

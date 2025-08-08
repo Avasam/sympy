@@ -2,6 +2,7 @@
 Generating and counting primes.
 
 """
+from __future__ import annotations
 
 from bisect import bisect, bisect_left
 from itertools import count

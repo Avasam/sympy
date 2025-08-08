@@ -1,3 +1,4 @@
+from __future__ import annotations
 from sympy.vector.coordsysrect import CoordSys3D
 from sympy.vector.deloperator import Del
 from sympy.vector.scalar import BaseScalar

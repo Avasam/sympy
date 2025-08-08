@@ -1,4 +1,5 @@
 """Polynomial factorization routines in characteristic zero. """
+from __future__ import annotations
 
 from sympy.external.gmpy import GROUND_TYPES
 

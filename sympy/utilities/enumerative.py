@@ -88,6 +88,7 @@ total multiplicity available for that component (u).  This saves
 time that would be spent skipping over zeros.
 
 """
+from __future__ import annotations
 from collections.abc import Generator
 from typing import Any
 
