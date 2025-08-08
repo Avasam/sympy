@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sympy.core.singleton import S
 from sympy.core.basic import Basic
 from sympy.core.containers import Tuple
@@ -12,6 +14,7 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 from .contains import Contains
 from .sets import Set, Union, FiniteSet, SetKind
 from sympy.sets.sets import Complement, FiniteSet, Intersection, Set, Union
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

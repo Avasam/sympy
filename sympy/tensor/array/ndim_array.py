@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sympy.core.basic import Basic
 from sympy.core.containers import (Dict, Tuple)
 from sympy.core.expr import Expr
@@ -12,12 +14,12 @@ import itertools
 from collections.abc import Iterator, Iterable
 import sympy
 from sympy.core.function import UndefinedFunction
-from sympy.tensor.array.array_derivatives import ArrayDerivative
-from sympy.tensor.array.expressions.array_expressions import ArrayContraction, ArrayTensorProduct, PermuteDims, ZeroArray
 from types import NotImplementedType
-from typing import Any
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from sympy.tensor.array.expressions.array_expressions import ArrayContraction, ArrayTensorProduct, PermuteDims, ZeroArray
+    from sympy.tensor.array.array_derivatives import ArrayDerivative
     from typing_extensions import Self
 
 

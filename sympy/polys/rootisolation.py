@@ -27,7 +27,7 @@ from sympy.polys.polyerrors import (
     PolynomialError)
 from sympy.polys.sqfreetools import (
     dup_sqf_part, dup_sqf_list)
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

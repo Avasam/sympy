@@ -11,7 +11,7 @@ as unifying matrices with different domains.
 """
 from __future__ import annotations
 
-from typing import Any, overload
+from typing import Any, overload, TYPE_CHECKING
 
 from collections import Counter
 from functools import reduce
@@ -59,13 +59,10 @@ from .sdm import SDM
 from .dfm import DFM
 
 from .rref import _dm_rref, _dm_rref_den
-from sympy.matrices.dense import MutableDenseMatrix
-from sympy.polys.matrices.ddm import DDM
-from sympy.polys.matrices.domainscalar import DomainScalar
-from sympy.polys.matrices.sdm import SDM
 from types import NotImplementedType
 
 if TYPE_CHECKING:
+    from sympy.matrices.dense import MutableDenseMatrix
     from typing_extensions import Self
 
 

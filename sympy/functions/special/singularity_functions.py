@@ -1,5 +1,8 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core import S, oo, diff
-from sympy.core.function import Function, DefinedFunction, ArgumentIndexError
+from sympy.core.function import DefinedFunction, ArgumentIndexError
 from sympy.core.logic import fuzzy_not
 from sympy.core.relational import Eq
 from sympy.functions.elementary.complexes import im

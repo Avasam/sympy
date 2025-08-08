@@ -61,6 +61,8 @@ domain checking and also shape checking so that the list of lists
 representation is friendlier.
 
 """
+from __future__ import annotations
+
 from itertools import chain
 
 from sympy.external.gmpy import GROUND_TYPES
@@ -93,11 +95,11 @@ from .dense import (
         )
 
 from .lll import ddm_lll, ddm_lll_transform
-from sympy.polys.matrices.sdm import SDM
 from types import NotImplementedType
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from .sdm import SDM
     from typing_extensions import Self
 
 

@@ -1,13 +1,14 @@
 """
 General SymPy exceptions and warnings.
 """
+from __future__ import annotations
 
 import warnings
 import contextlib
 
 from textwrap import dedent
 from collections.abc import Generator
-from typing import Any, Callable
+from typing import Any, Callable, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

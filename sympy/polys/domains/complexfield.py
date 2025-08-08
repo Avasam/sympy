@@ -11,7 +11,6 @@ from sympy.polys.polyerrors import DomainError, CoercionFailed
 from sympy.utilities import public
 
 from mpmath import MPContext
-from typing import Literal
 
 
 @public

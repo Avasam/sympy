@@ -203,6 +203,7 @@ References
 .. [13] https://en.wikipedia.org/wiki/Complex_number
 
 """
+from __future__ import annotations
 
 from sympy.utilities.exceptions import sympy_deprecation_warning
 
@@ -211,6 +212,8 @@ from .sympify import sympify
 
 from sympy.core.random import _assumptions_shuffle as shuffle
 from sympy.core.assumptions_generated import generated_assumptions as _assumptions
+
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

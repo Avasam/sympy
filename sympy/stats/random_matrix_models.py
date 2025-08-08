@@ -19,7 +19,7 @@ from sympy.stats.random_matrix import RandomMatrixPSpace
 from sympy.tensor.array import ArrayComprehension
 import sympy
 from sympy.core.relational import Relational
-from typing import Literal
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

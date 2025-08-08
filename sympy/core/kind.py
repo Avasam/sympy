@@ -24,6 +24,7 @@ This module defines basic kinds for core objects. Other kinds such as
        This approach is experimental, and can be replaced or deleted in the future.
        See https://github.com/sympy/sympy/pull/20549.
 """
+from __future__ import annotations
 
 from collections import defaultdict
 
@@ -31,7 +32,7 @@ from .cache import cacheit
 from sympy.multipledispatch.dispatcher import (Dispatcher,
     ambiguity_warn, ambiguity_register_error_ignore_dup,
     str_signature, RaiseNotImplementedError)
-from typing import Callable
+from typing import Callable, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

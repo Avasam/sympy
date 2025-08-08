@@ -45,7 +45,6 @@ from sympy.utilities import public, subsets
 from sympy.utilities.iterables import is_sequence
 from sympy.utilities.magic import pollute
 from collections.abc import Iterator
-from sympy.polys.fields import FracField
 from sympy.series.order import Order
 
 if TYPE_CHECKING:

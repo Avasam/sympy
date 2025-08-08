@@ -1,5 +1,5 @@
 """Implementation of :class:`RealField` class. """
-
+from __future__ import annotations
 
 from sympy.external.gmpy import SYMPY_INTS, MPQ
 from sympy.core.numbers import Float
@@ -11,7 +11,7 @@ from sympy.utilities import public
 
 from mpmath import MPContext
 from mpmath.libmp import to_rational as _mpmath_to_rational
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

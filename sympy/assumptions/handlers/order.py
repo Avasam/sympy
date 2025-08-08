@@ -17,7 +17,7 @@ from ..predicates.order import (NegativePredicate, NonNegativePredicate,
     ExtendedNegativePredicate, ExtendedNonNegativePredicate,
     ExtendedNonPositivePredicate, ExtendedNonZeroPredicate,
     ExtendedPositivePredicate,)
-from typing import Literal
+
 
 
 # NegativePredicate

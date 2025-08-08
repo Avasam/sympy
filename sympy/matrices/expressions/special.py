@@ -7,7 +7,7 @@ from sympy.matrices.exceptions import NonInvertibleMatrixError
 from .matexpr import MatrixExpr
 from sympy.core.basic import Basic
 from sympy.matrices.expressions.matexpr import MatrixExpr
-from typing import Literal
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

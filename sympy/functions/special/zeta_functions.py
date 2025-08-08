@@ -1,4 +1,5 @@
 """ Riemann zeta and related function. """
+from __future__ import annotations
 
 from sympy.core.add import Add
 from sympy.core.cache import cacheit
@@ -16,6 +17,7 @@ from sympy.functions.elementary.integers import ceiling, floor
 from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.functions.elementary.piecewise import Piecewise
 from sympy.polys.polytools import Poly
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

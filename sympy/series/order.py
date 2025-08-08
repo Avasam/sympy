@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sympy.core import S, sympify, Expr, Dummy, Add, Mul
 from sympy.core.cache import cacheit
 from sympy.core.containers import Tuple
@@ -7,7 +9,7 @@ from sympy.functions.elementary.exponential import exp, log
 from sympy.sets.sets import Complement
 from sympy.utilities.iterables import uniq, is_sequence
 from sympy.core.basic import Basic
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

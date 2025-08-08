@@ -8,7 +8,6 @@ import sympy.core.add
 import sympy.core.mul
 from sympy.core.power import Pow
 from sympy.series.order import Order
-from typing import Literal
 
 
 def is_sqrt(expr) -> bool:

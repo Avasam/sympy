@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import functools
-from typing import List
+from typing import List, TYPE_CHECKING
 
 from sympy.core.basic import Basic
 from sympy.core.containers import Tuple
@@ -8,10 +10,10 @@ from sympy.core.sympify import _sympify
 from sympy.tensor.array.mutable_ndim_array import MutableNDimArray
 from sympy.tensor.array.ndim_array import NDimArray, ImmutableNDimArray, ArrayKind
 from sympy.utilities.iterables import flatten
-from sympy import Indexed
-from sympy.matrices import Matrix
+from sympy.tensor.indexed import Indexed
 
 if TYPE_CHECKING:
+    from sympy.matrices import Matrix
     from typing_extensions import Self
 
 

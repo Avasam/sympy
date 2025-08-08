@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, overload
 from collections.abc import Generator
 from threading import local
 
 if TYPE_CHECKING:
-    from typing import Literal
     from sympy.core.expr import Expr
 
 from contextlib import contextmanager

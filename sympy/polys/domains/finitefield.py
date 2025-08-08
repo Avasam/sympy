@@ -1,4 +1,5 @@
 """Implementation of :class:`FiniteField` class. """
+from __future__ import annotations
 
 import operator
 
@@ -14,7 +15,7 @@ from sympy.polys.galoistools import gf_zassenhaus, gf_irred_p_rabin
 from sympy.polys.polyerrors import CoercionFailed
 from sympy.utilities import public
 from sympy.polys.domains.groundtypes import SymPyInteger
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

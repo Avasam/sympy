@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from math import log
+from typing import TYPE_CHECKING
 
 from sympy.core.random import _randint
 from sympy.external.gmpy import gcd, invert, sqrt

@@ -1,5 +1,5 @@
 """Implementation of :class:`ExpressionDomain` class. """
-
+from __future__ import annotations
 
 from sympy.core import sympify, SympifyError
 from sympy.polys.domains.domainelement import DomainElement
@@ -9,6 +9,7 @@ from sympy.polys.domains.simpledomain import SimpleDomain
 from sympy.polys.polyutils import PicklableWithSlots
 from sympy.utilities import public
 from types import NotImplementedType
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

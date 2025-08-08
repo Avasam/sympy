@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sympy.core import S, diff, Tuple, Dummy, Mul
 from sympy.core.basic import Basic, as_Basic
 from sympy.core.function import DefinedFunction
@@ -14,6 +16,8 @@ from sympy.utilities.misc import filldedent, func_name
 
 from itertools import product
 from collections.abc import Iterator
+
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

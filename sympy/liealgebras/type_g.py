@@ -2,9 +2,7 @@
 
 from .cartan_type import Standard_Cartan
 from sympy.core.backend import Matrix
-import sympy.matrices
 from sympy.liealgebras.cartan_type import Standard_Cartan
-from typing import Literal
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -83,7 +81,7 @@ class TypeG(Standard_Cartan):
         """
         return 12
 
-    def cartan_matrix(self) ->     sympy.matrices.Matrix:
+    def cartan_matrix(self) ->     Matrix:
         """The Cartan matrix for G_2
 
         The Cartan matrix matrix for a Lie algebra is

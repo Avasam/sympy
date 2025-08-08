@@ -1,6 +1,7 @@
 """Implementation of :class:`SimpleDomain` class. """
+from __future__ import annotations
 
-
+from typing import TYPE_CHECKING
 from sympy.polys.domains.domain import Domain, Er
 from sympy.utilities import public
 

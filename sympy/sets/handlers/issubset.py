@@ -4,7 +4,6 @@ from sympy.core.logic import fuzzy_and, fuzzy_bool, fuzzy_not, fuzzy_or
 from sympy.sets.sets import FiniteSet, Interval, Set, Union, ProductSet
 from sympy.sets.fancysets import Complexes, Reals, Range, Rationals, Integers, ImageSet
 from sympy.multipledispatch import Dispatcher
-from typing import Literal
 
 
 _inf_sets = [S.Naturals, S.Naturals0, S.Integers, S.Rationals, S.Reals, S.Complexes]

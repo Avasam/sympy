@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sympy.core.decorators import _sympifyit
 from sympy.core.parameters import global_parameters
 from sympy.core.logic import fuzzy_bool
@@ -8,7 +10,7 @@ from .sets import Set, FiniteSet, SetKind
 from collections.abc import Iterator
 from sympy.core.basic import Basic
 from sympy.sets.sets import Set, SetKind
-from typing import Any
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

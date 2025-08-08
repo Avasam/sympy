@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, overload
 
 if TYPE_CHECKING:
-    from typing import Literal, Callable, TypeVar
+    from typing import Callable, TypeVar
     from sympy.core.expr import Expr
     from sympy.matrices.matrixbase import MatrixBase
     Tmat = TypeVar('Tmat', bound=MatrixBase)

@@ -35,7 +35,7 @@ from math import gcd
 from decimal import Decimal
 from fractions import Fraction
 import sys
-from typing import Any, Type
+from typing import Any, Type, TYPE_CHECKING
 from types import NotImplementedType
 
 if TYPE_CHECKING:

@@ -3,7 +3,7 @@ from __future__ import annotations
 from sympy.core import Basic, Integer
 import operator
 from types import NotImplementedType
-from typing import Literal
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

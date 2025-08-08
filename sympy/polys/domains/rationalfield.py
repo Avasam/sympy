@@ -1,5 +1,5 @@
 """Implementation of :class:`RationalField` class. """
-
+from __future__ import annotations
 
 from sympy.external.gmpy import MPQ
 
@@ -13,6 +13,7 @@ from sympy.utilities import public
 from sympy.core.numbers import Integer, Rational
 from sympy.external.pythonmpq import PythonMPQ
 from types import NotImplementedType
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

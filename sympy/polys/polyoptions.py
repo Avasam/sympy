@@ -5,12 +5,7 @@ from collections.abc import Generator
 from sympy.core.basic import Basic
 from sympy.core.symbol import Symbol
 from sympy.polys.orderings import LexOrder
-from typing import Any, Callable, NoReturn
-
-if TYPE_CHECKING:
-    from typing_extensions import Self
-
-__all__ = ["Options"]
+from typing import Any, Callable, NoReturn, TYPE_CHECKING
 
 from sympy.core.expr import Expr
 from sympy.core.sympify import sympify
@@ -21,6 +16,11 @@ from sympy.utilities.iterables import has_dups, is_sequence
 import sympy.polys
 
 import re
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
+
+__all__ = ["Options"]
 
 class Option:
     """Base class for all kinds of options. """

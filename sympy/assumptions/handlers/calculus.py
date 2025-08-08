@@ -13,7 +13,6 @@ from sympy.logic.boolalg import conjuncts
 
 from ..predicates.calculus import (FinitePredicate, InfinitePredicate,
     PositiveInfinitePredicate, NegativeInfinitePredicate)
-from typing import Literal
 
 
 # FinitePredicate

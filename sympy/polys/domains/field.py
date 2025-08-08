@@ -1,11 +1,11 @@
 """Implementation of :class:`Field` class. """
-
+from __future__ import annotations
 
 from sympy.polys.domains.domain import Ef
 from sympy.polys.domains.ring import Ring
 from sympy.polys.polyerrors import NotReversible, DomainError
 from sympy.utilities import public
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

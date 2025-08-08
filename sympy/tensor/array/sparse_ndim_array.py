@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core.basic import Basic
 from sympy.core.containers import (Dict, Tuple)
 from sympy.core.singleton import S
@@ -7,10 +10,10 @@ from sympy.tensor.array.ndim_array import NDimArray, ImmutableNDimArray
 from sympy.utilities.iterables import flatten
 
 import functools
-from sympy import Indexed
-from sympy.matrices import SparseMatrix
+from sympy.tensor.indexed import Indexed
 
 if TYPE_CHECKING:
+    from sympy.matrices import SparseMatrix
     from typing_extensions import Self
 
 class SparseNDimArray(NDimArray):

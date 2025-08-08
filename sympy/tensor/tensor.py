@@ -59,7 +59,7 @@ from sympy.utilities.exceptions import (sympy_deprecation_warning,
 from sympy.utilities.decorator import memoize_property, deprecated
 from sympy.utilities.iterables import sift
 import sympy
-import sympy.matrices
+from sympy.matrices.dense import Matrix
 from collections.abc import Generator
 from sympy.combinatorics.permutations import Perm
 from sympy.tensor.array.expressions.array_expressions import ArrayContraction, ArrayElement, ArrayTensorProduct, PermuteDims, ZeroArray
@@ -2123,7 +2123,7 @@ class TensExpr(Expr, ABC):
         deprecate_fun_eval()
         return self.substitute_indices(*index_tuples)
 
-    def get_matrix(self) ->     sympy.matrices.Matrix:
+    def get_matrix(self) ->     Matrix:
         """
         DEPRECATED: do not use.
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Iterator
+from typing import Any, Iterator, TYPE_CHECKING
 
 from .basic import Basic
 from .sorting import ordered

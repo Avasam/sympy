@@ -3,6 +3,7 @@
 Module for the SDM class.
 
 """
+from __future__ import annotations
 
 from operator import add, neg, pos, sub, mul
 from collections import defaultdict
@@ -17,7 +18,7 @@ from sympy.polys.domains import QQ
 
 from .ddm import DDM
 from types import NotImplementedType
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

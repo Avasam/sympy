@@ -1,6 +1,7 @@
 """Definitions of common exceptions for `polys` module. """
+from __future__ import annotations
 
-
+from typing import TYPE_CHECKING
 from sympy.utilities import public
 
 if TYPE_CHECKING:

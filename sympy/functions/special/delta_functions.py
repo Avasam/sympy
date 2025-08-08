@@ -1,5 +1,8 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core import S, diff
-from sympy.core.function import Function, UndefinedFunction, DefinedFunction, ArgumentIndexError
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError
 from sympy.core.logic import fuzzy_not
 from sympy.core.relational import Eq, Ne
 from sympy.functions.elementary.complexes import im, sign
@@ -9,7 +12,6 @@ from sympy.polys.polyroots import roots
 from sympy.utilities.misc import filldedent
 from sympy.core.basic import Basic
 from sympy.core.mul import Mul
-from typing import Literal
 
 if TYPE_CHECKING:
     from typing_extensions import Self

@@ -3,7 +3,6 @@
 from sympy.core.numbers import I
 from sympy.matrices.dense import MutableDenseMatrix, MutableDenseMatrix as Matrix
 from sympy.utilities.decorator import deprecated
-import sympy.matrices
 
 
 def msigma(i) -> MutableDenseMatrix:
@@ -165,7 +164,7 @@ minkowski_tensor = Matrix( (
     deprecated_since_version="1.9",
     active_deprecations_target="deprecated-physics-mdft",
 )
-def mdft(n) -> sympy.matrices.Matrix:
+def mdft(n) -> Matrix:
     r"""
     .. deprecated:: 1.9
 

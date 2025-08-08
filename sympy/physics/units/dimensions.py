@@ -27,7 +27,6 @@ from sympy.matrices.dense import Matrix
 from sympy.functions.elementary.trigonometric import TrigonometricFunction
 from sympy.core.expr import Expr
 from sympy.core.power import Pow
-import sympy.matrices
 from typing import Any
 
 if TYPE_CHECKING:
@@ -536,7 +535,7 @@ class DimensionSystem(Basic, _QuantityMapper):
                       [self.dim_can_vector(d) for d in sorted(self.base_dims, key=str)]
                       ).inv()
 
-    def dim_can_vector(self, dim) ->     sympy.matrices.Matrix:
+    def dim_can_vector(self, dim) ->     Matrix:
         """
         Useless method, kept for compatibility with previous versions.
 

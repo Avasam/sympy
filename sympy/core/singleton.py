@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Literal, TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, overload
 
 from .core import Registry
 from .sympify import sympify

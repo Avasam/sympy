@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.core.expr import Expr
 from sympy.core.function import Derivative

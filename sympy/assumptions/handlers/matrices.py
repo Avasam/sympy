@@ -23,7 +23,6 @@ from ..predicates.matrices import (SquarePredicate, SymmetricPredicate,
     FullRankPredicate, PositiveDefinitePredicate, UpperTriangularPredicate,
     LowerTriangularPredicate, DiagonalPredicate, IntegerElementsPredicate,
     RealElementsPredicate, ComplexElementsPredicate)
-from typing import Literal
 
 
 def _Factorization(predicate, expr, assumptions):

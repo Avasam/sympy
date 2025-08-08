@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 from .cartan_type import Standard_Cartan
 from sympy.core.backend import Matrix, Rational
 import sympy.core.numbers
-import sympy.matrices
 from sympy.liealgebras.cartan_type import Standard_Cartan
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -132,7 +133,7 @@ class TypeF(Standard_Cartan):
         """
         return 48
 
-    def cartan_matrix(self) ->     sympy.matrices.Matrix:
+    def cartan_matrix(self) ->     Matrix:
         """The Cartan matrix for F_4
 
         The Cartan matrix matrix for a Lie algebra is

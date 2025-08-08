@@ -23,7 +23,6 @@ from sympy.core.function import Subs
 from sympy.core.traversal import preorder_traversal
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.utilities.iterables import iterable
-from typing import Literal
 
 
 

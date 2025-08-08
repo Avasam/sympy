@@ -13,7 +13,6 @@ from sympy.multipledispatch import MDNotImplementedError
 
 from ..predicates.ntheory import (PrimePredicate, CompositePredicate,
     EvenPredicate, OddPredicate)
-from typing import Literal
 
 
 # PrimePredicate

@@ -17,7 +17,7 @@ import shutil
 
 from .pretty_symbology import hobj, vobj, xsym, xobj, pretty_use_unicode, line_width, center
 from sympy.utilities.exceptions import sympy_deprecation_warning
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

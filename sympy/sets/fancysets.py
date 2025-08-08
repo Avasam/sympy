@@ -21,7 +21,7 @@ from sympy.functions.elementary.trigonometric import sin, cos
 from .sets import tfn, Set, Interval, Union, FiniteSet, ProductSet, SetKind
 from sympy.utilities.misc import filldedent
 from collections.abc import Generator, Iterator
-from typing import Any, NoReturn
+from typing import Any, NoReturn, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

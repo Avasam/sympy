@@ -3,7 +3,6 @@
 
 from sympy.polys.domains.domain import Domain
 from sympy.utilities import public
-from typing import Literal
 
 @public
 class CharacteristicZero(Domain):

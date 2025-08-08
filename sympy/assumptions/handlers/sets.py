@@ -23,7 +23,6 @@ from ..predicates.sets import (IntegerPredicate, RationalPredicate,
     IrrationalPredicate, RealPredicate, ExtendedRealPredicate,
     HermitianPredicate, ComplexPredicate, ImaginaryPredicate,
     AntihermitianPredicate, AlgebraicPredicate, TranscendentalPredicate)
-from typing import Literal
 
 
 # IntegerPredicate

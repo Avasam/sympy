@@ -1,10 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 from sympy.core.containers import Tuple
 from sympy.core.singleton import S
 from sympy.core.symbol import Symbol
 from sympy.core.sympify import SympifyError
 
 from types import FunctionType
-import sympy.matrices
+
+if TYPE_CHECKING:
+        from dense import Matrix
 
 
 class TableForm:
@@ -116,7 +121,7 @@ class TableForm:
          .. . ..
         ... . ...
         """
-        from sympy.matrices.dense import Matrix
+        from dense import Matrix
 
         # We only support 2D data. Check the consistency:
         if isinstance(data, Matrix):
@@ -209,7 +214,7 @@ class TableForm:
         from .str import sstr
         return sstr(self, order=None)
 
-    def as_matrix(self) ->     sympy.matrices.Matrix:
+    def as_matrix(self) ->     Matrix:
         """Returns the data of the table in Matrix form.
 
         Examples
@@ -229,7 +234,7 @@ class TableForm:
         [ 4, 2],
         [10, 3]])
         """
-        from sympy.matrices.dense import Matrix
+        from dense import Matrix
         return Matrix(self._lines)
 
     def as_str(self) -> str:

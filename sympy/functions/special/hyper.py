@@ -1,4 +1,6 @@
 """Hypergeometric and Meijer G-functions"""
+from __future__ import annotations
+
 from collections import Counter
 
 from sympy.core import S, Mod
@@ -25,6 +27,7 @@ from sympy.functions.elementary.piecewise import Piecewise
 from sympy.logic.boolalg import (And, Or)
 from sympy import ordered
 from sympy.core.basic import Basic
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

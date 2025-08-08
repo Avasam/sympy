@@ -29,7 +29,6 @@ from sympy.polys.rationaltools import together
 from sympy.polys.specialpolys import cyclotomic_poly
 from sympy.utilities import public
 from sympy.utilities.misc import filldedent
-import sympy.functions.elementary.piecewise
 from typing import Any
 
 
@@ -247,9 +246,7 @@ def _roots_quartic_euler(p, q, r, a):
     return [c1 - c2 - a, -c1 - c3 - a, -c1 + c3 - a, c1 + c2 - a]
 
 
-def roots_quartic(
-    f,
-) -> Any | list | list[Any | sympy.functions.elementary.piecewise.Piecewise]:
+def roots_quartic(f) -> Any | list | list[Any | Piecewise]:
     r"""
     Returns a list of roots of a quartic polynomial.
 

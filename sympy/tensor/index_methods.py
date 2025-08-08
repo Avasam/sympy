@@ -18,8 +18,6 @@ from sympy.tensor.indexed import Idx, Indexed
 from sympy.utilities import sift
 
 from collections import OrderedDict
-import sympy
-import sympy.functions.elementary.exponential
 from typing import Any
 
 class IndexConformanceException(Exception):
@@ -206,7 +204,7 @@ def get_indices(
     expr,
 ) -> (
     tuple[set, dict]
-    | tuple[set[sympy.Idx], dict]
+    | tuple[set[Idx], dict]
     | tuple[set, dict, tuple]
     | tuple[Any, Any | dict]
     | tuple[Any, dict]
@@ -310,12 +308,12 @@ def get_indices(
 def get_contraction_structure(
     expr,
 ) -> (
-    dict[tuple | None, set[sympy.Indexed]]
+    dict[tuple | None, set[Indexed]]
     | dict[None, set]
     | dict[tuple | None, set]
-    | dict[None, set[Any | sympy.functions.elementary.exponential.exp]]
+    | dict[None, set[Any | exp]]
     | dict
-    | dict[None, sympy.Piecewise]
+    | dict[None, Piecewise]
     | dict[None, set[Function]]
 ):
     """Determine dummy indices of ``expr`` and describe its structure

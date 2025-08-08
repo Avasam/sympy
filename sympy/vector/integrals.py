@@ -11,7 +11,7 @@ from sympy.vector import (CoordSys3D, Vector, ParametricRegion,
 from sympy.vector.operators import _get_coord_systems
 from sympy import Equality, Ne
 from sympy.core.relational import Relational
-from typing import Literal
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

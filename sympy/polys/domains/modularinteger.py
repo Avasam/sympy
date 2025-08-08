@@ -1,7 +1,7 @@
 """Implementation of :class:`ModularInteger` class. """
 
 from __future__ import annotations
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 import operator
 

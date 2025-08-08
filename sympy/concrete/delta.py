@@ -16,7 +16,6 @@ from sympy.functions import KroneckerDelta, Piecewise, piecewise_fold
 from sympy.polys.polytools import factor
 from sympy.sets.sets import Interval
 from sympy.solvers.solvers import solve
-import sympy.functions.elementary.piecewise
 from sympy.concrete.summations import Sum
 from sympy.core.basic import Basic
 from sympy.core.relational import Equality, Ne, Relational
@@ -227,7 +226,7 @@ def deltaproduct(f, limit) -> Equality | Relational | Ne | Any:
 
 
 @cacheit
-def deltasummation(f, limit, no_piecewise=False) -> Equality | Relational | Ne | Basic | sympy.functions.elementary.piecewise.Piecewise | Sum:
+def deltasummation(f, limit, no_piecewise=False) -> Equality | Relational | Ne | Basic | Piecewise | Sum:
     """
     Handle summations containing a KroneckerDelta.
 

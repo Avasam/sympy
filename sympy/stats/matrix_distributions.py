@@ -12,7 +12,6 @@ from sympy.matrices import (ImmutableMatrix, Inverse, Trace, Determinant,
 from sympy.stats.rv import (_value_check, RandomMatrixSymbol, NamedArgsMixin, PSpace,
                             _symbol_converter, MatrixDomain, Distribution)
 from sympy.external import import_module
-import sympy.matrices.expressions.sets
 from typing import Any
 
 if TYPE_CHECKING:
@@ -258,7 +257,7 @@ class MatrixGammaDistribution(MatrixDistribution):
         _value_check(beta.is_positive, "Scale parameter should be positive.")
 
     @property
-    def set(self) ->     sympy.matrices.expressions.sets.MatrixSet:
+    def set(self) ->     MatrixSet:
         k = self.scale_matrix.shape[0]
         return MatrixSet(k, k, S.Reals)
 

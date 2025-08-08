@@ -7,7 +7,6 @@ from sympy.polys.polyerrors import (CoercionFailed, NotInvertible,
 from sympy.polys.polytools import Poly
 from sympy.printing.defaults import DefaultPrinting
 from types import NotImplementedType
-from typing import Literal
 
 if TYPE_CHECKING:
     from typing_extensions import Self
