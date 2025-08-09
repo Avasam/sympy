@@ -75,10 +75,6 @@ class Boolean(Basic):
     kind = BooleanKind
 
     if TYPE_CHECKING:
-
-        def __new__(cls, *args: Basic | complex) -> Boolean:
-            ...
-
         @overload # type: ignore
         def subs(self, arg1: Mapping[Basic | complex, Boolean | complex], arg2: None=None) -> Boolean: ...
         @overload
