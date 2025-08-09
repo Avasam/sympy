@@ -6,13 +6,13 @@ from collections.abc import Generator
 from typing import Any, Callable
 
 
-def top_down(brule, fns=basic_fns) -> Callable[..., Generator[Any, Any, None]]:
+def top_down(brule, fns=basic_fns) -> Callable[..., Generator]:
     """ Apply a rule down a tree running it on the top nodes first """
     return chain(do_one(brule, identity),
                  lambda expr: sall(top_down(brule, fns), fns)(expr))
 
 
-def sall(brule, fns=basic_fns) -> Callable[..., Generator[Any, Any, None]]:
+def sall(brule, fns=basic_fns) -> Callable[..., Generator]:
     """ Strategic all - apply rule to args """
     op, new, children, leaf = map(fns.get, ('op', 'new', 'children', 'leaf'))
 

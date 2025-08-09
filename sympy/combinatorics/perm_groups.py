@@ -91,7 +91,7 @@ class PermutationGroup(Basic):
     ========
 
     sympy.combinatorics.polyhedron.Polyhedron,
-    Permutation
+    sympy.combinatorics.permutations.Permutation
 
     References
     ==========
@@ -805,12 +805,7 @@ class PermutationGroup(Basic):
         series.append(der[-1])
         return series
 
-    def coset_transversal(
-        self, H
-    ) -> (
-        list[Any | Basic | list | Permutation]
-        | list[Permutation]
-    ):
+    def coset_transversal(self, H) -> list[Any | Basic | list | Permutation] | list[Permutation]:
         """Return a transversal of the right cosets of self by its subgroup H
         using the second method described in [1], Subsection 4.6.7
 
@@ -1327,9 +1322,7 @@ class PermutationGroup(Basic):
             b = b*len(transversals[i])
         return rank
 
-    def coset_unrank(
-        self, rank, af=False
-    ) -> list | Permutation | None:
+    def coset_unrank(self, rank, af=False) -> list | Permutation | None:
         """unrank using Schreier-Sims representation
 
         coset_unrank is the inverse operation of coset_rank
@@ -1395,9 +1388,7 @@ class PermutationGroup(Basic):
         return _af_new(list(range(self.degree)))
 
     @property
-    def elements(
-        self,
-    ) -> set[Any | Basic | list | Permutation]:
+    def elements(self) -> set[Any | Basic | list | Permutation]:
         """Returns all the elements of the permutation group as a list
 
         Examples
@@ -1510,15 +1501,9 @@ class PermutationGroup(Basic):
         G2 = self.normal_closure(cms)
         return G2
 
-    def generate(
-        self, method="coset", af=False
-    ) -> (
-        Generator[
-            Any | Basic | list | Permutation, Any, None
-        ]
-        | Generator[
-            list[int] | Permutation | list, Any, None
-        ]
+    def generate(self, method="coset", af=False) -> (
+        Generator[Any | Basic | list | Permutation]
+        | Generator[list[int] | Permutation | list]
     ):
         """Return iterator to generate the elements of the group.
 

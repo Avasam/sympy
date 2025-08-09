@@ -1223,7 +1223,7 @@ class FormalPowerSeries(SeriesBase):
 
         return self.func(f, self.x, self.x0, self.dir, (ak, self.xk, ind))
 
-    def product(self, other, x=None, n=6) -> Generator[Any, Any, None] | FormalPowerSeriesProduct:
+    def product(self, other, x=None, n=6) -> Generator | FormalPowerSeriesProduct:
         """
         Multiplies two Formal Power Series, using discrete convolution and
         return the truncated terms upto specified order.
@@ -1306,7 +1306,7 @@ class FormalPowerSeries(SeriesBase):
         k = Dummy('k')
         return sequence(tuple(inner_coeffs), (k, 1, oo))
 
-    def compose(self, other, x=None, n=6) -> Generator[Any, Any, None] | FormalPowerSeriesCompose:
+    def compose(self, other, x=None, n=6) -> Generator | FormalPowerSeriesCompose:
         r"""
         Returns the truncated terms of the formal power series of the composed function,
         up to specified ``n``.
@@ -1380,7 +1380,7 @@ class FormalPowerSeries(SeriesBase):
 
         return FormalPowerSeriesCompose(self, other)
 
-    def inverse(self, x=None, n=6) -> Generator[Any, Any, None] | FormalPowerSeriesInverse:
+    def inverse(self, x=None, n=6) -> Generator | FormalPowerSeriesInverse:
         r"""
         Returns the truncated terms of the inverse of the formal power series,
         up to specified ``n``.

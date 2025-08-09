@@ -1955,7 +1955,7 @@ class TensorHead(Basic):
         if self in _tensor_data_substitution_dict:
             del _tensor_data_substitution_dict[self]
 
-    def __iter__(self) -> Generator[Any, Any, None] | Any:
+    def __iter__(self) -> Generator | Any:
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return self.data.__iter__()
@@ -3225,7 +3225,7 @@ class Tensor(TensExpr):
         return t
 
     # TODO: put this into TensExpr?
-    def __iter__(self) -> Generator[Any, Any, None] | Any:
+    def __iter__(self) -> Generator | Any:
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return self.data.__iter__()
@@ -4226,7 +4226,7 @@ class TensMul(TensExpr, AssocOp):
         deprecate_data()
         raise ValueError("Not possible to delete component data to a tensor expression")
 
-    def __iter__(self) -> Generator[Any, Any, None] | Any:
+    def __iter__(self) -> Generator | Any:
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             if self.data is None:

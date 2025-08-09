@@ -81,9 +81,7 @@ class Collector(DefaultPrinting):
         self.index = {s: i for i, s in enumerate(self.free_group.symbols)}
         self.pc_presentation = self.pc_relators()
 
-    def minimal_uncollected_subword(
-        self, word
-    ) -> tuple[tuple[Any, Any]] | tuple[tuple[Any, Any], tuple[Any, int]] | None:
+    def minimal_uncollected_subword(self, word) -> tuple[tuple[Any, Any]] | tuple[tuple[Any, Any], tuple[Any, int]] | None:
         r"""
         Returns the minimal uncollected subwords.
 

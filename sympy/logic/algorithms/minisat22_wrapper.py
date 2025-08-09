@@ -4,7 +4,7 @@ from collections.abc import Generator
 from typing import Any, NoReturn
 
 def minisat22_satisfiable(expr, all_models=False, minimal=False) -> (
-    Generator[bool, None, None] | dict | Generator[dict | bool, Any, NoReturn] | bool
+    Generator[bool] | dict | Generator[dict | bool, Any, NoReturn] | bool
 ):
 
     if not isinstance(expr, EncodedCNF):

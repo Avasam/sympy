@@ -9,7 +9,7 @@ from collections.abc import Generator
 from sympy import Basic
 from typing import Any, Callable
 
-def rewriterule(source, target, variables=(), condition=None, assume=None) -> Callable[..., Generator[Any | Basic, Any, None]]:
+def rewriterule(source, target, variables=(), condition=None, assume=None) -> Callable[..., Generator[Any | Basic]]:
     """ Rewrite rule.
 
     Transform expressions that match source into expressions that match target

@@ -1819,7 +1819,7 @@ def _divisors(n, proper=False):
 
 def divisors(
     n, generator=False, proper=False
-) -> list[int] | list | list[Any | int] | Generator[Any | int, Any, None]:
+) -> list[int] | list | list[Any | int] | Generator[Any | int]:
     r"""
     Return all divisors of n sorted from 1..n by default.
     If generator is ``True`` an unordered generator is returned.
@@ -1895,7 +1895,7 @@ def divisor_count(n, modulus=1, proper=False) -> Order | int:
 
 def proper_divisors(
     n, generator=False
-) -> list[int] | list | list[Any | int] | Generator[Any | int, Any, None]:
+) -> list[int] | list | list[Any | int] | Generator[Any | int]:
     """
     Return all divisors of n except n, sorted by default.
     If generator is ``True`` an unordered generator is returned.
@@ -1971,7 +1971,7 @@ def _udivisors(n):
 
 def udivisors(
     n, generator=False
-) -> list[int] | list | list[Any | int] | Generator[Any | int, Any, None]:
+) -> list[int] | list | list[Any | int] | Generator[Any | int]:
     r"""
     Return all unitary divisors of n sorted from 1..n by default.
     If generator is ``True`` an unordered generator is returned.
@@ -2067,7 +2067,7 @@ def _antidivisors(n):
 
 def antidivisors(
     n, generator=False
-) -> list | list[Any | int] | Generator[Any | int, Any, None]:
+) -> list | list[Any | int] | Generator[Any | int]:
     r"""
     Return all antidivisors of n sorted from 1..n by default.
 

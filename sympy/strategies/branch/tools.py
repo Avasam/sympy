@@ -4,7 +4,7 @@ from collections.abc import Generator
 from typing import Any, Callable
 
 
-def canon(*rules) -> Callable[..., Generator[Any, Any, None]]:
+def canon(*rules) -> Callable[..., Generator]:
     """ Strategy for canonicalization
 
     Apply each branching rule in a top-down fashion through the tree.

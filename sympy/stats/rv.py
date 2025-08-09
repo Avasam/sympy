@@ -1276,7 +1276,7 @@ def quantile(expr, evaluate=True, **kwargs) -> Lambda | Any:
         return result
 
 def sample_iter(expr, condition=None, size=(), library='scipy',
-                    numsamples=S.Infinity, seed=None, **kwargs) -> Generator[Any, Any, None] | Generator[Any | JointRandomSymbol | Basic]:
+                    numsamples=S.Infinity, seed=None, **kwargs) -> Generator | Generator[Any | JointRandomSymbol | Basic]:
 
     """
     Returns an iterator of realizations from the expression given a condition.
@@ -1432,13 +1432,13 @@ def sample_iter(expr, condition=None, size=(), library='scipy',
     return return_generator_finite()
 
 def sample_iter_lambdify(expr, condition=None, size=(),
-                         numsamples=S.Infinity, seed=None, **kwargs) -> Generator[Any, Any, None] | Generator[Any | JointRandomSymbol | Basic]:
+                         numsamples=S.Infinity, seed=None, **kwargs) -> Generator | Generator[Any | JointRandomSymbol | Basic]:
 
     return sample_iter(expr, condition=condition, size=size,
                        numsamples=numsamples, seed=seed, **kwargs)
 
 def sample_iter_subs(expr, condition=None, size=(),
-                     numsamples=S.Infinity, seed=None, **kwargs) -> Generator[Any, Any, None] | Generator[Any | JointRandomSymbol | Basic]:
+                     numsamples=S.Infinity, seed=None, **kwargs) -> Generator | Generator[Any | JointRandomSymbol | Basic]:
 
     return sample_iter(expr, condition=condition, size=size,
                        numsamples=numsamples, seed=seed, **kwargs)

@@ -945,9 +945,7 @@ def first_in_class(C, Y=()) -> bool:
 #                    Simplifying Presentation
 #========================================================================
 
-def simplify_presentation(
-    *args, change_gens=False
-) -> FpGroup | tuple[Any, Any] | tuple[Any | list, Any | list]:
+def simplify_presentation(*args, change_gens=False) -> FpGroup | tuple[Any, Any] | tuple[Any | list, Any | list]:
     '''
     For an instance of `FpGroup`, return a simplified isomorphic copy of
     the group (e.g. remove redundant generators or relators). Alternatively,
@@ -1291,9 +1289,7 @@ def elimination_technique_2(C) -> tuple[Any, Any]:
     C._schreier_generators = gens
     return C._schreier_generators, C._reidemeister_relators
 
-def reidemeister_presentation(
-    fp_grp, H, C=None, homomorphism=False
-) -> tuple[tuple, tuple, list] | tuple[tuple, tuple]:
+def reidemeister_presentation(fp_grp, H, C=None, homomorphism=False) -> tuple[tuple, tuple, list] | tuple[tuple, tuple]:
     """
     Parameters
     ==========

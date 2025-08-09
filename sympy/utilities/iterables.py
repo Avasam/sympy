@@ -327,7 +327,7 @@ def ibin(
     | Iterator[tuple[()]]
     | product[tuple]
     | str
-    | Generator[str, None, None]
+    | Generator[str]
 ):
     """Return a list of length ``bits`` corresponding to the binary value
     of ``n`` with small bits to the right (last). If bits is omitted, the

@@ -4,7 +4,7 @@ from collections.abc import Generator
 from typing import Any
 
 
-def pycosat_satisfiable(expr, all_models=False) -> Generator[bool, None, None] | dict | Generator[dict | bool, Any, None] | bool:
+def pycosat_satisfiable(expr, all_models=False) -> Generator[bool] | dict | Generator[dict | bool] | bool:
     import pycosat
     if not isinstance(expr, EncodedCNF):
         exprs = EncodedCNF()

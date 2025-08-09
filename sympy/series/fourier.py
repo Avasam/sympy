@@ -202,7 +202,7 @@ class FourierSeries(SeriesBase):
         if old.has(x):
             return self
 
-    def truncate(self, n=3) -> Generator[Any, Any, None] | Order:
+    def truncate(self, n=3) -> Generator | Order:
         """
         Return the first n nonzero terms of the series.
 

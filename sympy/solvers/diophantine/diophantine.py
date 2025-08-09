@@ -2222,7 +2222,7 @@ def cornacchia(a:int, b:int, m:int) -> set[tuple[int, int]]:
     return sols
 
 
-def PQa(P_0, Q_0, D) -> Generator[tuple[Any, Any, type[UndefinedFunction] | Any, Any, Any, Any], Any, NoReturn]:
+def PQa(P_0, Q_0, D) -> Generator[tuple[Any, Any, type[UndefinedFunction] | Any, Any], Any, NoReturn]:
     r"""
     Returns useful information needed to solve the Pell equation.
 
