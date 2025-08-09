@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 from warnings import warn
+from collections.abc import Callable
+from typing import TypeVar
 import inspect
 from .conflict import ordering, ambiguities, super_signature, AmbiguityWarning
 from .utils import expand_tuples
 import itertools as itl
+
+_CallableT = TypeVar("_CallableT", bound=Callable)
 
 
 class MDNotImplementedError(NotImplementedError):
@@ -144,7 +148,7 @@ class Dispatcher:
         >>> f([1, 2, 3])
         [3, 2, 1]
         """
-        def _(func):
+        def _(func: _CallableT) -> _CallableT:
             self.add(types, func, **kwargs)
             return func
         return _

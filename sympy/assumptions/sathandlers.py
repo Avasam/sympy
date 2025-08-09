@@ -1,11 +1,14 @@
 from collections import defaultdict
-
+from collections.abc import Callable
+from typing import TypeVar
 from sympy.assumptions.ask import Q
 from sympy.core import (Add, Mul, Pow, Number, NumberSymbol, Symbol)
 from sympy.core.numbers import ImaginaryUnit
 from sympy.functions.elementary.complexes import Abs
 from sympy.logic.boolalg import (Equivalent, And, Or, Implies)
 from sympy.matrices.expressions import MatMul
+
+_CallableT = TypeVar("_CallableT", bound=Callable)
 
 # APIs here may be subject to change
 
@@ -154,7 +157,7 @@ class ClassFactRegistry:
         self.multifacts = defaultdict(frozenset)
 
     def register(self, cls):
-        def _(func):
+        def _(func: _CallableT)-> _CallableT:
             self.singlefacts[cls] |= {func}
             return func
         return _

@@ -1,5 +1,6 @@
 """A module which implements predicates and assumption context."""
 
+from collections.abc import Callable
 from contextlib import contextmanager
 from typing import cast
 import inspect
@@ -174,6 +175,8 @@ class AppliedPredicate(Boolean):
 
 
 class PredicateMeta(type):
+    handler: Dispatcher | None = None
+
     def __new__(cls, clsname, bases, dct):
         # If handler is not defined, assign empty dispatcher.
         if "handler" not in dct:
@@ -329,7 +332,7 @@ class Predicate(Boolean, metaclass=PredicateMeta):
         """
         Register multiple signatures to same handler.
         """
-        def _(func):
+        def _(func: Callable):
             for t in types:
                 if not is_sequence(t):
                     t = (t,)  # for convenience, allow passing `type` to mean `(type,)`
