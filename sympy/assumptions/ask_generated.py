@@ -6,7 +6,6 @@ Instead, run ./bin/ask_update.py.
 from sympy.assumptions.ask import Q
 from sympy.assumptions.cnf import AND, OR, Literal
 from sympy.core.cache import cacheit
-from typing import Any
 
 @cacheit
 def get_all_known_facts() -> set[frozenset[OR | AND | Literal]]:

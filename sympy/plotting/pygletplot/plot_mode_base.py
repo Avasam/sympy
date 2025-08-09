@@ -6,7 +6,7 @@ from sympy.utilities.iterables import is_sequence
 from time import sleep
 from threading import Thread, Event, RLock
 import warnings
-from typing import Any, Callable
+from typing import Callable
 
 
 class PlotModeBase(PlotMode):
