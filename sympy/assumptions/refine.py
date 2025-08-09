@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, overload, TypeVar
+from collections.abc import Callable
 
 from sympy.core import S, Add, Expr, Basic, Mul, Pow, Rational
 from sympy.core.logic import fuzzy_not
@@ -8,17 +9,9 @@ from sympy.logic.boolalg import Boolean
 
 from sympy.assumptions import ask, Q  # type: ignore
 
+_T = TypeVar("_T")
 
-if TYPE_CHECKING:
-    from typing import Callable
-
-
-@overload
-def refine(expr: Expr, assumptions: Boolean | bool = True) -> Expr: ...
-@overload
-def refine(expr: Basic, assumptions: Boolean | bool = True) -> Basic: ...
-
-def refine(expr: Basic, assumptions: Boolean | bool = True) -> Basic:
+def refine(expr: _T, assumptions: Boolean | bool = True) ->  _T:
     """
     Simplify an expression using assumptions.
 
@@ -73,8 +66,6 @@ def refine(expr: Basic, assumptions: Boolean | bool = True) -> Basic:
     new_expr = handler(expr, assumptions)
     if (new_expr is None) or (expr == new_expr):
         return expr
-    if not isinstance(new_expr, Expr):
-        return new_expr
     return refine(new_expr, assumptions)
 
 
