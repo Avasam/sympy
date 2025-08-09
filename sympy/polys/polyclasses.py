@@ -2828,11 +2828,11 @@ class DMF(PicklableWithSlots, CantSympify):
         """Returns the denominator of ``f``. """
         return f.half_per(f.den)
 
-    def cancel(f) ->     typing_extensions.Self:
+    def cancel(f) -> typing_extensions.Self:
         """Remove common factors from ``f.num`` and ``f.den``. """
         return f.per(f.num, f.den)
 
-    def neg(f) ->     typing_extensions.Self:
+    def neg(f) -> typing_extensions.Self:
         """Negate all coefficients in ``f``. """
         return f.per(dmp_neg(f.num, f.lev, f.dom), f.den, cancel=False)
 
@@ -2840,7 +2840,7 @@ class DMF(PicklableWithSlots, CantSympify):
         """Add an element of the ground domain to ``f``. """
         return f + f.ground_new(c)
 
-    def add(f, g) ->     typing_extensions.Self:
+    def add(f, g) -> typing_extensions.Self:
         """Add two multivariate fractions ``f`` and ``g``. """
         if isinstance(g, DMP):
             lev, dom, per, (F_num, F_den), G = f.poly_unify(g)
@@ -2855,7 +2855,7 @@ class DMF(PicklableWithSlots, CantSympify):
 
         return per(num, den)
 
-    def sub(f, g) ->     typing_extensions.Self:
+    def sub(f, g) -> typing_extensions.Self:
         """Subtract two multivariate fractions ``f`` and ``g``. """
         if isinstance(g, DMP):
             lev, dom, per, (F_num, F_den), G = f.poly_unify(g)
@@ -2870,7 +2870,7 @@ class DMF(PicklableWithSlots, CantSympify):
 
         return per(num, den)
 
-    def mul(f, g) ->     typing_extensions.Self:
+    def mul(f, g) -> typing_extensions.Self:
         """Multiply two multivariate fractions ``f`` and ``g``. """
         if isinstance(g, DMP):
             lev, dom, per, (F_num, F_den), G = f.poly_unify(g)
@@ -2884,7 +2884,7 @@ class DMF(PicklableWithSlots, CantSympify):
 
         return per(num, den)
 
-    def pow(f, n) ->     typing_extensions.Self:
+    def pow(f, n) -> typing_extensions.Self:
         """Raise ``f`` to a non-negative power ``n``. """
         if isinstance(n, int):
             num, den = f.num, f.den
@@ -2895,7 +2895,7 @@ class DMF(PicklableWithSlots, CantSympify):
         else:
             raise TypeError("``int`` expected, got %s" % type(n))
 
-    def quo(f, g) ->     typing_extensions.Self:
+    def quo(f, g) -> typing_extensions.Self:
         """Computes quotient of fractions ``f`` and ``g``. """
         if isinstance(g, DMP):
             lev, dom, per, (F_num, F_den), G = f.poly_unify(g)
@@ -2911,7 +2911,7 @@ class DMF(PicklableWithSlots, CantSympify):
 
     exquo = quo
 
-    def invert(f, check=True) ->     typing_extensions.Self:
+    def invert(f, check=True) -> typing_extensions.Self:
         """Computes inverse of a fraction ``f``. """
         return f.per(f.den, f.num, cancel=False)
 
@@ -2929,10 +2929,10 @@ class DMF(PicklableWithSlots, CantSympify):
     def __pos__(f):
         return f
 
-    def __neg__(f) ->     typing_extensions.Self:
+    def __neg__(f) -> typing_extensions.Self:
         return f.neg()
 
-    def __add__(f, g) ->     typing_extensions.Self | NotImplementedType:
+    def __add__(f, g) -> typing_extensions.Self | NotImplementedType:
         if isinstance(g, (DMP, DMF)):
             return f.add(g)
         elif g in f.dom:
@@ -2943,10 +2943,10 @@ class DMF(PicklableWithSlots, CantSympify):
         except (TypeError, CoercionFailed, NotImplementedError):
             return NotImplemented
 
-    def __radd__(f, g) ->     typing_extensions.Self | NotImplementedType:
+    def __radd__(f, g) -> typing_extensions.Self | NotImplementedType:
         return f.__add__(g)
 
-    def __sub__(f, g) ->     typing_extensions.Self | NotImplementedType:
+    def __sub__(f, g) -> typing_extensions.Self | NotImplementedType:
         if isinstance(g, (DMP, DMF)):
             return f.sub(g)
 
@@ -2958,7 +2958,7 @@ class DMF(PicklableWithSlots, CantSympify):
     def __rsub__(f, g) -> DMF | NotImplementedType:
         return (-f).__add__(g)
 
-    def __mul__(f, g) ->     typing_extensions.Self | NotImplementedType:
+    def __mul__(f, g) -> typing_extensions.Self | NotImplementedType:
         if isinstance(g, (DMP, DMF)):
             return f.mul(g)
 
@@ -2967,13 +2967,13 @@ class DMF(PicklableWithSlots, CantSympify):
         except (TypeError, CoercionFailed, NotImplementedError):
             return NotImplemented
 
-    def __rmul__(f, g) ->     typing_extensions.Self | NotImplementedType:
+    def __rmul__(f, g) -> typing_extensions.Self | NotImplementedType:
         return f.__mul__(g)
 
-    def __pow__(f, n) ->     typing_extensions.Self:
+    def __pow__(f, n) -> typing_extensions.Self:
         return f.pow(n)
 
-    def __truediv__(f, g) ->     typing_extensions.Self | NotImplementedType:
+    def __truediv__(f, g) -> typing_extensions.Self | NotImplementedType:
         if isinstance(g, (DMP, DMF)):
             return f.quo(g)
 
@@ -3304,7 +3304,7 @@ class ANP(CantSympify, Generic[Eg]):
         """Returns ``True`` if ``f`` is an element of the ground domain. """
         return f._rep.is_ground
 
-    def __pos__(f) ->     typing_extensions.Self:
+    def __pos__(f) -> typing_extensions.Self:
         return f
 
     def __neg__(f) -> ANP:

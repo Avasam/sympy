@@ -24,7 +24,7 @@ from sympy.core.expr import Expr
 from sympy.core.function import (Function, Lambda)
 from sympy.core.logic import fuzzy_and
 from sympy.core.mul import Mul
-from sympy.core.relational import (Eq, Ne)
+from sympy.core.relational import (Eq, Ne, Equality)
 from sympy.core.singleton import S
 from sympy.core.symbol import (Dummy, Symbol)
 from sympy.core.sympify import sympify
@@ -46,6 +46,7 @@ import sympy
 from collections.abc import Generator
 from sympy.series.order import Order
 from typing import Any, TYPE_CHECKING
+from sympy.integrals.integrals import Integral
 
 if TYPE_CHECKING:
     from sympy.stats.frv import ConditionalFiniteDomain, FiniteDensity, FinitePSpace, ProductFiniteDomain, ProductFinitePSpace
@@ -131,7 +132,7 @@ class SingleDomain(RandomDomain):
         return self.args[0]
 
     @property
-    def symbols(self) ->     sympy.FiniteSet:
+    def symbols(self) -> FiniteSet:
         return FiniteSet(self.symbol)
 
     def __contains__(self, other) -> bool:
@@ -155,7 +156,7 @@ class MatrixDomain(RandomDomain):
         return self.args[0]
 
     @property
-    def symbols(self) ->     sympy.FiniteSet:
+    def symbols(self) -> FiniteSet:
         return FiniteSet(self.symbol)
 
 
@@ -190,7 +191,7 @@ class ConditionalDomain(RandomDomain):
     def set(self):
         raise NotImplementedError("Set of Conditional Domain not Implemented")
 
-    def as_boolean(self) ->     And:
+    def as_boolean(self) -> And:
         return And(self.fulldomain.as_boolean(), self.condition)
 
 
@@ -447,11 +448,11 @@ class IndependentProductPSpace(ProductPSpace):
         return d
 
     @property
-    def symbols(self) ->     sympy.FiniteSet:
+    def symbols(self) -> FiniteSet:
         return FiniteSet(*[val.symbol for val in self.rs_space_dict.keys()])
 
     @property
-    def spaces(self) ->     sympy.FiniteSet:
+    def spaces(self) -> FiniteSet:
         return FiniteSet(*self.args)
 
     @property
@@ -480,7 +481,7 @@ class IndependentProductPSpace(ProductPSpace):
             for k, v in space.sample(size=size, library=library, seed=seed).items()}
 
 
-    def probability(self, condition, **kwargs) -> Order | Lambda | Probability |     sympy.Equality | Relational |     sympy.Ne | int:
+    def probability(self, condition, **kwargs) -> Order | Lambda | Probability | Equality | Relational | Ne | int:
         cond_inv = False
         if isinstance(condition, Ne):
             condition = Eq(condition.args[0], condition.args[1])
@@ -595,7 +596,7 @@ class ProductDomain(RandomDomain):
                                      for symbol in domain.symbols}
 
     @property
-    def symbols(self) ->     sympy.FiniteSet:
+    def symbols(self) -> FiniteSet:
         return FiniteSet(*[sym for domain in self.domains
                                for sym    in domain.symbols])
 
@@ -604,7 +605,7 @@ class ProductDomain(RandomDomain):
         return self.args
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.ProductSet:
+    def set(self) -> FiniteSet | ProductSet:
         return ProductSet(*(domain.set for domain in self.domains))
 
     def __contains__(self, other) -> bool:
@@ -620,7 +621,7 @@ class ProductDomain(RandomDomain):
         # All subevents passed
         return True
 
-    def as_boolean(self) ->     And:
+    def as_boolean(self) -> And:
         return And(*[domain.as_boolean() for domain in self.domains])
 
 
@@ -794,10 +795,10 @@ def expectation(
     | Order
     | Any
     | sympy.Piecewise
-    | sympy.Equality
+    | Equality
     | Relational
-    | sympy.Ne
-    | sympy.Integral
+    | Ne
+    | Integral
     | ExpectationMatrix
     | None
 ):
@@ -842,7 +843,7 @@ def expectation(
 
 
 def probability(condition, given_condition=None, numsamples=None,
-                evaluate=True, **kwargs) -> Any | BernoulliDistribution | Probability | sympy.Equality | Lambda | Order | Relational | sympy.Ne | int:
+                evaluate=True, **kwargs) -> Any | BernoulliDistribution | Probability | Equality | Lambda | Order | Relational | Ne | int:
     """
     Probability that a condition is true, optionally given a second condition.
 

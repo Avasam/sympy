@@ -214,7 +214,7 @@ class TableForm:
         from .str import sstr
         return sstr(self, order=None)
 
-    def as_matrix(self) ->     Matrix:
+    def as_matrix(self) -> Matrix:
         """Returns the data of the table in Matrix form.
 
         Examples

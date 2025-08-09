@@ -153,7 +153,7 @@ class EPath:
 
         return False
 
-    def apply(self, expr, func, args=None, kwargs=None) ->     Basic:
+    def apply(self, expr, func, args=None, kwargs=None) -> Basic:
         """
         Modify parts of an expression selected by a path.
 

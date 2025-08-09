@@ -20,7 +20,6 @@ from ..predicates.order import (NegativePredicate, NonNegativePredicate,
     ExtendedPositivePredicate,)
 
 
-
 # NegativePredicate
 
 def _NegativePredicate_number(expr, assumptions):

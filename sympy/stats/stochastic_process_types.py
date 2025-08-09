@@ -13,7 +13,7 @@ from sympy.core.function import (Function, Lambda)
 from sympy.core.mul import Mul
 from sympy.core.intfunc import igcd
 from sympy.core.numbers import (Integer, Rational, oo, pi)
-from sympy.core.relational import (Eq, Ge, Gt, Le, Lt, Ne)
+from sympy.core.relational import (Eq, Ge, Gt, Le, Lt, Ne, Equality, Relational)
 from sympy.core.singleton import S
 from sympy.core.symbol import (Dummy, Symbol)
 from sympy.functions.combinatorial.factorials import factorial
@@ -35,7 +35,6 @@ from sympy.sets.fancysets import Range
 from sympy.sets.sets import (FiniteSet, Intersection, Interval, Set, Union)
 from sympy.solvers.solveset import linsolve
 from sympy.tensor.indexed import (Indexed, IndexedBase)
-from sympy.core.relational import Relational
 from sympy.logic.boolalg import Boolean
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.utilities.iterables import strongly_connected_components
@@ -51,10 +50,10 @@ from sympy.stats.frv_types import Bernoulli, BernoulliDistribution, FiniteRV
 from sympy.stats.drv_types import Poisson, PoissonDistribution
 from sympy.stats.crv_types import Normal, NormalDistribution, Gamma, GammaDistribution
 from sympy.core.sympify import _sympify, sympify
-import sympy
 from collections.abc import Generator
 from sympy.series.order import Order
 from sympy.stats.symbolic_multivariate_probability import ExpectationMatrix
+from sympy.integrals.integrals import Integral
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -527,7 +526,7 @@ class MarkovProcess(StochasticProcess):
 
         return is_insufficient, trans_probs, state_index, given_condition
 
-    def replace_with_index(self, condition) -> Relational | Eq |     sympy.Ne:
+    def replace_with_index(self, condition) -> Relational | Eq | Ne:
         if isinstance(condition, Relational):
             lhs, rhs = condition.lhs, condition.rhs
             if not isinstance(lhs, RandomIndexedSymbol):
@@ -1156,7 +1155,7 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         )
         return self.absorbing_probabilities()
 
-    def is_regular(self) ->     And:
+    def is_regular(self) -> And:
         tuples = self.communication_classes()
         if len(tuples) == 0:
             return S.false  # not defined for a 0x0 matrix
@@ -1176,7 +1175,7 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
             state < trans_probs.shape[0]:
             return S(trans_probs[state, state]) is S.One
 
-    def is_absorbing_chain(self) ->     And:
+    def is_absorbing_chain(self) -> And:
         states, A, B, C = self.decompose()
         r = A.shape[0]
         return And(r > 0, A == Identity(r).as_explicit())
@@ -1731,14 +1730,14 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
     ) -> (
         Order
         | tuple
-        | sympy.Sum
+        | Sum
         | Any
-        | sympy.Piecewise
+        | Piecewise
         | Basic
-        | sympy.Equality
+        | Equality
         | Relational
-        | sympy.Ne
-        | sympy.Integral
+        | Ne
+        | Integral
         | bool
         | None
     ):
@@ -1763,7 +1762,7 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
 
         return _SubstituteRV._expectation(expr, condition, evaluate, **kwargs)
 
-    def probability(self, condition, given_condition=None, evaluate=True, **kwargs) -> BernoulliDistribution | Probability | Any |     sympy.Equality | Lambda | Order | Relational |     sympy.Ne | int:
+    def probability(self, condition, given_condition=None, evaluate=True, **kwargs) -> BernoulliDistribution | Probability | Any | Equality | Lambda | Order | Relational | Ne | int:
         """
         Computes probability.
 
@@ -1785,7 +1784,7 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
 
         return _SubstituteRV._probability(condition, given_condition, evaluate, **kwargs)
 
-    def density(self, x) ->     sympy.Piecewise:
+    def density(self, x) -> Piecewise:
         return Piecewise((self.p, Eq(x, self.success)),
                          (1 - self.p, Eq(x, self.failure)),
                          (S.Zero, True))
@@ -2000,14 +1999,14 @@ class CountingProcess(ContinuousTimeStochasticProcess):
         | Expectation
         | Order
         | tuple
-        | sympy.Sum
+        | Sum
         | Any
-        | sympy.Piecewise
+        | Piecewise
         | Basic
-        | sympy.Equality
+        | Equality
         | Relational
-        | sympy.Ne
-        | sympy.Integral
+        | Ne
+        | Integral
         | bool
         | None
     ):
@@ -2115,7 +2114,7 @@ class CountingProcess(ContinuousTimeStochasticProcess):
         return Mul.fromiter(result)
 
 
-    def probability(self, condition, given_condition=None, evaluate=True, **kwargs) -> Add | Mul | Probability | BernoulliDistribution | Any |     sympy.Equality | Lambda | Order | Relational |     sympy.Ne | int:
+    def probability(self, condition, given_condition=None, evaluate=True, **kwargs) -> Add | Mul | Probability | BernoulliDistribution | Any | Equality | Lambda | Order | Relational | Ne | int:
         """
         Computes probability.
 

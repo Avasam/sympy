@@ -3,8 +3,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from sympy.assumptions.assume import (UndefinedPredicate, global_assumptions, Predicate,
-        AppliedPredicate)
+from sympy.assumptions.assume import (global_assumptions, Predicate,
+        AppliedPredicate, UndefinedPredicate)
 from sympy.assumptions.cnf import CNF, EncodedCNF, Literal
 from sympy.core import sympify
 from sympy.core.kind import BooleanKind

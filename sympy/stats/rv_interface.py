@@ -1,5 +1,5 @@
 from __future__ import annotations
-from sympy.sets import FiniteSet
+from sympy.sets import FiniteSet, Set
 from sympy.core.numbers import Rational
 from sympy.core.relational import Ne, Relational, Eq
 from sympy.core.symbol import Dummy
@@ -14,7 +14,6 @@ from .rv import (probability, expectation, density, where, given, pspace, cdf, P
                  sampling_density, moment_generating_function, quantile, is_random,
                  sample_stochastic_process)
 import sympy
-import sympy.sets.sets
 from sympy.concrete.summations import Sum
 from sympy.core.basic import Basic
 from sympy.core.function import UndefinedFunction
@@ -449,7 +448,7 @@ def factorial_moment(X, n, condition=None, **kwargs) -> (
     """
     return expectation(FallingFactorial(X, n), condition=condition, **kwargs)
 
-def median(X, evaluate=True, **kwargs) -> sympy.sets.sets.FiniteSet | sympy.sets.sets.Set:
+def median(X, evaluate=True, **kwargs) -> FiniteSet | Set:
     r"""
     Calculates the median of the probability distribution.
 

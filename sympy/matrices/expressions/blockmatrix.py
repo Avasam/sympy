@@ -151,7 +151,7 @@ class BlockMatrix(MatrixExpr):
         return self.blocks.shape
 
     @property
-    def blocks(self) ->     Basic:
+    def blocks(self) -> Basic:
         return self.args[0]
 
     @property
@@ -600,7 +600,7 @@ class BlockDiagMatrix(BlockMatrix):
         return Basic.__new__(BlockDiagMatrix, *mats)
 
     @property
-    def diag(self) -> tuple[    Basic, ...]:
+    def diag(self) -> tuple[Basic, ...]:
         return self.args
 
     @property
@@ -666,7 +666,7 @@ class BlockDiagMatrix(BlockMatrix):
         else:
             return BlockMatrix._blockadd(self, other)
 
-    def get_diag_blocks(self) -> tuple[    Basic, ...]:
+    def get_diag_blocks(self) -> tuple[Basic, ...]:
         """Return the list of diagonal blocks of the matrix.
 
         Examples

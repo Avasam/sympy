@@ -535,7 +535,7 @@ class DimensionSystem(Basic, _QuantityMapper):
                       [self.dim_can_vector(d) for d in sorted(self.base_dims, key=str)]
                       ).inv()
 
-    def dim_can_vector(self, dim) ->     Matrix:
+    def dim_can_vector(self, dim) -> Matrix:
         """
         Useless method, kept for compatibility with previous versions.
 

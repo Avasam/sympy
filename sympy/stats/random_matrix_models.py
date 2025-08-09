@@ -18,8 +18,7 @@ from sympy.stats.rv import _symbol_converter, Density, RandomMatrixSymbol, is_ra
 from sympy.stats.joint_rv_types import JointDistributionHandmade
 from sympy.stats.random_matrix import RandomMatrixPSpace
 from sympy.tensor.array import ArrayComprehension
-import sympy
-from sympy.core.relational import Relational
+from sympy.core.relational import Relational, Equality, Ne
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -138,7 +137,7 @@ class GaussianUnitaryEnsembleModel(GaussianEnsembleModel):
 
 class GaussianOrthogonalEnsembleModel(GaussianEnsembleModel):
     @property
-    def normalization_constant(self) ->     sympy.Equality | Relational |     sympy.Ne |     sympy.Integral:
+    def normalization_constant(self) -> Equality | Relational | Ne | Integral:
         n = self.dimension
         _H = MatrixSymbol('_H', n, n)
         return Integral(exp(-S(n)/4 * Trace(_H**2)))
@@ -159,7 +158,7 @@ class GaussianOrthogonalEnsembleModel(GaussianEnsembleModel):
 
 class GaussianSymplecticEnsembleModel(GaussianEnsembleModel):
     @property
-    def normalization_constant(self) ->     sympy.Equality | Relational |     sympy.Ne |     sympy.Integral:
+    def normalization_constant(self) -> Equality | Relational | Ne | Integral:
         n = self.dimension
         _H = MatrixSymbol('_H', n, n)
         return Integral(exp(-S(n) * Trace(_H**2)))

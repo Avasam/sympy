@@ -135,7 +135,7 @@ class Naturals(Set, metaclass=Singleton):
     def _boundary(self):
         return self
 
-    def as_relational(self, x) ->     And:
+    def as_relational(self, x) -> And:
         return And(Eq(floor(x), x), x >= self.inf, x < oo)
 
     def _kind(self):
@@ -232,7 +232,7 @@ class Integers(Set, metaclass=Singleton):
     def _kind(self):
         return SetKind(NumberKind)
 
-    def as_relational(self, x) ->     And:
+    def as_relational(self, x) -> And:
         return And(Eq(floor(x), x), -oo < x, x < oo)
 
     def _eval_is_subset(self, other):
@@ -993,7 +993,7 @@ class Range(Set):
     def _boundary(self):
         return self
 
-    def as_relational(self, x) ->     And:
+    def as_relational(self, x) -> And:
         """Rewrite a Range in terms of equalities and logic operators. """
         if self.start.is_infinite:
             assert not self.stop.is_infinite  # by instantiation

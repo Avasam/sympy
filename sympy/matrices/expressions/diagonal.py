@@ -5,11 +5,11 @@ from sympy.matrices.expressions import MatrixExpr
 from sympy.core import S, Eq, Ge
 from sympy.core.mul import Mul
 from sympy.functions.special.tensor_functions import KroneckerDelta
-import sympy
 from sympy.core.expr import Expr
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from sympy.matrices.matrixbase import MatrixBase
     from typing_extensions import Self
 
 
@@ -198,7 +198,7 @@ class DiagMatrix(MatrixExpr):
         from sympy.matrices.dense import diag
         return diag(*list(self._vector.as_explicit()))
 
-    def doit(self, **hints) ->     sympy.MatrixBase | DiagMatrix:
+    def doit(self, **hints) -> MatrixBase | DiagMatrix:
         from sympy.assumptions import ask, Q
         from sympy.matrices.expressions.matmul import MatMul
         from sympy.matrices.expressions.transpose import Transpose
@@ -223,5 +223,5 @@ class DiagMatrix(MatrixExpr):
         return DiagMatrix(vector)
 
 
-def diagonalize_vector(vector) -> sympy.MatrixBase | DiagMatrix:
+def diagonalize_vector(vector) -> MatrixBase | DiagMatrix:
     return DiagMatrix(vector).doit()

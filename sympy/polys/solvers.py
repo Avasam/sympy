@@ -14,7 +14,6 @@ from sympy.polys.domains import EX
 from sympy.polys.rings import sring
 from sympy.polys.polyerrors import NotInvertible
 from sympy.polys.domainmatrix import DomainMatrix
-import sympy.polys.matrices.domainmatrix
 from typing import Any
 
 
@@ -74,7 +73,7 @@ class RawMatrix(MutableDenseMatrix):
         self.ring = domain
 
 
-def eqs_to_matrix(eqs_coeffs, eqs_rhs, gens, domain) -> sympy.polys.matrices.domainmatrix.DomainMatrix:
+def eqs_to_matrix(eqs_coeffs, eqs_rhs, gens, domain) -> DomainMatrix:
     """Get matrix from linear equations in dict format.
 
     Explanation

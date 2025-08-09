@@ -24,7 +24,6 @@ from sympy.tensor.array.expressions.array_expressions import PermuteDims, ArrayD
     ArrayAdd, _CodegenArrayAbstract, get_shape, ArrayElementwiseApplyFunc, _ArrayExpr, _EditArrayContraction, _ArgE, \
     ArrayElement, _array_tensor_product, _array_contraction, _array_diagonal, _array_add, _permute_dims
 from sympy.tensor.array.expressions.utils import _get_mapping_from_subranks
-import sympy
 
 
 def _get_candidate_for_matmul_from_contraction(scan_indices: list[int | None], remaining_args: list[_ArgE]) -> tuple[_ArgE | None, bool, int]:
@@ -743,7 +742,7 @@ def _a2m_transpose(arg):
         return Transpose(arg).doit()
 
 
-def identify_hadamard_products(expr: ArrayContraction | ArrayDiagonal) -> ZeroArray | ArrayTensorProduct | ArrayContraction | sympy.Basic | PermuteDims:
+def identify_hadamard_products(expr: ArrayContraction | ArrayDiagonal) -> ZeroArray | ArrayTensorProduct | ArrayContraction | Basic | PermuteDims:
 
     editor: _EditArrayContraction = _EditArrayContraction(expr)
 
@@ -807,7 +806,7 @@ def identify_hadamard_products(expr: ArrayContraction | ArrayDiagonal) -> ZeroAr
     return editor.to_array_contraction()
 
 
-def identify_removable_identity_matrices(expr) -> ZeroArray | ArrayTensorProduct | ArrayContraction | sympy.Basic | PermuteDims:
+def identify_removable_identity_matrices(expr) -> ZeroArray | ArrayTensorProduct | ArrayContraction | Basic | PermuteDims:
     editor = _EditArrayContraction(expr)
 
     flag = True
@@ -866,7 +865,7 @@ def identify_removable_identity_matrices(expr) -> ZeroArray | ArrayTensorProduct
     return editor.to_array_contraction()
 
 
-def remove_identity_matrices(expr: ArrayContraction) -> tuple[Any | ZeroArray | ArrayTensorProduct | ArrayContraction | sympy.Basic | PermuteDims, list[int]]:
+def remove_identity_matrices(expr: ArrayContraction) -> tuple[Any | ZeroArray | ArrayTensorProduct | ArrayContraction | Basic | PermuteDims, list[int]]:
     editor = _EditArrayContraction(expr)
     removed: list[int] = []
 

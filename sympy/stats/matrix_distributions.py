@@ -259,7 +259,7 @@ class MatrixGammaDistribution(MatrixDistribution):
         _value_check(beta.is_positive, "Scale parameter should be positive.")
 
     @property
-    def set(self) ->     MatrixSet:
+    def set(self) -> MatrixSet:
         k = self.scale_matrix.shape[0]
         return MatrixSet(k, k, S.Reals)
 
@@ -345,7 +345,7 @@ class WishartDistribution(MatrixDistribution):
         _value_check(n.is_positive, "Shape parameter should be positive.")
 
     @property
-    def set(self) ->     MatrixSet:
+    def set(self) -> MatrixSet:
         k = self.scale_matrix.shape[0]
         return MatrixSet(k, k, S.Reals)
 
@@ -438,7 +438,7 @@ class MatrixNormalDistribution(MatrixDistribution):
         " of shape %s x %s"% (str(p), str(p)))
 
     @property
-    def set(self) ->     MatrixSet:
+    def set(self) -> MatrixSet:
         n, p = self.location_matrix.shape
         return MatrixSet(n, p, S.Reals)
 
@@ -537,7 +537,7 @@ class MatrixStudentTDistribution(MatrixDistribution):
         _value_check(nu.is_positive != False, "Degrees of freedom must be positive")
 
     @property
-    def set(self) ->     MatrixSet:
+    def set(self) -> MatrixSet:
         n, p = self.location_matrix.shape
         return MatrixSet(n, p, S.Reals)
 

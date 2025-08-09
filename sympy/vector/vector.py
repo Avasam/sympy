@@ -15,8 +15,6 @@ from sympy.vector.basisdependent import (BasisDependentZero,
 from sympy.vector.coordsysrect import CoordSys3D
 from sympy.vector.dyadic import DyadicZero, Dyadic, BaseDyadic, DyadicAdd
 from sympy.vector.kind import VectorKind
-import sympy
-import sympy.core.add
 from sympy.series.order import Order
 from typing import Any, Callable, TYPE_CHECKING
 
@@ -65,7 +63,7 @@ class Vector(BasisDependent):
         # subclass of Vector the instance belongs to.
         return self._components
 
-    def magnitude(self) ->     sympy.Pow:
+    def magnitude(self) -> Pow:
         """
         Returns the magnitude of this vector.
         """
@@ -144,7 +142,7 @@ class Vector(BasisDependent):
         diff_mag2 = diff.dot(diff)
         return diff_mag2.equals(0)
 
-    def dot(self, other) -> VectorZero | Callable[..., VectorZero | Any | int] |     sympy.core.add.Add | Dot:
+    def dot(self, other) -> VectorZero | Callable[..., VectorZero | Any | int] | Add | Dot:
         """
         Returns the dot product of this Vector, either with another
         Vector, or a Dyadic, or a Del operator.
@@ -206,7 +204,7 @@ class Vector(BasisDependent):
 
         return dot(self, other)
 
-    def __and__(self, other) -> VectorZero | Callable[..., VectorZero | Any | int] |     sympy.core.add.Add | Dot:
+    def __and__(self, other) -> VectorZero | Callable[..., VectorZero | Any | int] | Add | Dot:
         return self.dot(other)
 
     __and__.__doc__ = dot.__doc__
@@ -355,7 +353,7 @@ class Vector(BasisDependent):
 
     __or__.__doc__ = outer.__doc__
 
-    def to_matrix(self, system) ->     sympy.ImmutableDenseMatrix:
+    def to_matrix(self, system) -> Matrix:
         """
         Returns the matrix form of this vector with respect to the
         specified coordinate system.
@@ -619,7 +617,7 @@ class Dot(Expr):
         obj._expr2 = expr2
         return obj
 
-    def doit(self, **hints) ->     sympy.core.add.Add | Dot:
+    def doit(self, **hints) -> Add | Dot:
         return dot(self._expr1, self._expr2)
 
 
@@ -671,7 +669,7 @@ def cross(vect1, vect2) -> VectorAdd | VectorZero | Cross:
     return Cross(vect1, vect2)
 
 
-def dot(vect1, vect2) -> sympy.core.add.Add | Dot:
+def dot(vect1, vect2) -> Add | Dot:
     """
     Returns dot product of two vectors.
 

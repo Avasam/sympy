@@ -41,7 +41,7 @@ class TypeF(Standard_Cartan):
         root[j] = -1
         return root
 
-    def simple_root(self, i) -> list[int] | list[    Rational | Any |     Integer] | None:
+    def simple_root(self, i) -> list[int] | list[Rational | Any | Integer] | None:
         """The ith simple root of F_4
 
         Every lie algebra has a unique root system.
@@ -131,7 +131,7 @@ class TypeF(Standard_Cartan):
         """
         return 48
 
-    def cartan_matrix(self) ->     Matrix:
+    def cartan_matrix(self) -> Matrix:
         """The Cartan matrix for F_4
 
         The Cartan matrix matrix for a Lie algebra is

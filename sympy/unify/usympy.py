@@ -10,7 +10,6 @@ from sympy.matrices import MatAdd, MatMul, MatrixExpr
 from sympy.sets.sets import Union, Intersection, FiniteSet
 from sympy.unify.core import Compound, Variable, CondVariable
 from sympy.unify import core
-import sympy
 from collections.abc import Generator
 from typing import Any, Callable
 
@@ -43,7 +42,7 @@ def mk_matchtype(typ) -> Callable[..., bool]:
                 isinstance(x, Compound) and issubclass(x.op, typ))
     return matchtype
 
-def deconstruct(s, variables=()) -> Variable | CondVariable | sympy.Basic | Compound:
+def deconstruct(s, variables=()) -> Variable | CondVariable | Basic | Compound:
     """ Turn a SymPy object into a Compound """
     if s in variables:
         return Variable(s)
@@ -67,7 +66,7 @@ def construct(t):
     else:
         return t.op(*map(construct, t.args))
 
-def rebuild(s) -> Any | sympy.Basic:
+def rebuild(s) -> Any | Basic:
     """ Rebuild a SymPy expression.
 
     This removes harm caused by Expr-Rules interactions.

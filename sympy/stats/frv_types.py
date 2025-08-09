@@ -31,15 +31,15 @@ from sympy.functions.elementary.piecewise import Piecewise
 from sympy.logic.boolalg import Or
 from sympy.sets.contains import Contains
 from sympy.sets.fancysets import Range
-from sympy.sets.sets import (Complement, Union, Intersection, Interval)
+from sympy.sets.sets import (Complement, Union, Intersection, Interval, FiniteSet)
 from sympy.functions.special.beta_functions import beta as beta_fn
 from sympy.stats.frv import (SingleFiniteDistribution,
                              SingleFinitePSpace)
 from sympy.stats.rv import RandomSymbol, _value_check, Density, is_random
 from sympy.utilities.iterables import multiset
 from sympy.utilities.misc import filldedent
-import sympy
 from typing import Any
+from sympy.core.basic import Basic
 
 
 __all__ = ['FiniteRV',
@@ -69,7 +69,7 @@ def rv(name, cls, *args, **kwargs) -> RandomSymbol:
 class FiniteDistributionHandmade(SingleFiniteDistribution):
 
     @property
-    def dict(self) ->     sympy.Basic:
+    def dict(self) -> Basic:
         return self.args[0]
 
     def pmf(self, x) -> Lambda:
@@ -151,11 +151,11 @@ class DiscreteUniformDistribution(SingleFiniteDistribution):
 
     @property  # type: ignore
     @cacheit
-    def dict(self) -> dict[    sympy.Basic, Rational | Any | Integer]:
+    def dict(self) -> dict[Basic, Rational | Any | Integer]:
         return dict.fromkeys(self.set, self.p)
 
     @property
-    def set(self) -> set[    sympy.Basic]:
+    def set(self) -> set[Basic]:
         return set(self.args)
 
     def pmf(self, x) -> Rational | Integer:
@@ -226,12 +226,12 @@ class DieDistribution(SingleFiniteDistribution):
         return S.One
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Intersection | Union | Complement | set[Any | Integer]:
+    def set(self) -> FiniteSet | Intersection | Union | Complement | set[Any | Integer]:
         if self.is_symbolic:
             return Intersection(S.Naturals0, Interval(0, self.sides))
         return set(map(Integer, range(1, self.sides + 1)))
 
-    def pmf(self, x) ->     sympy.Piecewise:
+    def pmf(self, x) -> Piecewise:
         x = sympify(x)
         if not (x.is_number or x.is_Symbol or is_random(x)):
             raise ValueError("'x' expected as an argument of type 'number', 'Symbol', or "
@@ -291,7 +291,7 @@ class BernoulliDistribution(SingleFiniteDistribution):
     def set(self) -> set:
         return {self.succ, self.fail}
 
-    def pmf(self, x) ->     sympy.Piecewise:
+    def pmf(self, x) -> Piecewise:
         if isinstance(self.succ, Symbol) and isinstance(self.fail, Symbol):
             return Piecewise((self.p, x == self.succ),
                              (1 - self.p, x == self.fail),
@@ -414,12 +414,12 @@ class BinomialDistribution(SingleFiniteDistribution):
         return not self.n.is_number
 
     @property
-    def set(self) -> sympy.FiniteSet | sympy.Intersection | Union | Complement | set:
+    def set(self) -> FiniteSet | Intersection | Union | Complement | set:
         if self.is_symbolic:
             return Intersection(S.Naturals0, Interval(0, self.n))
         return set(self.dict.keys())
 
-    def pmf(self, x) ->     sympy.Piecewise:
+    def pmf(self, x) -> Piecewise:
         n, p = self.n, self.p
         x = sympify(x)
         if not (x.is_number or x.is_Symbol or is_random(x)):
@@ -430,7 +430,7 @@ class BinomialDistribution(SingleFiniteDistribution):
 
     @property  # type: ignore
     @cacheit
-    def dict(self) -> Density | dict[Any, Any |     sympy.Piecewise]:
+    def dict(self) -> Density | dict[Any, Any | Piecewise]:
         if self.is_symbolic:
             return Density(self)
         return {k*self.succ + (self.n-k)*self.fail: self.pmf(k)
@@ -514,7 +514,7 @@ class BetaBinomialDistribution(SingleFiniteDistribution):
         return not self.n.is_number
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Intersection | Union | Complement | set[Any | Integer]:
+    def set(self) -> FiniteSet | Intersection | Union | Complement | set[Any | Integer]:
         if self.is_symbolic:
             return Intersection(S.Naturals0, Interval(0, self.n))
         return set(map(Integer, range(self.n + 1)))
@@ -578,15 +578,15 @@ class HypergeometricDistribution(SingleFiniteDistribution):
         return not all(x.is_number for x in (self.N, self.m, self.n))
 
     @property
-    def high(self) ->     sympy.Piecewise:
+    def high(self) -> Piecewise:
         return Piecewise((self.n, Lt(self.n, self.m) != False), (self.m, True))
 
     @property
-    def low(self) ->     sympy.Piecewise:
+    def low(self) -> Piecewise:
         return Piecewise((0, Gt(0, self.n + self.m - self.N) != False), (self.n + self.m - self.N, True))
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Intersection | Union | Complement | set[int]:
+    def set(self) -> FiniteSet | Intersection | Union | Complement | set[int]:
         N, m, n = self.N, self.m, self.n
         if self.is_symbolic:
             return Intersection(S.Naturals0, Interval(self.low, self.high))
@@ -707,7 +707,7 @@ class IdealSolitonDistribution(SingleFiniteDistribution):
         d.update({i: Rational(1, i*(i - 1)) for i in range(2, self.k + 1)})
         return d
 
-    def pmf(self, x) ->     sympy.Piecewise:
+    def pmf(self, x) -> Piecewise:
         x = sympify(x)
         if not (x.is_number or x.is_Symbol or is_random(x)):
             raise ValueError("'x' expected as an argument of type 'number', 'Symbol', or "

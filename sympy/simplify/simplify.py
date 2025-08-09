@@ -14,7 +14,7 @@ from sympy.core.parameters import global_parameters
 from sympy.core.function import (UndefinedFunction, expand_log, count_ops, _mexpand,
     nfloat, expand_mul, expand)
 from sympy.core.numbers import Float, I, pi, Rational, equal_valued
-from sympy.core.relational import Relational
+from sympy.core.relational import Relational, Equality, Ne
 from sympy.core.rules import Transform
 from sympy.core.sorting import ordered
 from sympy.core.sympify import _sympify
@@ -50,12 +50,6 @@ from sympy.utilities.iterables import has_variety, sift, subsets, iterable
 from sympy.utilities.misc import as_int
 
 import mpmath
-import sympy.core.add
-import sympy.core.expr
-import sympy.core.mul
-import sympy.core.power
-import sympy.core.relational
-import sympy.core.symbol
 from sympy.series.order import Order
 
 
@@ -239,7 +233,7 @@ def _separatevars_dict(expr, symbols):
     return ret
 
 
-def posify(eq) -> tuple[Any, dict] | tuple[Any, dict[sympy.core.symbol.Dummy, Any]]:
+def posify(eq) -> tuple[Any, dict] | tuple[Any, dict[Dummy, Any]]:
     """Return ``eq`` (with generic symbols made positive) and a
     dictionary containing the mapping between the old and new
     symbols.
@@ -372,12 +366,12 @@ def hypersimilar(f, g, k):
 def signsimp(
     expr, evaluate=None
 ) -> (
-    sympy.core.expr.Expr
-    | sympy.core.relational.Relational
+    Expr
+    | Relational
     | Order
-    | sympy.core.relational.Eq
-    | sympy.core.relational.Ne
-    | sympy.core.add.Add
+    | Eq
+    | Ne
+    | Add
     | tuple[Any, dict]
 ):
     """Make all Add sub-expressions canonical wrt sign.
@@ -854,7 +848,7 @@ def sum_combine(s_t) -> Order:
 
     return result
 
-def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, sign=True) -> Basic | Any | sympy.core.add.Add | Order | sympy.core.mul.Mul:
+def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, sign=True) -> Basic | Any | Add | Order | Mul:
     """Return Sum with constant factors extracted.
 
     If ``limits`` is specified then ``self`` is the summand; the other
@@ -880,7 +874,7 @@ def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, si
     return factor_terms(expr, **kwargs)
 
 
-def sum_add(self, other, method=0) -> Basic | Any | sympy.core.add.Add | Order | sympy.core.mul.Mul:
+def sum_add(self, other, method=0) -> Basic | Any | Add | Order | Mul:
     """Helper function for Sum simplification"""
     #we know this is something in terms of a constant * a sum
     #so we temporarily put the constants inside for simplification
@@ -962,7 +956,7 @@ def product_simplify(s, **kwargs) -> Order:
     return result
 
 
-def product_mul(self, other, method=0) -> sympy.core.relational.Equality | sympy.core.relational.Relational | sympy.core.relational.Ne | Product | Order:
+def product_mul(self, other, method=0) -> Equality | Relational | Ne | Product | Order:
     """Helper function for Product simplification"""
     if type(self) is type(other):
         if method == 0:
@@ -1359,7 +1353,7 @@ def besselsimp(expr):
     return expr
 
 
-def nthroot(expr, n, max_len=4, prec=15) -> sympy.core.mul.Mul | sympy.core.power.Pow | Order | sympy.core.add.Add | None:
+def nthroot(expr, n, max_len=4, prec=15) -> Mul | Pow | Order | Add | None:
     """
     Compute a real nth-root of a sum of surds.
 

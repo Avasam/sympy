@@ -5,8 +5,6 @@ from sympy.core.sorting import default_sort_key
 from sympy.core.symbol import Dummy
 from sympy.functions import root, sign, sqrt
 from sympy.polys import Poly, PolynomialError
-import sympy.core.add
-import sympy.core.mul
 from sympy.core.power import Pow
 from sympy.series.order import Order
 
@@ -103,7 +101,7 @@ def _subsets(n):
     return a
 
 
-def sqrtdenest(expr, max_iter=3) -> sympy.core.mul.Mul | Pow | Order | sympy.core.add.Add | None:
+def sqrtdenest(expr, max_iter=3) -> Mul | Pow | Order | Add | None:
     """Denests sqrts in an expression that contain other square roots
     if possible, otherwise returns the expr unchanged. This is based on the
     algorithms of [1].

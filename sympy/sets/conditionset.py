@@ -222,7 +222,7 @@ with
         else:
             return And(base_cond, lambda_cond)
 
-    def as_relational(self, other) ->     And:
+    def as_relational(self, other) -> And:
         f = Lambda(self.sym, self.condition)
         if isinstance(self.sym, Tuple):
             f = f(*other)

@@ -1292,7 +1292,7 @@ class LaplaceTransform(IntegralTransform):
     def _as_integral(self, f, t, s):
         return Integral(f*exp(-s*t), (t, S.Zero, S.Infinity))
 
-    def doit(self, **hints) -> Order | tuple[Any | Order, Any | Max, Any |     And]:
+    def doit(self, **hints) -> Order | tuple[Any | Order, Any | Max, Any | And]:
         """
         Try to evaluate the transform in closed form.
 
@@ -1324,7 +1324,7 @@ class LaplaceTransform(IntegralTransform):
             return r
 
 
-def laplace_transform(f, t, s, legacy_matrix=True, **hints) -> tuple[sympy.MatrixBase, Any | Max, Any | And] | sympy.MatrixBase:
+def laplace_transform(f, t, s, legacy_matrix=True, **hints) -> tuple[MatrixBase, Any | Max, Any | And] | MatrixBase:
     r"""
     Compute the Laplace Transform `F(s)` of `f(t)`,
 
@@ -2241,7 +2241,7 @@ class InverseLaplaceTransform(IntegralTransform):
                                   c + S.ImaginaryUnit*S.Infinity)) /
             (2*S.Pi*S.ImaginaryUnit))
 
-    def doit(self, **hints) -> Order | tuple[Any | Order, Any |     And]:
+    def doit(self, **hints) -> Order | tuple[Any | Order, Any | And]:
         """
         Try to evaluate the transform in closed form.
 

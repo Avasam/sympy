@@ -204,7 +204,7 @@ class FunctionClass(type):
                 raise TypeError("eval on Function subclasses should be a class method (defined with @classmethod)")
 
     @property
-    def __signature__(self) ->     inspect.Signature | None:
+    def __signature__(self) -> inspect.Signature | None:
         """
         Allow Python 3's inspect.signature to give a useful signature for
         Function subclasses.

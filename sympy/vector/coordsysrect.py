@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Callable
 
 from sympy.core.basic import Basic
@@ -468,7 +470,7 @@ class CoordSys3D(Basic):
         return self._transformation_from_parent_lambda(
                             *self._parent.base_scalars())
 
-    def transformation_from_parent_function(self) ->     typing.Callable[..., tuple[    typing.Any, ...]]:
+    def transformation_from_parent_function(self) -> typing.Callable[..., tuple[    typing.Any, ...]]:
         return self._transformation_from_parent_lambda
 
     def rotation_matrix(self, other):

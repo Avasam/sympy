@@ -118,9 +118,11 @@ from sympy.functions.special.tensor_functions import KroneckerDelta
 from sympy.multipledispatch import dispatch
 from sympy.utilities.iterables import is_sequence, NotIterable
 from sympy.utilities.misc import filldedent
-import sympy
+from sympy.core.basic import Basic
 
 if TYPE_CHECKING:
+    from sympy.matrices.matrixbase import MatrixBase
+    from sympy.tensor.array.ndim_array import NDimArray
     from typing_extensions import Self
 
 
@@ -216,7 +218,7 @@ class Indexed(Expr):
         return {k: v for k, v in self._assumptions.items() if v is not None}
 
     @property
-    def base(self) ->     sympy.Basic:
+    def base(self) -> Basic:
         """Returns the ``IndexedBase`` of the ``Indexed`` object.
 
         Examples
@@ -234,7 +236,7 @@ class Indexed(Expr):
         return self.args[0]
 
     @property
-    def indices(self) -> tuple[    sympy.Basic, ...]:
+    def indices(self) -> tuple[Basic, ...]:
         """
         Returns the indices of the ``Indexed`` object.
 
@@ -344,7 +346,7 @@ class Indexed(Expr):
         return "%s[%s]" % (p.doprint(self.base), ", ".join(indices))
 
     @property
-    def free_symbols(self) -> set[Self |     sympy.Basic] | set[    sympy.Basic]:
+    def free_symbols(self) -> set[Self | Basic] | set[Basic]:
         base_free_symbols = self.base.free_symbols
         indices_free_symbols = {
             fs for i in self.indices for fs in i.free_symbols}
@@ -444,7 +446,7 @@ class IndexedBase(Expr, NotIterable):
         obj._assumptions = StdFactKB(assumptions)
         obj._assumptions._generator = tmp_asm_copy  # Issue #8873
 
-    def __new__(cls, label, shape=None, *, offset=S.Zero, strides=None, **kw_args) ->     sympy.MatrixBase |     sympy.NDimArray | Self:
+    def __new__(cls, label, shape=None, *, offset=S.Zero, strides=None, **kw_args) -> MatrixBase | NDimArray | Self:
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array.ndim_array import NDimArray
 
@@ -566,7 +568,7 @@ class IndexedBase(Expr, NotIterable):
         return self._offset
 
     @property
-    def label(self) ->     sympy.Basic:
+    def label(self) -> Basic:
         """Returns the label of the ``IndexedBase`` object.
 
         Examples
@@ -688,7 +690,7 @@ class Idx(Expr):
         return obj
 
     @property
-    def label(self) ->     sympy.Basic:
+    def label(self) -> Basic:
         """Returns the label (Integer or integer expression) of the Idx object.
 
         Examples

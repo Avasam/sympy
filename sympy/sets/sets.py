@@ -722,7 +722,7 @@ class Set(Basic, EvalfMixin):
         return self._boundary
 
     @property
-    def is_open(self) ->     FuzzyBool:
+    def is_open(self) -> FuzzyBool:
         """
         Property method to check whether a set is open.
 
@@ -967,7 +967,7 @@ ProductSet(iterable) is deprecated. Use ProductSet(*iterable) instead.
 
         return And(*[s.contains(e) for s, e in zip(self.sets, element)])
 
-    def as_relational(self, *symbols) ->     And:
+    def as_relational(self, *symbols) -> And:
         symbols = [_sympify(s) for s in symbols]
         if len(symbols) != len(self.sets) or not all(
                 i.is_Symbol for i in symbols):
@@ -1264,7 +1264,7 @@ class Interval(Set):
         d = Dummy()
         return self.as_relational(d).subs(d, other)
 
-    def as_relational(self, x) ->     And:
+    def as_relational(self, x) -> And:
         """Rewrite an interval in terms of inequalities and logic operators."""
         x = sympify(x)
         if self.right_open:
@@ -1475,7 +1475,7 @@ class Union(Set, LatticeOp):
         if fuzzy_or(arg.is_superset(other) for arg in self.args):
             return True
 
-    def as_relational(self, symbol) ->     And |     Or:
+    def as_relational(self, symbol) -> And | Or:
         """Rewrite a Union in terms of equalities and logic operators. """
         if (len(self.args) == 2 and
                 all(isinstance(i, Interval) for i in self.args)):
@@ -1725,7 +1725,7 @@ class Intersection(Set, LatticeOp):
         else:
             return Intersection(*sets, evaluate=False)
 
-    def as_relational(self, symbol) ->     And:
+    def as_relational(self, symbol) -> And:
         """Rewrite an Intersection in terms of equalities and logic operators"""
         return And(*[set.as_relational(symbol) for set in self.args])
 
@@ -1792,7 +1792,7 @@ class Complement(Set):
         if A.is_subset(other):
             return True
 
-    def as_relational(self, symbol) ->     And:
+    def as_relational(self, symbol) -> And:
         """Rewrite a complement in terms of equalities and logic
         operators"""
         A, B = self.args
@@ -2129,7 +2129,7 @@ class FiniteSet(Set):
     def __len__(self) -> int:
         return len(self.args)
 
-    def as_relational(self, symbol) ->     Or:
+    def as_relational(self, symbol) -> Or:
         """Rewrite a FiniteSet in terms of equalities and logic operators. """
         return Or(*[Eq(symbol, elem) for elem in self])
 
@@ -2241,7 +2241,7 @@ class SymmetricDifference(Set):
         else:
             return SymmetricDifference(A, B, evaluate=False)
 
-    def as_relational(self, symbol) -> BooleanFalse |     Not | Xor:
+    def as_relational(self, symbol) -> BooleanFalse | Not | Xor:
         """Rewrite a symmetric_difference in terms of equalities and
         logic operators"""
         A, B = self.args

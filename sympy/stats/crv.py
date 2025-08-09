@@ -14,7 +14,7 @@ from sympy.core.basic import Basic
 from sympy.core.cache import cacheit
 from sympy.core.function import Lambda, PoleError
 from sympy.core.numbers import (I, nan, oo)
-from sympy.core.relational import (Relational, Eq, Ne)
+from sympy.core.relational import (Relational, Eq, Ne, Equality)
 from sympy.core.singleton import S
 from sympy.core.symbol import (Dummy, symbols)
 from sympy.core.sympify import _sympify, sympify
@@ -32,7 +32,6 @@ from sympy.solvers.solveset import solveset
 from sympy.solvers.inequalities import reduce_rational_inequalities
 from sympy.stats.rv import (RandomSymbol, RandomDomain, SingleDomain, ConditionalDomain, is_random,
         ProductDomain, PSpace, SinglePSpace, random_symbols, NamedArgsMixin, Distribution)
-import sympy
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -57,7 +56,7 @@ class SingleContinuousDomain(ContinuousDomain, SingleDomain):
 
     Represented using a single symbol and interval.
     """
-    def compute_expectation(self, expr, variables=None, **kwargs) ->     sympy.Equality | Relational |     sympy.Ne |     sympy.Integral:
+    def compute_expectation(self, expr, variables=None, **kwargs) -> Equality | Relational | Ne | Integral:
         if variables is None:
             variables = self.symbols
         if not variables:
@@ -85,7 +84,7 @@ class ProductContinuousDomain(ProductDomain, ContinuousDomain):
                 expr = domain.compute_expectation(expr, domain_vars, **kwargs)
         return expr
 
-    def as_boolean(self) ->     And:
+    def as_boolean(self) -> And:
         return And(*[domain.as_boolean() for domain in self.domains])
 
 
@@ -95,7 +94,7 @@ class ConditionalContinuousDomain(ContinuousDomain, ConditionalDomain):
     condition such as $x > 3$.
     """
 
-    def compute_expectation(self, expr, variables=None, **kwargs) ->     sympy.Equality | Relational |     sympy.Ne |     sympy.Integral:
+    def compute_expectation(self, expr, variables=None, **kwargs) -> Equality | Relational | Ne | Integral:
         if variables is None:
             variables = self.symbols
         if not variables:
@@ -142,7 +141,7 @@ class ConditionalContinuousDomain(ContinuousDomain, ConditionalDomain):
 
         return Integral(integrand, *limits, **kwargs)
 
-    def as_boolean(self) ->     And:
+    def as_boolean(self) -> And:
         return And(self.fulldomain.as_boolean(), self.condition)
 
     @property
@@ -208,7 +207,7 @@ class SingleContinuousDistribution(ContinuousDistribution, NamedArgsMixin):
     def _cdf(self, x):
         return None
 
-    def cdf(self, x, **kwargs) ->     sympy.Basic:
+    def cdf(self, x, **kwargs) -> Basic:
         """ Cumulative density function """
         if len(kwargs) == 0:
             cdf = self._cdf(x)
@@ -230,7 +229,7 @@ class SingleContinuousDistribution(ContinuousDistribution, NamedArgsMixin):
     def _characteristic_function(self, t):
         return None
 
-    def characteristic_function(self, t, **kwargs) ->     sympy.Basic:
+    def characteristic_function(self, t, **kwargs) -> Basic:
         """ Characteristic function """
         if len(kwargs) == 0:
             cf = self._characteristic_function(t)
@@ -252,7 +251,7 @@ class SingleContinuousDistribution(ContinuousDistribution, NamedArgsMixin):
     def _moment_generating_function(self, t):
         return None
 
-    def moment_generating_function(self, t, **kwargs) ->     sympy.Basic:
+    def moment_generating_function(self, t, **kwargs) -> Basic:
         """ Moment generating function """
         if not kwargs:
                 mgf = self._moment_generating_function(t)
@@ -260,7 +259,7 @@ class SingleContinuousDistribution(ContinuousDistribution, NamedArgsMixin):
                     return mgf
         return self.compute_moment_generating_function(**kwargs)(t)
 
-    def expectation(self, expr, var, evaluate=True, **kwargs) ->     sympy.Equality | Relational |     sympy.Ne | Any |     sympy.Integral | int:
+    def expectation(self, expr, var, evaluate=True, **kwargs) -> Equality | Relational | Ne | Any | Integral | int:
         """ Expectation of expression over distribution """
         if evaluate:
             try:
@@ -299,7 +298,7 @@ class SingleContinuousDistribution(ContinuousDistribution, NamedArgsMixin):
     def _quantile(self, x):
         return None
 
-    def quantile(self, x, **kwargs) ->     sympy.Basic:
+    def quantile(self, x, **kwargs) -> Basic:
         """ Cumulative density function """
         if len(kwargs) == 0:
             quantile = self._quantile(x)
@@ -494,7 +493,7 @@ class SingleContinuousPSpace(ContinuousPSpace, SinglePSpace):
         """
         return {self.value: self.distribution.sample(size, library=library, seed=seed)}
 
-    def compute_expectation(self, expr, rvs=None, evaluate=False, **kwargs) ->     sympy.Equality | Relational |     sympy.Ne |     sympy.Integral:
+    def compute_expectation(self, expr, rvs=None, evaluate=False, **kwargs) -> Equality | Relational | Ne | Integral:
         rvs = rvs or (self.value,)
         if self.value not in rvs:
             return expr
@@ -529,7 +528,7 @@ class SingleContinuousPSpace(ContinuousPSpace, SinglePSpace):
         else:
             return ContinuousPSpace.compute_moment_generating_function(self, expr, **kwargs)
 
-    def compute_density(self, expr, **kwargs) ->     sympy.Basic | Lambda:
+    def compute_density(self, expr, **kwargs) -> Basic | Lambda:
         # https://en.wikipedia.org/wiki/Random_variable#Functions_of_random_variables
         if expr == self.value:
             return self.density
@@ -561,7 +560,7 @@ def _reduce_inequalities(conditions, var, **kwargs):
         raise ValueError("Reduction of condition failed %s\n" % conditions[0])
 
 
-def reduce_rational_inequalities_wrap(condition, var) -> sympy.FiniteSet | Union | None:
+def reduce_rational_inequalities_wrap(condition, var) -> FiniteSet | Union | None:
     if condition.is_Relational:
         return _reduce_inequalities([[condition]], var, relational=False)
     if isinstance(condition, Or):

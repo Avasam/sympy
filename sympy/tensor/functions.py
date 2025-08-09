@@ -8,7 +8,6 @@ from sympy.core.mul import Mul
 from sympy.core.singleton import S
 from sympy.core.sympify import sympify
 from sympy.core.parameters import global_parameters
-import sympy
 
 from typing import TYPE_CHECKING
 
@@ -68,7 +67,7 @@ class TensorProduct(Expr):
         shape_list = self._get_args_shapes()
         return sum(shape_list, ())
 
-    def __getitem__(self, index) ->     sympy.Mul:
+    def __getitem__(self, index) -> Mul:
         index = iter(index)
         return Mul.fromiter(
             arg.__getitem__(tuple(next(index) for i in shp))

@@ -2,7 +2,6 @@ from __future__ import annotations
 from sympy.core.basic import Basic
 from sympy.stats.joint_rv import ProductPSpace
 from sympy.stats.rv import ProductDomain, _symbol_converter, Distribution
-import sympy
 from sympy.stats.crv import ProductContinuousDomain
 from sympy.stats.drv import ProductDiscreteDomain
 from sympy.stats.frv import ProductFiniteDomain
@@ -39,7 +38,7 @@ class StochasticPSpace(ProductPSpace):
         return Basic.__new__(cls, sym, process, distribution)
 
     @property
-    def process(self) ->     sympy.Basic:
+    def process(self) -> Basic:
         """
         The associated stochastic process.
         """
@@ -51,11 +50,11 @@ class StochasticPSpace(ProductPSpace):
                              self.process.state_space)
 
     @property
-    def symbol(self) ->     sympy.Basic:
+    def symbol(self) -> Basic:
         return self.args[0]
 
     @property
-    def distribution(self) ->     sympy.Basic:
+    def distribution(self) -> Basic:
         return self.args[2]
 
     def probability(self, condition, given_condition=None, evaluate=True, **kwargs):

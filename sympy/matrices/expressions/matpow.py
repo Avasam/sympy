@@ -60,7 +60,7 @@ class MatPow(MatrixExpr):
                 return MatrixElement(self, i, j)
         return A[i, j]
 
-    def doit(self, **hints) -> Basic | Identity |      Any | MatPow:
+    def doit(self, **hints) -> Basic | Identity | Any | MatPow:
         if hints.get('deep', True):
             base, exp = (arg.doit(**hints) for arg in self.args)
         else:

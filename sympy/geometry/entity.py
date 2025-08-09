@@ -38,7 +38,6 @@ from sympy.sets.handlers.union import union_sets
 from sympy.solvers.solvers import solve
 from sympy.utilities.misc import func_name
 from sympy.utilities.iterables import is_sequence
-import sympy.sets.sets
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -557,7 +556,7 @@ class GeometrySet(GeometryEntity, Set):
         return self.__contains__(other)
 
 @dispatch(GeometrySet, Set)  # type:ignore # noqa:F811
-def union_sets(self, o) -> sympy.sets.sets.FiniteSet | sympy.sets.sets.Union | None: # noqa:F811
+def union_sets(self, o) -> FiniteSet | Union | None: # noqa:F811
     """ Returns the union of self and o
     for use with sympy.sets.Set, if possible. """
 
@@ -575,7 +574,7 @@ def union_sets(self, o) -> sympy.sets.sets.FiniteSet | sympy.sets.sets.Union | N
 
 
 @dispatch(GeometrySet, Set)  # type: ignore # noqa:F811
-def intersection_sets(self, o) -> sympy.sets.sets.FiniteSet | sympy.sets.sets.Union | None: # noqa:F811
+def intersection_sets(self, o) -> FiniteSet | Union | None: # noqa:F811
     """ Returns a sympy.sets.Set of intersection objects,
     if possible. """
 

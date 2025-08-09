@@ -7,7 +7,6 @@ from sympy.core import Basic, Tuple, default_sort_key
 from sympy.sets import FiniteSet
 from sympy.utilities.iterables import (minlex, unflatten, flatten)
 from sympy.utilities.misc import as_int
-import sympy.sets.sets
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -492,7 +491,7 @@ class Polyhedron(Basic):
         return self._pgroup
 
     @property
-    def edges(self) ->     sympy.sets.sets.FiniteSet:
+    def edges(self) -> FiniteSet:
         """
         Given the faces of the polyhedra we can get the edges.
 

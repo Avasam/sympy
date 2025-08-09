@@ -1387,7 +1387,7 @@ class PermutationGroup(Basic):
         return self._degree
 
     @property
-    def identity(self) ->     Permutation:
+    def identity(self) -> Permutation:
         '''
         Return the identity element of the permutation group.
 
@@ -2703,7 +2703,7 @@ class PermutationGroup(Basic):
         return new_class
 
 
-    def conjugacy_classes(self) -> list[set[    Permutation]]:
+    def conjugacy_classes(self) -> list[set[Permutation]]:
         r"""Return the conjugacy classes of the group.
 
         Explanation
@@ -2873,7 +2873,7 @@ class PermutationGroup(Basic):
         """
         return _orbit(self.degree, self.generators, alpha, action)
 
-    def orbit_rep(self, alpha, beta, schreier_vector=None) ->     Permutation | bool:
+    def orbit_rep(self, alpha, beta, schreier_vector=None) -> Permutation | bool:
         """Return a group element which sends ``alpha`` to ``beta``.
 
         Explanation
@@ -3408,7 +3408,7 @@ class PermutationGroup(Basic):
                 gens = _stabilizer(degree, gens, x)
         return PermutationGroup(gens)
 
-    def make_perm(self, n, seed=None) ->     Permutation:
+    def make_perm(self, n, seed=None) -> Permutation:
         """
         Multiply ``n`` randomly selected permutations from
         pgroup together, starting with the identity
@@ -3467,7 +3467,7 @@ class PermutationGroup(Basic):
         rank = randrange(self.order())
         return self.coset_unrank(rank, af)
 
-    def random_pr(self, gen_count=11, iterations=50, _random_prec=None) ->     Permutation:
+    def random_pr(self, gen_count=11, iterations=50, _random_prec=None) -> Permutation:
         """Return a random group element using product replacement.
 
         Explanation
@@ -3513,7 +3513,7 @@ class PermutationGroup(Basic):
             random_gens[r] = _af_rmul(random_gens[s], random_gens[r])
         return _af_new(random_gens[r])
 
-    def random_stab(self, alpha, schreier_vector=None, _random_prec=None) ->     Permutation:
+    def random_stab(self, alpha, schreier_vector=None, _random_prec=None) -> Permutation:
         """Random element from the stabilizer of ``alpha``.
 
         The schreier vector for ``alpha`` is an optional argument used
@@ -5379,7 +5379,7 @@ class SymmetricPermutationGroup(Basic):
         return self._deg
 
     @property
-    def identity(self) ->     Permutation:
+    def identity(self) -> Permutation:
         '''
         Return the identity element of the SymmetricPermutationGroup.
 

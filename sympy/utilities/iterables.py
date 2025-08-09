@@ -18,11 +18,11 @@ from sympy.utilities.enumerative import (
 
 from sympy.utilities.misc import as_int
 from sympy.utilities.decorator import deprecated
-import sympy
 from collections.abc import Generator, Iterator
-
+from sympy.core.basic import Basic
 
 if TYPE_CHECKING:
+    from sympy.core import Symbol
     from typing import TypeVar, Iterable, Callable
     from typing_extensions import Never
     T = TypeVar('T')
@@ -531,7 +531,7 @@ def filter_symbols(iterator, exclude) -> Generator:
         if s not in exclude:
             yield s
 
-def numbered_symbols(prefix='x', cls=None, start=0, exclude=(), *args, **assumptions) -> Generator[sympy.Symbol | Any, Any, NoReturn]:
+def numbered_symbols(prefix='x', cls=None, start=0, exclude=(), *args, **assumptions) -> Generator[Symbol | Any, Any, NoReturn]:
     """
     Generate an infinite stream of Symbols consisting of a prefix and
     increasing subscripts provided that they do not occur in ``exclude``.
@@ -3170,7 +3170,7 @@ def is_sequence(i, include=None) -> bool:
     """,
     deprecated_since_version="1.10",
     active_deprecations_target="deprecated-traversal-functions-moved")
-def postorder_traversal(node, keys=None) -> Generator[Any | sympy.Basic]:
+def postorder_traversal(node, keys=None) -> Generator[Any | Basic]:
     from sympy.core.traversal import postorder_traversal as _postorder_traversal
     return _postorder_traversal(node, keys=keys)
 
@@ -3187,7 +3187,7 @@ def postorder_traversal(node, keys=None) -> Generator[Any | sympy.Basic]:
     """,
     deprecated_since_version="1.10",
     active_deprecations_target="deprecated-traversal-functions-moved")
-def interactive_traversal(expr) -> sympy.Basic:
+def interactive_traversal(expr) -> Basic:
     from sympy.interactive.traversal import interactive_traversal as _interactive_traversal
     return _interactive_traversal(expr)
 

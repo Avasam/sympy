@@ -259,7 +259,6 @@ from sympy.solvers import checksol, solve
 from sympy.utilities import numbered_symbols
 from sympy.utilities.iterables import uniq, sift, iterable
 from sympy.solvers.deutils import _preprocess, ode_order, _desolve
-import sympy.core.add
 from collections.abc import Generator
 from sympy.core.basic import Basic
 from typing import Any, NoReturn
@@ -1958,7 +1957,7 @@ def __remove_linear_redundancies(expr, Cs):
 @vectorize(0)
 def constantsimp(
     expr, constants
-) -> list[list | Any] | Eq | Relational | Ne | sympy.core.add.Add | Basic | Any:
+) -> list[list | Any] | Eq | Relational | Ne | Add | Basic | Any:
     r"""
     Simplifies an expression with arbitrary constants in it.
 

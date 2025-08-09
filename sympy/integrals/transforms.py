@@ -31,7 +31,6 @@ from sympy.polys.polytools import factor, Poly
 from sympy.polys.rootoftools import CRootOf
 from sympy.utilities.iterables import iterable
 from sympy.utilities.misc import debug
-import sympy.integrals.integrals
 from sympy.core.basic import Basic
 from sympy.core.relational import Equality, Ne, Relational
 from sympy.series.order import Order
@@ -139,7 +138,7 @@ class IntegralTransform(Function):
             fn = expand_mul(fn)
         return fn, T
 
-    def doit(self, **hints) -> Order | tuple[Any | Order, ...] | tuple[Any | Order, Any |     And]:
+    def doit(self, **hints) -> Order | tuple[Any | Order, ...] | tuple[Any | Order, Any | And]:
         """
         Try to evaluate the transform in closed form.
 
@@ -1450,7 +1449,7 @@ class HankelTypeTransform(IntegralTransform):
         return Integral(f*besselj(nu, k*r)*r, (r, S.Zero, S.Infinity))
 
     @property
-    def as_integral(self) -> Equality | Relational | Ne |     sympy.integrals.integrals.Integral:
+    def as_integral(self) -> Equality | Relational | Ne | Integral:
         return self._as_integral(self.function,
                                  self.function_variable,
                                  self.transform_variable,

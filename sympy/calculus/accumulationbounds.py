@@ -11,7 +11,6 @@ from sympy.logic.boolalg import And
 from sympy.multipledispatch import dispatch
 from sympy.series.order import Order
 from sympy.sets.sets import FiniteSet
-import sympy.core.power
 from types import NotImplementedType
 from typing import TYPE_CHECKING
 
@@ -574,7 +573,7 @@ class AccumulationBounds(Expr):
         return NotImplemented
 
     @_sympifyit('other', NotImplemented)
-    def __rpow__(self, other) -> Self |     sympy.core.power.Pow:
+    def __rpow__(self, other) -> Self | Pow:
         if other.is_real and other.is_extended_nonnegative and (
                 self.max - self.min).is_extended_positive:
             if other is S.One:
@@ -601,7 +600,7 @@ class AccumulationBounds(Expr):
             return self
 
 
-    def __contains__(self, other) ->     And | bool:
+    def __contains__(self, other) -> And | bool:
         """
         Returns ``True`` if other is contained in self, where other
         belongs to extended real numbers, ``False`` if not contained,

@@ -13,15 +13,16 @@ from sympy.logic.boolalg import Not
 from sympy.core.parameters import global_parameters
 from sympy.core.sorting import default_sort_key
 from sympy.core.sympify import _sympify
-from sympy.core.relational import Relational
+from sympy.core.relational import Relational, Equality, Ne
 from sympy.logic.boolalg import Boolean
 from sympy.stats import variance, covariance
 from sympy.stats.rv import (RandomSymbol, pspace, dependent,
                             given, sampling_E, RandomIndexedSymbol, is_random,
                             PSpace, sampling_P, random_symbols)
-import sympy
 from sympy.series.order import Order
 from typing import Any, TYPE_CHECKING
+from sympy.core.basic import Basic
+from sympy.functions.elementary.piecewise import Piecewise
 
 if TYPE_CHECKING:
     from sympy.stats.frv_types import BernoulliDistribution
@@ -80,7 +81,7 @@ class Probability(Expr):
         obj._condition = condition
         return obj
 
-    def doit(self, **hints) -> Any | BernoulliDistribution | Probability |     sympy.Equality | Lambda | Order | Relational |     sympy.Ne | int:
+    def doit(self, **hints) -> Any | BernoulliDistribution | Probability | Equality | Lambda | Order | Relational | Ne | int:
         condition = self.args[0]
         given_condition = self._condition
         numsamples = hints.get('numsamples', False)
@@ -138,7 +139,7 @@ class Probability(Expr):
 
     _eval_rewrite_as_Sum = _eval_rewrite_as_Integral
 
-    def evaluate_integral(self) -> Any | BernoulliDistribution | Probability |     sympy.Equality | Lambda | Order | Relational |     sympy.Ne | int:
+    def evaluate_integral(self) -> Any | BernoulliDistribution | Probability | Equality | Lambda | Order | Relational | Ne | int:
         return self.rewrite(Integral).doit()
 
 
@@ -230,7 +231,7 @@ class Expectation(Expr):
     def _eval_is_commutative(self):
         return(self.args[0].is_commutative)
 
-    def expand(self, **hints) ->     sympy.Basic | Add | Self:
+    def expand(self, **hints) -> Basic | Add | Self:
         expr = self.args[0]
         condition = self._condition
 
@@ -259,17 +260,17 @@ class Expectation(Expr):
         return self
 
     def doit(self, **hints) -> (
-            sympy.Basic
+            Basic
         | Expectation
         | tuple
-        |     sympy.Sum
+        | Sum
         | Order
         | Any
-        |     sympy.Piecewise
-        |     sympy.Equality
+        | Piecewise
+        | Equality
         | Relational
-        |     sympy.Ne
-        |     sympy.Integral
+        | Ne
+        | Integral
         | Self
         | None
     ):
@@ -346,17 +347,17 @@ class Expectation(Expr):
     _eval_rewrite_as_Sum = _eval_rewrite_as_Integral # For discrete this will be Sum
 
     def evaluate_integral(self) -> (
-            sympy.Basic
+            Basic
         | Expectation
         | tuple
-        |     sympy.Sum
+        | Sum
         | Order
         | Any
-        |     sympy.Piecewise
-        |     sympy.Equality
+        | Piecewise
+        | Equality
         | Relational
-        |     sympy.Ne
-        |     sympy.Integral
+        | Ne
+        | Integral
         | Self
         | None
     ):

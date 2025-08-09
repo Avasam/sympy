@@ -375,7 +375,7 @@ class hyper(TupleParametersBase):
             return S.Zero
 
     @property
-    def convergence_statement(self) ->     Or | bool:
+    def convergence_statement(self) -> Or | bool:
         """ Return a condition on z under which the series converges. """
         R = self.radius_of_convergence
         if R == 0:

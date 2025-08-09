@@ -179,7 +179,7 @@ class AppliedBinaryRelation(AppliedPredicate):
         return self
 
     @property
-    def negated(self) ->     Not:
+    def negated(self) -> Not:
         neg_rel = self.function.negated
         if neg_rel is None:
             return Not(self, evaluate=False)

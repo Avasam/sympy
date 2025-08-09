@@ -4,7 +4,7 @@ from sympy.core.basic import Basic
 from sympy.core.cache import cacheit
 from sympy.core.function import Lambda
 from sympy.core.numbers import I
-from sympy.core.relational import (Relational, Eq, Ne)
+from sympy.core.relational import (Relational, Eq, Ne, Equality)
 from sympy.core.singleton import S
 from sympy.core.symbol import (Dummy, symbols)
 from sympy.core.sympify import sympify
@@ -23,11 +23,10 @@ from sympy.stats.rv import (RandomSymbol, NamedArgsMixin, SinglePSpace, SingleDo
                             ProductDomain, Distribution)
 from sympy.stats.symbolic_probability import Probability
 from sympy.sets.fancysets import Range, FiniteSet
-from sympy.sets.sets import Complement, Union
+from sympy.sets.sets import Complement, Union, Intersection
 from sympy.sets.contains import Contains
 from sympy.utilities import filldedent
 from sympy.core.sympify import _sympify
-import sympy
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -80,7 +79,7 @@ class SingleDiscreteDistribution(DiscreteDistribution, NamedArgsMixin):
     def _cdf(self, x):
         return None
 
-    def cdf(self, x, **kwargs) ->     sympy.Basic:
+    def cdf(self, x, **kwargs) -> Basic:
         """ Cumulative density function """
         if not kwargs:
             cdf = self._cdf(x)
@@ -102,7 +101,7 @@ class SingleDiscreteDistribution(DiscreteDistribution, NamedArgsMixin):
     def _characteristic_function(self, t):
         return None
 
-    def characteristic_function(self, t, **kwargs) ->     sympy.Basic:
+    def characteristic_function(self, t, **kwargs) -> Basic:
         """ Characteristic function """
         if not kwargs:
             cf = self._characteristic_function(t)
@@ -121,7 +120,7 @@ class SingleDiscreteDistribution(DiscreteDistribution, NamedArgsMixin):
     def _moment_generating_function(self, t):
         return None
 
-    def moment_generating_function(self, t, **kwargs) ->     sympy.Basic:
+    def moment_generating_function(self, t, **kwargs) -> Basic:
         if not kwargs:
             mgf = self._moment_generating_function(t)
             if mgf is not None:
@@ -145,7 +144,7 @@ class SingleDiscreteDistribution(DiscreteDistribution, NamedArgsMixin):
     def _quantile(self, x):
         return None
 
-    def quantile(self, x, **kwargs) ->     sympy.Basic:
+    def quantile(self, x, **kwargs) -> Basic:
         """ Cumulative density function """
         if not kwargs:
             quantile = self._quantile(x)
@@ -153,7 +152,7 @@ class SingleDiscreteDistribution(DiscreteDistribution, NamedArgsMixin):
                 return quantile
         return self.compute_quantile(**kwargs)(x)
 
-    def expectation(self, expr, var, evaluate=True, **kwargs) -> Any |     sympy.Equality | Relational |     sympy.Ne |     sympy.Sum | int:
+    def expectation(self, expr, var, evaluate=True, **kwargs) -> Any | Equality | Relational | Ne | Sum | int:
         """ Expectation of expression over distribution """
         # TODO: support discrete sets with non integer stepsizes
 
@@ -192,7 +191,7 @@ class DiscreteDomain(RandomDomain):
     is_Discrete = True
 
 class SingleDiscreteDomain(DiscreteDomain, SingleDomain):
-    def as_boolean(self) ->     sympy.Contains:
+    def as_boolean(self) -> Contains:
         return Contains(self.symbol, self.set)
 
 
@@ -202,7 +201,7 @@ class ConditionalDiscreteDomain(DiscreteDomain, ConditionalDomain):
     some condition.
     """
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Intersection | Union | Complement:
+    def set(self) -> FiniteSet | Intersection | Union | Complement:
         rv = self.symbols
         if len(self.symbols) > 1:
             raise NotImplementedError(filldedent('''
@@ -231,7 +230,7 @@ class DiscretePSpace(PSpace):
         conditional_domain = conditional_domain.intersect(self.domain.set)
         return SingleDiscreteDomain(rvs[0].symbol, conditional_domain)
 
-    def probability(self, condition) -> Probability |     sympy.Equality | Relational |     sympy.Ne | int:
+    def probability(self, condition) -> Probability | Equality | Relational | Ne | int:
         complement = isinstance(condition, Ne)
         if complement:
             condition = Eq(condition.args[0], condition.args[1])
@@ -256,7 +255,7 @@ class DiscretePSpace(PSpace):
             prob = Probability(condition)
         return prob if not complement else S.One - prob
 
-    def eval_prob(self, _domain) ->     sympy.Equality | Relational |     sympy.Ne | int | None:
+    def eval_prob(self, _domain) -> Equality | Relational | Ne | int | None:
         sym = list(self.symbols)[0]
         if isinstance(_domain, Range):
             n = symbols('n', integer=True)
@@ -283,7 +282,7 @@ class DiscretePSpace(PSpace):
         return DiscretePSpace(domain, density)
 
 class ProductDiscreteDomain(ProductDomain, DiscreteDomain):
-    def as_boolean(self) ->     And:
+    def as_boolean(self) -> And:
         return And(*[domain.as_boolean for domain in self.domains])
 
 class SingleDiscretePSpace(DiscretePSpace, SinglePSpace):
@@ -306,7 +305,7 @@ class SingleDiscretePSpace(DiscretePSpace, SinglePSpace):
         """
         return {self.value: self.distribution.sample(size, library=library, seed=seed)}
 
-    def compute_expectation(self, expr, rvs=None, evaluate=True, **kwargs) ->     sympy.Equality | Relational |     sympy.Ne |     sympy.Sum:
+    def compute_expectation(self, expr, rvs=None, evaluate=True, **kwargs) -> Equality | Relational | Ne | Sum:
         rvs = rvs or (self.value,)
         if self.value not in rvs:
             return expr
@@ -329,7 +328,7 @@ class SingleDiscretePSpace(DiscretePSpace, SinglePSpace):
         else:
             raise NotImplementedError()
 
-    def compute_density(self, expr, **kwargs) ->     sympy.Basic:
+    def compute_density(self, expr, **kwargs) -> Basic:
         if expr == self.value:
             return self.distribution
         raise NotImplementedError()

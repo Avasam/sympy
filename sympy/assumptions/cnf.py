@@ -386,7 +386,7 @@ class CNF:
         return expr
 
     @classmethod
-    def CNF_to_cnf(cls, cnf) ->     And:
+    def CNF_to_cnf(cls, cnf) -> And:
         """
         Converts CNF object to SymPy's boolean expression
         retaining the form of expression.

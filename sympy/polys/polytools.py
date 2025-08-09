@@ -66,8 +66,6 @@ import sympy.polys
 
 import mpmath
 from mpmath.libmp.libhyper import NoConvergence
-import sympy.core.add
-import sympy.core.expr
 from types import NotImplementedType
 
 if TYPE_CHECKING:
@@ -166,7 +164,7 @@ class Poly(Basic):
     See Also
     ========
 
-    sympy.core.expr.Expr
+    Expr
 
     """
 
@@ -5920,7 +5918,7 @@ def gcd(f, g=None, *gens, **args):
 
 
 @public
-def lcm_list(seq, *gens, **args) -> sympy.core.expr.Expr | Any:
+def lcm_list(seq, *gens, **args) -> Expr | Any:
     """
     Compute LCM of a list of polynomials.
 
@@ -6049,7 +6047,7 @@ def lcm(f, g=None, *gens, **args):
 
 
 @public
-def terms_gcd(f, *gens, **args) -> Equality | Relational | Ne | Any | sympy.core.add.Add | Order | Mul:
+def terms_gcd(f, *gens, **args) -> Equality | Relational | Ne | Any | Add | Order | Mul:
     """
     Remove GCD of terms from ``f``.
 
@@ -6857,7 +6855,7 @@ def sqf_list(
 
 
 @public
-def sqf(f, *gens, **args) -> sympy.core.add.Add | Order | Mul:
+def sqf(f, *gens, **args) -> Add | Order | Mul:
     """
     Compute square-free factorization of ``f``.
 
@@ -6898,7 +6896,7 @@ def factor_list(
 
 
 @public
-def factor(f, *gens, deep=False, **args) -> sympy.core.add.Add | Order | Mul | sympy.core.expr.Expr | Any:
+def factor(f, *gens, deep=False, **args) -> Add | Order | Mul | Expr | Any:
     """
     Compute the factorization of expression, ``f``, into irreducibles. (To
     factor an integer into primes, use ``factorint``.)

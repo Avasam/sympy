@@ -82,7 +82,7 @@ class TypeG(Standard_Cartan):
         """
         return 12
 
-    def cartan_matrix(self) ->     Matrix:
+    def cartan_matrix(self) -> Matrix:
         """The Cartan matrix for G_2
 
         The Cartan matrix matrix for a Lie algebra is

@@ -154,7 +154,7 @@ class MatrixExpr(Expr):
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rpow__')
-    def __pow__(self, other) -> Inverse |     Basic | Identity | Any | MatPow:
+    def __pow__(self, other) -> Inverse | Basic | Identity | Any | MatPow:
         return MatPow(self, other).doit()
 
     @_sympifyit('other', NotImplemented)
@@ -631,7 +631,7 @@ class MatrixElement(Expr):
         return obj
 
     @property
-    def symbol(self) ->     Basic:
+    def symbol(self) -> Basic:
         return self.args[0]
 
     def doit(self, **hints):
@@ -643,7 +643,7 @@ class MatrixElement(Expr):
         return args[0][args[1], args[2]]
 
     @property
-    def indices(self) -> tuple[    Basic, ...]:
+    def indices(self) -> tuple[Basic, ...]:
         return self.args[1:]
 
     def _eval_derivative(self, v):
@@ -706,7 +706,7 @@ class MatrixSymbol(MatrixExpr):
         return obj
 
     @property
-    def shape(self) -> tuple[    Basic,     Basic]:
+    def shape(self) -> tuple[Basic,     Basic]:
         return self.args[1], self.args[2]
 
     @property

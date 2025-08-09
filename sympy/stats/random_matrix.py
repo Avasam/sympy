@@ -1,7 +1,6 @@
 from __future__ import annotations
 from sympy.core.basic import Basic
 from sympy.stats.rv import PSpace, _symbol_converter, RandomMatrixSymbol
-import sympy
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -21,7 +20,7 @@ class RandomMatrixPSpace(PSpace):
             return Basic.__new__(cls, sym)
 
     @property
-    def model(self) ->     sympy.Basic | None:
+    def model(self) -> Basic | None:
         try:
             return self.args[1]
         except IndexError:

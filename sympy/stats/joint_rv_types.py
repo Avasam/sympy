@@ -6,7 +6,7 @@ from sympy.core.function import Lambda
 from sympy.core.mul import Mul
 from sympy.core.numbers import (Integer, Rational, pi)
 from sympy.core.power import Pow
-from sympy.core.relational import Relational, Eq
+from sympy.core.relational import Relational, Eq, Ne, Equality
 from sympy.core.singleton import S
 from sympy.core.symbol import (Symbol, symbols)
 from sympy.core.sympify import sympify
@@ -25,7 +25,7 @@ from sympy.matrices.expressions.determinant import det
 from sympy.matrices.expressions.matexpr import MatrixElement
 from sympy.stats.joint_rv import JointRandomSymbol, JointDistribution, JointPSpace, MarginalDistribution
 from sympy.stats.rv import RandomSymbol, _value_check, random_symbols
-import sympy
+from sympy.core.basic import Basic
 
 __all__ = ['JointRV',
 'MultivariateNormal',
@@ -93,7 +93,7 @@ class JointDistributionHandmade(JointDistribution):
     is_Continuous = True
 
     @property
-    def set(self) ->     sympy.Basic:
+    def set(self) -> Basic:
         return self.args[1]
 
 
@@ -568,7 +568,7 @@ class MultivariateEwensDistribution(JointDistribution):
         _value_check(theta.is_positive, "mutation rate should be positive.")
 
     @property
-    def set(self) ->     sympy.Equality | Relational |     sympy.Ne |     sympy.Product:
+    def set(self) -> Equality | Relational | Ne | Product:
         if not isinstance(self.n, Integer):
             i = Symbol('i', integer=True, positive=True)
             return Product(Intersection(S.Naturals0, Interval(0, self.n//i)),
@@ -578,7 +578,7 @@ class MultivariateEwensDistribution(JointDistribution):
             prod_set *= Range(0, self.n//i + 1)
         return prod_set.flatten()
 
-    def pdf(self, *syms) ->     sympy.Piecewise:
+    def pdf(self, *syms) -> Piecewise:
         n, theta = self.n, self.theta
         condi = isinstance(self.n, Integer)
         if not (isinstance(syms[0], IndexedBase) or condi):
@@ -821,7 +821,7 @@ class MultinomialDistribution(JointDistribution):
     def set(self):
         return Intersection(S.Naturals0, Interval(0, self.n))**len(self.p)
 
-    def pdf(self, *x) ->     sympy.Piecewise:
+    def pdf(self, *x) -> Piecewise:
         n, p = self.n, self.p
         term_1 = factorial(n)/Mul.fromiter(factorial(x_k) for x_k in x)
         term_2 = Mul.fromiter(p_k**x_k for p_k, x_k in zip(p, x))

@@ -4,13 +4,12 @@ from sympy.core.singleton import S
 from sympy.core.sorting import default_sort_key
 from sympy.functions import DiracDelta, Heaviside
 from .integrals import Integral, integrate
-import sympy.functions.special.delta_functions
 from sympy.core.relational import Equality, Ne, Relational
 from sympy.series.order import Order
 from typing import Any
 
 
-def change_mul(node, x) -> tuple[None, Any | Order | None] | tuple[sympy.functions.special.delta_functions.DiracDelta, Any | Order]:
+def change_mul(node, x) -> tuple[None, Any | Order | None] | tuple[DiracDelta, Any | Order]:
     """change_mul(node, x)
 
        Rearranges the operands of a product, bringing to front any simple
@@ -45,7 +44,7 @@ def change_mul(node, x) -> tuple[None, Any | Order | None] | tuple[sympy.functio
        See Also
        ========
 
-       sympy.functions.special.delta_functions.DiracDelta
+       DiracDelta
        deltaintegrate
     """
 
@@ -83,7 +82,7 @@ def change_mul(node, x) -> tuple[None, Any | Order | None] | tuple[sympy.functio
     return (dirac, Mul(*new_args))
 
 
-def deltaintegrate(f, x) -> sympy.functions.special.delta_functions.Heaviside | Equality | Relational | Ne | None:
+def deltaintegrate(f, x) -> Heaviside | Equality | Relational | Ne | None:
     """
     deltaintegrate(f, x)
 
@@ -136,7 +135,7 @@ def deltaintegrate(f, x) -> sympy.functions.special.delta_functions.Heaviside | 
     See Also
     ========
 
-    sympy.functions.special.delta_functions.DiracDelta
+    DiracDelta
     sympy.integrals.integrals.Integral
     """
     if not f.has(DiracDelta):

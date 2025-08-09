@@ -5,7 +5,8 @@ from sympy.core.symbol import symbols
 from sympy.functions.elementary.complexes import sign
 from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.polys.polytools import gcd
-from sympy.sets.sets import Set, Union, Complement
+from sympy.sets.sets import Set, Union, Complement, FiniteSet, Intersection
+from sympy.sets import ConditionSet
 from sympy.core import Basic, Tuple, diff, expand, Eq, Integer
 from sympy.core.sorting import ordered
 from sympy.core.symbol import _symbol
@@ -13,7 +14,6 @@ from sympy.solvers import solveset, nonlinsolve, diophantine
 from sympy.polys import total_degree
 from sympy.geometry import Point
 from sympy.ntheory.factor_ import core
-import sympy
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -286,7 +286,7 @@ class ImplicitRegion(Basic):
 
             return x_reg, y_reg
 
-    def singular_points(self) ->     sympy.FiniteSet | Set |     sympy.Intersection | Union |     sympy.Complement |     sympy.ConditionSet:
+    def singular_points(self) -> FiniteSet | Set | Intersection | Union | Complement | ConditionSet:
         """
         Returns a set of singular points of the region.
 

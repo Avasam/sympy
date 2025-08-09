@@ -6,7 +6,6 @@ from sympy.core import Basic, Tuple
 from sympy.tensor.array import ImmutableDenseNDimArray
 from sympy.core.symbol import Symbol
 from sympy.core.numbers import Integer
-import sympy
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -267,7 +266,7 @@ class ArrayComprehension(Basic):
 
         return loop_size
 
-    def doit(self, **hints) -> Self |     sympy.ImmutableDenseNDimArray:
+    def doit(self, **hints) -> Self | ImmutableDenseNDimArray:
         if not self.is_shape_numeric:
             return self
 

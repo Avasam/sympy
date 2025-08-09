@@ -50,7 +50,7 @@ class Inverse(MatPow):
         return Basic.__new__(cls, mat, exp)
 
     @property
-    def arg(self) ->     Basic:
+    def arg(self) -> Basic:
         return self.args[0]
 
     @property

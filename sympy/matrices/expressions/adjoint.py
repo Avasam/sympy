@@ -37,7 +37,7 @@ class Adjoint(MatrixExpr):
             return adjoint(self.arg)
 
     @property
-    def arg(self) ->     Basic:
+    def arg(self) -> Basic:
         return self.args[0]
 
     @property

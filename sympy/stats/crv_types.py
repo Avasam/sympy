@@ -68,7 +68,7 @@ from sympy.concrete.summations import Sum
 from sympy.core.basic import Basic
 from sympy.core.function import Lambda
 from sympy.core.numbers import (I, Rational, pi)
-from sympy.core.relational import (Relational, Eq, Ne)
+from sympy.core.relational import (Relational, Eq, Ne, Equality)
 from sympy.core.singleton import S
 from sympy.core.symbol import Dummy
 from sympy.core.sympify import sympify
@@ -84,13 +84,12 @@ from sympy.functions.special.error_functions import (erf, erfc, erfi, erfinv, ex
 from sympy.functions.special.gamma_functions import (gamma, lowergamma, uppergamma)
 from sympy.functions.special.zeta_functions import zeta
 from sympy.functions.special.hyper import hyper
-from sympy.integrals.integrals import integrate
+from sympy.integrals.integrals import integrate, Integral
 from sympy.logic.boolalg import And
-from sympy.sets.sets import Interval
+from sympy.sets.sets import Interval, FiniteSet
 from sympy.matrices import MatrixBase
 from sympy.stats.crv import SingleContinuousPSpace, SingleContinuousDistribution
 from sympy.stats.rv import RandomSymbol, _value_check, is_random
-import sympy
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -251,7 +250,7 @@ class ArcsinDistribution(SingleContinuousDistribution):
     _argnames = ('a', 'b')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.a, self.b)
 
     def pdf(self, x):
@@ -332,7 +331,7 @@ class BeniniDistribution(SingleContinuousDistribution):
         _value_check(sigma > 0, "Scale parameter Sigma must be positive.")
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.sigma, oo)
 
     def pdf(self, x):
@@ -503,7 +502,7 @@ class BetaNoncentralDistribution(SingleContinuousDistribution):
         _value_check(beta > 0, "Shape parameter Beta must be positive.")
         _value_check(lamda >= 0, "Noncentrality parameter Lambda must be positive")
 
-    def pdf(self, x) ->     sympy.Equality | Relational |     sympy.Ne |     sympy.Sum:
+    def pdf(self, x) -> Equality | Relational | Ne | Sum:
         alpha, beta, lamda = self.alpha, self.beta, self.lamda
         k = Dummy("k")
         return Sum(exp(-lamda / 2) * (lamda / 2)**k * x**(alpha + k - 1) *(
@@ -655,7 +654,7 @@ class BoundedParetoDistribution(SingleContinuousDistribution):
     _argnames = ('alpha', 'left', 'right')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.left, self.right)
 
     @staticmethod
@@ -2039,7 +2038,7 @@ class GumbelDistribution(SingleContinuousDistribution):
     def check(beta, mu, minimum) -> None:
         _value_check(beta > 0, "Scale parameter beta must be positive.")
 
-    def pdf(self, x) ->     sympy.Piecewise:
+    def pdf(self, x) -> Piecewise:
         beta, mu = self.beta, self.mu
         z = (x - mu)/beta
         f_max = (1/beta)*exp(-z - exp(-z))
@@ -2381,7 +2380,7 @@ class LevyDistribution(SingleContinuousDistribution):
     _argnames = ('mu', 'c')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.mu, oo)
 
     @staticmethod
@@ -2636,7 +2635,7 @@ class LogLogisticDistribution(SingleContinuousDistribution):
         a, b = self.alpha, self.beta
         return a*((p/(1 - p))**(1/b))
 
-    def expectation(self, expr, var, **kwargs) ->     sympy.Piecewise:
+    def expectation(self, expr, var, **kwargs) -> Piecewise:
         a, b = self.args
         return Piecewise((S.NaN, b <= 1), (pi*a/(b*sin(pi/b)), True))
 
@@ -3341,7 +3340,7 @@ class GaussianInverseDistribution(SingleContinuousDistribution):
     _argnames = ('mean', 'shape')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(0, oo)
 
     @staticmethod
@@ -3450,7 +3449,7 @@ class ParetoDistribution(SingleContinuousDistribution):
     _argnames = ('xm', 'alpha')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.xm, oo)
 
     @staticmethod
@@ -3536,7 +3535,7 @@ class PowerFunctionDistribution(SingleContinuousDistribution):
     _argnames=('alpha','a','b')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.a, self.b)
 
     @staticmethod
@@ -3624,14 +3623,14 @@ class QuadraticUDistribution(SingleContinuousDistribution):
     _argnames = ('a', 'b')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.a, self.b)
 
     @staticmethod
     def check(a, b) -> None:
         _value_check(b > a, "Parameter b must be in range (%s, oo)."%(a))
 
-    def pdf(self, x) ->     sympy.Piecewise:
+    def pdf(self, x) -> Piecewise:
         a, b = self.a, self.b
         alpha = 12 / (b-a)**3
         beta = (a+b) / 2
@@ -3716,14 +3715,14 @@ class RaisedCosineDistribution(SingleContinuousDistribution):
     _argnames = ('mu', 's')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.mu - self.s, self.mu + self.s)
 
     @staticmethod
     def check(mu, s) -> None:
         _value_check(s > 0, "s must be positive")
 
-    def pdf(self, x) ->     sympy.Piecewise:
+    def pdf(self, x) -> Piecewise:
         mu, s = self.mu, self.s
         return Piecewise(
                 ((1+cos(pi*(x-mu)/s)) / (2*s), And(mu-s<=x, x<=mu+s)),
@@ -3886,7 +3885,7 @@ class ReciprocalDistribution(SingleContinuousDistribution):
     _argnames = ('a', 'b')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.a, self.b)
 
     @staticmethod
@@ -4100,7 +4099,7 @@ class TrapezoidalDistribution(SingleContinuousDistribution):
     _argnames = ('a', 'b', 'c', 'd')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.a, self.d)
 
     @staticmethod
@@ -4112,7 +4111,7 @@ class TrapezoidalDistribution(SingleContinuousDistribution):
         "Level end parameter c must be in range (%s, %s]. c = %s"%(b, d, c))
         _value_check(d >= c, "Upper bound parameter d > %s. d = %s"%(c, d))
 
-    def pdf(self, x) ->     sympy.Piecewise:
+    def pdf(self, x) -> Piecewise:
         a, b, c, d = self.a, self.b, self.c, self.d
         return Piecewise(
             (2*(x-a) / ((b-a)*(d+c-a-b)), And(a <= x, x < b)),
@@ -4196,7 +4195,7 @@ class TriangularDistribution(SingleContinuousDistribution):
     _argnames = ('a', 'b', 'c')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.a, self.b)
 
     @staticmethod
@@ -4205,7 +4204,7 @@ class TriangularDistribution(SingleContinuousDistribution):
         _value_check((a <= c, c <= b),
         "Parameter c must be in range [%s, %s]. c = %s"%(a, b, c))
 
-    def pdf(self, x) ->     sympy.Piecewise:
+    def pdf(self, x) -> Piecewise:
         a, b, c = self.a, self.b, self.c
         return Piecewise(
             (2*(x - a)/((b - a)*(c - a)), And(a <= x, x < c)),
@@ -4299,14 +4298,14 @@ class UniformDistribution(SingleContinuousDistribution):
     _argnames = ('left', 'right')
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(self.left, self.right)
 
     @staticmethod
     def check(left, right) -> None:
         _value_check(left < right, "Lower limit should be less than Upper limit.")
 
-    def pdf(self, x) ->     sympy.Piecewise:
+    def pdf(self, x) -> Piecewise:
         left, right = self.left, self.right
         return Piecewise(
             (S.One/(right - left), And(left <= x, x <= right)),
@@ -4331,7 +4330,7 @@ class UniformDistribution(SingleContinuousDistribution):
         return Piecewise(((exp(t*right) - exp(t*left)) / (t * (right - left)), Ne(t, 0)),
                          (S.One, True))
 
-    def expectation(self, expr, var, **kwargs) ->     sympy.Equality | Basic | Relational |     sympy.Ne |     sympy.Integral | Any:
+    def expectation(self, expr, var, **kwargs) -> Equality | Basic | Relational | Ne | Integral | Any:
         kwargs['evaluate'] = True
         result = SingleContinuousDistribution.expectation(self, expr, var, **kwargs)
         result = result.subs({Max(self.left, self.right): self.right,
@@ -4409,7 +4408,7 @@ class UniformSumDistribution(SingleContinuousDistribution):
     _argnames = ('n',)
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(0, self.n)
 
     @staticmethod
@@ -4668,7 +4667,7 @@ class WignerSemicircleDistribution(SingleContinuousDistribution):
     _argnames = ('R',)
 
     @property
-    def set(self) ->     sympy.FiniteSet |     sympy.Interval:
+    def set(self) -> FiniteSet | Interval:
         return Interval(-self.R, self.R)
 
     @staticmethod

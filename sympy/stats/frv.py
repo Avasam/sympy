@@ -26,13 +26,12 @@ from sympy.logic.boolalg import (And, Or)
 from sympy.sets.sets import Intersection
 from sympy.core.containers import Dict
 from sympy.core.logic import Logic
-from sympy.core.relational import Relational
+from sympy.core.relational import Relational, Ne, Equality
 from sympy.core.sympify import _sympify
 from sympy.sets.sets import FiniteSet
 from sympy.stats.rv import (RandomDomain, ProductDomain, ConditionalDomain,
                             PSpace, IndependentProductPSpace, SinglePSpace, random_symbols,
                             sumsets, rv_subs, NamedArgsMixin, Density, Distribution)
-import sympy
 from collections.abc import Iterator
 from sympy.series.order import Order
 from typing import Any, TYPE_CHECKING
@@ -77,15 +76,15 @@ class FiniteDomain(RandomDomain):
     is_Finite = True
 
     @property
-    def symbols(self) ->     sympy.FiniteSet:
+    def symbols(self) -> FiniteSet:
         return FiniteSet(sym for sym, val in self.elements)
 
     @property
-    def elements(self) ->     sympy.Basic:
+    def elements(self) -> Basic:
         return self.args[0]
 
     @property
-    def dict(self) ->     sympy.FiniteSet:
+    def dict(self) -> FiniteSet:
         return FiniteSet(*[Dict(dict(el)) for el in self.elements])
 
     def __contains__(self, other) -> bool:
@@ -94,7 +93,7 @@ class FiniteDomain(RandomDomain):
     def __iter__(self):
         return self.elements.__iter__()
 
-    def as_boolean(self) ->     Or:
+    def as_boolean(self) -> Or:
         return Or(*[And(*[Eq(sym, val) for sym, val in item]) for item in self])
 
 
@@ -112,22 +111,22 @@ class SingleFiniteDomain(FiniteDomain):
         return Basic.__new__(cls, symbol, set)
 
     @property
-    def symbol(self) ->     sympy.Basic:
+    def symbol(self) -> Basic:
         return self.args[0]
 
     @property
-    def symbols(self) ->     sympy.FiniteSet:
+    def symbols(self) -> FiniteSet:
         return FiniteSet(self.symbol)
 
     @property
-    def set(self) ->     sympy.Basic:
+    def set(self) -> Basic:
         return self.args[1]
 
     @property
-    def elements(self) ->     sympy.FiniteSet:
+    def elements(self) -> FiniteSet:
         return FiniteSet(*[frozenset(((self.symbol, elem), )) for elem in self.set])
 
-    def __iter__(self) -> Iterator[frozenset[tuple[    sympy.Basic, Any]]]:
+    def __iter__(self) -> Iterator[frozenset[tuple[Basic, Any]]]:
         return (frozenset(((self.symbol, elem),)) for elem in self.set)
 
     def __contains__(self, other) -> bool:
@@ -147,7 +146,7 @@ class ProductFiniteDomain(ProductDomain, FiniteDomain):
         return (sumsets(items) for items in proditer)
 
     @property
-    def elements(self) ->     sympy.FiniteSet:
+    def elements(self) -> FiniteSet:
         return FiniteSet(*self)
 
 
@@ -181,14 +180,14 @@ class ConditionalFiniteDomain(ConditionalDomain, ProductFiniteDomain):
             return val.lhs == val.rhs
         raise ValueError("Undecidable if %s" % str(val))
 
-    def __contains__(self, other) ->     sympy.Basic | bool:
+    def __contains__(self, other) -> Basic | bool:
         return other in self.fulldomain and self._test(other)
 
     def __iter__(self) -> Iterator:
         return (elem for elem in self.fulldomain if self._test(elem))
 
     @property
-    def set(self) ->     sympy.FiniteSet:
+    def set(self) -> FiniteSet:
         if isinstance(self.fulldomain, SingleFiniteDomain):
             return FiniteSet(*[elem for elem in self.fulldomain.set
                                if frozenset(((self.fulldomain.symbol, elem),)) in self])
@@ -196,7 +195,7 @@ class ConditionalFiniteDomain(ConditionalDomain, ProductFiniteDomain):
             raise NotImplementedError(
                 "Not implemented on multi-dimensional conditional domain")
 
-    def as_boolean(self) ->     Or:
+    def as_boolean(self) -> Or:
         return FiniteDomain.as_boolean(self)
 
 
@@ -389,7 +388,7 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
         return self.distribution.is_symbolic
 
     @property
-    def distribution(self) ->     sympy.Basic:
+    def distribution(self) -> Basic:
         return self.args[1]
 
     def pmf(self, expr):
@@ -450,7 +449,7 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
         expr = rv_subs(expr, self.values)
         return FinitePSpace(self.domain, self.distribution).compute_cdf(expr)
 
-    def compute_expectation(self, expr, rvs=None, **kwargs) -> tuple |     sympy.Sum | Order | Any |     sympy.Piecewise |     sympy.Basic |     sympy.Equality | Relational |     sympy.Ne | None:
+    def compute_expectation(self, expr, rvs=None, **kwargs) -> tuple | Sum | Order | Any | Piecewise | Basic | Equality | Relational | Ne | None:
         if self._is_symbolic:
             rv = random_symbols(expr)[0]
             k = Dummy('k', integer=True)

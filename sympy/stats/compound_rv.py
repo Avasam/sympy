@@ -12,11 +12,11 @@ from sympy.stats.frv import FiniteDensity, FinitePSpace, SingleFiniteDomain, Sin
 from sympy.stats.crv_types import ContinuousDistributionHandmade
 from sympy.stats.drv_types import DiscreteDistributionHandmade
 from sympy.stats.frv_types import FiniteDistributionHandmade
-import sympy
-from sympy.core.relational import Relational
+from sympy.core.relational import Relational, Equality, Ne
 from sympy.series.order import Order
 from sympy.stats.symbolic_probability import Probability
 from typing import Any, TYPE_CHECKING
+from sympy.functions.elementary.piecewise import Piecewise
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -47,7 +47,7 @@ class CompoundPSpace(PSpace):
         return RandomSymbol(self.symbol, self)
 
     @property
-    def symbol(self) ->     sympy.Basic:
+    def symbol(self) -> Basic:
         return self.args[0]
 
     @property
@@ -63,7 +63,7 @@ class CompoundPSpace(PSpace):
         return self.distribution.is_Discrete
 
     @property
-    def distribution(self) ->     sympy.Basic:
+    def distribution(self) -> Basic:
         return self.args[1]
 
     @property
@@ -103,7 +103,7 @@ class CompoundPSpace(PSpace):
             dens = {k: pdf(k) for k in _set}
             return SingleFinitePSpace(sym, FiniteDistributionHandmade(dens))
 
-    def compute_density(self, expr, *, compound_evaluate=True, **kwargs) ->     sympy.Basic | Lambda | FiniteDensity:
+    def compute_density(self, expr, *, compound_evaluate=True, **kwargs) -> Basic | Lambda | FiniteDensity:
         new_pspace = self._get_newpspace(compound_evaluate)
         expr = expr.subs({self.value: new_pspace.value})
         return new_pspace.compute_density(expr, **kwargs)
@@ -113,7 +113,7 @@ class CompoundPSpace(PSpace):
         expr = expr.subs({self.value: new_pspace.value})
         return new_pspace.compute_cdf(expr, **kwargs)
 
-    def compute_expectation(self, expr, rvs=None, evaluate=False, **kwargs) -> tuple |     sympy.Sum | Order | Any |     sympy.Piecewise |     sympy.Basic |     sympy.Equality | Relational |     sympy.Ne |     sympy.Integral | None:
+    def compute_expectation(self, expr, rvs=None, evaluate=False, **kwargs) -> tuple | Sum | Order | Any | Piecewise | Basic | Equality | Relational | Ne | Integral | None:
         new_pspace = self._get_newpspace(evaluate)
         expr = expr.subs({self.value: new_pspace.value})
         if rvs:
@@ -122,7 +122,7 @@ class CompoundPSpace(PSpace):
             return new_pspace.compute_expectation(expr, rvs, **kwargs)
         return new_pspace.compute_expectation(expr, rvs, evaluate, **kwargs)
 
-    def probability(self, condition, *, compound_evaluate=True, **kwargs) -> Probability |     sympy.Equality | Relational |     sympy.Ne | int:
+    def probability(self, condition, *, compound_evaluate=True, **kwargs) -> Probability | Equality | Relational | Ne | int:
         new_pspace = self._get_newpspace(compound_evaluate)
         condition = condition.subs({self.value: new_pspace.value})
         return new_pspace.probability(condition)
@@ -190,7 +190,7 @@ class CompoundDistribution(Distribution, NamedArgsMixin):
     def is_Discrete(self) -> bool:
         return isinstance(self.args[0], DiscreteDistribution)
 
-    def pdf(self, x, evaluate=False) ->     sympy.Basic:
+    def pdf(self, x, evaluate=False) -> Basic:
         dist = self.args[0]
         randoms = [rv for rv in dist.args if is_random(rv)]
         if isinstance(dist, SingleFiniteDistribution):

@@ -64,8 +64,10 @@ from collections.abc import Generator
 from sympy.combinatorics.permutations import Perm
 from sympy.tensor.array.expressions.array_expressions import ArrayContraction, ArrayElement, ArrayTensorProduct, PermuteDims, ZeroArray
 from types import NotImplementedType
+from sympy.tensor.indexed import Indexed
 
 if TYPE_CHECKING:
+    from .array import MutableDenseNDimArray, ImmutableDenseNDimArray
     from typing_extensions import Self
 
 
@@ -445,7 +447,7 @@ class _TensorDataLazyEvaluator(CantSympify):
     _substitutions_dict_tensmul = {}
 
     def __getitem__(self, key) -> (
-        Any | Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims |     sympy.Indexed |     sympy.ImmutableDenseNDimArray | None
+        Any | Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | Indexed | ImmutableDenseNDimArray | None
     ):
         dat = self._get(key)
         if dat is None:
@@ -545,13 +547,13 @@ class _TensorDataLazyEvaluator(CantSympify):
         return None
 
     @staticmethod
-    def data_contract_dum(ndarray_list, dum, ext_rank) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims |     sympy.ImmutableDenseNDimArray | Any:
+    def data_contract_dum(ndarray_list, dum, ext_rank) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray | Any:
         from .array import tensorproduct, tensorcontraction, MutableDenseNDimArray
         arrays = list(map(MutableDenseNDimArray, ndarray_list))
         prodarr = tensorproduct(*arrays)
         return tensorcontraction(prodarr, *dum)
 
-    def data_tensorhead_from_tensmul(self, data, tensmul, tensorhead) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims |     sympy.ImmutableDenseNDimArray | Any | None:
+    def data_tensorhead_from_tensmul(self, data, tensmul, tensorhead) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray | Any | None:
         """
         This method is used when assigning components data to a ``TensMul``
         object, it converts components data to a fully contravariant ndarray,
@@ -567,7 +569,7 @@ class _TensorDataLazyEvaluator(CantSympify):
             tensmul.dum,
             True)
 
-    def data_from_tensor(self, tensor) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims |     sympy.ImmutableDenseNDimArray | Any | None:
+    def data_from_tensor(self, tensor) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray | Any | None:
         """
         This method corrects the components data to the right signature
         (covariant/contravariant) using the metric associated with each
@@ -718,12 +720,12 @@ class _TensorDataLazyEvaluator(CantSympify):
         return data
 
     @staticmethod
-    def inverse_matrix(ndarray) ->     sympy.MutableDenseNDimArray:
+    def inverse_matrix(ndarray) -> MutableDenseNDimArray:
         m = ndarray.tomatrix().inv()
         return _TensorDataLazyEvaluator.parse_data(m)
 
     @staticmethod
-    def inverse_transpose_matrix(ndarray) ->     sympy.MutableDenseNDimArray:
+    def inverse_transpose_matrix(ndarray) -> MutableDenseNDimArray:
         m = ndarray.tomatrix().inv().T
         return _TensorDataLazyEvaluator.parse_data(m)
 
@@ -773,7 +775,7 @@ class _TensorDataLazyEvaluator(CantSympify):
         _TensorDataLazyEvaluator._substitutions_dict[new_tensmul] = sorted_compo()
 
     @staticmethod
-    def parse_data(data) ->     sympy.MutableDenseNDimArray:
+    def parse_data(data) -> MutableDenseNDimArray:
         """
         Transform ``data`` to array. The parameter ``data`` may
         contain data in various formats, e.g. nested lists, SymPy ``Matrix``,
@@ -2123,7 +2125,7 @@ class TensExpr(Expr, ABC):
         deprecate_fun_eval()
         return self.substitute_indices(*index_tuples)
 
-    def get_matrix(self) ->     Matrix:
+    def get_matrix(self) -> Matrix:
         """
         DEPRECATED: do not use.
 
@@ -2290,9 +2292,9 @@ class TensExpr(Expr, ABC):
 
     def replace_with_arrays(self, replacement_dict, indices=None) -> (
         ArrayElement
-        |     sympy.Indexed
+        | Indexed
         |     sympy.ImmutableSparseNDimArray
-        |     sympy.ImmutableDenseNDimArray
+        | ImmutableDenseNDimArray
         | Basic
         | ZeroArray
         | ArrayTensorProduct
@@ -2674,7 +2676,7 @@ class TensAdd(TensExpr, AssocOp):
             else:
                 return all(x.coeff == 0 for x in t.args)
 
-    def __getitem__(self, item) -> Any | ArrayElement |     sympy.Indexed |     sympy.ImmutableDenseNDimArray | Basic:
+    def __getitem__(self, item) -> Any | ArrayElement | Indexed | ImmutableDenseNDimArray | Basic:
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return self.data[item]
@@ -3229,7 +3231,7 @@ class Tensor(TensExpr):
             return self.data.__iter__()
 
     # TODO: put this into TensExpr?
-    def __getitem__(self, item) -> Any | ArrayElement |     sympy.Indexed |     sympy.ImmutableDenseNDimArray | Basic:
+    def __getitem__(self, item) -> Any | ArrayElement | Indexed | ImmutableDenseNDimArray | Basic:
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return self.data[item]
@@ -3864,7 +3866,7 @@ class TensMul(TensExpr, AssocOp):
     def __neg__(self) -> TensExpr | TensMul:
         return TensMul(S.NegativeOne, self, is_canon_bp=self._is_canon_bp).doit(deep=False)
 
-    def __getitem__(self, item) -> Any | ArrayElement |     sympy.Indexed |     sympy.ImmutableDenseNDimArray | Basic:
+    def __getitem__(self, item) -> Any | ArrayElement | Indexed | ImmutableDenseNDimArray | Basic:
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return self.data[item]

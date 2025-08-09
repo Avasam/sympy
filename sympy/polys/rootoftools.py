@@ -391,7 +391,7 @@ class ComplexRootOf(RootOf):
         return self.poly.as_expr()
 
     @property
-    def args(self) -> tuple[Any, Any |     Integer]:
+    def args(self) -> tuple[Any, Any | Integer]:
         return (self.expr, Integer(self.index))
 
     @property

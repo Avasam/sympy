@@ -945,7 +945,7 @@ class ArrayDiagonal(_CodegenArrayAbstract):
         return positions, shape
 
     def as_explicit(self) -> (
-        ZeroArray | ArrayTensorProduct | ArrayContraction | Basic | PermuteDims | ArrayDiagonal | ImmutableDenseNDimArray |     Any
+        ZeroArray | ArrayTensorProduct | ArrayContraction | Basic | PermuteDims | ArrayDiagonal | ImmutableDenseNDimArray | Any
     ):
         expr = self.expr
         if hasattr(expr, "as_explicit"):
@@ -1421,7 +1421,7 @@ class ArrayContraction(_CodegenArrayAbstract):
         return self._free_indices[:]
 
     @property
-    def free_indices_to_position(self) -> dict[    Any,     Any]:
+    def free_indices_to_position(self) -> dict[Any,     Any]:
         return dict(self._free_indices_to_position)
 
     @property
@@ -1526,7 +1526,7 @@ class ArrayContraction(_CodegenArrayAbstract):
         args, dlinks = _get_contraction_links([self], self.subranks, *self.contraction_indices)
         return dlinks
 
-    def as_explicit(self) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray |     Any:
+    def as_explicit(self) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray | Any:
         expr = self.expr
         if hasattr(expr, "as_explicit"):
             expr = expr.as_explicit()

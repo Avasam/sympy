@@ -26,7 +26,6 @@ from sympy.sets.conditionset import ConditionSet
 from sympy.utilities import filldedent
 from sympy.utilities.iterables import iterable
 from sympy.matrices.dense import hessian
-import sympy
 from typing import Any
 
 
@@ -288,7 +287,7 @@ def function_range(f, symbol, domain) -> FiniteSet:
     return range_int
 
 
-def not_empty_in(finset_intersection, *syms) -> FiniteSet | sympy.Union | None:
+def not_empty_in(finset_intersection, *syms) -> FiniteSet | Union | None:
     """
     Finds the domain of the functions in ``finset_intersection`` in which the
     ``finite_set`` is not-empty.

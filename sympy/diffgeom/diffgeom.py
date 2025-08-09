@@ -28,8 +28,6 @@ from sympy.utilities.exceptions import (sympy_deprecation_warning,
 # TODO too often one needs to call doit or simplify on the output, check the
 # tests and find out why
 from sympy.tensor.array import ImmutableDenseNDimArray
-import sympy.core.function
-import sympy.tensor.array.dense_ndim_array
 from sympy.matrices.immutable import ImmutableDenseMatrix
 from sympy.series.order import Order
 
@@ -392,7 +390,7 @@ That is, replace {s} with Symbol({s!r}, real=True).
     # Finding transformation relation
     ##########################################################################
 
-    def transformation(self, sys) ->     sympy.core.function.Lambda:
+    def transformation(self, sys) -> Lambda:
         """
         Return coordinate transformation function from *self* to *sys*.
 
@@ -2075,7 +2073,7 @@ def twoform_to_matrix(expr) -> ImmutableDenseMatrix:
     return Matrix(matrix_content)
 
 
-def metric_to_Christoffel_1st(expr) -> sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray:
+def metric_to_Christoffel_1st(expr) -> ImmutableDenseNDimArray:
     """Return the nested list of Christoffel symbols for the given metric.
     This returns the Christoffel symbol of first kind that represents the
     Levi-Civita connection for the given metric.
@@ -2107,7 +2105,7 @@ def metric_to_Christoffel_1st(expr) -> sympy.tensor.array.dense_ndim_array.Immut
     return ImmutableDenseNDimArray(christoffel)
 
 
-def metric_to_Christoffel_2nd(expr) -> sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray:
+def metric_to_Christoffel_2nd(expr) -> ImmutableDenseNDimArray:
     """Return the nested list of Christoffel symbols for the given metric.
     This returns the Christoffel symbol of second kind that represents the
     Levi-Civita connection for the given metric.
@@ -2146,7 +2144,7 @@ def metric_to_Christoffel_2nd(expr) -> sympy.tensor.array.dense_ndim_array.Immut
     return ImmutableDenseNDimArray(christoffel)
 
 
-def metric_to_Riemann_components(expr) -> sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray:
+def metric_to_Riemann_components(expr) -> ImmutableDenseNDimArray:
     """Return the components of the Riemann tensor expressed in a given basis.
 
     Given a metric it calculates the components of the Riemann tensor in the
@@ -2200,7 +2198,7 @@ def metric_to_Riemann_components(expr) -> sympy.tensor.array.dense_ndim_array.Im
     return ImmutableDenseNDimArray(riemann)
 
 
-def metric_to_Ricci_components(expr) -> sympy.tensor.array.dense_ndim_array.ImmutableDenseNDimArray:
+def metric_to_Ricci_components(expr) -> ImmutableDenseNDimArray:
 
     """Return the components of the Ricci tensor expressed in a given basis.
 
