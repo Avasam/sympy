@@ -134,13 +134,13 @@ class DiophantineSolutionSet(set):
         for solution in ordered(self):
             yield dict(zip(self.symbols, solution))
 
-    def subs(self, *args, **kwargs) -> "DiophantineSolutionSet":
+    def subs(self, *args, **kwargs) -> DiophantineSolutionSet:
         result = DiophantineSolutionSet(self.symbols, self.parameters)
         for solution in self:
             result.add(solution.subs(*args, **kwargs))
         return result
 
-    def __call__(self, *args) -> "DiophantineSolutionSet":
+    def __call__(self, *args) -> DiophantineSolutionSet:
         if len(args) > len(self.parameters):
             raise ValueError("Evaluation should have at most %s values, not %s" % (len(self.parameters), len(args)))
         rep = {p: v for p, v in zip(self.parameters, args) if v is not None}

@@ -117,7 +117,7 @@ class Prefix(Expr):
 
         return self.scale_factor / other
 
-    def __rtruediv__(self, other) -> "Prefix":
+    def __rtruediv__(self, other) -> Prefix:
         if other == 1:
             for p in PREFIXES:
                 if PREFIXES[p].scale_factor == 1 / self.scale_factor:

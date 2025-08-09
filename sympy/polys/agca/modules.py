@@ -403,7 +403,7 @@ class FreeModule(Module):
         M = eye(self.rank)
         return tuple(self.convert(M.row(i)) for i in range(self.rank))
 
-    def quotient_module(self, submodule) -> "QuotientModule":
+    def quotient_module(self, submodule) -> QuotientModule:
         """
         Return a quotient module.
 
@@ -487,7 +487,7 @@ class FreeModulePolyRing(FreeModule):
             raise NotImplementedError('Ground domain must be a field, '
                                       + 'got %s' % ring.dom)
 
-    def submodule(self, *gens, **opts) -> "SubModulePolyRing":
+    def submodule(self, *gens, **opts) -> SubModulePolyRing:
         """
         Generate a submodule.
 
@@ -539,7 +539,7 @@ class FreeModuleQuotientRing(FreeModule):
     def __repr__(self):
         return "(" + repr(self.ring) + ")" + "**" + repr(self.rank)
 
-    def submodule(self, *gens, **opts) -> "SubModuleQuotientRing":
+    def submodule(self, *gens, **opts) -> SubModuleQuotientRing:
         """
         Generate a submodule.
 
@@ -923,7 +923,7 @@ class SubModule(Module):
         """
         return x
 
-    def quotient_module(self, other, **opts) -> "SubQuotientModule":
+    def quotient_module(self, other, **opts) -> SubQuotientModule:
         """
         Return a quotient module.
 

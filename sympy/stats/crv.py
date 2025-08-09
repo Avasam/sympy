@@ -449,7 +449,7 @@ class ContinuousPSpace(PSpace):
         interval = interval.intersect(self.domain.set)
         return SingleContinuousDomain(rv.symbol, interval)
 
-    def conditional_space(self, condition, normalize=True, **kwargs) -> "ContinuousPSpace":
+    def conditional_space(self, condition, normalize=True, **kwargs) -> ContinuousPSpace:
         condition = condition.xreplace({rv: rv.symbol for rv in self.values})
         domain = ConditionalContinuousDomain(self.domain, condition)
         if normalize:

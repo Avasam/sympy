@@ -137,13 +137,13 @@ class DDM(list):
     def setitem(self, i, j, value) -> None:
         self[i][j] = value
 
-    def extract_slice(self, slice1, slice2) -> "DDM":
+    def extract_slice(self, slice1, slice2) -> DDM:
         ddm = [row[slice2] for row in self[slice1]]
         rows = len(ddm)
         cols = len(ddm[0]) if ddm else len(range(self.shape[1])[slice2])
         return DDM(ddm, (rows, cols), self.domain)
 
-    def extract(self, rows, cols) -> "DDM":
+    def extract(self, rows, cols) -> DDM:
         ddm = []
         for i in rows:
             rowi = self[i]
@@ -570,7 +570,7 @@ class DDM(list):
             return self.to_dfm()
         return self
 
-    def convert_to(self, K) -> "DDM":
+    def convert_to(self, K) -> DDM:
         Kold = self.domain
         if K == Kold:
             return self.copy()
@@ -595,21 +595,21 @@ class DDM(list):
         return not self.__eq__(other)
 
     @classmethod
-    def zeros(cls, shape, domain) -> "DDM":
+    def zeros(cls, shape, domain) -> DDM:
         z = domain.zero
         m, n = shape
         rowslist = [[z] * n for _ in range(m)]
         return DDM(rowslist, shape, domain)
 
     @classmethod
-    def ones(cls, shape, domain) -> "DDM":
+    def ones(cls, shape, domain) -> DDM:
         one = domain.one
         m, n = shape
         rowlist = [[one] * n for _ in range(m)]
         return DDM(rowlist, shape, domain)
 
     @classmethod
-    def eye(cls, size, domain) -> "DDM":
+    def eye(cls, size, domain) -> DDM:
         if isinstance(size, tuple):
             m, n = size
         elif isinstance(size, int):
@@ -620,11 +620,11 @@ class DDM(list):
             ddm[i][i] = one
         return ddm
 
-    def copy(self) -> "DDM":
+    def copy(self) -> DDM:
         copyrows = [row[:] for row in self]
         return DDM(copyrows, self.shape, self.domain)
 
-    def transpose(self) -> "DDM":
+    def transpose(self) -> DDM:
         rows, cols = self.shape
         if rows:
             ddmT = ddm_transpose(self)
@@ -642,7 +642,7 @@ class DDM(list):
             return NotImplemented
         return a.sub(b)
 
-    def __neg__(a) -> "DDM":
+    def __neg__(a) -> DDM:
         return a.neg()
 
     def __mul__(a, b) -> DDM | NotImplementedType:
@@ -672,37 +672,37 @@ class DDM(list):
             msg = "Shape mismatch: %s %s %s" % (a.shape, op, b.shape)
             raise DMShapeError(msg)
 
-    def add(a, b) -> "DDM":
+    def add(a, b) -> DDM:
         """a + b"""
         a._check(a, '+', b, a.shape, b.shape)
         c = a.copy()
         ddm_iadd(c, b)
         return c
 
-    def sub(a, b) -> "DDM":
+    def sub(a, b) -> DDM:
         """a - b"""
         a._check(a, '-', b, a.shape, b.shape)
         c = a.copy()
         ddm_isub(c, b)
         return c
 
-    def neg(a) -> "DDM":
+    def neg(a) -> DDM:
         """-a"""
         b = a.copy()
         ddm_ineg(b)
         return b
 
-    def mul(a, b) -> "DDM":
+    def mul(a, b) -> DDM:
         c = a.copy()
         ddm_imul(c, b)
         return c
 
-    def rmul(a, b) -> "DDM":
+    def rmul(a, b) -> DDM:
         c = a.copy()
         ddm_irmul(c, b)
         return c
 
-    def matmul(a, b) -> "DDM":
+    def matmul(a, b) -> DDM:
         """a @ b (matrix product)"""
         m, o = a.shape
         o2, n = b.shape
@@ -711,13 +711,13 @@ class DDM(list):
         ddm_imatmul(c, a, b)
         return c
 
-    def mul_elementwise(a, b) -> "DDM":
+    def mul_elementwise(a, b) -> DDM:
         assert a.shape == b.shape
         assert a.domain == b.domain
         c = [[aij * bij for aij, bij in zip(ai, bi)] for ai, bi in zip(a, b)]
         return DDM(c, a.shape, a.domain)
 
-    def hstack(A, *B) -> "DDM":
+    def hstack(A, *B) -> DDM:
         """Horizontally stacks :py:class:`~.DDM` matrices.
 
         Examples
@@ -751,7 +751,7 @@ class DDM(list):
 
         return DDM(Anew, (rows, cols), A.domain)
 
-    def vstack(A, *B) -> "DDM":
+    def vstack(A, *B) -> DDM:
         """Vertically stacks :py:class:`~.DDM` matrices.
 
         Examples
@@ -784,7 +784,7 @@ class DDM(list):
 
         return DDM(Anew, (rows, cols), A.domain)
 
-    def applyfunc(self, func, domain) -> "DDM":
+    def applyfunc(self, func, domain) -> DDM:
         elements = [list(map(func, row)) for row in self]
         return DDM(elements, self.shape, domain)
 
@@ -932,7 +932,7 @@ class DDM(list):
 
         return (basis_ddm, nonpivots)
 
-    def particular(a) -> "DDM":
+    def particular(a) -> DDM:
         return a.to_sdm().particular().to_ddm()
 
     def det(a):
@@ -945,7 +945,7 @@ class DDM(list):
         deta = ddm_idet(b, K)
         return deta
 
-    def inv(a) -> "DDM":
+    def inv(a) -> DDM:
         """Inverse of a"""
         m, n = a.shape
         if m != n:
@@ -1113,7 +1113,7 @@ class DDM(list):
 
         return Q, R
 
-    def lu_solve(a, b) -> "DDM":
+    def lu_solve(a, b) -> DDM:
         """x where a*x = b"""
         m, n = a.shape
         m2, o = b.shape

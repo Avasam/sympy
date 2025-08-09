@@ -798,7 +798,7 @@ class polygamma(DefinedFunction):
         else:
             return self.func(n, z)
 
-    def fdiff(self, argindex=2) -> "polygamma":
+    def fdiff(self, argindex=2) -> polygamma:
         if argindex == 2:
             n, z = self.args[:2]
             return polygamma(n + 1, z)

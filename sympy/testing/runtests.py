@@ -1002,7 +1002,7 @@ SymPyTestResults = namedtuple('SymPyTestResults', 'failed attempted')
 def sympytestfile(filename, module_relative=True, name=None, package=None,
              globs=None, verbose=None, report=True, optionflags=0,
              extraglobs=None, raise_on_error=False,
-             parser=pdoctest.DocTestParser(), encoding=None) -> "SymPyTestResults":
+             parser=pdoctest.DocTestParser(), encoding=None) -> SymPyTestResults:
 
     """
     Test examples in the given file.  Return (#failures, #tests).

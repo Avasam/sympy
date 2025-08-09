@@ -34,7 +34,7 @@ def xfp_group(fr_grp, relators=()) -> tuple[FpGroup, Callable[[], Any]]:
 
 # Does not work. Both symbols and pollute are undefined. Never tested.
 @public
-def vfp_group(fr_grpm, relators) -> "FpGroup":
+def vfp_group(fr_grpm, relators) -> FpGroup:
     _fp_group = FpGroup(symbols, relators)
     pollute([sym.name for sym in _fp_group.symbols], _fp_group.generators)
     return _fp_group

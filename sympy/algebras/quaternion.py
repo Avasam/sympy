@@ -655,7 +655,7 @@ class Quaternion(Expr):
         return cls(a, b, c, d)
 
     @classmethod
-    def from_rotation_matrix(cls, M) -> "Quaternion":
+    def from_rotation_matrix(cls, M) -> Quaternion:
         """Returns the equivalent quaternion of a matrix. The quaternion will be normalized
         only if the matrix is special orthogonal (orthogonal and det(M) = 1).
 

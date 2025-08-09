@@ -2279,7 +2279,7 @@ class PoissonProcess(CountingProcess):
     def simple_rv(self, rv) -> RandomSymbol:
         return Poisson(rv.name, lamda=self.lamda*rv.key)
 
-    def __add__(self, other) -> "PoissonProcess":
+    def __add__(self, other) -> PoissonProcess:
         if not isinstance(other, PoissonProcess):
             raise ValueError("Only instances of Poisson Process can be merged")
         return PoissonProcess(Dummy(self.symbol.name + other.symbol.name),

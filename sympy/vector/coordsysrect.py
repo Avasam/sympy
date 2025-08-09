@@ -585,7 +585,7 @@ class CoordSys3D(Basic):
                 for i, x in enumerate(self.base_scalars())}
 
     def locate_new(self, name, position, vector_names=None,
-                   variable_names=None) -> "CoordSys3D":
+                   variable_names=None) -> CoordSys3D:
         """
         Returns a CoordSys3D with its origin located at the given
         position wrt this coordinate system's origin.
@@ -626,7 +626,7 @@ class CoordSys3D(Basic):
                           parent=self)
 
     def orient_new(self, name, orienters, location=None,
-                   vector_names=None, variable_names=None) -> "CoordSys3D":
+                   vector_names=None, variable_names=None) -> CoordSys3D:
         """
         Creates a new CoordSys3D oriented in the user-specified way
         with respect to this system.
@@ -721,7 +721,7 @@ class CoordSys3D(Basic):
                           parent=self)
 
     def orient_new_axis(self, name, angle, axis, location=None,
-                        vector_names=None, variable_names=None) -> "CoordSys3D":
+                        vector_names=None, variable_names=None) -> CoordSys3D:
         """
         Axis rotation is a rotation about an arbitrary axis by
         some angle. The angle is supplied as a SymPy expr scalar, and
@@ -772,7 +772,7 @@ class CoordSys3D(Basic):
 
     def orient_new_body(self, name, angle1, angle2, angle3,
                         rotation_order, location=None,
-                        vector_names=None, variable_names=None) -> "CoordSys3D":
+                        vector_names=None, variable_names=None) -> CoordSys3D:
         """
         Body orientation takes this coordinate system through three
         successive simple rotations.
@@ -843,7 +843,7 @@ class CoordSys3D(Basic):
 
     def orient_new_space(self, name, angle1, angle2, angle3,
                          rotation_order, location=None,
-                         vector_names=None, variable_names=None) -> "CoordSys3D":
+                         vector_names=None, variable_names=None) -> CoordSys3D:
         """
         Space rotation is similar to Body rotation, but the rotations
         are applied in the opposite order.
@@ -907,7 +907,7 @@ class CoordSys3D(Basic):
                                variable_names=variable_names)
 
     def orient_new_quaternion(self, name, q0, q1, q2, q3, location=None,
-                              vector_names=None, variable_names=None) -> "CoordSys3D":
+                              vector_names=None, variable_names=None) -> CoordSys3D:
         """
         Quaternion orientation orients the new CoordSys3D with
         Quaternions, defined as a finite rotation about lambda, a unit
@@ -961,7 +961,7 @@ class CoordSys3D(Basic):
                                vector_names=vector_names,
                                variable_names=variable_names)
 
-    def create_new(self, name, transformation, variable_names=None, vector_names=None) -> "CoordSys3D":
+    def create_new(self, name, transformation, variable_names=None, vector_names=None) -> CoordSys3D:
         """
         Returns a CoordSys3D which is connected to self by transformation.
 

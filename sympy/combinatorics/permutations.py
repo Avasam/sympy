@@ -331,7 +331,7 @@ class Cycle(dict):
     def __iter__(self) -> Iterator:
         yield from self.list()
 
-    def __call__(self, *other) -> "Cycle":
+    def __call__(self, *other) -> Cycle:
         """Return product of cycles processed from R to L.
 
         Examples
@@ -473,7 +473,7 @@ class Cycle(dict):
             return 0
         return max(self.keys()) + 1
 
-    def copy(self) -> "Cycle":
+    def copy(self) -> Cycle:
         return Cycle(self)
 
 
@@ -1572,7 +1572,7 @@ class Permutation(Atom):
         return res
 
     @classmethod
-    def from_sequence(self, i, key=None) -> "Permutation":
+    def from_sequence(self, i, key=None) -> Permutation:
         """Return the permutation needed to obtain ``i`` from the sorted
         elements of ``i``. If custom sorting is desired, a key can be given.
 

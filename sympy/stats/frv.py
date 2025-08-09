@@ -349,7 +349,7 @@ class FinitePSpace(PSpace):
                        (S.Zero, True)) for elem in self.domain)
         return sympify(sum(self.prob_of(elem) for elem in self.where(condition)))
 
-    def conditional_space(self, condition) -> "FinitePSpace":
+    def conditional_space(self, condition) -> FinitePSpace:
         domain = self.where(condition)
         prob = self.probability(condition)
         density = {key: val / prob

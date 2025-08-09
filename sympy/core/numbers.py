@@ -947,18 +947,18 @@ class Float(Number):
     def _hashable_content(self):
         return (self._mpf_, self._prec)
 
-    def floor(self) -> "Integer":
+    def floor(self) -> Integer:
         return Integer(int(mlib.to_int(
             mlib.mpf_floor(self._mpf_, self._prec))))
 
-    def ceiling(self) -> "Integer":
+    def ceiling(self) -> Integer:
         return Integer(int(mlib.to_int(
             mlib.mpf_ceil(self._mpf_, self._prec))))
 
-    def __floor__(self) -> "Integer":
+    def __floor__(self) -> Integer:
         return self.floor()
 
-    def __ceil__(self) -> "Integer":
+    def __ceil__(self) -> Integer:
         return self.ceiling()
 
     @property
@@ -1026,14 +1026,14 @@ class Float(Number):
         return Float._new(mlib.mpf_neg(self._mpf_), self._prec)
 
     @_sympifyit('other', NotImplemented)
-    def __add__(self, other) -> "Float":
+    def __add__(self, other) -> Float:
         if isinstance(other, Number) and global_parameters.evaluate:
             rhs, prec = other._as_mpf_op(self._prec)
             return Float._new(mlib.mpf_add(self._mpf_, rhs, prec, rnd), prec)
         return Number.__add__(self, other)
 
     @_sympifyit('other', NotImplemented)
-    def __sub__(self, other) -> "Float":
+    def __sub__(self, other) -> Float:
         if isinstance(other, Number) and global_parameters.evaluate:
             rhs, prec = other._as_mpf_op(self._prec)
             return Float._new(mlib.mpf_sub(self._mpf_, rhs, prec, rnd), prec)
@@ -1047,14 +1047,14 @@ class Float(Number):
         return Number.__mul__(self, other)
 
     @_sympifyit('other', NotImplemented)
-    def __truediv__(self, other) -> "Float":
+    def __truediv__(self, other) -> Float:
         if isinstance(other, Number) and other != 0 and global_parameters.evaluate:
             rhs, prec = other._as_mpf_op(self._prec)
             return Float._new(mlib.mpf_div(self._mpf_, rhs, prec, rnd), prec)
         return Number.__truediv__(self, other)
 
     @_sympifyit('other', NotImplemented)
-    def __mod__(self, other) -> "Float":
+    def __mod__(self, other) -> Float:
         if isinstance(other, Rational) and other.q != 1 and global_parameters.evaluate:
             # calculate mod with Rationals, *then* round the result
             return Float(Rational.__mod__(Rational(self), other),
@@ -1069,7 +1069,7 @@ class Float(Number):
         return Number.__mod__(self, other)
 
     @_sympifyit('other', NotImplemented)
-    def __rmod__(self, other) -> "Float":
+    def __rmod__(self, other) -> Float:
         if isinstance(other, Float) and global_parameters.evaluate:
             return other.__mod__(self)
         if isinstance(other, Number) and global_parameters.evaluate:
@@ -1109,7 +1109,7 @@ class Float(Number):
                 return Float._new(re, prec) + \
                     Float._new(im, prec)*S.ImaginaryUnit
 
-    def __abs__(self) -> "Float":
+    def __abs__(self) -> Float:
         return Float._new(mlib.mpf_abs(self._mpf_), self._prec)
 
     def __int__(self) -> int:
@@ -1418,7 +1418,7 @@ class Rational(Number):
         obj.q = q
         return obj
 
-    def limit_denominator(self, max_denominator=1000000) -> "Rational":
+    def limit_denominator(self, max_denominator=1000000) -> Rational:
         """Closest Rational to self with denominator at most max_denominator.
 
         Examples
@@ -1609,16 +1609,16 @@ class Rational(Number):
             return -int(-p//q)
         return int(p//q)
 
-    def floor(self) -> "Integer":
+    def floor(self) -> Integer:
         return Integer(self.p // self.q)
 
-    def ceiling(self) -> "Integer":
+    def ceiling(self) -> Integer:
         return -Integer(-self.p // self.q)
 
-    def __floor__(self) -> "Integer":
+    def __floor__(self) -> Integer:
         return self.floor()
 
-    def __ceil__(self) -> "Integer":
+    def __ceil__(self) -> Integer:
         return self.ceiling()
 
     def __eq__(self, other) -> bool:
@@ -1849,19 +1849,19 @@ class Integer(Rational):
     def __int__(self) -> int:
         return self.p
 
-    def floor(self) -> "Integer":
+    def floor(self) -> Integer:
         return Integer(self.p)
 
-    def ceiling(self) -> "Integer":
+    def ceiling(self) -> Integer:
         return Integer(self.p)
 
-    def __floor__(self) -> "Integer":
+    def __floor__(self) -> Integer:
         return self.floor()
 
-    def __ceil__(self) -> "Integer":
+    def __ceil__(self) -> Integer:
         return self.ceiling()
 
-    def __neg__(self) -> "Integer":
+    def __neg__(self) -> Integer:
         return Integer(-self.p)
 
     def __abs__(self) -> Self | Integer:
@@ -2156,7 +2156,7 @@ class Integer(Rational):
             return Integer(self.p // other)
         return divmod(self, other)[0]
 
-    def __rfloordiv__(self, other) -> "Integer":
+    def __rfloordiv__(self, other) -> Integer:
         return Integer(Integer(other).p // self.p)
 
     # These bitwise operations (__lshift__, __rlshift__, ..., __invert__) are defined
@@ -2226,7 +2226,7 @@ class Integer(Rational):
         else:
             return NotImplemented
 
-    def __invert__(self) -> "Integer":
+    def __invert__(self) -> Integer:
         return Integer(~self.p)
 
 # Add sympify converters
@@ -2560,7 +2560,7 @@ class AlgebraicNumber(Expr):
                     return AlgebraicNumber(r)
         return self
 
-    def field_element(self, coeffs) -> "AlgebraicNumber":
+    def field_element(self, coeffs) -> AlgebraicNumber:
         r"""
         Form another element of the same number field.
 

@@ -89,7 +89,7 @@ class UnitSystem(_QuantityMapper):
         return super().get_quantity_scale_factor(unit)
 
     @staticmethod
-    def get_unit_system(unit_system) -> "UnitSystem":
+    def get_unit_system(unit_system) -> UnitSystem:
         if isinstance(unit_system, UnitSystem):
             return unit_system
 
@@ -104,7 +104,7 @@ class UnitSystem(_QuantityMapper):
         return UnitSystem._unit_systems[unit_system]
 
     @staticmethod
-    def get_default_unit_system() -> "UnitSystem":
+    def get_default_unit_system() -> UnitSystem:
         return UnitSystem._unit_systems["SI"]
 
     @property

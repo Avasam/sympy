@@ -943,7 +943,7 @@ class Diagram(Basic):
         # Premises is surely ``True`` here.
         return conclusions
 
-    def subdiagram_from_objects(self, objects) -> "Diagram":
+    def subdiagram_from_objects(self, objects) -> Diagram:
         """
         If ``objects`` is a subset of the objects of ``self``, returns
         a diagram which has as premises all those premises of ``self``

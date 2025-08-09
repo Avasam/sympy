@@ -442,7 +442,7 @@ class Symbol(AtomicExpr, Boolean): # type: ignore
     def sort_key(self, order=None) -> tuple[tuple[int, int, str], tuple[int, tuple[str]], Any, Any]:
         return self.class_key(), (1, (self.name,)), S.One.sort_key(), S.One
 
-    def as_dummy(self) -> "Dummy":
+    def as_dummy(self) -> Dummy:
         # only put commutativity in explicitly if it is False
         return Dummy(self.name) if self.is_commutative is not False \
             else Dummy(self.name, commutative=self.is_commutative)

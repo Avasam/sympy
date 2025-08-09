@@ -80,7 +80,7 @@ class MatAdd(MatrixExpr, Add):
     def could_extract_minus_sign(self) -> bool:
         return _could_extract_minus_sign(self)
 
-    def expand(self, **kwargs) -> "MatAdd":
+    def expand(self, **kwargs) -> MatAdd:
         expanded = super(MatAdd, self).expand(**kwargs)
         return self._evaluate(expanded)
 
@@ -97,7 +97,7 @@ class MatAdd(MatrixExpr, Add):
         from .trace import trace
         return Add(*[trace(arg) for arg in self.args]).doit()
 
-    def doit(self, **hints) -> "MatAdd":
+    def doit(self, **hints) -> MatAdd:
         deep = hints.get('deep', True)
         if deep:
             args = [arg.doit(**hints) for arg in self.args]

@@ -84,7 +84,7 @@ class BinaryRelation(Predicate):
     is_reflexive: Optional[bool] = None
     is_symmetric: Optional[bool] = None
 
-    def __call__(self, *args) -> "AppliedBinaryRelation":
+    def __call__(self, *args) -> AppliedBinaryRelation:
         if not len(args) == 2:
             raise TypeError(f"Q.{self.name} takes two arguments, but got {len(args)}.")
         return AppliedBinaryRelation(self, *args)

@@ -733,7 +733,7 @@ class Basic(Printable):
             active_deprecations_target="deprecated-expr-free-symbols")
         return set()
 
-    def as_dummy(self) -> "Self":
+    def as_dummy(self) -> Self:
         """Return the expression with any objects having structurally
         bound symbols replaced with unique, canonical symbols within
         the object in which they appear and having only the default
@@ -1952,7 +1952,7 @@ class Basic(Printable):
         from sympy.simplify.simplify import simplify
         return simplify(self, **kwargs)
 
-    def refine(self, assumption=True) -> "Basic":
+    def refine(self, assumption=True) -> Basic:
         """See the refine function in sympy.assumptions"""
         from sympy.assumptions.refine import refine
         return refine(self, assumption)

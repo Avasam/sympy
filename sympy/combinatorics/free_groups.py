@@ -68,7 +68,7 @@ def xfree_group(symbols) -> tuple[FreeGroup, Any]:
     return (_free_group, _free_group.generators)
 
 @public
-def vfree_group(symbols) -> "FreeGroup":
+def vfree_group(symbols) -> FreeGroup:
     """Construct a free group and inject ``f_0, f_1, ..., f_(n-1)`` as symbols
     into the global namespace.
 

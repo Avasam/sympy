@@ -38,52 +38,52 @@ class SetExpr(Expr):
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__radd__')
-    def __add__(self, other) -> "SetExpr":
+    def __add__(self, other) -> SetExpr:
         return _setexpr_apply_operation(set_add, self, other)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__add__')
-    def __radd__(self, other) -> "SetExpr":
+    def __radd__(self, other) -> SetExpr:
         return _setexpr_apply_operation(set_add, other, self)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rmul__')
-    def __mul__(self, other) -> "SetExpr":
+    def __mul__(self, other) -> SetExpr:
         return _setexpr_apply_operation(set_mul, self, other)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__mul__')
-    def __rmul__(self, other) -> "SetExpr":
+    def __rmul__(self, other) -> SetExpr:
         return _setexpr_apply_operation(set_mul, other, self)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rsub__')
-    def __sub__(self, other) -> "SetExpr":
+    def __sub__(self, other) -> SetExpr:
         return _setexpr_apply_operation(set_sub, self, other)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__sub__')
-    def __rsub__(self, other) -> "SetExpr":
+    def __rsub__(self, other) -> SetExpr:
         return _setexpr_apply_operation(set_sub, other, self)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rpow__')
-    def __pow__(self, other) -> "SetExpr":
+    def __pow__(self, other) -> SetExpr:
         return _setexpr_apply_operation(set_pow, self, other)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__pow__')
-    def __rpow__(self, other) -> "SetExpr":
+    def __rpow__(self, other) -> SetExpr:
         return _setexpr_apply_operation(set_pow, other, self)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rtruediv__')
-    def __truediv__(self, other) -> "SetExpr":
+    def __truediv__(self, other) -> SetExpr:
         return _setexpr_apply_operation(set_div, self, other)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__truediv__')
-    def __rtruediv__(self, other) -> "SetExpr":
+    def __rtruediv__(self, other) -> SetExpr:
         return _setexpr_apply_operation(set_div, other, self)
 
     def _eval_func(self, func):

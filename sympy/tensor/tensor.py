@@ -123,7 +123,7 @@ class _IndexStructure(CantSympify):
         self.dum.sort(key=lambda x: x[0])
 
     @staticmethod
-    def from_indices(*indices) -> "_IndexStructure":
+    def from_indices(*indices) -> _IndexStructure:
         """
         Create a new ``_IndexStructure`` object from a list of ``indices``.
 
@@ -149,7 +149,7 @@ class _IndexStructure(CantSympify):
         return _IndexStructure(free, dum, index_types, indices)
 
     @staticmethod
-    def from_components_free_dum(components, free, dum) -> "_IndexStructure":
+    def from_components_free_dum(components, free, dum) -> _IndexStructure:
         index_types = []
         for component in components:
             index_types.extend(component.index_types)
@@ -306,7 +306,7 @@ class _IndexStructure(CantSympify):
             indices[permutation(i)] = it
         return indices
 
-    def perm2tensor(self, g, is_canon_bp=False) -> "_IndexStructure":
+    def perm2tensor(self, g, is_canon_bp=False) -> _IndexStructure:
         """
         Returns a ``_IndexStructure`` instance corresponding to the permutation ``g``.
 
@@ -1147,7 +1147,7 @@ class TensorIndexType(Basic):
         return TensorHead(metric_name, [self]*2, symmetry)
 
     @memoize_property
-    def delta(self) -> "TensorHead":
+    def delta(self) -> TensorHead:
         return TensorHead('KD', [self]*2, TensorSymmetry.fully_symmetric(2))
 
     @memoize_property
@@ -1230,7 +1230,7 @@ class TensorIndexType(Basic):
         deprecated_since_version="1.5",
         active_deprecations_target="deprecated-tensorindextype-methods",
     )
-    def get_kronecker_delta(self) -> "TensorHead":
+    def get_kronecker_delta(self) -> TensorHead:
         sym2 = TensorSymmetry(get_symmetric_group_sgs(2))
         delta = TensorHead('KD', [self]*2, sym2)
         return delta
@@ -1366,7 +1366,7 @@ class TensorIndex(Basic):
         return ((self.tensor_index_type, self.name) <
                 (other.tensor_index_type, other.name))
 
-    def __neg__(self) -> "TensorIndex":
+    def __neg__(self) -> TensorIndex:
         t1 = TensorIndex(self.name, self.tensor_index_type,
                 (not self.is_up))
         return t1
@@ -1477,7 +1477,7 @@ class TensorSymmetry(Basic):
         return self.generators[0].size - 2
 
     @classmethod
-    def fully_symmetric(cls, rank) -> "TensorSymmetry":
+    def fully_symmetric(cls, rank) -> TensorSymmetry:
         """
         Returns a fully symmetric (antisymmetric if ``rank``<0)
         TensorSymmetry object for ``abs(rank)`` indices.
@@ -1491,7 +1491,7 @@ class TensorSymmetry(Basic):
         return TensorSymmetry(bsgs)
 
     @classmethod
-    def direct_product(cls, *args) -> "TensorSymmetry":
+    def direct_product(cls, *args) -> TensorSymmetry:
         """
         Returns a TensorSymmetry object that is being a direct product of
         fully (anti-)symmetric index permutation groups.
@@ -1519,14 +1519,14 @@ class TensorSymmetry(Basic):
         return TensorSymmetry(base, sgs)
 
     @classmethod
-    def riemann(cls) -> "TensorSymmetry":
+    def riemann(cls) -> TensorSymmetry:
         """
         Returns a monotorem symmetry of the Riemann tensor
         """
         return TensorSymmetry(riemann_bsgs)
 
     @classmethod
-    def no_symmetry(cls, rank) -> "TensorSymmetry":
+    def no_symmetry(cls, rank) -> TensorSymmetry:
         """
         TensorSymmetry object for ``rank`` indices with no symmetry
         """
@@ -1680,7 +1680,7 @@ class TensorType(Basic):
     deprecated_since_version="1.5",
     active_deprecations_target="deprecated-tensorhead",
 )
-def tensorhead(name, typ, sym=None, comm=0) -> "TensorHead":
+def tensorhead(name, typ, sym=None, comm=0) -> TensorHead:
     """
     Function generating tensorhead(s). This method is deprecated,
     use TensorHead constructor or tensor_heads() instead.
@@ -1869,7 +1869,7 @@ class TensorHead(Basic):
     def _print(self):
         return '%s(%s)' %(self.name, ','.join([str(x) for x in self.index_types]))
 
-    def __call__(self, *indices, **kw_args) -> "TensExpr":
+    def __call__(self, *indices, **kw_args) -> TensExpr:
         """
         Returns a tensor with indices.
 
@@ -4923,7 +4923,7 @@ class WildTensorIndex(TensorIndex):
     def ignore_updown(self) -> Basic:
         return self.args[3]
 
-    def __neg__(self) -> "WildTensorIndex":
+    def __neg__(self) -> WildTensorIndex:
         t1 = WildTensorIndex(self.name, self.tensor_index_type,
                 (not self.is_up), self.ignore_updown)
         return t1

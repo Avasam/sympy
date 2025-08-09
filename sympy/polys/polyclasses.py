@@ -2605,7 +2605,7 @@ class DUP_Flint(DMP[Er]):
             return False
 
 
-def init_normal_DMF(num, den, lev, dom) -> "DMF":
+def init_normal_DMF(num, den, lev, dom) -> DMF:
     return DMF(dmp_normal(num, lev, dom),
                dmp_normal(den, lev, dom), dom, lev)
 
@@ -3039,7 +3039,7 @@ class DMF(PicklableWithSlots, CantSympify):
         return not dmp_zero_p(f.num, f.lev)
 
 
-def init_normal_ANP(rep, mod, dom) -> "ANP":
+def init_normal_ANP(rep, mod, dom) -> ANP:
     return ANP(dup_normal(rep, dom),
                dup_normal(mod, dom), dom)
 
@@ -3173,11 +3173,11 @@ class ANP(CantSympify, Generic[Eg]):
         return f._rep, g._rep, f._mod, f.dom
 
     @classmethod
-    def zero(cls, mod, dom) -> "ANP":
+    def zero(cls, mod, dom) -> ANP:
         return ANP(0, mod, dom)
 
     @classmethod
-    def one(cls, mod, dom) -> "ANP":
+    def one(cls, mod, dom) -> ANP:
         return ANP(1, mod, dom)
 
     def to_dict(f) -> dict[tuple[int], Any] | dict:
@@ -3214,7 +3214,7 @@ class ANP(CantSympify, Generic[Eg]):
         return f._rep.to_tuple()
 
     @classmethod
-    def from_list(cls, rep, mod, dom) -> "ANP":
+    def from_list(cls, rep, mod, dom) -> ANP:
         return ANP(dup_strip(list(map(dom.convert, rep))), mod, dom)
 
     def add_ground(f, c):
@@ -3233,22 +3233,22 @@ class ANP(CantSympify, Generic[Eg]):
         """Quotient of ``f`` by an element of the ground domain. """
         return f.per(f._rep.quo_ground(c))
 
-    def neg(f) -> "ANP":
+    def neg(f) -> ANP:
         return f.per(f._rep.neg())
 
-    def add(f, g) -> "ANP":
+    def add(f, g) -> ANP:
         F, G, mod, dom = f.unify_ANP(g)
         return f.new(F.add(G), mod, dom)
 
-    def sub(f, g) -> "ANP":
+    def sub(f, g) -> ANP:
         F, G, mod, dom = f.unify_ANP(g)
         return f.new(F.sub(G), mod, dom)
 
-    def mul(f, g) -> "ANP":
+    def mul(f, g) -> ANP:
         F, G, mod, dom = f.unify_ANP(g)
         return f.new(F.mul(G).rem(mod), mod, dom)
 
-    def pow(f, n) -> "ANP":
+    def pow(f, n) -> ANP:
         """Raise ``f`` to a non-negative power ``n``. """
         if not isinstance(n, int):
             raise TypeError("``int`` expected, got %s" % type(n))
@@ -3269,10 +3269,10 @@ class ANP(CantSympify, Generic[Eg]):
     def div(f, g) -> tuple[ANP, ANP]:
         return f.exquo(g), f.zero(f._mod, f.dom)
 
-    def quo(f, g) -> "ANP":
+    def quo(f, g) -> ANP:
         return f.exquo(g)
 
-    def rem(f, g) -> "ANP":
+    def rem(f, g) -> ANP:
         F, G, mod, dom = f.unify_ANP(g)
         s, h = F.half_gcdex(G)
 
@@ -3307,7 +3307,7 @@ class ANP(CantSympify, Generic[Eg]):
     def __pos__(f) ->     typing_extensions.Self:
         return f
 
-    def __neg__(f) -> "ANP":
+    def __neg__(f) -> ANP:
         return f.neg()
 
     def __add__(f, g) -> ANP | NotImplementedType:
@@ -3349,13 +3349,13 @@ class ANP(CantSympify, Generic[Eg]):
     def __rmul__(f, g) -> ANP | NotImplementedType:
         return f.__mul__(g)
 
-    def __pow__(f, n) -> "ANP":
+    def __pow__(f, n) -> ANP:
         return f.pow(n)
 
     def __divmod__(f, g) -> tuple[ANP, ANP]:
         return f.div(g)
 
-    def __mod__(f, g) -> "ANP":
+    def __mod__(f, g) -> ANP:
         return f.rem(g)
 
     def __truediv__(f, g) -> ANP | NotImplementedType:

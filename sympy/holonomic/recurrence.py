@@ -157,7 +157,7 @@ class RecurrenceOperator:
             self.listofpoly = list_of_poly
         self.order = len(self.listofpoly) - 1
 
-    def __mul__(self, other) -> "RecurrenceOperator":
+    def __mul__(self, other) -> RecurrenceOperator:
         """
         Multiplies two Operators and returns another
         RecurrenceOperator instance using the commutation rule
@@ -219,7 +219,7 @@ class RecurrenceOperator:
             sol = [other * j for j in self.listofpoly]
             return RecurrenceOperator(sol, self.parent)
 
-    def __add__(self, other) -> "RecurrenceOperator":
+    def __add__(self, other) -> RecurrenceOperator:
         if isinstance(other, RecurrenceOperator):
 
             sol = _add_lists(self.listofpoly, other.listofpoly)

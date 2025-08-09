@@ -594,7 +594,7 @@ class Plane(GeometryEntity):
         """
         return self.args[0]
 
-    def parallel_plane(self, pt) -> "Plane":
+    def parallel_plane(self, pt) -> Plane:
         """
         Plane parallel to the given plane and passing through the point pt.
 
@@ -645,7 +645,7 @@ class Plane(GeometryEntity):
         a = self.normal_vector
         return Line3D(pt, direction_ratio=a)
 
-    def perpendicular_plane(self, *pts) -> "Plane":
+    def perpendicular_plane(self, *pts) -> Plane:
         """
         Return a perpendicular passing through the given points. If the
         direction ratio between the points is the same as the Plane's normal

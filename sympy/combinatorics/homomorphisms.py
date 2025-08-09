@@ -221,7 +221,7 @@ class GroupHomomorphism:
         '''
         return self.image().order() == 1
 
-    def compose(self, other) -> "GroupHomomorphism":
+    def compose(self, other) -> GroupHomomorphism:
         '''
         Return the composition of `self` and `other`, i.e.
         the homomorphism phi such that for all g in the domain
@@ -234,7 +234,7 @@ class GroupHomomorphism:
         images = {g: self(other(g)) for g in other.images}
         return GroupHomomorphism(other.domain, self.codomain, images)
 
-    def restrict_to(self, H) -> "GroupHomomorphism":
+    def restrict_to(self, H) -> GroupHomomorphism:
         '''
         Return the restriction of the homomorphism to the subgroup `H`
         of the domain.

@@ -212,7 +212,7 @@ class SeqBase(Basic):
         """
         return Mul(self, other)
 
-    def __add__(self, other) -> "SeqAdd":
+    def __add__(self, other) -> SeqAdd:
         """Returns the term-wise addition of 'self' and 'other'.
 
         ``other`` should be a sequence.
@@ -233,7 +233,7 @@ class SeqBase(Basic):
     def __radd__(self, other):
         return self + other
 
-    def __sub__(self, other) -> "SeqAdd":
+    def __sub__(self, other) -> SeqAdd:
         """Returns the term-wise subtraction of ``self`` and ``other``.
 
         ``other`` should be a sequence.
@@ -267,7 +267,7 @@ class SeqBase(Basic):
         """
         return self.coeff_mul(-1)
 
-    def __mul__(self, other) -> "SeqMul":
+    def __mul__(self, other) -> SeqMul:
         """Returns the term-wise multiplication of 'self' and 'other'.
 
         ``other`` should be a sequence. For ``other`` not being a
@@ -610,7 +610,7 @@ class SeqPer(SeqExpr):
             start, stop = self._intersect_interval(other)
             return SeqPer(new_per, (self.variables[0], start, stop))
 
-    def coeff_mul(self, coeff) -> "SeqPer":
+    def coeff_mul(self, coeff) -> SeqPer:
         """See docstring of SeqBase.coeff_mul"""
         coeff = sympify(coeff)
         per = [x * coeff for x in self.periodical]
@@ -723,13 +723,13 @@ class SeqFormula(SeqExpr):
             start, stop = self._intersect_interval(other)
             return SeqFormula(formula, (v1, start, stop))
 
-    def coeff_mul(self, coeff) -> "SeqFormula":
+    def coeff_mul(self, coeff) -> SeqFormula:
         """See docstring of SeqBase.coeff_mul"""
         coeff = sympify(coeff)
         formula = self.formula * coeff
         return SeqFormula(formula, self.args[1])
 
-    def expand(self, *args, **kwargs) -> "SeqFormula":
+    def expand(self, *args, **kwargs) -> SeqFormula:
         return SeqFormula(expand(self.formula, *args, **kwargs), self.args[1])
 
 class RecursiveSeq(SeqBase):
@@ -1092,7 +1092,7 @@ class SeqAdd(SeqExprOp):
         return Basic.__new__(cls, *args)
 
     @staticmethod
-    def reduce(args) -> "SeqAdd":
+    def reduce(args) -> SeqAdd:
         """Simplify :class:`SeqAdd` using known rules.
 
         Iterates through all pairs and ask the constituent
@@ -1202,7 +1202,7 @@ class SeqMul(SeqExprOp):
         return Basic.__new__(cls, *args)
 
     @staticmethod
-    def reduce(args) -> "SeqMul":
+    def reduce(args) -> SeqMul:
         """Simplify a :class:`SeqMul` using known rules.
 
         Explanation

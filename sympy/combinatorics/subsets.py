@@ -77,7 +77,7 @@ class Subset():
             return NotImplemented
         return self.subset == other.subset and self.superset == other.superset
 
-    def iterate_binary(self, k) -> "Subset":
+    def iterate_binary(self, k) -> Subset:
         """
         This is a helper function. It iterates over the
         binary subsets by ``k`` steps. This variable can be
@@ -104,7 +104,7 @@ class Subset():
         bits = bin(n)[2:].rjust(self.superset_size, '0')
         return Subset.subset_from_bitlist(self.superset, bits)
 
-    def next_binary(self) -> "Subset":
+    def next_binary(self) -> Subset:
         """
         Generates the next binary ordered subset.
 
@@ -126,7 +126,7 @@ class Subset():
         """
         return self.iterate_binary(1)
 
-    def prev_binary(self) -> "Subset":
+    def prev_binary(self) -> Subset:
         """
         Generates the previous binary ordered subset.
 
@@ -148,7 +148,7 @@ class Subset():
         """
         return self.iterate_binary(-1)
 
-    def next_lexicographic(self) -> "Subset":
+    def next_lexicographic(self) -> Subset:
         """
         Generates the next lexicographically ordered subset.
 
@@ -193,7 +193,7 @@ class Subset():
             ret_set.append(super_set[i])
         return Subset(ret_set, super_set)
 
-    def prev_lexicographic(self) -> "Subset":
+    def prev_lexicographic(self) -> Subset:
         """
         Generates the previous lexicographically ordered subset.
 
@@ -233,7 +233,7 @@ class Subset():
             ret_set.append(super_set[i])
         return Subset(ret_set, super_set)
 
-    def iterate_graycode(self, k) -> "Subset":
+    def iterate_graycode(self, k) -> Subset:
         """
         Helper function used for prev_gray and next_gray.
         It performs ``k`` step overs to get the respective Gray codes.
@@ -258,7 +258,7 @@ class Subset():
         return Subset.subset_from_bitlist(self.superset,
                                           unranked_code)
 
-    def next_gray(self) -> "Subset":
+    def next_gray(self) -> Subset:
         """
         Generates the next Gray code ordered subset.
 
@@ -277,7 +277,7 @@ class Subset():
         """
         return self.iterate_graycode(1)
 
-    def prev_gray(self) -> "Subset":
+    def prev_gray(self) -> Subset:
         """
         Generates the previous Gray code ordered subset.
 
@@ -478,7 +478,7 @@ class Subset():
         return 2**(self.superset_size)
 
     @classmethod
-    def subset_from_bitlist(self, super_set, bitlist) -> "Subset":
+    def subset_from_bitlist(self, super_set, bitlist) -> Subset:
         """
         Gets the subset defined by the bitlist.
 
@@ -527,7 +527,7 @@ class Subset():
         return ''.join(bitlist)
 
     @classmethod
-    def unrank_binary(self, rank, superset) -> "Subset":
+    def unrank_binary(self, rank, superset) -> Subset:
         """
         Gets the binary ordered subset of the specified rank.
 
@@ -547,7 +547,7 @@ class Subset():
         return Subset.subset_from_bitlist(superset, bits)
 
     @classmethod
-    def unrank_gray(self, rank, superset) -> "Subset":
+    def unrank_gray(self, rank, superset) -> Subset:
         """
         Gets the Gray code ordered subset of the specified rank.
 

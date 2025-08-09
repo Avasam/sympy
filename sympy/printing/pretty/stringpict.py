@@ -403,7 +403,7 @@ class prettyForm(stringPict):
 
     # Note: code to handle subtraction is in _print_Add
 
-    def __add__(self, *others) -> "prettyForm":
+    def __add__(self, *others) -> prettyForm:
         """Make a pretty addition.
         Addition of negative numbers is simplified.
         """
@@ -421,7 +421,7 @@ class prettyForm(stringPict):
             result.append(arg)
         return prettyForm(binding=prettyForm.ADD, *stringPict.next(*result))
 
-    def __truediv__(self, den, slashed=False) -> "prettyForm":
+    def __truediv__(self, den, slashed=False) -> prettyForm:
         """Make a pretty division; stacked or slashed.
         """
         if slashed:
@@ -489,7 +489,7 @@ class prettyForm(stringPict):
             self.baseline,
             self.binding)
 
-    def __pow__(self, b) -> "prettyForm":
+    def __pow__(self, b) -> prettyForm:
         """Make a pretty power.
         """
         a = self
@@ -522,7 +522,7 @@ class prettyForm(stringPict):
     simpleFunctions = ["sin", "cos", "tan"]
 
     @staticmethod
-    def apply(function, *args) -> "prettyForm":
+    def apply(function, *args) -> prettyForm:
         """Functions of one or more variables.
         """
         if function in prettyForm.simpleFunctions:

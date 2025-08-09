@@ -43,7 +43,7 @@ class ExtensionElement(DomainElement, DefaultPrinting):
     def __pos__(f) -> Self:
         return f
 
-    def __neg__(f) -> "ExtElem":
+    def __neg__(f) -> ExtElem:
         return ExtElem(-f.rep, f.ext)
 
     def _get_rep(f, g):
@@ -108,7 +108,7 @@ class ExtensionElement(DomainElement, DefaultPrinting):
                     "Only division by invertible constants is implemented.")
             raise NotImplementedError(msg)
 
-    def inverse(f) -> "ExtElem":
+    def inverse(f) -> ExtElem:
         """Multiplicative inverse.
 
         Raises
@@ -173,7 +173,7 @@ class ExtensionElement(DomainElement, DefaultPrinting):
             return NotImplemented
         return g % f
 
-    def __pow__(f, n) -> "ExtElem":
+    def __pow__(f, n) -> ExtElem:
         if not isinstance(n, int):
             raise TypeError("exponent of type 'int' expected")
         if n < 0:
@@ -295,7 +295,7 @@ class MonogenicFiniteExtension(Domain):
         # XXX: It might be necessary to check mod.is_irreducible here
         self.is_Field = self.domain.is_Field
 
-    def new(self, arg) -> "ExtElem":
+    def new(self, arg) -> ExtElem:
         rep = self.ring.convert(arg)
         return ExtElem(rep % self.mod, self)
 
@@ -319,18 +319,18 @@ class MonogenicFiniteExtension(Domain):
     def characteristic(self):
         return self.domain.characteristic()
 
-    def convert(self, f, base=None) -> "ExtElem":
+    def convert(self, f, base=None) -> ExtElem:
         rep = self.ring.convert(f, base)
         return ExtElem(rep % self.mod, self)
 
-    def convert_from(self, f, base) -> "ExtElem":
+    def convert_from(self, f, base) -> ExtElem:
         rep = self.ring.convert(f, base)
         return ExtElem(rep % self.mod, self)
 
     def to_sympy(self, f):
         return self.ring.to_sympy(f.rep)
 
-    def from_sympy(self, f) -> "ExtElem":
+    def from_sympy(self, f) -> ExtElem:
         return self.convert(f)
 
     def set_domain(self, K) -> Self:
@@ -343,10 +343,10 @@ class MonogenicFiniteExtension(Domain):
         K = self.domain.drop(*symbols)
         return self.set_domain(K)
 
-    def quo(self, f, g) -> "ExtElem":
+    def quo(self, f, g) -> ExtElem:
         return self.exquo(f, g)
 
-    def exquo(self, f, g) -> "ExtElem":
+    def exquo(self, f, g) -> ExtElem:
         rep = self.ring.exquo(f.rep, g.rep)
         return ExtElem(rep % self.mod, self)
 

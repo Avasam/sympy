@@ -61,7 +61,7 @@ class Tuple(Basic):
         obj = Basic.__new__(cls, *args)
         return obj
 
-    def __getitem__(self, i) -> "Tuple":
+    def __getitem__(self, i) -> Tuple:
         if isinstance(i, slice):
             indices = i.indices(len(self))
             return Tuple(*(self.args[j] for j in range(*indices)))
@@ -152,7 +152,7 @@ class Tuple(Basic):
             return self.args.index(value, start, stop)
 
     @property
-    def kind(self) -> "TupleKind":
+    def kind(self) -> TupleKind:
         """
         The kind of a Tuple instance.
 

@@ -44,7 +44,7 @@ class TupleArg(Tuple):
     def as_leading_term(self, *x, logx=None, cdir=0):
         return TupleArg(*[f.as_leading_term(*x, logx=logx, cdir=cdir) for f in self.args])
 
-    def limit(self, x, xlim, dir='+') -> "TupleArg":
+    def limit(self, x, xlim, dir='+') -> TupleArg:
         """ Compute limit x->xlim.
         """
         from sympy.series.limits import limit

@@ -72,7 +72,7 @@ else:
     __doctest_skip__ = ['DomainMatrix.from_list']
 
 
-def DM(rows, domain) -> "DomainMatrix":
+def DM(rows, domain) -> DomainMatrix:
     """Convenient alias for DomainMatrix.from_list
 
     Examples
@@ -299,7 +299,7 @@ class DomainMatrix:
 
     @classmethod
     @doctest_depends_on(ground_types=['python', 'gmpy'])
-    def from_list(cls, rows, domain) -> "DomainMatrix":
+    def from_list(cls, rows, domain) -> DomainMatrix:
         r"""
         Convert a list of lists into a DomainMatrix
 
@@ -344,7 +344,7 @@ class DomainMatrix:
         return DomainMatrix(domain_rows, (nrows, ncols), domain)
 
     @classmethod
-    def from_list_sympy(cls, nrows, ncols, rows, **kwargs) -> "DomainMatrix":
+    def from_list_sympy(cls, nrows, ncols, rows, **kwargs) -> DomainMatrix:
         r"""
         Convert a list of lists of Expr into a DomainMatrix using construct_domain
 
@@ -387,7 +387,7 @@ class DomainMatrix:
         return DomainMatrix(domain_rows, (nrows, ncols), domain)
 
     @classmethod
-    def from_dict_sympy(cls, nrows, ncols, elemsdict, **kwargs) -> "DomainMatrix":
+    def from_dict_sympy(cls, nrows, ncols, elemsdict, **kwargs) -> DomainMatrix:
         """
 
         Parameters
@@ -1267,7 +1267,7 @@ class DomainMatrix:
         rref, pivots = self.rref()
         return len(pivots)
 
-    def hstack(A, *B) -> "DomainMatrix":
+    def hstack(A, *B) -> DomainMatrix:
         r"""Horizontally stack the given matrices.
 
         Parameters
@@ -1305,7 +1305,7 @@ class DomainMatrix:
         A, *B = A.unify(*B, fmt=A.rep.fmt)
         return DomainMatrix.from_rep(A.rep.hstack(*(Bk.rep for Bk in B)))
 
-    def vstack(A, *B) -> "DomainMatrix":
+    def vstack(A, *B) -> DomainMatrix:
         r"""Vertically stack the given matrices.
 
         Parameters
@@ -3883,7 +3883,7 @@ class DomainMatrix:
             A, B = A.unify(B)
         return A == B
 
-    def lll(A, delta=QQ(3, 4)) -> "DomainMatrix":
+    def lll(A, delta=QQ(3, 4)) -> DomainMatrix:
         """
         Performs the Lenstra–Lenstra–Lovász (LLL) basis reduction algorithm.
         See [1]_ and [2]_.

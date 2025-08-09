@@ -480,7 +480,7 @@ class Product(ExprWithIntLimits):
                                         "is not yet implemented" % (sequence_term))
         return is_conv
 
-    def reverse_order(expr, *indices) -> "Product":
+    def reverse_order(expr, *indices) -> Product:
         """
         Reverse the order of a limit in a Product.
 

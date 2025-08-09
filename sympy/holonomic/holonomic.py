@@ -228,7 +228,7 @@ class DifferentialOperator:
         # highest power of `Dx`
         self.order = len(self.listofpoly) - 1
 
-    def __mul__(self, other) -> "DifferentialOperator":
+    def __mul__(self, other) -> DifferentialOperator:
         """
         Multiplies two DifferentialOperator and returns another
         DifferentialOperator instance using the commutation rule
@@ -283,7 +283,7 @@ class DifferentialOperator:
             sol = [other * j for j in self.listofpoly]
             return DifferentialOperator(sol, self.parent)
 
-    def __add__(self, other) -> "DifferentialOperator":
+    def __add__(self, other) -> DifferentialOperator:
         if isinstance(other, DifferentialOperator):
 
             sol = _add_lists(self.listofpoly, other.listofpoly)
@@ -1121,7 +1121,7 @@ class HolonomicFunction:
         """
         return max(i.degree() for i in self.annihilator.listofpoly)
 
-    def composition(self, expr, *args, **kwargs) -> "HolonomicFunction":
+    def composition(self, expr, *args, **kwargs) -> HolonomicFunction:
         """
         Returns function after composition of a holonomic
         function with an algebraic function. The method cannot compute
@@ -1769,7 +1769,7 @@ class HolonomicFunction:
             return _evalf(self, points, method=method, derivatives=derivatives)[-1]
         return _evalf(self, points, method=method, derivatives=derivatives)
 
-    def change_x(self, z) -> "HolonomicFunction":
+    def change_x(self, z) -> HolonomicFunction:
         """
         Changes only the variable of Holonomic Function, for internal
         purposes. For composition use HolonomicFunction.composition()
@@ -1782,7 +1782,7 @@ class HolonomicFunction:
         sol =  DifferentialOperator(sol, parent)
         return HolonomicFunction(sol, z, self.x0, self.y0)
 
-    def shift_x(self, a) -> "HolonomicFunction":
+    def shift_x(self, a) -> HolonomicFunction:
         """
         Substitute `x + a` for `x`.
         """
@@ -1995,7 +1995,7 @@ class HolonomicFunction:
 
         return hyperexpand(self.to_hyper()).simplify()
 
-    def change_ics(self, b, lenics=None) -> "HolonomicFunction":
+    def change_ics(self, b, lenics=None) -> HolonomicFunction:
         """
         Changes the point `x0` to ``b`` for initial conditions.
 

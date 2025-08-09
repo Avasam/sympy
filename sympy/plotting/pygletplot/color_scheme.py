@@ -21,7 +21,7 @@ class ColorGradient:
             self.intervals = [args[i] for i in range(0, len(args), 2)]
         assert len(self.colors) == len(self.intervals)
 
-    def copy(self) -> "ColorGradient":
+    def copy(self) -> ColorGradient:
         c = ColorGradient()
         c.colors = [e[::] for e in self.colors]
         c.intervals = self.intervals[::]

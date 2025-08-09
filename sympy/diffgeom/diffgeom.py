@@ -694,7 +694,7 @@ That is, replace {s} with Symbol({s!r}, real=True).
     # Points
     ##########################################################################
 
-    def point(self, coords) -> "Point":
+    def point(self, coords) -> Point:
         """Create a ``Point`` with coordinates given in this coord system."""
         return Point(self, coords)
 
@@ -706,7 +706,7 @@ That is, replace {s} with Symbol({s!r}, real=True).
     # Base fields.
     ##########################################################################
 
-    def base_scalar(self, coord_index) -> "BaseScalarField":
+    def base_scalar(self, coord_index) -> BaseScalarField:
         """Return ``BaseScalarField`` that takes a point and returns one of the coordinates."""
         return BaseScalarField(self, coord_index)
     coord_function = base_scalar
@@ -717,7 +717,7 @@ That is, replace {s} with Symbol({s!r}, real=True).
         return [self.base_scalar(i) for i in range(self.dim)]
     coord_functions = base_scalars
 
-    def base_vector(self, coord_index) -> "BaseVectorField":
+    def base_vector(self, coord_index) -> BaseVectorField:
         """Return a basis vector field.
         The basis vector field for this coordinate system. It is also an
         operator on scalar fields."""
@@ -728,7 +728,7 @@ That is, replace {s} with Symbol({s!r}, real=True).
         For more details see the ``base_vector`` method of this class."""
         return [self.base_vector(i) for i in range(self.dim)]
 
-    def base_oneform(self, coord_index) -> "Differential":
+    def base_oneform(self, coord_index) -> Differential:
         """Return a basis 1-form field.
         The basis one-form field for this coordinate system. It is also an
         operator on vector fields."""

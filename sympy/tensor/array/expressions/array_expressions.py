@@ -44,7 +44,7 @@ if TYPE_CHECKING:
 class _ArrayExpr(Expr):
     shape: tuple[Expr, ...]
 
-    def __getitem__(self, item) -> "ArrayElement":
+    def __getitem__(self, item) -> ArrayElement:
         if not isinstance(item, collections.abc.Iterable):
             item = (item,)
         ArrayElement._check_shape(self, item)
@@ -61,7 +61,7 @@ class ArraySymbol(_ArrayExpr):
 
     _iterable = False
 
-    def __new__(cls, symbol, shape: Iterable) -> "ArraySymbol":
+    def __new__(cls, symbol, shape: Iterable) -> ArraySymbol:
         if isinstance(symbol, str):
             symbol = Symbol(symbol)
         # symbol = _sympify(symbol)
@@ -1575,7 +1575,7 @@ class Reshape(_CodegenArrayAbstract):
     def expr(self):
         return self._expr
 
-    def doit(self, *args, **kwargs) -> "Reshape":
+    def doit(self, *args, **kwargs) -> Reshape:
         if kwargs.get("deep", True):
             expr = self.expr.doit(*args, **kwargs)
         else:

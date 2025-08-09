@@ -93,7 +93,7 @@ class Point(Basic):
             result -= path[i]._pos
         return result
 
-    def locate_new(self, name, position) -> "Point":
+    def locate_new(self, name, position) -> Point:
         """
         Returns a new Point located at the given position wrt this
         Point.

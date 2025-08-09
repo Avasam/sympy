@@ -294,7 +294,7 @@ class SparseRepMatrix(RepMatrix):
         from .immutable import ImmutableSparseMatrix
         return ImmutableSparseMatrix(self)
 
-    def as_mutable(self) -> "MutableSparseMatrix":
+    def as_mutable(self) -> MutableSparseMatrix:
         """Returns a mutable version of this matrix.
 
         Examples

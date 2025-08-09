@@ -241,7 +241,7 @@ class Dimension(Expr):
         # subtraction is equivalent to addition when the operation is legal
         return self + other
 
-    def __pow__(self, other) -> "Dimension":
+    def __pow__(self, other) -> Dimension:
         return self._eval_power(other)
 
     def _eval_power(self, other):
@@ -456,7 +456,7 @@ class DimensionSystem(Basic, _QuantityMapper):
         deps2 = self.get_dimensional_dependencies(dim2)
         return deps1 == deps2
 
-    def extend(self, new_base_dims, new_derived_dims=(), new_dim_deps=None) -> "DimensionSystem":
+    def extend(self, new_base_dims, new_derived_dims=(), new_dim_deps=None) -> DimensionSystem:
         deps = dict(self.dimensional_dependencies)
         if new_dim_deps:
             deps.update(new_dim_deps)

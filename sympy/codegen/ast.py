@@ -1517,7 +1517,7 @@ class Variable(Node):
             value = type_.cast_check(value)
         return cls(symbol, type=type_, value=value, attrs=attrs)
 
-    def as_Declaration(self, **kwargs) -> "Declaration":
+    def as_Declaration(self, **kwargs) -> Declaration:
         """ Convenience method for creating a Declaration instance.
 
         Explanation
@@ -1579,7 +1579,7 @@ class Pointer(Variable):
     """
     __slots__ = ()
 
-    def __getitem__(self, key) -> "Element":
+    def __getitem__(self, key) -> Element:
         try:
             return Element(self.symbol, key)
         except TypeError:

@@ -305,7 +305,7 @@ def canonicalize(x):
     return x
 
 
-def hadamard_power(base, exp) -> "HadamardPower":
+def hadamard_power(base, exp) -> HadamardPower:
     base = sympify(base)
     exp = sympify(exp)
     if exp == 1:

@@ -105,27 +105,27 @@ class Boolean(Basic):
             ...
 
     @sympify_return([('other', 'Boolean')], NotImplemented)
-    def __and__(self, other) -> "And":
+    def __and__(self, other) -> And:
         return And(self, other)
 
     __rand__ = __and__
 
     @sympify_return([('other', 'Boolean')], NotImplemented)
-    def __or__(self, other) -> "Or":
+    def __or__(self, other) -> Or:
         return Or(self, other)
 
     __ror__ = __or__
 
-    def __invert__(self) -> "Not":
+    def __invert__(self) -> Not:
         """Overloading for ~"""
         return Not(self)
 
     @sympify_return([('other', 'Boolean')], NotImplemented)
-    def __rshift__(self, other) -> "Implies":
+    def __rshift__(self, other) -> Implies:
         return Implies(self, other)
 
     @sympify_return([('other', 'Boolean')], NotImplemented)
-    def __lshift__(self, other) -> "Implies":
+    def __lshift__(self, other) -> Implies:
         return Implies(other, self)
 
     __rrshift__ = __lshift__
@@ -382,7 +382,7 @@ class BooleanTrue(BooleanAtom, metaclass=Singleton):
         return super().__eq__(other)
 
     @property
-    def negated(self) -> "BooleanFalse":
+    def negated(self) -> BooleanFalse:
         return false
 
     def as_set(self):
@@ -979,7 +979,7 @@ class Not(BooleanFunction):
 
         raise ValueError("Illegal operator %s in expression" % func)
 
-    def to_anf(self, deep=True) -> "Xor":
+    def to_anf(self, deep=True) -> Xor:
         return Xor._to_anf(true, self.args[0], deep=deep)
 
 

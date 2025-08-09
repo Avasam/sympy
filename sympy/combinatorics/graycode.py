@@ -107,7 +107,7 @@ class GrayCode(Basic):
             obj._current = obj.unrank(n, obj._rank)
         return obj
 
-    def next(self, delta=1) -> "GrayCode":
+    def next(self, delta=1) -> GrayCode:
         """
         Returns the Gray code a distance ``delta`` (default = 1) from the
         current value in canonical order.

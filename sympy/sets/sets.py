@@ -276,7 +276,7 @@ class Set(Basic, EvalfMixin):
                 Complement(FiniteSet(*(sifted[None])), self, evaluate=False)
                 if sifted[None] else S.EmptySet)
 
-    def symmetric_difference(self, other) -> "SymmetricDifference":
+    def symmetric_difference(self, other) -> SymmetricDifference:
         """
         Returns symmetric difference of ``self`` and ``other``.
 
@@ -604,7 +604,7 @@ class Set(Basic, EvalfMixin):
         return self._measure
 
     @property
-    def kind(self) -> "SetKind":
+    def kind(self) -> SetKind:
         """
         The kind of a Set
 
@@ -830,7 +830,7 @@ class Set(Basic, EvalfMixin):
         return ProductSet(self, other)
 
     @sympify_return([('other', 'Set')], NotImplemented)
-    def __xor__(self, other) -> "SymmetricDifference":
+    def __xor__(self, other) -> SymmetricDifference:
         return SymmetricDifference(self, other)
 
     @sympify_return([('exp', Expr)], NotImplemented)
@@ -2234,7 +2234,7 @@ class SymmetricDifference(Set):
         return Basic.__new__(cls, a, b)
 
     @staticmethod
-    def reduce(A, B) -> "SymmetricDifference":
+    def reduce(A, B) -> SymmetricDifference:
         result = B._symmetric_difference(A)
         if result is not None:
             return result

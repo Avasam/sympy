@@ -64,7 +64,7 @@ class BasisDependent(Expr):
     def __rtruediv__(self, other) -> TypeError:
         return TypeError("Invalid divisor for division")
 
-    def evalf(self, n=15, subs=None, maxn=100, chop=False, strict=False, quad=None, verbose=False) -> "BasisDependentZero":
+    def evalf(self, n=15, subs=None, maxn=100, chop=False, strict=False, quad=None, verbose=False) -> BasisDependentZero:
         """
         Implements the SymPy evalf routine for this quantity.
 

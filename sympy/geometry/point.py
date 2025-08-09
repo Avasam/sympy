@@ -1261,7 +1261,7 @@ class Point3D(Point):
             return []
         return other.intersection(self)
 
-    def scale(self, x=1, y=1, z=1, pt=None) -> "Point3D":
+    def scale(self, x=1, y=1, z=1, pt=None) -> Point3D:
         """Scale the coordinates of the Point by multiplying by
         ``x`` and ``y`` after subtracting ``pt`` -- default is (0, 0) --
         and then adding ``pt`` back again (i.e. ``pt`` is the point of
@@ -1288,7 +1288,7 @@ class Point3D(Point):
             return self.translate(*(-pt).args).scale(x, y, z).translate(*pt.args)
         return Point3D(self.x*x, self.y*y, self.z*z)
 
-    def transform(self, matrix) -> "Point3D":
+    def transform(self, matrix) -> Point3D:
         """Return the point after applying the transformation described
         by the 4x4 Matrix, ``matrix``.
 
@@ -1303,7 +1303,7 @@ class Point3D(Point):
         m = Transpose(matrix)
         return Point3D(*(Matrix(1, 4, [x, y, z, 1])*m).tolist()[0][:3])
 
-    def translate(self, x=0, y=0, z=0) -> "Point3D":
+    def translate(self, x=0, y=0, z=0) -> Point3D:
         """Shift the Point by adding x and y to the coordinates of the Point.
 
         See Also

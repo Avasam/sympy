@@ -108,7 +108,7 @@ class Trace(Expr):
     def arg(self) -> Basic:
         return self.args[0]
 
-    def doit(self, **hints) -> "Trace":
+    def doit(self, **hints) -> Trace:
         if hints.get('deep', True):
             arg = self.arg.doit(**hints)
             result = arg._eval_trace()
@@ -123,7 +123,7 @@ class Trace(Expr):
             else:
                 return Trace(self.arg)
 
-    def as_explicit(self) -> "Trace":
+    def as_explicit(self) -> Trace:
         return Trace(self.arg.as_explicit()).doit()
 
     def _normalize(self):

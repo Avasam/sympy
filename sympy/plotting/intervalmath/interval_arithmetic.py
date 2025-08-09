@@ -241,7 +241,7 @@ class interval:
         else:
             return NotImplemented
 
-    def __neg__(self) -> "interval":
+    def __neg__(self) -> interval:
         if self.is_valid:
             return interval(-self.end, -self.start)
         else:

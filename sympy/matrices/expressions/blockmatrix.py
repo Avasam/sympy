@@ -226,7 +226,7 @@ class BlockMatrix(MatrixExpr):
     def _eval_derivative(self, x):
         return BlockMatrix(self.blocks.diff(x))
 
-    def transpose(self) -> "BlockMatrix":
+    def transpose(self) -> BlockMatrix:
         """Return transpose of matrix.
 
         Examples

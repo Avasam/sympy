@@ -296,7 +296,7 @@ class Vector(BasisDependent):
 
         return DyadicAdd(*args)
 
-    def projection(self, other, scalar=False) -> "VectorZero":
+    def projection(self, other, scalar=False) -> VectorZero:
         """
         Returns the vector or scalar projection of the 'other' on 'self'.
 

@@ -41,7 +41,7 @@ class intervalMembership:
         return "intervalMembership({}, {})".format(*self)
     __repr__ = __str__
 
-    def __and__(self, other) -> "intervalMembership":
+    def __and__(self, other) -> intervalMembership:
         if not isinstance(other, intervalMembership):
             raise ValueError(
                 "The comparison is not supported for {}.".format(other))
@@ -50,7 +50,7 @@ class intervalMembership:
         a2, b2 = other
         return intervalMembership(fuzzy_and([a1, a2]), fuzzy_and([b1, b2]))
 
-    def __or__(self, other) -> "intervalMembership":
+    def __or__(self, other) -> intervalMembership:
         if not isinstance(other, intervalMembership):
             raise ValueError(
                 "The comparison is not supported for {}.".format(other))
@@ -59,11 +59,11 @@ class intervalMembership:
         a2, b2 = other
         return intervalMembership(fuzzy_or([a1, a2]), fuzzy_and([b1, b2]))
 
-    def __invert__(self) -> "intervalMembership":
+    def __invert__(self) -> intervalMembership:
         a, b = self
         return intervalMembership(fuzzy_not(a), b)
 
-    def __xor__(self, other) -> "intervalMembership":
+    def __xor__(self, other) -> intervalMembership:
         if not isinstance(other, intervalMembership):
             raise ValueError(
                 "The comparison is not supported for {}.".format(other))

@@ -68,7 +68,7 @@ class Point:
         return self.x_cord * other.z_cord % self.mod ==\
             other.x_cord * self.z_cord % self.mod
 
-    def add(self, Q, diff) -> "Point":
+    def add(self, Q, diff) -> Point:
         """
         Add two points self and Q where diff = self - Q. Moreover the assumption
         is self.x_cord*Q.x_cord*(self.x_cord - Q.x_cord) != 0. This algorithm
@@ -105,7 +105,7 @@ class Point:
         z_cord = diff.x_cord * subt * subt % self.mod
         return Point(x_cord, z_cord, self.a_24, self.mod)
 
-    def double(self) -> "Point":
+    def double(self) -> Point:
         """
         Doubles a point in an elliptic curve in Montgomery form.
         This algorithm requires 5 multiplications.

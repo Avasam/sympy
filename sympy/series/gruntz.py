@@ -238,7 +238,7 @@ class SubsSet(dict):
             res.rewrites[var] = rewr.xreplace(tr)
         return res, exps
 
-    def copy(self) -> "SubsSet":
+    def copy(self) -> SubsSet:
         """Create a shallow copy of SubsSet"""
         r = SubsSet()
         r.rewrites = self.rewrites.copy()

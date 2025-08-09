@@ -274,7 +274,7 @@ class DiscretePSpace(PSpace):
             rv = sum(self.eval_prob(x) for x in _domain.args)
             return rv
 
-    def conditional_space(self, condition) -> "DiscretePSpace":
+    def conditional_space(self, condition) -> DiscretePSpace:
         # XXX: Converting from set to tuple. The order matters to Lambda
         # though so we should be starting with a set...
         density = Lambda(tuple(self.symbols), self.pdf/self.probability(condition))

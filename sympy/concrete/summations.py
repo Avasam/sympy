@@ -810,7 +810,7 @@ class Sum(AddWithLimits, ExprWithIntLimits):
         return s + iterm, abs(term)
 
 
-    def reverse_order(self, *indices) -> "Sum":
+    def reverse_order(self, *indices) -> Sum:
         """
         Reverse the order of a limit in a Sum.
 

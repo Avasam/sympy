@@ -321,7 +321,7 @@ class Prufer(Basic):
         return r
 
     @classmethod
-    def unrank(self, rank, n) -> "Prufer":
+    def unrank(self, rank, n) -> Prufer:
         """Finds the unranked Prufer sequence.
 
         Examples
@@ -394,7 +394,7 @@ class Prufer(Basic):
             ret_obj._nodes = len(ret_obj._prufer_repr) + 2
         return ret_obj
 
-    def next(self, delta=1) -> "Prufer":
+    def next(self, delta=1) -> Prufer:
         """Generates the Prufer sequence that is delta beyond the current one.
 
         Examples
@@ -416,7 +416,7 @@ class Prufer(Basic):
         """
         return Prufer.unrank(self.rank + delta, self.nodes)
 
-    def prev(self, delta=1) -> "Prufer":
+    def prev(self, delta=1) -> Prufer:
         """Generates the Prufer sequence that is -delta before the current one.
 
         Examples

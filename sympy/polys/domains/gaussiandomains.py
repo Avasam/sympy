@@ -469,7 +469,7 @@ class GaussianIntegerRing(GaussianDomain, Ring):
         """Returns a ring associated with ``self``. """
         return self
 
-    def get_field(self) -> "GaussianRationalField":
+    def get_field(self) -> GaussianRationalField:
         """Returns a field associated with ``self``. """
         return QQ_I
 

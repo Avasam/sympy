@@ -25,7 +25,7 @@ def sympify_matrix(arg):
 sympify_converter[MatrixBase] = sympify_matrix
 
 
-def sympify_mpmath_matrix(arg) -> "ImmutableDenseMatrix":
+def sympify_mpmath_matrix(arg) -> ImmutableDenseMatrix:
     mat = [_sympify(x) for x in arg]
     return ImmutableDenseMatrix(arg.rows, arg.cols, mat)
 

@@ -259,7 +259,7 @@ class SinglePSpace(PSpace):
         return Basic.__new__(cls, s, distribution)
 
     @property
-    def value(self) -> "RandomSymbol":
+    def value(self) -> RandomSymbol:
         return RandomSymbol(self.symbol, self)
 
     @property

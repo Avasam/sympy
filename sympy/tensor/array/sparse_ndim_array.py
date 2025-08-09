@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 class SparseNDimArray(NDimArray):
 
-    def __new__(self, *args, **kwargs) -> "ImmutableSparseNDimArray":
+    def __new__(self, *args, **kwargs) -> ImmutableSparseNDimArray:
         return ImmutableSparseNDimArray(*args, **kwargs)
 
     def __getitem__(self, index) -> Indexed | Self:
@@ -139,7 +139,7 @@ class ImmutableSparseNDimArray(SparseNDimArray, ImmutableNDimArray): # type: ign
     def __setitem__(self, index, value):
         raise TypeError("immutable N-dim array")
 
-    def as_mutable(self) -> "MutableSparseNDimArray":
+    def as_mutable(self) -> MutableSparseNDimArray:
         return MutableSparseNDimArray(self)
 
 

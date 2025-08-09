@@ -63,7 +63,7 @@ class Literal:
             lit = self.lit.apply(expr)
         return type(self)(lit, self.is_Not)
 
-    def __invert__(self) -> "Literal":
+    def __invert__(self) -> Literal:
         is_Not = not self.is_Not
         return Literal(self.lit, is_Not)
 
@@ -96,7 +96,7 @@ class OR:
                             for arg in self._args
                             ])
 
-    def __invert__(self) -> "AND":
+    def __invert__(self) -> AND:
         return AND(*[~arg for arg in self._args])
 
     def __hash__(self) -> int:
@@ -312,7 +312,7 @@ class CNF:
             self.add(p)
         return self
 
-    def copy(self) -> "CNF":
+    def copy(self) -> CNF:
         return CNF(set(self.clauses))
 
     def add_clauses(self, clauses) -> None:
@@ -423,7 +423,7 @@ class EncodedCNF:
     def variables(self) -> range:
         return range(1, len(self._symbols) + 1)
 
-    def copy(self) -> "EncodedCNF":
+    def copy(self) -> EncodedCNF:
         new_data = [set(clause) for clause in self.data]
         return EncodedCNF(new_data, dict(self.encoding))
 

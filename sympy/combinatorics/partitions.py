@@ -152,7 +152,7 @@ class Partition(FiniteSet):
                                       for p in self.args])
         return self._partition
 
-    def __add__(self, other) -> "Partition":
+    def __add__(self, other) -> Partition:
         """
         Return permutation whose rank is ``other`` greater than current rank,
         (mod the maximum rank for the set).
@@ -176,7 +176,7 @@ class Partition(FiniteSet):
                             self.size)
         return Partition.from_rgs(result, self.members)
 
-    def __sub__(self, other) -> "Partition":
+    def __sub__(self, other) -> Partition:
         """
         Return permutation whose rank is ``other`` less than current rank,
         (mod the maximum rank for the set).
@@ -286,7 +286,7 @@ class Partition(FiniteSet):
             [i for p in partition for i in p], key=default_sort_key)])
 
     @classmethod
-    def from_rgs(self, rgs, elements) -> "Partition":
+    def from_rgs(self, rgs, elements) -> Partition:
         """
         Creates a set partition from a restricted growth string.
 
@@ -415,7 +415,7 @@ class IntegerPartition(Basic):
         obj.integer = integer
         return obj
 
-    def prev_lex(self) -> "IntegerPartition":
+    def prev_lex(self) -> IntegerPartition:
         """Return the previous partition of the integer, n, in lexical order,
         wrapping around to [1, ..., 1] if the partition is [n].
 
@@ -452,7 +452,7 @@ class IntegerPartition(Basic):
                     left -= d[new]*new
         return IntegerPartition(self.integer, d)
 
-    def next_lex(self) -> "IntegerPartition":
+    def next_lex(self) -> IntegerPartition:
         """Return the next partition of the integer, n, in lexical order,
         wrapping around to [n] if the partition is [1, ..., 1].
 

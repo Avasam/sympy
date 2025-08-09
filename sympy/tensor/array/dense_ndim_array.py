@@ -21,7 +21,7 @@ class DenseNDimArray(NDimArray):
 
     _array: List[Basic]
 
-    def __new__(self, *args, **kwargs) -> "ImmutableDenseNDimArray":
+    def __new__(self, *args, **kwargs) -> ImmutableDenseNDimArray:
         return ImmutableDenseNDimArray(*args, **kwargs)
 
     @property
@@ -157,7 +157,7 @@ class ImmutableDenseNDimArray(DenseNDimArray, ImmutableNDimArray): # type: ignor
     def __setitem__(self, index, value):
         raise TypeError('immutable N-dim array')
 
-    def as_mutable(self) -> "MutableDenseNDimArray":
+    def as_mutable(self) -> MutableDenseNDimArray:
         return MutableDenseNDimArray(self)
 
     def _eval_simplify(self, **kwargs):

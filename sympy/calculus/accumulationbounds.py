@@ -317,7 +317,7 @@ class AccumulationBounds(Expr):
 
     __radd__ = __add__
 
-    def __neg__(self) -> "AccumBounds":
+    def __neg__(self) -> AccumBounds:
         return AccumBounds(-self.max, -self.min)
 
     @_sympifyit('other', NotImplemented)

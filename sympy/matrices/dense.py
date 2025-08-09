@@ -72,7 +72,7 @@ class DenseMatrix(RepMatrix):
         from .immutable import ImmutableDenseMatrix as cls
         return cls._fromrep(self._rep.copy())
 
-    def as_mutable(self) -> "Matrix":
+    def as_mutable(self) -> Matrix:
         """Returns a mutable version of this matrix
 
         Examples

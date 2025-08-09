@@ -2139,7 +2139,7 @@ class ComplexInterval:
     def __repr__(self) -> str:
         return "(%s, %s) x (%s, %s)" % (self.ax, self.bx, self.ay, self.by)
 
-    def conjugate(self) -> "ComplexInterval":
+    def conjugate(self) -> ComplexInterval:
         """This complex interval really is located in lower half-plane. """
         return ComplexInterval(self.a, self.b, self.I, self.Q,
             self.F1, self.F2, self.f1, self.f2, self.dom, conj=True)
@@ -2229,6 +2229,6 @@ class ComplexInterval:
 
         return expr
 
-    def refine(self) -> "ComplexInterval":
+    def refine(self) -> ComplexInterval:
         """Perform one step of complex root refinement algorithm. """
         return self._inner_refine()

@@ -459,7 +459,7 @@ class Factors:
                 args.append(factor)
         return Mul(*args)
 
-    def mul(self, other) -> "Factors":  # Factors
+    def mul(self, other) -> Factors:  # Factors
         """Return Factors of ``self * other``.
 
         Examples
@@ -664,7 +664,7 @@ class Factors:
 
         return Factors(quo), Factors(rem)
 
-    def quo(self, other) -> "Factors":  # Factors
+    def quo(self, other) -> Factors:  # Factors
         """Return numerator Factor of ``self / other``.
 
         Examples
@@ -679,7 +679,7 @@ class Factors:
         """
         return self.div(other)[0]
 
-    def rem(self, other) -> "Factors":  # Factors
+    def rem(self, other) -> Factors:  # Factors
         """Return denominator Factors of ``self / other``.
 
         Examples
@@ -696,7 +696,7 @@ class Factors:
         """
         return self.div(other)[1]
 
-    def pow(self, other) -> "Factors":  # Factors
+    def pow(self, other) -> Factors:  # Factors
         """Return self raised to a non-negative integer power.
 
         Examples
@@ -724,7 +724,7 @@ class Factors:
         else:
             raise ValueError("expected non-negative integer, got %s" % other)
 
-    def gcd(self, other) -> "Factors":  # Factors
+    def gcd(self, other) -> Factors:  # Factors
         """Return Factors of ``gcd(self, other)``. The keys are
         the intersection of factors with the minimum exponent for
         each factor.
@@ -757,7 +757,7 @@ class Factors:
 
         return Factors(factors)
 
-    def lcm(self, other) -> "Factors":  # Factors
+    def lcm(self, other) -> Factors:  # Factors
         """Return Factors of ``lcm(self, other)`` which are
         the union of factors with the maximum exponent for
         each factor.
@@ -787,19 +787,19 @@ class Factors:
 
         return Factors(factors)
 
-    def __mul__(self, other) -> "Factors":  # Factors
+    def __mul__(self, other) -> Factors:  # Factors
         return self.mul(other)
 
     def __divmod__(self, other) -> tuple[Factors, Factors]:  # Factors
         return self.div(other)
 
-    def __truediv__(self, other) -> "Factors":  # Factors
+    def __truediv__(self, other) -> Factors:  # Factors
         return self.quo(other)
 
-    def __mod__(self, other) -> "Factors":  # Factors
+    def __mod__(self, other) -> Factors:  # Factors
         return self.rem(other)
 
-    def __pow__(self, other) -> "Factors":  # Factors
+    def __pow__(self, other) -> Factors:  # Factors
         return self.pow(other)
 
     def __eq__(self, other) -> bool:  # Factors
@@ -861,7 +861,7 @@ class Term:
     def as_expr(self):  # Term
         return self.coeff*(self.numer.as_expr()/self.denom.as_expr())
 
-    def mul(self, other) -> "Term":  # Term
+    def mul(self, other) -> Term:  # Term
         coeff = self.coeff*other.coeff
         numer = self.numer.mul(other.numer)
         denom = self.denom.mul(other.denom)
@@ -870,13 +870,13 @@ class Term:
 
         return Term(coeff, numer, denom)
 
-    def inv(self) -> "Term":  # Term
+    def inv(self) -> Term:  # Term
         return Term(1/self.coeff, self.denom, self.numer)
 
-    def quo(self, other) -> "Term":  # Term
+    def quo(self, other) -> Term:  # Term
         return self.mul(other.inv())
 
-    def pow(self, other) -> "Term":  # Term
+    def pow(self, other) -> Term:  # Term
         if other < 0:
             return self.inv().pow(-other)
         else:
@@ -884,12 +884,12 @@ class Term:
                         self.numer.pow(other),
                         self.denom.pow(other))
 
-    def gcd(self, other) -> "Term":  # Term
+    def gcd(self, other) -> Term:  # Term
         return Term(self.coeff.gcd(other.coeff),
                     self.numer.gcd(other.numer),
                     self.denom.gcd(other.denom))
 
-    def lcm(self, other) -> "Term":  # Term
+    def lcm(self, other) -> Term:  # Term
         return Term(self.coeff.lcm(other.coeff),
                     self.numer.lcm(other.numer),
                     self.denom.lcm(other.denom))

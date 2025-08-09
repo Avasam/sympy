@@ -101,7 +101,7 @@ class Dyadic(BasisDependent):
 
     __and__.__doc__ = dot.__doc__
 
-    def cross(self, other) -> "DyadicZero":
+    def cross(self, other) -> DyadicZero:
         """
         Returns the cross product between this Dyadic, and a Vector, as a
         Vector instance.
@@ -137,7 +137,7 @@ class Dyadic(BasisDependent):
             raise TypeError(str(type(other)) + " not supported for " +
                             "cross with dyadics")
 
-    def __xor__(self, other) -> "DyadicZero":
+    def __xor__(self, other) -> DyadicZero:
         return self.cross(other)
 
     __xor__.__doc__ = cross.__doc__
