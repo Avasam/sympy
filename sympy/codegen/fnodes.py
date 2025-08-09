@@ -19,7 +19,6 @@ from sympy.core.symbol import Str
 from sympy.core.sympify import sympify
 from sympy.logic import true, false
 from sympy.utilities.iterables import iterable
-import ast
 from typing import TYPE_CHECKING
 
 
@@ -301,7 +300,7 @@ class Extent(Basic):
 assumed_extent = Extent() # or Extent(':'), Extent(None)
 
 
-def dimension(*args) -> ast.Attribute:
+def dimension(*args) -> Attribute:
     """ Creates a 'dimension' Attribute with (up to 7) extents.
 
     Examples
@@ -538,7 +537,7 @@ def reshape(source, shape, pad=None, order=None) -> FunctionCall:
     )
 
 
-def bind_C(name=None) -> ast.Attribute:
+def bind_C(name=None) -> Attribute:
     """ Creates an Attribute ``bind_C`` with a name.
 
     Parameters

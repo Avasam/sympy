@@ -1,7 +1,7 @@
 """ Generic SymPy-Independent Strategies """
 from __future__ import annotations
 from collections.abc import Callable, Mapping
-from typing import Any, TypeVar
+from typing import TypeVar
 from sys import stdout
 
 

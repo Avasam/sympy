@@ -35,7 +35,7 @@ from sympy.combinatorics import Permutation
 from sympy.combinatorics.permutations import _af_invert
 from sympy.core.sympify import _sympify
 import ctypes
-import sympy
+from sympy.tensor.array.sparse_ndim_array import ImmutableSparseNDimArray
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -321,14 +321,14 @@ class ArrayTensorProduct(_CodegenArrayAbstract):
         return args
 
     def as_explicit(self) -> (
-            sympy.NDimArray
+        NDimArray
         | ImmutableDenseNDimArray
         | ZeroArray
         | ArrayTensorProduct
         | ArrayContraction
         | Basic
         | PermuteDims
-        |     sympy.ImmutableSparseNDimArray
+        | ImmutableSparseNDimArray
     ):
         return tensorproduct(*[arg.as_explicit() if hasattr(arg, "as_explicit") else arg for arg in self.args])
 
@@ -710,7 +710,7 @@ class PermuteDims(_CodegenArrayAbstract):
         | ArrayContraction
         | Basic
         | PermuteDims
-        |     sympy.ImmutableSparseNDimArray
+        | ImmutableSparseNDimArray
         | ImmutableDenseNDimArray
     ):
         expr = self.expr

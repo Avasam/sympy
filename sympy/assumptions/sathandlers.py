@@ -6,7 +6,7 @@ from sympy.core.numbers import ImaginaryUnit
 from sympy.functions.elementary.complexes import Abs
 from sympy.logic.boolalg import (Equivalent, And, Or, Implies)
 from sympy.matrices.expressions import MatMul
-from typing import Any, Callable
+from typing import Callable
 
 # APIs here may be subject to change
 

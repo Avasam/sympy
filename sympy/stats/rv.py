@@ -42,11 +42,12 @@ from sympy.external import import_module
 from sympy.utilities.decorator import doctest_depends_on
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.utilities.iterables import iterable
-import sympy
 from collections.abc import Generator
 from sympy.series.order import Order
 from typing import Any, TYPE_CHECKING
 from sympy.integrals.integrals import Integral
+from sympy.functions.elementary.piecewise import Piecewise
+from sympy.concrete.summations import Sum
 
 if TYPE_CHECKING:
     from sympy.stats.frv import ConditionalFiniteDomain, FiniteDensity, FinitePSpace, ProductFiniteDomain, ProductFinitePSpace
@@ -791,10 +792,10 @@ def expectation(
     Basic
     | Expectation
     | tuple
-    | sympy.Sum
+    | Sum
     | Order
     | Any
-    | sympy.Piecewise
+    | Piecewise
     | Equality
     | Relational
     | Ne

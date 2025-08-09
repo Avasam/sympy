@@ -4,7 +4,7 @@ This file assumes knowledge of Basic and little else.
 """
 from sympy.utilities.iterables import sift
 from .util import new
-from typing import Any, Callable
+from typing import Callable
 
 
 # Functions that create rules

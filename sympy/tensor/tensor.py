@@ -58,7 +58,6 @@ from sympy.utilities.exceptions import (sympy_deprecation_warning,
                                         ignore_warnings)
 from sympy.utilities.decorator import memoize_property, deprecated
 from sympy.utilities.iterables import sift
-import sympy
 from sympy.matrices.dense import Matrix
 from collections.abc import Generator
 from sympy.combinatorics.permutations import Perm
@@ -67,7 +66,8 @@ from types import NotImplementedType
 from sympy.tensor.indexed import Indexed
 
 if TYPE_CHECKING:
-    from .array import MutableDenseNDimArray, ImmutableDenseNDimArray
+    from sympy.tensor.array.dense_ndim_array import MutableDenseNDimArray, ImmutableDenseNDimArray
+    from sympy.tensor.array.sparse_ndim_array import ImmutableSparseNDimArray
     from typing_extensions import Self
 
 
@@ -2293,7 +2293,7 @@ class TensExpr(Expr, ABC):
     def replace_with_arrays(self, replacement_dict, indices=None) -> (
         ArrayElement
         | Indexed
-        |     sympy.ImmutableSparseNDimArray
+        | ImmutableSparseNDimArray
         | ImmutableDenseNDimArray
         | Basic
         | ZeroArray

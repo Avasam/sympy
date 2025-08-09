@@ -16,24 +16,23 @@ from sympy.combinatorics import Permutation
 from sympy.matrices.expressions.matexpr import MatrixElement
 from sympy.tensor.array.expressions.array_expressions import ArrayDiagonal, \
     get_shape, ArrayElement, _array_tensor_product, _array_diagonal, _array_contraction, _array_add, \
-    _permute_dims, OneArray, ArrayAdd
+    _permute_dims, OneArray, ArrayAdd, ZeroArray, ArrayTensorProduct, ArrayContraction, PermuteDims
 from sympy.tensor.array.expressions.utils import _get_argindex, _get_diagonal_indices
-import sympy
-import sympy.tensor.array.expressions.array_expressions
+from sympy.core.basic import Basic
 
 
 def convert_indexed_to_array(expr, first_indices=None) -> (
-    sympy.tensor.array.expressions.array_expressions.ArrayElement
-    | sympy.Basic
-    | sympy.tensor.array.expressions.array_expressions.ZeroArray
-    | sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct
-    | sympy.tensor.array.expressions.array_expressions.ArrayContraction
-    | sympy.tensor.array.expressions.array_expressions.PermuteDims
-    | sympy.tensor.array.expressions.array_expressions.ArrayDiagonal
+    ArrayElement
+    | Basic
+    | ZeroArray
+    | ArrayTensorProduct
+    | ArrayContraction
+    | PermuteDims
+    | ArrayDiagonal
     | KroneckerDelta
-    | sympy.tensor.array.expressions.array_expressions.ArrayAdd
-    | sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc
-    | sympy.Pow
+    | ArrayAdd
+    | ArrayElementwiseApplyFunc
+    | Pow
 ):
     r"""
     Parse indexed expression into a form useful for code generation.

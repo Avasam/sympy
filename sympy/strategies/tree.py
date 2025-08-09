@@ -3,7 +3,7 @@ from sympy.strategies import chain, minimize
 from sympy.strategies.core import identity
 import sympy.strategies.branch as branch
 from sympy.strategies.branch import yieldify
-from typing import Any, Callable
+from typing import Callable
 
 
 def treeapply(tree, join, leaf=identity):

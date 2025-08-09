@@ -1,19 +1,18 @@
 from __future__ import annotations
 from sympy.sets import FiniteSet, Set
 from sympy.core.numbers import Rational
-from sympy.core.relational import Ne, Relational, Eq
+from sympy.core.relational import Ne, Relational, Eq, Equality
 from sympy.core.symbol import Dummy
 from sympy.functions.combinatorial.factorials import FallingFactorial
 from sympy.functions.elementary.exponential import (exp, log)
 from sympy.functions.elementary.miscellaneous import sqrt
-from sympy.functions.elementary.piecewise import piecewise_fold
+from sympy.functions.elementary.piecewise import piecewise_fold, Piecewise
 from sympy.integrals.integrals import Integral
 from sympy.solvers.solveset import solveset
 from .rv import (probability, expectation, density, where, given, pspace, cdf, PSpace,
                  characteristic_function, sample, sample_iter, random_symbols, independent, dependent,
                  sampling_density, moment_generating_function, quantile, is_random,
                  sample_stochastic_process)
-import sympy
 from sympy.concrete.summations import Sum
 from sympy.core.basic import Basic
 from sympy.core.function import UndefinedFunction
@@ -124,11 +123,11 @@ def entropy(expr, condition=None, **kwargs) -> (
     | Sum
     | Order
     | Any
-    | sympy.Piecewise
-    | sympy.Equality
+    | Piecewise
+    | Equality
     | Relational
     | Ne
-    | sympy.Integral
+    | Integral
     | ExpectationMatrix
     | None
 ):
@@ -182,11 +181,11 @@ def covariance(X, Y, condition=None, **kwargs) -> (
     | Sum
     | Order
     | Any
-    | sympy.Piecewise
-    | sympy.Equality
+    | Piecewise
+    | Equality
     | Relational
     | Ne
-    | sympy.Integral
+    | Integral
     | ExpectationMatrix
     | None
 ):
@@ -402,11 +401,11 @@ def factorial_moment(X, n, condition=None, **kwargs) -> (
     | Sum
     | Order
     | Any
-    | sympy.Piecewise
-    | sympy.Equality
+    | Piecewise
+    | Equality
     | Relational
     | Ne
-    | sympy.Integral
+    | Integral
     | ExpectationMatrix
     | None
 ):

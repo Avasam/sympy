@@ -18,7 +18,7 @@ from sympy.core.kind import Kind
 from sympy.utilities.iterables import iterable
 from sympy.utilities.misc import as_int
 from types import NotImplementedType
-from typing import Any, Callable, TYPE_CHECKING
+from typing import Callable, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self
