@@ -123,7 +123,7 @@ class Dispatcher:
         self.ordering = []
         self.doc = doc
 
-    def register(self, *types, **kwargs) -> Callable[..., Any]:
+    def register(self, *types, **kwargs) -> Callable:
         """ Register dispatcher with new implementation
 
         >>> from sympy.multipledispatch.dispatcher import Dispatcher

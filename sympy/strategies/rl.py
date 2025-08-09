@@ -8,7 +8,7 @@ from typing import Any, Callable
 
 
 # Functions that create rules
-def rm_id(isid, new=new) -> Callable[..., Any]:
+def rm_id(isid, new=new) -> Callable:
     """ Create a rule to remove identities.
 
     isid - fn :: x -> Bool  --- whether or not this element is an identity.
@@ -41,7 +41,7 @@ def rm_id(isid, new=new) -> Callable[..., Any]:
     return ident_remove
 
 
-def glom(key, count, combine) -> Callable[..., Any]:
+def glom(key, count, combine) -> Callable:
     """ Create a rule to conglomerate identical args.
 
     Examples
@@ -81,7 +81,7 @@ def glom(key, count, combine) -> Callable[..., Any]:
     return conglomerate
 
 
-def sort(key, new=new) -> Callable[..., Any]:
+def sort(key, new=new) -> Callable:
     """ Create a rule to sort by a key function.
 
     Examples
@@ -99,7 +99,7 @@ def sort(key, new=new) -> Callable[..., Any]:
     return sort_rl
 
 
-def distribute(A, B) -> Callable[..., Any]:
+def distribute(A, B) -> Callable:
     """ Turns an A containing Bs into a B of As
 
     where A, B are container types
@@ -124,7 +124,7 @@ def distribute(A, B) -> Callable[..., Any]:
     return distribute_rl
 
 
-def subs(a, b) -> Callable[..., Any]:
+def subs(a, b) -> Callable:
     """ Replace expressions exactly """
     def subs_rl(expr):
         if expr == a:

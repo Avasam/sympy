@@ -2049,7 +2049,7 @@ def _osbornei(e, d):
     return bottom_up(e, f)
 
 
-def hyper_as_trig(rv) -> tuple[Any, Callable[..., Any]]:
+def hyper_as_trig(rv) -> tuple[Any, Callable]:
     """Return an expression containing hyperbolic functions in terms
     of trigonometric functions. Any trigonometric functions initially
     present are replaced with Dummy symbols and the function to undo

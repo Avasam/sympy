@@ -24,7 +24,7 @@ def bottom_up_once(rule, fns=basic_fns) -> Callable[[Any], Any]:
     return do_one(lambda expr: sall(bottom_up(rule, fns), fns)(expr), rule)
 
 
-def sall(rule, fns=basic_fns) -> Callable[..., Any]:
+def sall(rule, fns=basic_fns) -> Callable:
     """Strategic all - apply rule to args."""
     op, new, children, leaf = map(fns.get, ('op', 'new', 'children', 'leaf'))
 

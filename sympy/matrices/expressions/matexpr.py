@@ -493,7 +493,7 @@ def _eval_is_eq(lhs, rhs): # noqa:F811
     if (lhs - rhs).is_ZeroMatrix:
         return True
 
-def get_postprocessor(cls) -> Callable[..., Any]:
+def get_postprocessor(cls) -> Callable:
     def _postprocessor(expr):
         # To avoid circular imports, we can't have MatMul/MatAdd on the top level
         mat_class = {Mul: MatMul, Add: MatAdd}[cls]

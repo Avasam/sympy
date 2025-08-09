@@ -5,7 +5,7 @@ from .traverse import top_down
 from typing import Any, Callable
 
 
-def subs(d, **kwargs) -> Callable[[Any], Any] | Callable[..., Any]:
+def subs(d, **kwargs) -> Callable[[Any], Any] | Callable:
     """ Full simultaneous exact substitution.
 
     Examples

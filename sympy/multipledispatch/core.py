@@ -10,7 +10,7 @@ from .dispatcher import Dispatcher, MethodDispatcher, ambiguity_warn
 global_namespace: dict[str, Any] = {}
 
 
-def dispatch(*types, namespace=global_namespace, on_ambiguity=ambiguity_warn) -> Callable[..., Any]:
+def dispatch(*types, namespace=global_namespace, on_ambiguity=ambiguity_warn) -> Callable:
     """ Dispatch function on the types of the inputs
 
     Supports dispatch on all non-keyword arguments.

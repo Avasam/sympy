@@ -12,7 +12,7 @@ class PlotInterval:
     """
     _v, _v_min, _v_max, _v_steps = None, None, None, None
 
-    def require_all_args(f) -> Callable[..., Any]:
+    def require_all_args(f) -> Callable:
         def check(self, *args, **kwargs):
             for g in [self._v, self._v_min, self._v_max, self._v_steps]:
                 if g is None:

@@ -154,13 +154,13 @@ class ClassFactRegistry:
         self.singlefacts = defaultdict(frozenset)
         self.multifacts = defaultdict(frozenset)
 
-    def register(self, cls) -> Callable[..., Any]:
+    def register(self, cls) -> Callable:
         def _(func):
             self.singlefacts[cls] |= {func}
             return func
         return _
 
-    def multiregister(self, *classes) -> Callable[..., Any]:
+    def multiregister(self, *classes) -> Callable:
         def _(func):
             for cls in classes:
                 self.multifacts[cls] |= {func}

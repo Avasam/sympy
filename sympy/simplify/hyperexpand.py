@@ -458,7 +458,7 @@ def add_meijerg_formulae(formulae) -> None:
         detect_3113)
 
 
-def make_simp(z) -> Callable[..., Any]:
+def make_simp(z) -> Callable:
     """ Create a function that simplifies rational functions in ``z``. """
 
     def simp(expr):
@@ -1498,7 +1498,7 @@ def reduce_order_meijer(func) -> tuple[G_Function, list]:
     return G_Function(nan, nap, nbm, nbq), ops1 + ops2
 
 
-def make_derivative_operator(M, z) -> Callable[..., Any]:
+def make_derivative_operator(M, z) -> Callable:
     """ Create a derivative operator, to be passed to Operator.apply. """
     def doit(C):
         r = z*C.diff(z) + C*M

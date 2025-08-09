@@ -1679,7 +1679,7 @@ def heaviside_pattern(symbol) -> tuple[Any, Wild, Wild, Wild]:
 
     return pattern, m, b, g
 
-def uncurry(func) -> Callable[..., Any]:
+def uncurry(func) -> Callable:
     def uncurry_rl(args):
         return func(*args)
     return uncurry_rl

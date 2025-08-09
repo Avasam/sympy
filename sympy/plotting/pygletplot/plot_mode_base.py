@@ -166,7 +166,7 @@ class PlotModeBase(PlotMode):
 
         self._on_calculate()
 
-    def synchronized(f) -> Callable[..., Any]:
+    def synchronized(f) -> Callable:
         def w(self, *args, **kwargs):
             self._draw_lock.acquire()
             try:

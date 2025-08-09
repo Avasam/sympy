@@ -85,7 +85,7 @@ def xthreaded(func) -> _Wrapped[..., Any, ..., Any]:
     return threaded_factory(func, False)
 
 
-def conserve_mpmath_dps(func) -> Callable[..., Any]:
+def conserve_mpmath_dps(func) -> Callable:
     """After the function finishes, resets the value of ``mpmath.mp.dps`` to
     the value it had before the function was run."""
     import mpmath

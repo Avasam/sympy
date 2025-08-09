@@ -184,7 +184,7 @@ _sympy_converter[tuple] = lambda tup: Tuple(*tup)
 
 
 
-def tuple_wrapper(method) -> Callable[..., Any]:
+def tuple_wrapper(method) -> Callable:
     """
     Decorator that converts any tuple in the function arguments into a Tuple.
 

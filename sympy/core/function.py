@@ -224,7 +224,7 @@ class FunctionClass(type):
         return set()
 
     @property
-    def xreplace(self) -> Callable[..., Any]:
+    def xreplace(self) -> Callable:
         # Function needs args so we define a property that returns
         # a function that takes args...and then use that function
         # to return the right value

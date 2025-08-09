@@ -366,7 +366,7 @@ class Order(Option, metaclass=OptionType):
         return sympy.polys.orderings.lex
 
     @classmethod
-    def preprocess(cls, order) -> Callable[..., Any] | LexOrder:
+    def preprocess(cls, order) -> Callable | LexOrder:
         return sympy.polys.orderings.monomial_key(order)
 
 
