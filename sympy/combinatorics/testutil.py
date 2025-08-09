@@ -1,3 +1,4 @@
+from __future__ import annotations
 from sympy.combinatorics import Permutation
 from sympy.combinatorics.util import _distribute_gens_by_base
 
@@ -198,7 +199,7 @@ def _verify_normal_closure(group, arg, closure=None):
     return closure.is_subgroup(naive_closure)
 
 
-def canonicalize_naive(g, dummies, sym, *v):
+def canonicalize_naive(g, dummies, sym, *v) -> list | int:
     """
     Canonicalize tensor formed by tensors of the different types.
 
@@ -276,7 +277,7 @@ def canonicalize_naive(g, dummies, sym, *v):
     return list(a[0])
 
 
-def graph_certificate(gr):
+def graph_certificate(gr) -> list | int:
     """
     Return a certificate for the graph
 

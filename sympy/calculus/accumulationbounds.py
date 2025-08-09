@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sympy.core import Add, Mul, Pow, S
 from sympy.core.basic import Basic
 from sympy.core.expr import Expr
@@ -9,6 +11,12 @@ from sympy.logic.boolalg import And
 from sympy.multipledispatch import dispatch
 from sympy.series.order import Order
 from sympy.sets.sets import FiniteSet
+from types import NotImplementedType
+from typing import TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class AccumulationBounds(Expr):
@@ -215,7 +223,7 @@ class AccumulationBounds(Expr):
             return True
 
     @property
-    def min(self):
+    def min(self) -> Basic:
         """
         Returns the minimum possible value attained by AccumulationBounds
         object.
@@ -231,7 +239,7 @@ class AccumulationBounds(Expr):
         return self.args[0]
 
     @property
-    def max(self):
+    def max(self) -> Basic:
         """
         Returns the maximum possible value attained by AccumulationBounds
         object.
@@ -285,7 +293,7 @@ class AccumulationBounds(Expr):
         return self.__pow__(other)
 
     @_sympifyit('other', NotImplemented)
-    def __add__(self, other):
+    def __add__(self, other) -> AccumBounds | Order | NotImplementedType:
         if isinstance(other, Expr):
             if isinstance(other, AccumBounds):
                 return AccumBounds(
@@ -308,11 +316,11 @@ class AccumulationBounds(Expr):
 
     __radd__ = __add__
 
-    def __neg__(self):
+    def __neg__(self) -> AccumBounds:
         return AccumBounds(-self.max, -self.min)
 
     @_sympifyit('other', NotImplemented)
-    def __sub__(self, other):
+    def __sub__(self, other) -> AccumBounds | Order | NotImplementedType:
         if isinstance(other, Expr):
             if isinstance(other, AccumBounds):
                 return AccumBounds(
@@ -340,7 +348,7 @@ class AccumulationBounds(Expr):
         return self.__neg__() + other
 
     @_sympifyit('other', NotImplemented)
-    def __mul__(self, other):
+    def __mul__(self, other) -> Self | AccumBounds | Order | NotImplementedType:
         if self.args == (-oo, oo):
             return self
         if isinstance(other, Expr):
@@ -445,7 +453,7 @@ class AccumulationBounds(Expr):
         return NotImplemented
 
     @_sympifyit('other', NotImplemented)
-    def __rtruediv__(self, other):
+    def __rtruediv__(self, other) -> AccumBounds | Order | NotImplementedType:
         if isinstance(other, Expr):
             if other.is_extended_real:
                 if other.is_zero:
@@ -565,7 +573,7 @@ class AccumulationBounds(Expr):
         return NotImplemented
 
     @_sympifyit('other', NotImplemented)
-    def __rpow__(self, other):
+    def __rpow__(self, other) -> Self | Pow:
         if other.is_real and other.is_extended_nonnegative and (
                 self.max - self.min).is_extended_positive:
             if other is S.One:
@@ -583,7 +591,7 @@ class AccumulationBounds(Expr):
 
         return Pow(other, self, evaluate=False)
 
-    def __abs__(self):
+    def __abs__(self) -> AccumBounds | Self:
         if self.max.is_extended_negative:
             return self.__neg__()
         elif self.min.is_extended_negative:
@@ -592,7 +600,7 @@ class AccumulationBounds(Expr):
             return self
 
 
-    def __contains__(self, other):
+    def __contains__(self, other) -> And | bool:
         """
         Returns ``True`` if other is contained in self, where other
         belongs to extended real numbers, ``False`` if not contained,
@@ -626,7 +634,7 @@ class AccumulationBounds(Expr):
             raise TypeError("input failed to evaluate")
         return rv
 
-    def intersection(self, other):
+    def intersection(self, other) -> AccumBounds | Self | None:
         """
         Returns the intersection of 'self' and 'other'.
         Here other can be an instance of :py:class:`~.FiniteSet` or AccumulationBounds.
@@ -684,7 +692,7 @@ class AccumulationBounds(Expr):
             if other.max > self.max:
                 return self
 
-    def union(self, other):
+    def union(self, other) -> AccumBounds | None:
         # TODO : Devise a better method for Union of AccumBounds
         # this method is not actually correct and
         # can be made better

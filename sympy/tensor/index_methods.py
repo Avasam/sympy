@@ -9,6 +9,7 @@
     objects instead.  When things stabilize this could be a useful
     refactoring.
 """
+from __future__ import annotations
 
 from functools import reduce
 
@@ -18,6 +19,7 @@ from sympy.tensor.indexed import Idx, Indexed
 from sympy.utilities import sift
 
 from collections import OrderedDict
+from typing import Any
 
 class IndexConformanceException(Exception):
     pass
@@ -199,7 +201,16 @@ def _get_indices_Add(expr):
     return non_scalars[0], symmetries
 
 
-def get_indices(expr):
+def get_indices(
+    expr,
+) -> (
+    tuple[set, dict]
+    | tuple[set[Idx], dict]
+    | tuple[set, dict, tuple]
+    | tuple[Any, Any | dict]
+    | tuple[Any, dict]
+    | tuple[set | Any, Any]
+):
     """Determine the outer indices of expression ``expr``
 
     By *outer* we mean indices that are not summation indices.  Returns a set
@@ -295,7 +306,17 @@ def get_indices(expr):
             "FIXME: No specialized handling of type %s" % type(expr))
 
 
-def get_contraction_structure(expr):
+def get_contraction_structure(
+    expr,
+) -> (
+    dict[tuple | None, set[Indexed]]
+    | dict[None, set]
+    | dict[tuple | None, set]
+    | dict[None, set[Any | exp]]
+    | dict
+    | dict[None, Piecewise]
+    | dict[None, set[Function]]
+):
     """Determine dummy indices of ``expr`` and describe its structure
 
     By *dummy* we mean indices that are summation indices.

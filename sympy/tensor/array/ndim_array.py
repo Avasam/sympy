@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sympy.core.basic import Basic
 from sympy.core.containers import (Dict, Tuple)
 from sympy.core.expr import Expr
@@ -9,7 +11,16 @@ from sympy.external.gmpy import SYMPY_INTS
 from sympy.printing.defaults import Printable
 
 import itertools
-from collections.abc import Iterable
+from collections.abc import Iterator, Iterable
+from sympy.core.function import UndefinedFunction
+from types import NotImplementedType
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from sympy.tensor.array import ImmutableDenseNDimArray, ImmutableSparseNDimArray
+    from sympy.tensor.array.expressions.array_expressions import ArrayContraction, ArrayTensorProduct, PermuteDims, ZeroArray
+    from sympy.tensor.array.array_derivatives import ArrayDerivative
+    from typing_extensions import Self
 
 
 class ArrayKind(Kind):
@@ -65,7 +76,7 @@ class ArrayKind(Kind):
     shape : Function to return the shape of objects with ``MatrixKind``.
 
     """
-    def __new__(cls, element_kind=NumberKind):
+    def __new__(cls, element_kind=NumberKind) -> Self:
         obj = super().__new__(cls, element_kind)
         obj.element_kind = element_kind
         return obj
@@ -139,7 +150,7 @@ class NDimArray(Printable):
     _diff_wrt = True
     is_scalar = False
 
-    def __new__(cls, iterable, shape=None, **kwargs):
+    def __new__(cls, iterable, shape=None, **kwargs) -> ImmutableDenseNDimArray:
         from sympy.tensor.array import ImmutableDenseNDimArray
         return ImmutableDenseNDimArray(iterable, shape, **kwargs)
 
@@ -306,7 +317,7 @@ class NDimArray(Printable):
         """
         return self._rank
 
-    def diff(self, *args, **kwargs):
+    def diff(self, *args, **kwargs) -> ArrayDerivative:
         """
         Calculate the derivative of each element in the array.
 
@@ -331,7 +342,7 @@ class NDimArray(Printable):
     def _eval_derivative_n_times(self, s, n):
         return Basic._eval_derivative_n_times(self, s, n)
 
-    def applyfunc(self, f):
+    def applyfunc(self, f) -> ImmutableSparseNDimArray | ImmutableDenseNDimArray:
         """Apply a function to each element of the N-dim array.
 
         Examples
@@ -366,7 +377,7 @@ class NDimArray(Printable):
             return f"{self.__class__.__name__}([], {self.shape})"
         return f(self._loop_size, self.shape, 0, self._loop_size)
 
-    def tolist(self):
+    def tolist(self) -> list:
         """
         Converting MutableDenseNDimArray to one-dim list
 
@@ -393,7 +404,7 @@ class NDimArray(Printable):
 
         return f(self._loop_size, self.shape, 0, self._loop_size)
 
-    def __add__(self, other):
+    def __add__(self, other) -> NotImplementedType | Self:
         from sympy.tensor.array.arrayop import Flatten
 
         if not isinstance(other, NDimArray):
@@ -405,7 +416,7 @@ class NDimArray(Printable):
 
         return type(self)(result_list, self.shape)
 
-    def __sub__(self, other):
+    def __sub__(self, other) -> NotImplementedType | Self:
         from sympy.tensor.array.arrayop import Flatten
 
         if not isinstance(other, NDimArray):
@@ -417,7 +428,7 @@ class NDimArray(Printable):
 
         return type(self)(result_list, self.shape)
 
-    def __mul__(self, other):
+    def __mul__(self, other) -> ImmutableSparseNDimArray | ImmutableDenseNDimArray:
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array import SparseNDimArray
         from sympy.tensor.array.arrayop import Flatten
@@ -434,7 +445,7 @@ class NDimArray(Printable):
         result_list = [i*other for i in Flatten(self)]
         return type(self)(result_list, self.shape)
 
-    def __rmul__(self, other):
+    def __rmul__(self, other) -> ImmutableSparseNDimArray | ImmutableDenseNDimArray:
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array import SparseNDimArray
         from sympy.tensor.array.arrayop import Flatten
@@ -451,7 +462,7 @@ class NDimArray(Printable):
         result_list = [other*i for i in Flatten(self)]
         return type(self)(result_list, self.shape)
 
-    def __truediv__(self, other):
+    def __truediv__(self, other) -> ImmutableSparseNDimArray | ImmutableDenseNDimArray:
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array import SparseNDimArray
         from sympy.tensor.array.arrayop import Flatten
@@ -469,7 +480,7 @@ class NDimArray(Printable):
     def __rtruediv__(self, other):
         raise NotImplementedError('unsupported operation on NDimArray')
 
-    def __neg__(self):
+    def __neg__(self) -> ImmutableSparseNDimArray | ImmutableDenseNDimArray:
         from sympy.tensor.array import SparseNDimArray
         from sympy.tensor.array.arrayop import Flatten
 
@@ -479,7 +490,7 @@ class NDimArray(Printable):
         result_list = [-i for i in Flatten(self)]
         return type(self)(result_list, self.shape)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator:
         def iterator():
             if self._shape:
                 for i in range(self._shape[0]):
@@ -489,7 +500,7 @@ class NDimArray(Printable):
 
         return iterator()
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         """
         NDimArray instances can be compared to each other.
         Instances equal if they have same shape and data.
@@ -522,7 +533,7 @@ class NDimArray(Printable):
 
         return list(self) == list(other)
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         return not self == other
 
     def _eval_transpose(self):
@@ -531,7 +542,15 @@ class NDimArray(Printable):
         from .arrayop import permutedims
         return permutedims(self, (1, 0))
 
-    def transpose(self):
+    def transpose(self) -> (
+        ZeroArray
+        | ArrayTensorProduct
+        | ArrayContraction
+        | Basic
+        | PermuteDims
+        | ImmutableSparseNDimArray
+        | ImmutableDenseNDimArray
+    ):
         return self._eval_transpose()
 
     def _eval_conjugate(self):
@@ -545,7 +564,7 @@ class NDimArray(Printable):
     def _eval_adjoint(self):
         return self.transpose().conjugate()
 
-    def adjoint(self):
+    def adjoint(self) -> type[UndefinedFunction]:
         return self._eval_adjoint()
 
     def _slice_expand(self, s, dim):
@@ -591,10 +610,10 @@ class NDimArray(Printable):
 class ImmutableNDimArray(NDimArray, Basic):
     _op_priority = 11.0
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return Basic.__hash__(self)
 
-    def as_immutable(self):
+    def as_immutable(self) -> Self:
         return self
 
     def as_mutable(self):

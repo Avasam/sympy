@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Callable, TYPE_CHECKING
+from typing import Any, Callable, TYPE_CHECKING
 from itertools import product
 
 from .sympify import _sympify
@@ -8,15 +8,23 @@ from .singleton import S
 from .expr import Expr
 from .evalf import PrecisionExhausted
 from .function import (expand_complex, expand_multinomial,
-    expand_mul, _mexpand, PoleError)
+    expand_mul, _mexpand, PoleError, UndefinedFunction)
 from .logic import fuzzy_bool, fuzzy_not, fuzzy_and, fuzzy_or
 from .parameters import global_parameters
 from .relational import is_gt, is_lt
-from .kind import NumberKind, UndefinedKind
+from .kind import NumberKind, UndefinedKind,  Kind, _UndefinedKind
 from sympy.utilities.iterables import sift
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.utilities.misc import as_int
 from sympy.multipledispatch import Dispatcher
+from .basic import Basic
+from .mul import Mul
+from .numbers import Number
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
+    from sympy.functions.elementary.exponential import log
+    from sympy.series.order import Order
 
 
 class Pow(Expr):
@@ -127,7 +135,7 @@ class Pow(Expr):
         return self.args[1]
 
     @property
-    def kind(self):
+    def kind(self) -> Kind | _UndefinedKind:
         if self.exp.kind is NumberKind:
             return self.base.kind
         else:
@@ -232,14 +240,14 @@ class Pow(Expr):
         obj.is_commutative = (base.is_commutative and exp.is_commutative)
         return obj
 
-    def inverse(self, argindex=1):
+    def inverse(self, argindex=1) -> type[log] | None:
         if self.base == S.Exp1:
             from sympy.functions.elementary.exponential import log
             return log
         return None
 
     @classmethod
-    def class_key(cls):
+    def class_key(cls) -> tuple[int, int, str]:
         return 3, 2, cls.__name__
 
     def _eval_refine(self, assumptions):
@@ -794,7 +802,7 @@ class Pow(Expr):
                     result = Mul(result, Pow(old.base, remainder_pow))
                 return result
 
-    def as_base_exp(self):
+    def as_base_exp(self) -> tuple[Any, Any | Mul] | tuple[Expr, Expr]:
         """Return base and exp of self.
 
         Explanation
@@ -1127,7 +1135,14 @@ class Pow(Expr):
         else:
             return result
 
-    def as_real_imag(self, deep=True, **hints):
+    def as_real_imag(self, deep=True, **hints) -> (
+        tuple[Self, Any]
+        | tuple[Any | Order | Basic, Any]
+        | tuple[Any, Any | Expr]
+        | tuple[Any, Any]
+        | tuple[type[UndefinedFunction] | Any, type[UndefinedFunction] | Any]
+        | None
+    ):
         if self.exp.is_Integer:
             from sympy.polys.polytools import poly
 
@@ -1384,7 +1399,7 @@ class Pow(Expr):
             from sympy.functions.elementary.complexes import arg, Abs
             return exp((log(Abs(base)) + S.ImaginaryUnit*arg(base))*expo)
 
-    def as_numer_denom(self):
+    def as_numer_denom(self) -> tuple[Self, Any] | tuple[Any | Mul | Expr, Self] | tuple[Self, Any | Mul | Expr] | tuple[Self, Self]:
         if not self.is_commutative:
             return self, S.One
         base, exp = self.as_base_exp()
@@ -1419,7 +1434,7 @@ class Pow(Expr):
                 return self.func(n, exp), d
         return self.func(n, exp), self.func(d, exp)
 
-    def matches(self, expr, repl_dict=None, old=False):
+    def matches(self, expr, repl_dict=None, old=False) -> dict | None:
         expr = _sympify(expr)
         if repl_dict is None:
             repl_dict = {}
@@ -1722,7 +1737,7 @@ class Pow(Expr):
                 if not isinstance(cosine, cos) and not isinstance (sine, sin):
                     return cosine + S.ImaginaryUnit*sine
 
-    def as_content_primitive(self, radical=False, clear=True):
+    def as_content_primitive(self, radical=False, clear=True) -> tuple[Self, Self] | tuple[Number, Self] | tuple[Any, Self]:
         """Return the tuple (R, self/R) where R is the positive Rational
         extracted from self.
 
@@ -1803,7 +1818,7 @@ class Pow(Expr):
                 return c, self.func(_keep_coeff(m, t), e)
         return S.One, self.func(b, e)
 
-    def is_constant(self, *wrt, **flags):
+    def is_constant(self, *wrt, **flags) -> bool | None:
         expr = self
         if flags.get('simplify', True):
             expr = expr.simplify()
@@ -1837,5 +1852,5 @@ power.add((object, object), Pow)
 
 from .add import Add
 from .numbers import Integer, Rational
-from .mul import Mul, _keep_coeff
+from .mul import _keep_coeff
 from .symbol import Symbol, Dummy, symbols

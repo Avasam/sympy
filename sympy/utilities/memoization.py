@@ -1,7 +1,13 @@
+from __future__ import annotations
+
 from functools import wraps
+from typing import Any, Callable, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from functools import _Wrapped
 
 
-def recurrence_memo(initial):
+def recurrence_memo(initial) -> Callable[..., _Wrapped[..., Any, ..., Any]]:
     """
     Memo decorator for sequences defined by recurrence
 
@@ -39,7 +45,7 @@ def recurrence_memo(initial):
     return decorator
 
 
-def assoc_recurrence_memo(base_seq):
+def assoc_recurrence_memo(base_seq) -> Callable[..., _Wrapped[..., Any, ..., Any]]:
     """
     Memo decorator for associated sequences defined by recurrence starting from base
 

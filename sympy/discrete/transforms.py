@@ -2,6 +2,7 @@
 Discrete Fourier Transform, Number Theoretic Transform,
 Walsh Hadamard Transform, Mobius Transform
 """
+from __future__ import annotations
 
 from sympy.core import S, Symbol, sympify
 from sympy.core.function import expand_mul
@@ -10,6 +11,7 @@ from sympy.functions.elementary.trigonometric import sin, cos
 from sympy.ntheory import isprime, primitive_root
 from sympy.utilities.iterables import ibin, iterable
 from sympy.utilities.misc import as_int
+from typing import Any
 
 
 #----------------------------------------------------------------------------#
@@ -67,7 +69,7 @@ def _fourier_transform(seq, dps, inverse=False):
     return a
 
 
-def fft(seq, dps=None):
+def fft(seq, dps=None) -> list | Any:
     r"""
     Performs the Discrete Fourier Transform (**DFT**) in the complex domain.
 
@@ -116,7 +118,7 @@ def fft(seq, dps=None):
     return _fourier_transform(seq, dps=dps)
 
 
-def ifft(seq, dps=None):
+def ifft(seq, dps=None) -> list | Any:
     return _fourier_transform(seq, dps=dps, inverse=True)
 
 ifft.__doc__ = fft.__doc__
@@ -186,7 +188,7 @@ def _number_theoretic_transform(seq, prime, inverse=False):
     return a
 
 
-def ntt(seq, prime):
+def ntt(seq, prime) -> list[int] | list[Any | int] | Any:
     r"""
     Performs the Number Theoretic Transform (**NTT**), which specializes the
     Discrete Fourier Transform (**DFT**) over quotient ring `Z/pZ` for prime
@@ -229,7 +231,7 @@ def ntt(seq, prime):
     return _number_theoretic_transform(seq, prime=prime)
 
 
-def intt(seq, prime):
+def intt(seq, prime) -> list[int] | list[Any | int] | Any:
     return _number_theoretic_transform(seq, prime=prime, inverse=True)
 
 intt.__doc__ = ntt.__doc__
@@ -272,7 +274,7 @@ def _walsh_hadamard_transform(seq, inverse=False):
     return a
 
 
-def fwht(seq):
+def fwht(seq) -> list | Any:
     r"""
     Performs the Walsh Hadamard Transform (**WHT**), and uses Hadamard
     ordering for the sequence.
@@ -311,7 +313,7 @@ def fwht(seq):
     return _walsh_hadamard_transform(seq)
 
 
-def ifwht(seq):
+def ifwht(seq) -> list | Any:
     return _walsh_hadamard_transform(seq, inverse=True)
 
 ifwht.__doc__ = fwht.__doc__
@@ -361,7 +363,7 @@ def _mobius_transform(seq, sgn, subset):
     return a
 
 
-def mobius_transform(seq, subset=True):
+def mobius_transform(seq, subset=True) -> list | Any:
     r"""
     Performs the Mobius Transform for subset lattice with indices of
     sequence as bitmasks.
@@ -419,7 +421,7 @@ def mobius_transform(seq, subset=True):
 
     return _mobius_transform(seq, sgn=+1, subset=subset)
 
-def inverse_mobius_transform(seq, subset=True):
+def inverse_mobius_transform(seq, subset=True) -> list | Any:
     return _mobius_transform(seq, sgn=-1, subset=subset)
 
 inverse_mobius_transform.__doc__ = mobius_transform.__doc__

@@ -8,7 +8,7 @@ import os
 import re as _re
 import struct
 from textwrap import fill, dedent
-from typing import TypeVar, Callable
+from typing import Any, Callable, TypeVar
 
 _CallableT = TypeVar("_CallableT", bound=Callable)
 
@@ -19,7 +19,7 @@ class Undecidable(ValueError):
     pass
 
 
-def filldedent(s, w=70, **kwargs):
+def filldedent(s, w=70, **kwargs) -> str:
     """
     Strips leading and trailing empty lines from a copy of ``s``, then dedents,
     fills and returns it.
@@ -38,7 +38,7 @@ def filldedent(s, w=70, **kwargs):
     return '\n' + fill(dedent(str(s)).strip('\n'), width=w, **kwargs)
 
 
-def strlines(s, c=64, short=False):
+def strlines(s, c=64, short=False) -> str:
     """Return a cut-and-pastable string that, when printed, is
     equivalent to the input.  The lines will be surrounded by
     parentheses and no line will be longer than c (default 64)
@@ -90,7 +90,7 @@ def strlines(s, c=64, short=False):
     return m % j.join(out)
 
 
-def rawlines(s):
+def rawlines(s) -> str:
     """Return a cut-and-pastable string that, when printed, is equivalent
     to the input. Use this when there is more than one line in the
     string. The string returned is formatted so it can be indented
@@ -242,7 +242,7 @@ def debug_decorator(func: _CallableT) -> _CallableT:
     return decorated  # type: ignore
 
 
-def debug(*args):
+def debug(*args) -> None:
     """
     Print ``*args`` if SYMPY_DEBUG is True, else do nothing.
     """
@@ -251,7 +251,7 @@ def debug(*args):
         print(*args, file=sys.stderr)
 
 
-def debugf(string, args):
+def debugf(string, args) -> None:
     """
     Print ``string%args`` if SYMPY_DEBUG is True, else do nothing. This is
     intended for debug messages using formatted strings.
@@ -261,7 +261,7 @@ def debugf(string, args):
         print(string%args, file=sys.stderr)
 
 
-def find_executable(executable, path=None):
+def find_executable(executable, path=None) -> str | None:
     """Try to find 'executable' in the directories listed in 'path' (a
     string listing directories separated by 'os.pathsep'; defaults to
     os.environ['PATH']).  Returns the complete filename or None if not
@@ -304,7 +304,7 @@ def find_executable(executable, path=None):
     return None
 
 
-def func_name(x, short=False):
+def func_name(x, short=False) -> str | Any:
     """Return function name of `x` (if defined) else the `type(x)`.
     If short is True and there is a shorter alias for the result,
     return the alias.
@@ -366,7 +366,7 @@ def _replace(reps):
     return lambda string: pattern.sub(D, string)
 
 
-def replace(string, *reps):
+def replace(string, *reps) -> str:
     """Return ``string`` with all keys in ``reps`` replaced with
     their corresponding values, longer strings first, irrespective
     of the order they are given.  ``reps`` may be passed as tuples
@@ -408,7 +408,7 @@ def replace(string, *reps):
     return _replace(reps)(string)
 
 
-def translate(s, a, b=None, c=None):
+def translate(s, a, b=None, c=None) -> str:
     """Return ``s`` where characters have been replaced or deleted.
 
     SYNTAX
@@ -481,7 +481,7 @@ def translate(s, a, b=None, c=None):
     return s.translate(n)
 
 
-def ordinal(num):
+def ordinal(num) -> str:
     """Return ordinal number string of num, e.g. 1 becomes 1st.
     """
     # modified from https://codereview.stackexchange.com/questions/41298/producing-ordinal-numbers
@@ -500,7 +500,7 @@ def ordinal(num):
     return str(n) + suffix
 
 
-def as_int(n, strict=True):
+def as_int(n, strict=True) -> int:
     """
     Convert the argument to a builtin integer.
 

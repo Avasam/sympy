@@ -1,16 +1,18 @@
 """
 A few practical conventions common to all printers.
 """
+from __future__ import annotations
 
 import re
 
 from collections.abc import Iterable
 from sympy.core.function import Derivative
+from typing import Any
 
 _name_with_digits_p = re.compile(r'^([^\W\d_]+)(\d+)$', re.UNICODE)
 
 
-def split_super_sub(text):
+def split_super_sub(text) -> tuple[Any, list, list] | tuple[Any | None, list, list]:
     """Split a symbol name into a name, superscripts and subscripts
 
     The first part of the symbol name is considered to be its actual
@@ -70,7 +72,7 @@ def split_super_sub(text):
     return name, supers, subs
 
 
-def requires_partial(expr):
+def requires_partial(expr) -> bool:
     """Return whether a partial derivative symbol is required for printing
 
     This requires checking how many free variables there are,

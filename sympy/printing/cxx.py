@@ -84,7 +84,7 @@ class _CXXCodePrinterBase:
     language = 'C++'
     _ns = 'std::'  # namespace
 
-    def __init__(self, settings=None):
+    def __init__(self, settings=None) -> None:
         super().__init__(settings or {})
 
     @requires(headers={'algorithm'})

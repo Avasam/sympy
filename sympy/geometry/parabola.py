@@ -4,17 +4,23 @@ Contains
 * Parabola
 
 """
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.core import S
 from sympy.core.sorting import ordered
 from sympy.core.symbol import _symbol, symbols
 from sympy.geometry.entity import GeometryEntity, GeometrySet
-from sympy.geometry.point import Point, Point2D
+from sympy.geometry.point import Point3D, Point, Point2D
 from sympy.geometry.line import Line, Line2D, Ray2D, Segment2D, LinearEntity3D
 from sympy.geometry.ellipse import Ellipse
 from sympy.functions import sign
 from sympy.simplify.simplify import simplify
 from sympy.solvers.solvers import solve
+from sympy.core.basic import Basic
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Parabola(GeometrySet):
@@ -62,7 +68,7 @@ class Parabola(GeometrySet):
 
     """
 
-    def __new__(cls, focus=None, directrix=None, **kwargs):
+    def __new__(cls, focus=None, directrix=None, **kwargs) -> Self:
 
         if focus:
             focus = Point(focus, dim=2)
@@ -77,7 +83,7 @@ class Parabola(GeometrySet):
         return GeometryEntity.__new__(cls, focus, directrix, **kwargs)
 
     @property
-    def ambient_dimension(self):
+    def ambient_dimension(self) -> int:
         """Returns the ambient dimension of parabola.
 
         Returns
@@ -124,7 +130,7 @@ class Parabola(GeometrySet):
         return self.directrix.perpendicular_line(self.focus)
 
     @property
-    def directrix(self):
+    def directrix(self) -> Basic:
         """The directrix of the parabola.
 
         Returns
@@ -264,7 +270,7 @@ class Parabola(GeometrySet):
         return focal_length
 
     @property
-    def focus(self):
+    def focus(self) -> Basic:
         """The focus of the parabola.
 
         Returns
@@ -289,7 +295,7 @@ class Parabola(GeometrySet):
         """
         return self.args[0]
 
-    def intersection(self, o):
+    def intersection(self, o) -> list[Parabola] | list | list[Point2D]:
         """The intersection of the parabola and another geometrical entity `o`.
 
         Parameters
@@ -389,7 +395,7 @@ class Parabola(GeometrySet):
         return p * self.focal_length
 
     @property
-    def vertex(self):
+    def vertex(self) -> Point | Point2D | Point3D:
         """The vertex of the parabola.
 
         Returns

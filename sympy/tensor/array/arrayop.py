@@ -1,15 +1,23 @@
+from __future__ import annotations
 import itertools
 from collections.abc import Iterable
 
 from sympy.core._print_helpers import Printable
 from sympy.core.containers import Tuple
-from sympy.core.function import diff
+from sympy.core.function import diff, Derivative
 from sympy.core.singleton import S
 from sympy.core.sympify import _sympify
 
 from sympy.tensor.array.ndim_array import NDimArray
 from sympy.tensor.array.dense_ndim_array import DenseNDimArray, ImmutableDenseNDimArray
-from sympy.tensor.array.sparse_ndim_array import SparseNDimArray
+from sympy.tensor.array.sparse_ndim_array import SparseNDimArray, ImmutableSparseNDimArray
+from typing import Any, TYPE_CHECKING
+from sympy.core.basic import Basic
+
+if TYPE_CHECKING:
+    from sympy.tensor.array.array_derivatives import ArrayDerivative
+    from sympy.tensor.array.expressions.array_expressions import ArrayDiagonal, ZeroArray, ArrayTensorProduct, ArrayContraction, PermuteDims
+    from typing_extensions import Self
 
 
 def _arrayfy(a):
@@ -22,7 +30,16 @@ def _arrayfy(a):
     return a
 
 
-def tensorproduct(*args):
+def tensorproduct(*args) -> (
+    NDimArray
+    | ImmutableDenseNDimArray
+    | ZeroArray
+    | ArrayTensorProduct
+    | ArrayContraction
+    | Basic
+    | PermuteDims
+    | ImmutableSparseNDimArray
+):
     """
     Tensor product among scalars or array-like objects.
 
@@ -135,7 +152,7 @@ def _util_contraction_diagonal(array, *contraction_or_diagonal_axes):
     return array, remaining_indices, remaining_shape, summed_deltas
 
 
-def tensorcontraction(array, *contraction_axes):
+def tensorcontraction(array, *contraction_axes) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray | Any:
     """
     Contraction of an array-like object on the specified axes.
 
@@ -212,7 +229,7 @@ def tensorcontraction(array, *contraction_axes):
     return type(array)(contracted_array, remaining_shape)
 
 
-def tensordiagonal(array, *diagonal_axes):
+def tensordiagonal(array, *diagonal_axes) -> ZeroArray | ArrayTensorProduct | ArrayContraction | Basic | PermuteDims | ArrayDiagonal | ImmutableDenseNDimArray | Any:
     """
     Diagonalization of an array-like object on the specified axes.
 
@@ -295,7 +312,7 @@ def tensordiagonal(array, *diagonal_axes):
     return type(array)(diagonalized_array, remaining_shape + diagonal_shape)
 
 
-def derive_by_array(expr, dx):
+def derive_by_array(expr, dx) -> ImmutableDenseNDimArray | ImmutableSparseNDimArray | Any | ArrayDerivative | Derivative:
     r"""
     Derivative by arrays. Supports both arrays and scalars.
 
@@ -359,7 +376,9 @@ def derive_by_array(expr, dx):
             return diff(expr, dx)
 
 
-def permutedims(expr, perm=None, index_order_old=None, index_order_new=None):
+def permutedims(expr, perm=None, index_order_old=None, index_order_new=None) -> (
+    ZeroArray | ArrayTensorProduct | ArrayContraction | Basic | PermuteDims | ImmutableSparseNDimArray | ImmutableDenseNDimArray
+):
     """
     Permutes the indices of an array.
 
@@ -477,7 +496,7 @@ class Flatten(Printable):
     >>> [i for i in Flatten(A)]
     [0, 1, 2, 3, 4, 5]
     """
-    def __init__(self, iterable):
+    def __init__(self, iterable) -> None:
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array import NDimArray
 
@@ -490,10 +509,10 @@ class Flatten(Printable):
         self._iter = iterable
         self._idx = 0
 
-    def __iter__(self):
+    def __iter__(self) -> Self:
         return self
 
-    def __next__(self):
+    def __next__(self) -> Basic | int:
         from sympy.matrices.matrixbase import MatrixBase
 
         if len(self._iter) > self._idx:
@@ -521,7 +540,7 @@ class Flatten(Printable):
         self._idx += 1
         return result
 
-    def next(self):
+    def next(self) -> Basic | int:
         return self.__next__()
 
     def _sympystr(self, printer):

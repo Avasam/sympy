@@ -1,6 +1,14 @@
+from __future__ import annotations
 from sympy.core.basic import Basic
 from sympy.stats.joint_rv import ProductPSpace
 from sympy.stats.rv import ProductDomain, _symbol_converter, Distribution
+from sympy.stats.crv import ProductContinuousDomain
+from sympy.stats.drv import ProductDiscreteDomain
+from sympy.stats.frv import ProductFiniteDomain
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class StochasticPSpace(ProductPSpace):
@@ -20,7 +28,7 @@ class StochasticPSpace(ProductPSpace):
     parameter should not be passed.
     """
 
-    def __new__(cls, sym, process, distribution=None):
+    def __new__(cls, sym, process, distribution=None) -> Self:
         sym = _symbol_converter(sym)
         from sympy.stats.stochastic_process_types import StochasticProcess
         if not isinstance(process, StochasticProcess):
@@ -30,23 +38,23 @@ class StochasticPSpace(ProductPSpace):
         return Basic.__new__(cls, sym, process, distribution)
 
     @property
-    def process(self):
+    def process(self) -> Basic:
         """
         The associated stochastic process.
         """
         return self.args[1]
 
     @property
-    def domain(self):
+    def domain(self) -> ProductDiscreteDomain | ProductContinuousDomain | ProductFiniteDomain | ProductDomain:
         return ProductDomain(self.process.index_set,
                              self.process.state_space)
 
     @property
-    def symbol(self):
+    def symbol(self) -> Basic:
         return self.args[0]
 
     @property
-    def distribution(self):
+    def distribution(self) -> Basic:
         return self.args[2]
 
     def probability(self, condition, given_condition=None, evaluate=True, **kwargs):

@@ -1,9 +1,12 @@
-from sympy.combinatorics.permutations import Permutation, _af_rmul, \
+from __future__ import annotations
+from sympy.combinatorics.permutations import Perm, Permutation, _af_rmul, \
     _af_invert, _af_new
 from sympy.combinatorics.perm_groups import PermutationGroup, _orbit, \
     _orbit_transversal
 from sympy.combinatorics.util import _distribute_gens_by_base, \
     _orbits_transversals_from_bsgs
+from sympy.core.basic import Basic
+from typing import Any
 
 """
     References for tensor canonicalization:
@@ -24,7 +27,7 @@ from sympy.combinatorics.util import _distribute_gens_by_base, \
 """
 
 
-def dummy_sgs(dummies, sym, n):
+def dummy_sgs(dummies, sym, n) -> list:
     """
     Return the strong generators for dummy indices.
 
@@ -141,7 +144,7 @@ def _dumx_remove(dumx, dumx_flat, p0):
         res.append(dx)
 
 
-def transversal2coset(size, base, transversal):
+def transversal2coset(size, base, transversal) -> list:
     a = []
     j = 0
     for i in range(size):
@@ -156,7 +159,7 @@ def transversal2coset(size, base, transversal):
     return a[:j + 1]
 
 
-def double_coset_can_rep(dummies, sym, b_S, sgens, S_transversals, g):
+def double_coset_can_rep(dummies, sym, b_S, sgens, S_transversals, g) -> int:
     r"""
     Butler-Portugal algorithm for tensor canonicalization with dummy indices.
 
@@ -530,7 +533,7 @@ def double_coset_can_rep(dummies, sym, b_S, sgens, S_transversals, g):
     return TAB[0][-1]
 
 
-def canonical_free(base, gens, g, num_free):
+def canonical_free(base, gens, g, num_free) -> list:
     """
     Canonicalization of a tensor with respect to free indices
     choosing the minimum with respect to lexicographical ordering
@@ -630,7 +633,7 @@ def _lift_sgens(size, fixed_slots, free, s):
     return a
 
 
-def canonicalize(g, dummies, msym, *v):
+def canonicalize(g, dummies, msym, *v) -> list | int:
     """
     canonicalize tensor formed by tensors
 
@@ -854,7 +857,7 @@ def canonicalize(g, dummies, msym, *v):
     return g3
 
 
-def perm_af_direct_product(gens1, gens2, signed=True):
+def perm_af_direct_product(gens1, gens2, signed=True) -> list[list]:
     """
     Direct products of the generators gens1 and gens2.
 
@@ -891,7 +894,9 @@ def perm_af_direct_product(gens1, gens2, signed=True):
     return res
 
 
-def bsgs_direct_product(base1, gens1, base2, gens2, signed=True):
+def bsgs_direct_product(
+    base1, gens1, base2, gens2, signed=True
+) -> tuple[list, list[Perm]]:
     """
     Direct product of two BSGS.
 
@@ -930,7 +935,9 @@ def bsgs_direct_product(base1, gens1, base2, gens2, signed=True):
     return base, [_af_new(h) for h in gens]
 
 
-def get_symmetric_group_sgs(n, antisym=False):
+def get_symmetric_group_sgs(
+    n, antisym=False
+) -> tuple[list, list[Perm]] | tuple[list[int], list[Perm]]:
     """
     Return base, gens of the minimal BSGS for (anti)symmetric tensor
 
@@ -963,7 +970,7 @@ riemann_bsgs = [0, 2], [Permutation(0, 1)(4, 5), Permutation(2, 3)(4, 5),
                         Permutation(5)(0, 2)(1, 3)]
 
 
-def get_transversals(base, gens):
+def get_transversals(base, gens) -> list | list[dict]:
     """
     Return transversals for the group with BSGS base, gens
     """
@@ -1003,7 +1010,9 @@ def _is_minimal_bsgs(base, gens):
     return base1 == base
 
 
-def get_minimal_bsgs(base, gens):
+def get_minimal_bsgs(
+    base, gens
+) -> tuple[Any | list, list[Basic] | Any | list[Basic | Any]] | None:
     """
     Compute a minimal GSGS
 
@@ -1031,7 +1040,13 @@ def get_minimal_bsgs(base, gens):
     return base, gens
 
 
-def tensor_gens(base, gens, list_free_indices, sym=0):
+def tensor_gens(
+    base, gens, list_free_indices, sym=0
+) -> (
+    tuple[Any, list, list[Perm]]
+    | tuple[Any, Any | list, list[Perm] | list[Any | Perm]]
+    | tuple[Any, list, list[Perm] | list[Any | Perm]]
+):
     """
     Returns size, res_base, res_gens BSGS for n tensors of the
     same type.
@@ -1151,7 +1166,9 @@ def tensor_gens(base, gens, list_free_indices, sym=0):
     return size, res_base, res_gens
 
 
-def gens_products(*v):
+def gens_products(
+    *v,
+) -> tuple[Any | None, Any | list, list[list[int]] | list[Perm | Any]]:
     """
     Returns size, res_base, res_gens BSGS for n tensors of different types.
 

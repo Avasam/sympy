@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import overload, TYPE_CHECKING
+from typing import Any, overload
 
 from collections import defaultdict
 
@@ -11,10 +11,10 @@ from sympy.core import (Basic, S, Add, Mul, Pow, Symbol, sympify,
                         expand_power_exp, Eq)
 from sympy.core.exprtools import factor_nc
 from sympy.core.parameters import global_parameters
-from sympy.core.function import (expand_log, count_ops, _mexpand,
+from sympy.core.function import (UndefinedFunction, expand_log, count_ops, _mexpand,
     nfloat, expand_mul, expand)
 from sympy.core.numbers import Float, I, pi, Rational, equal_valued
-from sympy.core.relational import Relational
+from sympy.core.relational import Relational, Equality, Ne
 from sympy.core.rules import Transform
 from sympy.core.sorting import ordered
 from sympy.core.sympify import _sympify
@@ -50,13 +50,20 @@ from sympy.utilities.iterables import has_variety, sift, subsets, iterable
 from sympy.utilities.misc import as_int
 
 import mpmath
+from sympy.series.order import Order
 
 
-if TYPE_CHECKING:
-    from typing import Literal
-
-
-def separatevars(expr, symbols=[], dict=False, force=False):
+def separatevars(
+    expr, symbols=[], dict=False, force=False
+) -> (
+    dict[str, Any]
+    | dict[Any, list]
+    | Order
+    | Abs
+    | type[UndefinedFunction]
+    | Any
+    | None
+):
     """
     Separates variables in an expression, if possible.  By
     default, it separates with respect to all symbols in an
@@ -226,7 +233,7 @@ def _separatevars_dict(expr, symbols):
     return ret
 
 
-def posify(eq):
+def posify(eq) -> tuple[Any, dict] | tuple[Any, dict[Dummy, Any]]:
     """Return ``eq`` (with generic symbols made positive) and a
     dictionary containing the mapping between the old and new
     symbols.
@@ -287,7 +294,7 @@ def posify(eq):
     return eq, {r: s for s, r in reps.items()}
 
 
-def hypersimp(f, k):
+def hypersimp(f, k) -> None:
     """Given combinatorial term f(k) simplify its consecutive term ratio
        i.e. f(k+1)/f(k).  The input term can be composed of functions and
        integer sequences which have equivalent representation in terms
@@ -356,7 +363,17 @@ def hypersimilar(f, g, k):
     return h.is_rational_function(k)
 
 
-def signsimp(expr, evaluate=None):
+def signsimp(
+    expr, evaluate=None
+) -> (
+    Expr
+    | Relational
+    | Order
+    | Eq
+    | Ne
+    | Add
+    | tuple[Any, dict]
+):
     """Make all Add sub-expressions canonical wrt sign.
 
     Explanation
@@ -778,7 +795,7 @@ def simplify(expr, ratio=1.7, measure=count_ops, rational=False, inverse=False, 
     return done(expr)
 
 
-def sum_simplify(s, **kwargs):
+def sum_simplify(s, **kwargs) -> Order:
     """Main function for Sum simplification"""
     if not isinstance(s, Add):
         s = s.xreplace({a: sum_simplify(a, **kwargs)
@@ -805,7 +822,7 @@ def sum_simplify(s, **kwargs):
     return result
 
 
-def sum_combine(s_t):
+def sum_combine(s_t) -> Order:
     """Helper function for Sum simplification
 
        Attempts to simplify a list of sums, by combining limits / sum function's
@@ -831,7 +848,7 @@ def sum_combine(s_t):
 
     return result
 
-def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, sign=True):
+def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, sign=True) -> Basic | Any | Add | Order | Mul:
     """Return Sum with constant factors extracted.
 
     If ``limits`` is specified then ``self`` is the summand; the other
@@ -857,7 +874,7 @@ def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, si
     return factor_terms(expr, **kwargs)
 
 
-def sum_add(self, other, method=0):
+def sum_add(self, other, method=0) -> Basic | Any | Add | Order | Mul:
     """Helper function for Sum simplification"""
     #we know this is something in terms of a constant * a sum
     #so we temporarily put the constants inside for simplification
@@ -901,7 +918,7 @@ def sum_add(self, other, method=0):
     return Add(self, other)
 
 
-def product_simplify(s, **kwargs):
+def product_simplify(s, **kwargs) -> Order:
     """Main function for Product simplification"""
     terms = Mul.make_args(s)
     p_t = [] # Product Terms
@@ -939,7 +956,7 @@ def product_simplify(s, **kwargs):
     return result
 
 
-def product_mul(self, other, method=0):
+def product_mul(self, other, method=0) -> Equality | Relational | Ne | Product | Order:
     """Helper function for Product simplification"""
     if type(self) is type(other):
         if method == 0:
@@ -1170,7 +1187,7 @@ def inversecombine(expr):
     return _bottom_up(expr, f)
 
 
-def kroneckersimp(expr):
+def kroneckersimp(expr) -> None:
     """
     Simplify expressions with KroneckerDelta.
 
@@ -1336,7 +1353,7 @@ def besselsimp(expr):
     return expr
 
 
-def nthroot(expr, n, max_len=4, prec=15):
+def nthroot(expr, n, max_len=4, prec=15) -> Mul | Pow | Order | Add | None:
     """
     Compute a real nth-root of a sum of surds.
 
@@ -1978,10 +1995,10 @@ def nc_simplify(expr, deep=True):
 
 
 @overload
-def dotprodsimp(expr: Expr, withsimp: Literal[False] = False) -> Expr:
+def dotprodsimp(expr: Expr, withsimp: bool = False) -> Expr:
     ...
 @overload
-def dotprodsimp(expr: Expr, withsimp: Literal[True]) -> tuple[Expr, bool]:
+def dotprodsimp(expr: Expr, withsimp: bool) -> tuple[Expr, bool]:
     ...
 @overload
 def dotprodsimp(expr: Expr, withsimp: bool) -> Expr | tuple[Expr, bool]:

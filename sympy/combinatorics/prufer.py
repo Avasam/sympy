@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sympy.core import Basic
 from sympy.core.containers import Tuple
 from sympy.tensor.array import Array
@@ -6,6 +8,10 @@ from sympy.utilities.iterables import flatten, iterable
 from sympy.utilities.misc import as_int
 
 from collections import defaultdict
+from typing import Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Prufer(Basic):
@@ -30,7 +36,7 @@ class Prufer(Basic):
     _rank = None
 
     @property
-    def prufer_repr(self):
+    def prufer_repr(self) -> list:
         """Returns Prufer sequence for the Prufer object.
 
         This sequence is found by removing the highest numbered vertex,
@@ -57,7 +63,7 @@ class Prufer(Basic):
         return self._prufer_repr
 
     @property
-    def tree_repr(self):
+    def tree_repr(self) -> list:
         """Returns the tree representation of the Prufer object.
 
         Examples
@@ -80,7 +86,7 @@ class Prufer(Basic):
         return self._tree_repr
 
     @property
-    def nodes(self):
+    def nodes(self) -> None:
         """Returns the number of nodes in the tree.
 
         Examples
@@ -96,7 +102,7 @@ class Prufer(Basic):
         return self._nodes
 
     @property
-    def rank(self):
+    def rank(self) -> int:
         """Returns the rank of the Prufer sequence.
 
         Examples
@@ -122,7 +128,7 @@ class Prufer(Basic):
         return self._rank
 
     @property
-    def size(self):
+    def size(self) -> int:
         """Return the number of possible trees of this Prufer object.
 
         Examples
@@ -141,7 +147,7 @@ class Prufer(Basic):
         return self.prev(self.rank).prev().rank + 1
 
     @staticmethod
-    def to_prufer(tree, n):
+    def to_prufer(tree, n) -> list:
         """Return the Prufer sequence for a tree given as a list of edges where
         ``n`` is the number of nodes in the tree.
 
@@ -192,7 +198,7 @@ class Prufer(Basic):
         return L
 
     @staticmethod
-    def to_tree(prufer):
+    def to_tree(prufer) -> list:
         """Return the tree (as a list of edges) of the given Prufer sequence.
 
         Examples
@@ -237,7 +243,7 @@ class Prufer(Basic):
         return tree
 
     @staticmethod
-    def edges(*runs):
+    def edges(*runs) -> tuple[list, Any]:
         """Return a list of edges and the number of nodes from the given runs
         that connect nodes in an integer-labelled tree.
 
@@ -290,7 +296,7 @@ class Prufer(Basic):
             nmax -= nmin
         return sorted(rv), nmax + 1
 
-    def prufer_rank(self):
+    def prufer_rank(self) -> int:
         """Computes the rank of a Prufer sequence.
 
         Examples
@@ -315,7 +321,7 @@ class Prufer(Basic):
         return r
 
     @classmethod
-    def unrank(self, rank, n):
+    def unrank(self, rank, n) -> Prufer:
         """Finds the unranked Prufer sequence.
 
         Examples
@@ -333,7 +339,7 @@ class Prufer(Basic):
             rank = (rank - L[i])//n
         return Prufer([L[i] for i in range(len(L))])
 
-    def __new__(cls, *args, **kw_args):
+    def __new__(cls, *args, **kw_args) -> Self:
         """The constructor for the Prufer object.
 
         Examples
@@ -388,7 +394,7 @@ class Prufer(Basic):
             ret_obj._nodes = len(ret_obj._prufer_repr) + 2
         return ret_obj
 
-    def next(self, delta=1):
+    def next(self, delta=1) -> Prufer:
         """Generates the Prufer sequence that is delta beyond the current one.
 
         Examples
@@ -410,7 +416,7 @@ class Prufer(Basic):
         """
         return Prufer.unrank(self.rank + delta, self.nodes)
 
-    def prev(self, delta=1):
+    def prev(self, delta=1) -> Prufer:
         """Generates the Prufer sequence that is -delta before the current one.
 
         Examples

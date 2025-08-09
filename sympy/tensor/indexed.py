@@ -103,7 +103,10 @@ See the appropriate docstrings for a detailed explanation of the output.
 #      - Idx with range smaller than dimension of Indexed
 #      - Idx with stepsize != 1
 #      - Idx with step determined by function call
+from __future__ import annotations
+
 from collections.abc import Iterable
+from typing import TYPE_CHECKING
 
 from sympy.core.numbers import Number
 from sympy.core.assumptions import StdFactKB
@@ -115,6 +118,12 @@ from sympy.functions.special.tensor_functions import KroneckerDelta
 from sympy.multipledispatch import dispatch
 from sympy.utilities.iterables import is_sequence, NotIterable
 from sympy.utilities.misc import filldedent
+from sympy.core.basic import Basic
+
+if TYPE_CHECKING:
+    from sympy.matrices.matrixbase import MatrixBase
+    from sympy.tensor.array.ndim_array import NDimArray
+    from typing_extensions import Self
 
 
 class IndexException(Exception):
@@ -143,7 +152,7 @@ class Indexed(Expr):
     is_symbol = True
     is_Atom = True
 
-    def __new__(cls, base, *args, **kw_args):
+    def __new__(cls, base, *args, **kw_args) -> Self:
         from sympy.tensor.array.ndim_array import NDimArray
         from sympy.matrices.matrixbase import MatrixBase
 
@@ -176,7 +185,7 @@ class Indexed(Expr):
         return super()._hashable_content() + tuple(sorted(self.assumptions0.items()))
 
     @property
-    def name(self):
+    def name(self) -> str:
         return str(self)
 
     @property
@@ -205,11 +214,11 @@ class Indexed(Expr):
             return S.Zero
 
     @property
-    def assumptions0(self):
+    def assumptions0(self) -> dict:
         return {k: v for k, v in self._assumptions.items() if v is not None}
 
     @property
-    def base(self):
+    def base(self) -> Basic:
         """Returns the ``IndexedBase`` of the ``Indexed`` object.
 
         Examples
@@ -227,7 +236,7 @@ class Indexed(Expr):
         return self.args[0]
 
     @property
-    def indices(self):
+    def indices(self) -> tuple[Basic, ...]:
         """
         Returns the indices of the ``Indexed`` object.
 
@@ -243,7 +252,7 @@ class Indexed(Expr):
         return self.args[1:]
 
     @property
-    def rank(self):
+    def rank(self) -> int:
         """
         Returns the rank of the ``Indexed`` object.
 
@@ -264,7 +273,7 @@ class Indexed(Expr):
         return len(self.args) - 1
 
     @property
-    def shape(self):
+    def shape(self) -> tuple:
         """Returns a list with dimensions of each index.
 
         Dimensions is a property of the array, not of the indices.  Still, if
@@ -302,7 +311,7 @@ class Indexed(Expr):
         return Tuple(*sizes)
 
     @property
-    def ranges(self):
+    def ranges(self) -> list:
         """Returns a list of tuples with lower and upper range of each index.
 
         If an index does not define the data members upper and lower, the
@@ -337,7 +346,7 @@ class Indexed(Expr):
         return "%s[%s]" % (p.doprint(self.base), ", ".join(indices))
 
     @property
-    def free_symbols(self):
+    def free_symbols(self) -> set[Self | Basic] | set[Basic]:
         base_free_symbols = self.base.free_symbols
         indices_free_symbols = {
             fs for i in self.indices for fs in i.free_symbols}
@@ -347,7 +356,7 @@ class Indexed(Expr):
             return indices_free_symbols
 
     @property
-    def expr_free_symbols(self):
+    def expr_free_symbols(self) -> set[Self]:
         from sympy.utilities.exceptions import sympy_deprecation_warning
         sympy_deprecation_warning("""
         The expr_free_symbols property is deprecated. Use free_symbols to get
@@ -437,7 +446,7 @@ class IndexedBase(Expr, NotIterable):
         obj._assumptions = StdFactKB(assumptions)
         obj._assumptions._generator = tmp_asm_copy  # Issue #8873
 
-    def __new__(cls, label, shape=None, *, offset=S.Zero, strides=None, **kw_args):
+    def __new__(cls, label, shape=None, *, offset=S.Zero, strides=None, **kw_args) -> MatrixBase | NDimArray | Self:
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array.ndim_array import NDimArray
 
@@ -478,10 +487,10 @@ class IndexedBase(Expr, NotIterable):
         return super()._hashable_content() + tuple(sorted(self.assumptions0.items()))
 
     @property
-    def assumptions0(self):
+    def assumptions0(self) -> dict:
         return {k: v for k, v in self._assumptions.items() if v is not None}
 
-    def __getitem__(self, indices, **kw_args):
+    def __getitem__(self, indices, **kw_args) -> Indexed:
         if is_sequence(indices):
             # Special case needed because M[*my_tuple] is a syntax error.
             if self.shape and len(self.shape) != len(indices):
@@ -559,7 +568,7 @@ class IndexedBase(Expr, NotIterable):
         return self._offset
 
     @property
-    def label(self):
+    def label(self) -> Basic:
         """Returns the label of the ``IndexedBase`` object.
 
         Examples
@@ -641,7 +650,7 @@ class Idx(Expr):
     is_Atom = True
     _diff_wrt = True
 
-    def __new__(cls, label, range=None, **kw_args):
+    def __new__(cls, label, range=None, **kw_args) -> Self:
 
         if isinstance(label, str):
             label = Symbol(label, integer=True)
@@ -681,7 +690,7 @@ class Idx(Expr):
         return obj
 
     @property
-    def label(self):
+    def label(self) -> Basic:
         """Returns the label (Integer or integer expression) of the Idx object.
 
         Examples
@@ -701,7 +710,7 @@ class Idx(Expr):
         return self.args[0]
 
     @property
-    def lower(self):
+    def lower(self) -> None:
         """Returns the lower bound of the ``Idx``.
 
         Examples
@@ -722,7 +731,7 @@ class Idx(Expr):
             return
 
     @property
-    def upper(self):
+    def upper(self) -> None:
         """Returns the upper bound of the ``Idx``.
 
         Examples
@@ -746,11 +755,11 @@ class Idx(Expr):
         return p.doprint(self.label)
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self.label.name if self.label.is_Symbol else str(self.label)
 
     @property
-    def free_symbols(self):
+    def free_symbols(self) -> set[Self]:
         return {self}
 
 

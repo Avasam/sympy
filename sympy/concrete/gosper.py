@@ -1,11 +1,13 @@
 """Gosper's algorithm for hypergeometric summation. """
+from __future__ import annotations
 
 from sympy.core import S, Dummy, symbols
 from sympy.polys import Poly, parallel_poly_from_expr, factor
 from sympy.utilities.iterables import is_sequence
+from typing import Any
 
 
-def gosper_normal(f, g, n, polys=True):
+def gosper_normal(f, g, n, polys=True) -> tuple[Any, Any, Any]:
     r"""
     Compute the Gosper's normal form of ``f`` and ``g``.
 
@@ -75,7 +77,7 @@ def gosper_normal(f, g, n, polys=True):
     return A, B, C
 
 
-def gosper_term(f, n):
+def gosper_term(f, n) -> Any | None:
     r"""
     Compute Gosper's hypergeometric term for ``f``.
 
@@ -156,7 +158,7 @@ def gosper_term(f, n):
         return B.as_expr()*x/C.as_expr()
 
 
-def gosper_sum(f, k):
+def gosper_sum(f, k) -> Any | None:
     r"""
     Gosper's hypergeometric summation algorithm.
 

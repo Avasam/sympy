@@ -1,3 +1,4 @@
+from __future__ import annotations
 from sympy.core.numbers import oo, Infinity, NegativeInfinity
 from sympy.core.singleton import S
 from sympy.core import Basic, Expr
@@ -14,17 +15,17 @@ _set_sub = Dispatcher('_set_sub')
 
 
 @_set_add.register(Basic, Basic)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval:
     return None
 
 
 @_set_add.register(Expr, Expr)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval:
     return x+y
 
 
 @_set_add.register(Interval, Interval)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval:
     """
     Additions in interval arithmetic
     https://en.wikipedia.org/wiki/Interval_arithmetic
@@ -34,30 +35,30 @@ def _(x, y):
 
 
 @_set_add.register(Interval, Infinity)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval:
     if x.start is S.NegativeInfinity:
         return Interval(-oo, oo)
     return FiniteSet({S.Infinity})
 
 @_set_add.register(Interval, NegativeInfinity)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval:
     if x.end is S.Infinity:
         return Interval(-oo, oo)
     return FiniteSet({S.NegativeInfinity})
 
 
 @_set_sub.register(Basic, Basic)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval:
     return None
 
 
 @_set_sub.register(Expr, Expr)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval:
     return x-y
 
 
 @_set_sub.register(Interval, Interval)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval:
     """
     Subtractions in interval arithmetic
     https://en.wikipedia.org/wiki/Interval_arithmetic
@@ -67,13 +68,13 @@ def _(x, y):
 
 
 @_set_sub.register(Interval, Infinity)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval:
     if x.start is S.NegativeInfinity:
         return Interval(-oo, oo)
     return FiniteSet(-oo)
 
 @_set_sub.register(Interval, NegativeInfinity)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval:
     if x.start is S.NegativeInfinity:
         return Interval(-oo, oo)
     return FiniteSet(-oo)

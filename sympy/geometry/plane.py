@@ -5,6 +5,7 @@ Contains
 Plane
 
 """
+from __future__ import annotations
 
 from sympy.core import Dummy, Rational, S, Symbol
 from sympy.core.symbol import _symbol
@@ -12,7 +13,7 @@ from sympy.functions.elementary.trigonometric import cos, sin, acos, asin, sqrt
 from .entity import GeometryEntity
 from .line import (Line, Ray, Segment, Line3D, LinearEntity, LinearEntity3D,
                    Ray3D, Segment3D)
-from .point import Point, Point3D
+from .point import Point, Point2D, Point3D
 from sympy.matrices import Matrix
 from sympy.polys.polytools import cancel
 from sympy.solvers import solve, linsolve
@@ -22,6 +23,13 @@ from sympy.utilities.misc import filldedent, func_name, Undecidable
 from mpmath.libmp.libmpf import prec_to_dps
 
 import random
+from sympy.core.basic import Basic
+from sympy.core.expr import Expr
+from sympy.core.function import UndefinedFunction
+from typing import Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 x, y, z, t = [Dummy('plane_dummy') for i in range(4)]
@@ -54,7 +62,7 @@ class Plane(GeometryEntity):
     Plane(Point3D(1, 1, 1), (1, 4, 7))
 
     """
-    def __new__(cls, p1, a=None, b=None, **kwargs):
+    def __new__(cls, p1, a=None, b=None, **kwargs) -> Self:
         p1 = Point3D(p1, dim=3)
         if a and b:
             p2 = Point(a, dim=3)
@@ -77,7 +85,7 @@ class Plane(GeometryEntity):
                 raise ValueError('Normal vector cannot be zero vector')
         return GeometryEntity.__new__(cls, p1, normal_vector, **kwargs)
 
-    def __contains__(self, o):
+    def __contains__(self, o) -> bool:
         k = self.equation(x, y, z)
         if isinstance(o, (LinearEntity, LinearEntity3D)):
             d = Point3D(o.arbitrary_point(t))
@@ -97,7 +105,7 @@ class Plane(GeometryEntity):
         tup = tuple([i.evalf(n=dps, **options) for i in tup])
         return self.func(pt, normal_vector=tup, evaluate=False)
 
-    def angle_between(self, o):
+    def angle_between(self, o) -> type[UndefinedFunction] | None:
         """Angle between the plane and other geometric entity.
 
         Parameters
@@ -144,7 +152,7 @@ class Plane(GeometryEntity):
             return acos(c/(d*e))
 
 
-    def arbitrary_point(self, u=None, v=None):
+    def arbitrary_point(self, u=None, v=None) -> Point3D:
         """ Returns an arbitrary point on the Plane. If given two
         parameters, the point ranges over the entire plane. If given 1
         or no parameters, returns a point with one parameter which,
@@ -203,7 +211,7 @@ class Plane(GeometryEntity):
 
 
     @staticmethod
-    def are_concurrent(*planes):
+    def are_concurrent(*planes) -> bool:
         """Is a sequence of Planes concurrent?
 
         Two or more Planes are concurrent if their intersections
@@ -252,7 +260,7 @@ class Plane(GeometryEntity):
             return True
 
 
-    def distance(self, o):
+    def distance(self, o) -> Expr:
         """Distance between the plane and another geometric entity.
 
         Parameters
@@ -307,7 +315,7 @@ class Plane(GeometryEntity):
         return abs(d)
 
 
-    def equals(self, o):
+    def equals(self, o) -> Any | bool:
         """
         Returns True if self and o are the same mathematical entities.
 
@@ -333,7 +341,7 @@ class Plane(GeometryEntity):
             return False
 
 
-    def equation(self, x=None, y=None, z=None):
+    def equation(self, x=None, y=None, z=None) -> int:
         """The equation of the Plane.
 
         Examples
@@ -355,7 +363,17 @@ class Plane(GeometryEntity):
         return (sum(i*j for i, j in zip(b, c)))
 
 
-    def intersection(self, o):
+    def intersection(
+        self, o
+    ) -> (
+        list[Point | Point2D | Point3D]
+        | list
+        | list[Point | Point2D | Point3D | Segment3D | Ray3D | Line3D]
+        | list[Any | Point3D | Basic]
+        | list[Self]
+        | list[Line3D]
+        | None
+    ):
         """ The intersection with other geometrical entity.
 
         Parameters
@@ -439,7 +457,7 @@ class Plane(GeometryEntity):
                 return [Line3D(Point3D(result), direction_ratio=c)]
 
 
-    def is_coplanar(self, o):
+    def is_coplanar(self, o) -> bool | None:
         """ Returns True if `o` is coplanar with self, else False.
 
         Examples
@@ -464,7 +482,7 @@ class Plane(GeometryEntity):
             return all(i == 0 for i in self.normal_vector[:2])
 
 
-    def is_parallel(self, l):
+    def is_parallel(self, l) -> bool | None:
         """Is the given geometric entity parallel to the plane?
 
         Parameters
@@ -497,7 +515,7 @@ class Plane(GeometryEntity):
             return bool(a.cross(b).is_zero_matrix)
 
 
-    def is_perpendicular(self, l):
+    def is_perpendicular(self, l) -> bool:
         """Is the given geometric entity perpendicualar to the given plane?
 
         Parameters
@@ -538,7 +556,7 @@ class Plane(GeometryEntity):
             return False
 
     @property
-    def normal_vector(self):
+    def normal_vector(self) -> Basic:
         """Normal vector of the given plane.
 
         Examples
@@ -556,7 +574,7 @@ class Plane(GeometryEntity):
         return self.args[1]
 
     @property
-    def p1(self):
+    def p1(self) -> Basic:
         """The only defining point of the plane. Others can be obtained from the
         arbitrary_point method.
 
@@ -576,7 +594,7 @@ class Plane(GeometryEntity):
         """
         return self.args[0]
 
-    def parallel_plane(self, pt):
+    def parallel_plane(self, pt) -> Plane:
         """
         Plane parallel to the given plane and passing through the point pt.
 
@@ -602,7 +620,7 @@ class Plane(GeometryEntity):
         a = self.normal_vector
         return Plane(pt, normal_vector=a)
 
-    def perpendicular_line(self, pt):
+    def perpendicular_line(self, pt) -> Line3D:
         """A line perpendicular to the given plane.
 
         Parameters
@@ -627,7 +645,7 @@ class Plane(GeometryEntity):
         a = self.normal_vector
         return Line3D(pt, direction_ratio=a)
 
-    def perpendicular_plane(self, *pts):
+    def perpendicular_plane(self, *pts) -> Plane:
         """
         Return a perpendicular passing through the given points. If the
         direction ratio between the points is the same as the Plane's normal
@@ -693,7 +711,7 @@ class Plane(GeometryEntity):
             p3 = p1 + Point3D(*self.normal_vector)  # case 4
         return Plane(p1, p2, p3)
 
-    def projection_line(self, line):
+    def projection_line(self, line) -> Point | Point2D | Point3D | Segment3D | Ray3D | Line3D | Basic | Self | None:
         """Project the given line onto the plane through the normal plane
         containing the line.
 
@@ -744,7 +762,7 @@ class Plane(GeometryEntity):
         if isinstance(line, (Segment, Segment3D)):
             return Segment3D(a, b)
 
-    def projection(self, pt):
+    def projection(self, pt) -> Point | Point2D | Point3D | Segment3D | Ray3D | Line3D | Basic | Self:
         """Project the given point onto the plane along the plane normal.
 
         Parameters
@@ -783,7 +801,7 @@ class Plane(GeometryEntity):
             return rv
         return self.intersection(Line3D(rv, rv + Point3D(self.normal_vector)))[0]
 
-    def random_point(self, seed=None):
+    def random_point(self, seed=None) -> Point3D | Basic:
         """ Returns a random point on the Plane.
 
         Returns
@@ -816,7 +834,7 @@ class Plane(GeometryEntity):
             y: 2*Rational(rng.gauss(0, 1)) - 1}
         return self.arbitrary_point(x, y).subs(params)
 
-    def parameter_value(self, other, u, v=None):
+    def parameter_value(self, other, u, v=None) -> Point | Point2D | Point3D:
         """Return the parameter(s) corresponding to the given point.
 
         Examples

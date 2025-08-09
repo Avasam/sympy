@@ -20,6 +20,7 @@ R3 are currently the only ambient spaces implemented.
 
 """
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.core.basic import Basic
 from sympy.core.containers import Tuple
@@ -37,6 +38,9 @@ from sympy.sets.handlers.union import union_sets
 from sympy.solvers.solvers import solve
 from sympy.utilities.misc import func_name
 from sympy.utilities.iterables import is_sequence
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 # How entities are ordered; used by __cmp__ in GeometryEntity
@@ -78,7 +82,7 @@ class GeometryEntity(Basic, EvalfMixin):
 
     __slots__: tuple[str, ...] = ()
 
-    def __cmp__(self, other):
+    def __cmp__(self, other) -> int:
         """Comparison of two GeometryEntities."""
         n1 = self.__class__.__name__
         n2 = other.__class__.__name__
@@ -114,15 +118,15 @@ class GeometryEntity(Basic, EvalfMixin):
             return self == other
         raise NotImplementedError()
 
-    def __getnewargs__(self):
+    def __getnewargs__(self) -> tuple[Basic, ...]:
         """Returns a tuple that will be passed to __new__ on unpickling."""
         return tuple(self.args)
 
-    def __ne__(self, o):
+    def __ne__(self, o) -> bool:
         """Test inequality of two geometrical entities."""
         return not self == o
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args, **kwargs) -> Self:
         # Points are sequences, but they should not
         # be converted to Tuples, so use this detection function instead.
         def is_seq_and_not_point(a):
@@ -267,7 +271,7 @@ class GeometryEntity(Basic, EvalfMixin):
 
         raise NotImplementedError()
 
-    def encloses(self, o):
+    def encloses(self, o) -> bool:
         """
         Return True if o is inside (not on or outside) the boundaries of self.
 
@@ -363,7 +367,7 @@ class GeometryEntity(Basic, EvalfMixin):
         """
         raise NotImplementedError()
 
-    def reflect(self, line):
+    def reflect(self, line) -> Self:
         """
         Reflects an object across a line.
 
@@ -421,7 +425,7 @@ class GeometryEntity(Basic, EvalfMixin):
             reps = [(p, xf.xreplace({x: p.x, y: p.y})) for p in g.atoms(Point)]
         return g.xreplace(dict(reps))
 
-    def rotate(self, angle, pt=None):
+    def rotate(self, angle, pt=None) -> Self:
         """Rotate ``angle`` radians counterclockwise about Point ``pt``.
 
         The default pt is the origin, Point(0, 0)
@@ -450,7 +454,7 @@ class GeometryEntity(Basic, EvalfMixin):
                 newargs.append(a)
         return type(self)(*newargs)
 
-    def scale(self, x=1, y=1, pt=None):
+    def scale(self, x=1, y=1, pt=None) -> Self:
         """Scale the object by multiplying the x,y-coordinates by x and y.
 
         If pt is given, the scaling is done relative to that point; the
@@ -480,7 +484,7 @@ class GeometryEntity(Basic, EvalfMixin):
             return self.translate(*(-pt).args).scale(x, y).translate(*pt.args)
         return type(self)(*[a.scale(x, y) for a in self.args])  # if this fails, override this class
 
-    def translate(self, x=0, y=0):
+    def translate(self, x=0, y=0) -> Self:
         """Shift the object by adding to the x,y-coordinates the values x and y.
 
         See Also
@@ -509,7 +513,7 @@ class GeometryEntity(Basic, EvalfMixin):
                 newargs.append(a)
         return self.func(*newargs)
 
-    def parameter_value(self, other, t):
+    def parameter_value(self, other, t) -> dict:
         """Return the parameter corresponding to the given point.
         Evaluating an arbitrary point of the entity at this parameter
         value will return the given point.
@@ -552,7 +556,7 @@ class GeometrySet(GeometryEntity, Set):
         return self.__contains__(other)
 
 @dispatch(GeometrySet, Set)  # type:ignore # noqa:F811
-def union_sets(self, o): # noqa:F811
+def union_sets(self, o) -> FiniteSet | Union | None: # noqa:F811
     """ Returns the union of self and o
     for use with sympy.sets.Set, if possible. """
 
@@ -570,7 +574,7 @@ def union_sets(self, o): # noqa:F811
 
 
 @dispatch(GeometrySet, Set)  # type: ignore # noqa:F811
-def intersection_sets(self, o): # noqa:F811
+def intersection_sets(self, o) -> FiniteSet | Union | None: # noqa:F811
     """ Returns a sympy.sets.Set of intersection objects,
     if possible. """
 

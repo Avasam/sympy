@@ -1,5 +1,7 @@
+from __future__ import annotations
 from sympy.core.basic import Basic
 from sympy.matrices.expressions.matexpr import MatrixExpr
+from typing import Any
 
 
 class Transpose(MatrixExpr):
@@ -28,7 +30,7 @@ class Transpose(MatrixExpr):
     """
     is_Transpose = True
 
-    def doit(self, **hints):
+    def doit(self, **hints) -> Any | Transpose:
         arg = self.arg
         if hints.get('deep', True) and isinstance(arg, Basic):
             arg = arg.doit(**hints)
@@ -40,7 +42,7 @@ class Transpose(MatrixExpr):
             return Transpose(arg)
 
     @property
-    def arg(self):
+    def arg(self) -> Basic:
         return self.args[0]
 
     @property
@@ -76,7 +78,7 @@ class Transpose(MatrixExpr):
         return [i.transpose() for i in lines]
 
 
-def transpose(expr):
+def transpose(expr) -> Any | Transpose:
     """Matrix transpose"""
     return Transpose(expr).doit(deep=False)
 

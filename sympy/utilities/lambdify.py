@@ -4,7 +4,7 @@ lambda functions which can be used to calculate numerical values very fast.
 """
 
 from __future__ import annotations
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 import builtins
 import inspect
@@ -20,6 +20,9 @@ from sympy.utilities.decorator import doctest_depends_on
 from sympy.utilities.iterables import (is_sequence, iterable,
     NotIterable, flatten)
 from sympy.utilities.misc import filldedent
+
+if TYPE_CHECKING:
+    from sympy.core.function import UndefinedFunction
 
 
 __doctest_requires__ = {('lambdify',): ['numpy', 'tensorflow']}
@@ -1004,7 +1007,7 @@ def _recursive_to_string(doprint, arg):
         return doprint(arg)
 
 
-def lambdastr(args, expr, printer=None, dummify=None):
+def lambdastr(args, expr, printer=None, dummify=None) -> str:
     """
     Returns a string that can be evaluated to a lambda function.
 
@@ -1118,7 +1121,7 @@ def lambdastr(args, expr, printer=None, dummify=None):
     return "lambda %s: (%s)" % (args, expr)
 
 class _EvaluatorPrinter:
-    def __init__(self, printer=None, dummify=False):
+    def __init__(self, printer=None, dummify=False) -> None:
         self._dummify = dummify
 
         #XXX: This has to be done here because of circular imports
@@ -1144,7 +1147,7 @@ class _EvaluatorPrinter:
         # Used to print the generated function arguments in a standard way
         self._argrepr = LambdaPrinter().doprint
 
-    def doprint(self, funcname, args, expr, *, cses=()):
+    def doprint(self, funcname, args, expr, *, cses=()) -> str:
         """
         Returns the function definition code as a string.
         """
@@ -1419,7 +1422,7 @@ def _imp_namespace(expr, namespace=None):
     return namespace
 
 
-def implemented_function(symfunc, implementation):
+def implemented_function(symfunc, implementation) -> type[UndefinedFunction] | UndefinedFunction:
     """ Add numerical ``implementation`` to function ``symfunc``.
 
     ``symfunc`` can be an ``UndefinedFunction`` instance, or a name string.

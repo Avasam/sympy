@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Generic
+from typing import TYPE_CHECKING, Any, Generic
 
 from sympy.core.add import Add
 from sympy.core.mul import Mul
@@ -15,6 +15,9 @@ from sympy.polys.domains.simpledomain import SimpleDomain
 from sympy.polys.polyclasses import ANP
 from sympy.polys.polyerrors import CoercionFailed, DomainError, NotAlgebraic, IsomorphismFailed
 from sympy.utilities import public
+
+if TYPE_CHECKING:
+    from sympy.series.order import Order
 
 
 @public
@@ -257,7 +260,7 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain[Er], Generic[Er, Eg
 
     dom: Domain[Eg]
 
-    def __init__(self, dom: Domain[Eg], *ext, alias=None):
+    def __init__(self, dom: Domain[Eg], *ext, alias=None) -> None:
         r"""
         Parameters
         ==========
@@ -331,16 +334,16 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain[Er], Generic[Er, Eg
         self._discriminant = None
         self._nilradicals_mod_p: dict = {}
 
-    def new(self, element):
+    def new(self, element) -> ANP:
         return self.dtype(element, self.mod.to_list(), self.dom)
 
     def __str__(self):
         return str(self.dom) + '<' + str(self.ext) + '>'
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.__class__.__name__, self.dtype, self.dom, self.ext))
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         """Returns ``True`` if two domains are equivalent. """
         if isinstance(other, AlgebraicField):
             return self.dtype == other.dtype and self.ext == other.ext
@@ -355,7 +358,7 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain[Er], Generic[Er, Eg
         """Convert ``a`` of ``dtype`` to an :py:class:`~.AlgebraicNumber`. """
         return self.ext.field_element(a)
 
-    def to_sympy(self, a):
+    def to_sympy(self, a) -> Order:
         """Convert ``a`` of ``dtype`` to a SymPy object. """
         # Precompute a converter to be reused:
         if not hasattr(self, '_converter'):
@@ -430,7 +433,7 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain[Er], Generic[Er, Eg
         """Returns numerator of ``a``. """
         return a
 
-    def denom(self, a):
+    def denom(self, a) -> ANP:
         """Returns denominator of ``a``. """
         return self.one
 
@@ -452,7 +455,7 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain[Er], Generic[Er, Eg
         self._maximal_order = ZK
         self._discriminant = dK
 
-    def maximal_order(self):
+    def maximal_order(self) -> Any | None:
         """
         Compute the maximal order, or ring of integers, of the field.
 
@@ -471,7 +474,7 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain[Er], Generic[Er, Eg
             self._do_round_two()
         return self._maximal_order
 
-    def integral_basis(self, fmt=None):
+    def integral_basis(self, fmt=None) -> list[Any | Order] | list | list[ANP]:
         r"""
         Get an integral basis for the field.
 
@@ -526,7 +529,7 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain[Er], Generic[Er, Eg
             return [self.to_alg_num(b) for b in B]
         return B
 
-    def discriminant(self):
+    def discriminant(self) -> Any | None:
         """Get the discriminant of the field."""
         if self._discriminant is None:
             self._do_round_two()

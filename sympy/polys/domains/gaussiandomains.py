@@ -11,6 +11,11 @@ from sympy.polys.domains.domain import Domain
 from sympy.polys.domains.domainelement import DomainElement
 from sympy.polys.domains.field import Field
 from sympy.polys.domains.ring import Ring
+from types import NotImplementedType
+from typing import Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class GaussianElement(DomainElement):
@@ -36,27 +41,27 @@ class GaussianElement(DomainElement):
         """The domain that this is an element of (ZZ_I or QQ_I)"""
         return self._parent
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.x, self.y))
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, self.__class__):
             return self.x == other.x and self.y == other.y
         else:
             return NotImplemented
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         if not isinstance(other, GaussianElement):
             return NotImplemented
         return [self.y, self.x] < [other.y, other.x]
 
-    def __pos__(self):
+    def __pos__(self) -> Self:
         return self
 
     def __neg__(self):
         return self.new(-self.x, -self.y)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "%s(%s, %s)" % (self._parent.rep, self.x, self.y)
 
     def __str__(self):
@@ -71,7 +76,7 @@ class GaussianElement(DomainElement):
                 return None, None
         return other.x, other.y
 
-    def __add__(self, other):
+    def __add__(self, other) -> NotImplementedType:
         x, y = self._get_xy(other)
         if x is not None:
             return self.new(self.x + x, self.y + y)
@@ -80,21 +85,21 @@ class GaussianElement(DomainElement):
 
     __radd__ = __add__
 
-    def __sub__(self, other):
+    def __sub__(self, other) -> NotImplementedType:
         x, y = self._get_xy(other)
         if x is not None:
             return self.new(self.x - x, self.y - y)
         else:
             return NotImplemented
 
-    def __rsub__(self, other):
+    def __rsub__(self, other) -> NotImplementedType:
         x, y = self._get_xy(other)
         if x is not None:
             return self.new(x - self.x, y - self.y)
         else:
             return NotImplemented
 
-    def __mul__(self, other):
+    def __mul__(self, other) -> NotImplementedType:
         x, y = self._get_xy(other)
         if x is not None:
             return self.new(self.x*x - self.y*y, self.x*y + self.y*x)
@@ -103,7 +108,7 @@ class GaussianElement(DomainElement):
 
     __rmul__ = __mul__
 
-    def __pow__(self, exp):
+    def __pow__(self, exp) -> float | Self:
         if exp == 0:
             return self.new(1, 0)
         if exp < 0:
@@ -120,10 +125,10 @@ class GaussianElement(DomainElement):
             exp //= 2
         return prod
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         return bool(self.x) or bool(self.y)
 
-    def quadrant(self):
+    def quadrant(self) -> int:
         """Return quadrant index 0-3.
 
         0 is included in quadrant 0.
@@ -135,7 +140,7 @@ class GaussianElement(DomainElement):
         else:
             return 0 if self.x >= 0 else 2
 
-    def __rdivmod__(self, other):
+    def __rdivmod__(self, other) -> NotImplementedType:
         try:
             other = self._parent.convert(other)
         except CoercionFailed:
@@ -143,7 +148,7 @@ class GaussianElement(DomainElement):
         else:
             return other.__divmod__(self)
 
-    def __rtruediv__(self, other):
+    def __rtruediv__(self, other) -> NotImplementedType:
         try:
             other = QQ_I.convert(other)
         except CoercionFailed:
@@ -155,7 +160,7 @@ class GaussianElement(DomainElement):
         qr = self.__divmod__(other)
         return qr if qr is NotImplemented else qr[0]
 
-    def __rfloordiv__(self, other):
+    def __rfloordiv__(self, other) -> NotImplementedType:
         qr = self.__rdivmod__(other)
         return qr if qr is NotImplemented else qr[0]
 
@@ -163,7 +168,7 @@ class GaussianElement(DomainElement):
         qr = self.__divmod__(other)
         return qr if qr is NotImplemented else qr[1]
 
-    def __rmod__(self, other):
+    def __rmod__(self, other) -> NotImplementedType:
         qr = self.__rdivmod__(other)
         return qr if qr is NotImplemented else qr[1]
 
@@ -184,7 +189,7 @@ class GaussianInteger(GaussianElement):
         """Return a Gaussian rational."""
         return QQ_I.convert(self)/other
 
-    def __divmod__(self, other):
+    def __divmod__(self, other) -> NotImplementedType | tuple[GaussianInteger, Any]:
         if not other:
             raise ZeroDivisionError('divmod({}, 0)'.format(self))
         x, y = self._get_xy(other)
@@ -220,7 +225,7 @@ class GaussianRational(GaussianElement):
     """
     base = QQ
 
-    def __truediv__(self, other):
+    def __truediv__(self, other) -> NotImplementedType | GaussianRational:
         """Return a Gaussian rational."""
         if not other:
             raise ZeroDivisionError('{} / 0'.format(self))
@@ -232,7 +237,7 @@ class GaussianRational(GaussianElement):
         return GaussianRational((self.x*x + self.y*y)/c,
                                 (-self.x*y + self.y*x)/c)
 
-    def __divmod__(self, other):
+    def __divmod__(self, other) -> NotImplementedType | tuple[Any, Any]:
         try:
             other = self._parent.convert(other)
         except CoercionFailed:
@@ -279,19 +284,19 @@ class GaussianDomain():
         unit = self.units[-d.quadrant()]  # - for inverse power
         return unit
 
-    def is_negative(self, element):
+    def is_negative(self, element) -> bool:
         """Returns ``False`` for any ``GaussianElement``. """
         return False
 
-    def is_positive(self, element):
+    def is_positive(self, element) -> bool:
         """Returns ``False`` for any ``GaussianElement``. """
         return False
 
-    def is_nonnegative(self, element):
+    def is_nonnegative(self, element) -> bool:
         """Returns ``False`` for any ``GaussianElement``. """
         return False
 
-    def is_nonpositive(self, element):
+    def is_nonpositive(self, element) -> bool:
         """Returns ``False`` for any ``GaussianElement``. """
         return False
 
@@ -319,7 +324,7 @@ class GaussianDomain():
         """Convert a QQ_python element to ``self.dtype``."""
         return K1(a)
 
-    def from_AlgebraicField(K1, a, K0):
+    def from_AlgebraicField(K1, a, K0) -> None:
         """Convert an element from ZZ<I> or QQ<I> to ``self.dtype``."""
         if K0.ext.args[0] == I:
             return K1.from_sympy(K0.to_sympy(a))
@@ -439,7 +444,7 @@ class GaussianIntegerRing(GaussianDomain, Ring):
     is_ZZ_I = True
     is_PID = True
 
-    def __init__(self):  # override Domain.__init__
+    def __init__(self) -> None:  # override Domain.__init__
         """For constructing ZZ_I."""
 
     def __eq__(self, other):
@@ -460,15 +465,15 @@ class GaussianIntegerRing(GaussianDomain, Ring):
     def characteristic(self):
         return 0
 
-    def get_ring(self):
+    def get_ring(self) -> Self:
         """Returns a ring associated with ``self``. """
         return self
 
-    def get_field(self):
+    def get_field(self) -> GaussianRationalField:
         """Returns a field associated with ``self``. """
         return QQ_I
 
-    def normalize(self, d, *args):
+    def normalize(self, d, *args) -> tuple:
         """Return first quadrant element associated with ``d``.
 
         Also multiply the other arguments by the same power of i.
@@ -478,7 +483,7 @@ class GaussianIntegerRing(GaussianDomain, Ring):
         args = tuple(a*unit for a in args)
         return (d,) + args if args else d
 
-    def gcd(self, a, b):
+    def gcd(self, a, b) -> tuple:
         """Greatest common divisor of a and b over ZZ_I."""
         while b:
             a, b = b, a % b
@@ -644,7 +649,7 @@ class GaussianRationalField(GaussianDomain, Field):
     is_GaussianField = True
     is_QQ_I = True
 
-    def __init__(self):  # override Domain.__init__
+    def __init__(self) -> None:  # override Domain.__init__
         """For constructing QQ_I."""
 
     def __eq__(self, other):
@@ -665,11 +670,11 @@ class GaussianRationalField(GaussianDomain, Field):
     def characteristic(self):
         return 0
 
-    def get_ring(self):
+    def get_ring(self) -> GaussianIntegerRing:
         """Returns a ring associated with ``self``. """
         return ZZ_I
 
-    def get_field(self):
+    def get_field(self) -> Self:
         """Returns a field associated with ``self``. """
         return self
 

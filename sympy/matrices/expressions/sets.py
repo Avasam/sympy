@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from sympy.core.assumptions import check_assumptions
 from sympy.core.logic import fuzzy_and
 from sympy.core.sympify import _sympify
@@ -5,6 +7,10 @@ from sympy.matrices.kind import MatrixKind
 from sympy.sets.sets import Set, SetKind
 from sympy.core.kind import NumberKind
 from .matexpr import MatrixExpr
+from sympy.core.basic import Basic
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class MatrixSet(Set):
@@ -28,7 +34,7 @@ class MatrixSet(Set):
     """
     is_empty = False
 
-    def __new__(cls, n, m, set):
+    def __new__(cls, n, m, set) -> Self:
         n, m, set = _sympify(n), _sympify(m), _sympify(set)
         cls._check_dim(n)
         cls._check_dim(m)
@@ -37,11 +43,11 @@ class MatrixSet(Set):
         return Set.__new__(cls, n, m, set)
 
     @property
-    def shape(self):
+    def shape(self) -> tuple[Basic, ...]:
         return self.args[:2]
 
     @property
-    def set(self):
+    def set(self) -> Basic:
         return self.args[2]
 
     def _contains(self, other):

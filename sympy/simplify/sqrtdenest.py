@@ -1,12 +1,15 @@
+from __future__ import annotations
 from sympy.core import Add, Expr, Mul, S, sympify
 from sympy.core.function import _mexpand, count_ops, expand_mul
 from sympy.core.sorting import default_sort_key
 from sympy.core.symbol import Dummy
 from sympy.functions import root, sign, sqrt
 from sympy.polys import Poly, PolynomialError
+from sympy.core.power import Pow
+from sympy.series.order import Order
 
 
-def is_sqrt(expr):
+def is_sqrt(expr) -> bool:
     """Return True if expr is a sqrt, otherwise False."""
 
     return expr.is_Pow and expr.exp.is_Rational and abs(expr.exp) is S.Half
@@ -41,7 +44,7 @@ def sqrt_depth(p) -> int:
     return 0
 
 
-def is_algebraic(p):
+def is_algebraic(p) -> bool:
     """Return True if p is comprised of only Rationals or square roots
     of Rationals and algebraic operations.
 
@@ -98,7 +101,7 @@ def _subsets(n):
     return a
 
 
-def sqrtdenest(expr, max_iter=3):
+def sqrtdenest(expr, max_iter=3) -> Mul | Pow | Order | Add | None:
     """Denests sqrts in an expression that contain other square roots
     if possible, otherwise returns the expr unchanged. This is based on the
     algorithms of [1].
@@ -460,7 +463,7 @@ def _sqrt_numeric_denest(a, b, r, d2):
         return res.expand()
 
 
-def sqrt_biquadratic_denest(expr, a, b, r, d2):
+def sqrt_biquadratic_denest(expr, a, b, r, d2) -> None:
     """denest expr = sqrt(a + b*sqrt(r))
     where a, b, r are linear combinations of square roots of
     positive rationals on the rationals (SQRR) and r > 0, b != 0,

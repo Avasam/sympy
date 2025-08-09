@@ -1,8 +1,14 @@
+from __future__ import annotations
+
 from sympy.core.singleton import S
 from sympy.core.sympify import _sympify
 from sympy.polys.polytools import Poly
 
 from .matexpr import MatrixExpr
+from typing import Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class CompanionMatrix(MatrixExpr):
@@ -20,7 +26,7 @@ class CompanionMatrix(MatrixExpr):
     CompanionMatrix(Poly(x**5 + c4*x**4 + c3*x**3 + c2*x**2 + c1*x + c0,
     x, domain='ZZ[c0,c1,c2,c3,c4]'))
     """
-    def __new__(cls, poly):
+    def __new__(cls, poly) -> Self:
         poly = _sympify(poly)
         if not isinstance(poly, Poly):
             raise ValueError("{} must be a Poly instance.".format(poly))
@@ -37,7 +43,7 @@ class CompanionMatrix(MatrixExpr):
 
 
     @property
-    def shape(self):
+    def shape(self) -> tuple[Any, Any]:
         poly = self.args[0]
         size = poly.degree()
         return size, size

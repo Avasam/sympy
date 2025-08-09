@@ -15,23 +15,26 @@ It is modified in the following ways:
 A more traditional version can be found here
 http://aima.cs.berkeley.edu/python/logic.html
 """
+from __future__ import annotations
 
 from sympy.utilities.iterables import kbins
+from collections.abc import Generator
+from typing import Any
 
 class Compound:
     """ A little class to represent an interior node in the tree
 
     This is analogous to SymPy.Basic for non-Atoms
     """
-    def __init__(self, op, args):
+    def __init__(self, op, args) -> None:
         self.op = op
         self.args = args
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return (type(self) is type(other) and self.op == other.op and
                 self.args == other.args)
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((type(self), self.op, self.args))
 
     def __str__(self):
@@ -39,13 +42,13 @@ class Compound:
 
 class Variable:
     """ A Wild token """
-    def __init__(self, arg):
+    def __init__(self, arg) -> None:
         self.arg = arg
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return type(self) is type(other) and self.arg == other.arg
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((type(self), self.arg))
 
     def __str__(self):
@@ -57,22 +60,22 @@ class CondVariable:
     arg   - a wild token.
     valid - an additional constraining function on a match.
     """
-    def __init__(self, arg, valid):
+    def __init__(self, arg, valid) -> None:
         self.arg = arg
         self.valid = valid
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return (type(self) is type(other) and
                 self.arg == other.arg and
                 self.valid == other.valid)
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((type(self), self.arg, self.valid))
 
     def __str__(self):
         return "CondVariable(%s)" % str(self.arg)
 
-def unify(x, y, s=None, **fns):
+def unify(x, y, s=None, **fns) -> Generator[Any | dict]:
     """ Unify two expressions.
 
     Parameters
@@ -127,7 +130,7 @@ def unify(x, y, s=None, **fns):
             for shead in unify(x[0], y[0], s, **fns):
                 yield from unify(x[1:], y[1:], shead, **fns)
 
-def unify_var(var, x, s, **fns):
+def unify_var(var, x, s, **fns) -> Generator:
     if var in s:
         yield from unify(s[var], x, s, **fns)
     elif occur_check(var, x):
@@ -137,7 +140,7 @@ def unify_var(var, x, s, **fns):
     elif isinstance(var, Variable):
         yield assoc(s, var, x)
 
-def occur_check(var, x):
+def occur_check(var, x) -> bool:
     """ var occurs in subtree owned by x? """
     if var == x:
         return True
@@ -153,17 +156,17 @@ def assoc(d, key, val):
     d[key] = val
     return d
 
-def is_args(x):
+def is_args(x) -> bool:
     """ Is x a traditional iterable? """
     return type(x) in (tuple, list, set)
 
-def unpack(x):
+def unpack(x) -> Compound:
     if isinstance(x, Compound) and len(x.args) == 1:
         return x.args[0]
     else:
         return x
 
-def allcombinations(A, B, ordered):
+def allcombinations(A, B, ordered) -> Generator[tuple[tuple[tuple[Any], ...], Any] | tuple[Any, tuple[tuple[Any], ...]]]:
     """
     Restructure A and B to have the same number of elements.
 

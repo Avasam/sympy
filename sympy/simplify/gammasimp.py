@@ -1,3 +1,4 @@
+from __future__ import annotations
 from sympy.core import Function, S, Mul, Pow, Add
 from sympy.core.sorting import ordered, default_sort_key
 from sympy.core.function import expand_func
@@ -5,6 +6,7 @@ from sympy.core.symbol import Dummy
 from sympy.functions import gamma, sqrt, sin
 from sympy.polys import factor, cancel
 from sympy.utilities.iterables import sift, uniq
+from sympy.series.order import Order
 
 
 def gammasimp(expr):
@@ -462,7 +464,7 @@ def _gammasimp(expr, as_comb):
 
 class _rf(Function):
     @classmethod
-    def eval(cls, a, b):
+    def eval(cls, a, b) -> Order | None:
         if b.is_Integer:
             if not b:
                 return S.One

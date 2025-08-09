@@ -1,12 +1,18 @@
 """
 Physical quantities.
 """
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
-from sympy.core.expr import AtomicExpr
+from sympy.core.expr import Expr, AtomicExpr
 from sympy.core.symbol import Symbol
 from sympy.core.sympify import sympify
-from sympy.physics.units.dimensions import _QuantityMapper
+from sympy.physics.units.dimensions import Dimension, _QuantityMapper
 from sympy.physics.units.prefixes import Prefix
+from sympy.core.add import Add
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Quantity(AtomicExpr):
@@ -25,7 +31,7 @@ class Quantity(AtomicExpr):
                 latex_repr=None, pretty_unicode_repr=None,
                 pretty_ascii_repr=None, mathml_presentation_repr=None,
                 is_prefixed=False,
-                **assumptions):
+                **assumptions) -> Self:
 
         if not isinstance(name, Symbol):
             name = Symbol(name)
@@ -48,10 +54,10 @@ class Quantity(AtomicExpr):
         obj._is_prefixed = is_prefixed
         return obj
 
-    def set_global_dimension(self, dimension):
+    def set_global_dimension(self, dimension) -> None:
         _QuantityMapper._quantity_dimension_global[self] = dimension
 
-    def set_global_relative_scale_factor(self, scale_factor, reference_quantity):
+    def set_global_relative_scale_factor(self, scale_factor, reference_quantity) -> None:
         """
         Setting a scale factor that is valid across all unit system.
         """
@@ -73,7 +79,7 @@ class Quantity(AtomicExpr):
         return self._name
 
     @property
-    def dimension(self):
+    def dimension(self) -> Expr | Dimension:
         from sympy.physics.units import UnitSystem
         unit_system = UnitSystem.get_default_unit_system()
         return unit_system.get_quantity_dimension(self)
@@ -116,7 +122,7 @@ class Quantity(AtomicExpr):
             return r'\text{{{}}}'.format(self.args[1] \
                           if len(self.args) >= 2 else self.args[0])
 
-    def convert_to(self, other, unit_system="SI"):
+    def convert_to(self, other, unit_system="SI") -> Add | Quantity:
         """
         Convert the quantity to another quantity of same dimensions.
 
@@ -137,12 +143,12 @@ class Quantity(AtomicExpr):
         return convert_to(self, other, unit_system)
 
     @property
-    def free_symbols(self):
+    def free_symbols(self) -> set:
         """Return free symbols from quantity."""
         return set()
 
     @property
-    def is_prefixed(self):
+    def is_prefixed(self) -> bool:
         """Whether or not the quantity is prefixed. Eg. `kilogram` is prefixed, but `gram` is not."""
         return self._is_prefixed
 

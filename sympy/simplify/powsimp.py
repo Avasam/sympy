@@ -1,3 +1,4 @@
+from __future__ import annotations
 from collections import defaultdict
 from functools import reduce
 from math import prod
@@ -494,7 +495,7 @@ def powsimp(expr, deep=False, combine='all', force=False, measure=count_ops):
         raise ValueError("combine must be one of ('all', 'exp', 'base').")
 
 
-def powdenest(eq, force=False, polar=False):
+def powdenest(eq, force=False, polar=False) -> bool | Basic:
     r"""
     Collect exponents on powers as assumptions allow.
 

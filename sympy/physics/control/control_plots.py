@@ -1,3 +1,4 @@
+from __future__ import annotations
 from sympy.core.numbers import I, pi
 from sympy.functions.elementary.exponential import (exp, log)
 from sympy.polys.partfrac import apart
@@ -12,6 +13,7 @@ from sympy.polys.domains import ZZ, QQ
 from sympy.polys.polytools import Poly
 from sympy.printing.latex import latex
 from sympy.geometry.polygon import deg
+from typing import Any
 
 __all__ = ['pole_zero_numerical_data', 'pole_zero_plot',
     'step_response_numerical_data', 'step_response_plot',
@@ -59,7 +61,7 @@ def _poly_roots(poly):
     return _eval(poly.nroots())
 
 
-def pole_zero_numerical_data(system):
+def pole_zero_numerical_data(system) -> tuple[Any, Any]:
     """
     Returns the numerical data of poles and zeros of the system.
     It is internally used by ``pole_zero_plot`` to get the data
@@ -120,7 +122,7 @@ def pole_zero_numerical_data(system):
 
 def pole_zero_plot(system, pole_color='blue', pole_markersize=10,
     zero_color='orange', zero_markersize=7, grid=True, show_axes=True,
-    show=True, **kwargs):
+    show=True, **kwargs) -> None:
     r"""
     Returns the Pole-Zero plot (also known as PZ Plot or PZ Map) of a system.
 
@@ -209,8 +211,9 @@ def pole_zero_plot(system, pole_color='blue', pole_markersize=10,
     return plt
 
 
-def step_response_numerical_data(system, prec=8, lower_limit=0,
-    upper_limit=10, **kwargs):
+def step_response_numerical_data(
+    system, prec=8, lower_limit=0, upper_limit=10, **kwargs
+) -> tuple[Any, Any] | tuple[list, list]:
     """
     Returns the numerical values of the points in the step response plot
     of a SISO continuous-time system. By default, adaptive sampling
@@ -288,7 +291,7 @@ def step_response_numerical_data(system, prec=8, lower_limit=0,
 
 
 def step_response_plot(system, color='b', prec=8, lower_limit=0,
-    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs):
+    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs) -> None:
     r"""
     Returns the unit step response of a continuous-time system. It is
     the response of the system when the input signal is a step function.
@@ -360,8 +363,9 @@ def step_response_plot(system, color='b', prec=8, lower_limit=0,
     return plt
 
 
-def impulse_response_numerical_data(system, prec=8, lower_limit=0,
-    upper_limit=10, **kwargs):
+def impulse_response_numerical_data(
+    system, prec=8, lower_limit=0, upper_limit=10, **kwargs
+) -> tuple[Any, Any] | tuple[list, list]:
     """
     Returns the numerical values of the points in the impulse response plot
     of a SISO continuous-time system. By default, adaptive sampling
@@ -439,7 +443,7 @@ def impulse_response_numerical_data(system, prec=8, lower_limit=0,
 
 
 def impulse_response_plot(system, color='b', prec=8, lower_limit=0,
-    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs):
+    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs) -> None:
     r"""
     Returns the unit impulse response (Input is the Dirac-Delta Function) of a
     continuous-time system.
@@ -511,8 +515,9 @@ def impulse_response_plot(system, color='b', prec=8, lower_limit=0,
     return plt
 
 
-def ramp_response_numerical_data(system, slope=1, prec=8,
-    lower_limit=0, upper_limit=10, **kwargs):
+def ramp_response_numerical_data(
+    system, slope=1, prec=8, lower_limit=0, upper_limit=10, **kwargs
+) -> tuple[Any, Any] | tuple[list, list]:
     """
     Returns the numerical values of the points in the ramp response plot
     of a SISO continuous-time system. By default, adaptive sampling
@@ -597,7 +602,7 @@ def ramp_response_numerical_data(system, slope=1, prec=8,
 
 
 def ramp_response_plot(system, slope=1, color='b', prec=8, lower_limit=0,
-    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs):
+    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs) -> None:
     r"""
     Returns the ramp response of a continuous-time system.
 
@@ -675,7 +680,9 @@ def ramp_response_plot(system, slope=1, color='b', prec=8, lower_limit=0,
     return plt
 
 
-def bode_magnitude_numerical_data(system, initial_exp=-5, final_exp=5, freq_unit='rad/sec', **kwargs):
+def bode_magnitude_numerical_data(
+    system, initial_exp=-5, final_exp=5, freq_unit="rad/sec", **kwargs
+) -> tuple[Any | list, Any | list]:
     """
     Returns the numerical data of the Bode magnitude plot of the system.
     It is internally used by ``bode_magnitude_plot`` to get the data
@@ -756,7 +763,7 @@ def bode_magnitude_numerical_data(system, initial_exp=-5, final_exp=5, freq_unit
 
 
 def bode_magnitude_plot(system, initial_exp=-5, final_exp=5,
-    color='b', show_axes=False, grid=True, show=True, freq_unit='rad/sec', **kwargs):
+    color='b', show_axes=False, grid=True, show=True, freq_unit='rad/sec', **kwargs) -> None:
     r"""
     Returns the Bode magnitude plot of a continuous-time system.
 

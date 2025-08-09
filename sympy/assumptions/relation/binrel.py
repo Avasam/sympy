@@ -1,13 +1,20 @@
 """
 General binary relations.
 """
-from typing import Optional
+from __future__ import annotations
+
+from typing import Optional, TYPE_CHECKING
 
 from sympy.core.singleton import S
 from sympy.assumptions import AppliedPredicate, ask, Predicate, Q  # type: ignore
 from sympy.core.kind import BooleanKind
 from sympy.core.relational import Eq, Ne, Gt, Lt, Ge, Le
 from sympy.logic.boolalg import conjuncts, Not
+from sympy.core.basic import Basic
+
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = ["BinaryRelation", "AppliedBinaryRelation"]
 
@@ -77,19 +84,19 @@ class BinaryRelation(Predicate):
     is_reflexive: Optional[bool] = None
     is_symmetric: Optional[bool] = None
 
-    def __call__(self, *args):
+    def __call__(self, *args) -> AppliedBinaryRelation:
         if not len(args) == 2:
             raise TypeError(f"Q.{self.name} takes two arguments, but got {len(args)}.")
         return AppliedBinaryRelation(self, *args)
 
     @property
-    def reversed(self):
+    def reversed(self) -> Self | None:
         if self.is_symmetric:
             return self
         return None
 
     @property
-    def negated(self):
+    def negated(self) -> None:
         return None
 
     def _compare_reflexive(self, lhs, rhs):
@@ -110,7 +117,7 @@ class BinaryRelation(Predicate):
             return False
         return None
 
-    def eval(self, args, assumptions=True):
+    def eval(self, args, assumptions=True) -> bool:
         # quick exit for structurally same arguments
         ret = self._compare_reflexive(*args)
         if ret is not None:
@@ -140,17 +147,17 @@ class AppliedBinaryRelation(AppliedPredicate):
     """
 
     @property
-    def lhs(self):
+    def lhs(self) -> Basic:
         """The left-hand side of the relation."""
         return self.arguments[0]
 
     @property
-    def rhs(self):
+    def rhs(self) -> Basic:
         """The right-hand side of the relation."""
         return self.arguments[1]
 
     @property
-    def reversed(self):
+    def reversed(self) -> Self:
         """
         Try to return the relationship with sides reversed.
         """
@@ -160,7 +167,7 @@ class AppliedBinaryRelation(AppliedPredicate):
         return revfunc(self.rhs, self.lhs)
 
     @property
-    def reversedsign(self):
+    def reversedsign(self) -> Self:
         """
         Try to return the relationship with signs reversed.
         """
@@ -172,7 +179,7 @@ class AppliedBinaryRelation(AppliedPredicate):
         return self
 
     @property
-    def negated(self):
+    def negated(self) -> Not:
         neg_rel = self.function.negated
         if neg_rel is None:
             return Not(self, evaluate=False)
@@ -205,7 +212,7 @@ class AppliedBinaryRelation(AppliedPredicate):
         args = tuple(a.simplify() for a in self.arguments)
         return self.function.eval(args, assumptions)
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         ret = ask(self)
         if ret is None:
             raise TypeError(f"Cannot determine truth value of {self}")

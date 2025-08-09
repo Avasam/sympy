@@ -1,3 +1,4 @@
+from __future__ import annotations
 from sympy.core import S, Pow
 from sympy.core.function import (Derivative, AppliedUndef, diff)
 from sympy.core.relational import Equality, Eq
@@ -6,7 +7,7 @@ from sympy.core.sympify import sympify
 
 from sympy.logic.boolalg import BooleanAtom
 from sympy.functions import exp
-from sympy.series import Order
+from sympy.series.order import Order
 from sympy.simplify.simplify import simplify, posify, besselsimp
 from sympy.simplify.trigsimp import trigsimp
 from sympy.simplify.sqrtdenest import sqrtdenest
@@ -288,7 +289,7 @@ def checkodesol(ode, sol, func=None, order='auto', solve_for_func=True):
         return (False, s)
 
 
-def checksysodesol(eqs, sols, func=None):
+def checksysodesol(eqs, sols, func=None) -> tuple[bool, list]:
     r"""
     Substitutes corresponding ``sols`` for each functions into each ``eqs`` and
     checks that the result of substitutions for each equation is ``0``. The

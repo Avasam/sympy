@@ -1,3 +1,4 @@
+from __future__ import annotations
 from collections import defaultdict
 
 from sympy import Function
@@ -15,11 +16,24 @@ from sympy.combinatorics import Permutation
 from sympy.matrices.expressions.matexpr import MatrixElement
 from sympy.tensor.array.expressions.array_expressions import ArrayDiagonal, \
     get_shape, ArrayElement, _array_tensor_product, _array_diagonal, _array_contraction, _array_add, \
-    _permute_dims, OneArray, ArrayAdd
+    _permute_dims, OneArray, ArrayAdd, ZeroArray, ArrayTensorProduct, ArrayContraction, PermuteDims
 from sympy.tensor.array.expressions.utils import _get_argindex, _get_diagonal_indices
+from sympy.core.basic import Basic
 
 
-def convert_indexed_to_array(expr, first_indices=None):
+def convert_indexed_to_array(expr, first_indices=None) -> (
+    ArrayElement
+    | Basic
+    | ZeroArray
+    | ArrayTensorProduct
+    | ArrayContraction
+    | PermuteDims
+    | ArrayDiagonal
+    | KroneckerDelta
+    | ArrayAdd
+    | ArrayElementwiseApplyFunc
+    | Pow
+):
     r"""
     Parse indexed expression into a form useful for code generation.
 

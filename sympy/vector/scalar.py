@@ -1,8 +1,14 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core import AtomicExpr, Symbol, S
 from sympy.core.sympify import _sympify
 from sympy.printing.pretty.stringpict import prettyForm
 from sympy.printing.precedence import PRECEDENCE
 from sympy.core.kind import NumberKind
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class BaseScalar(AtomicExpr):
@@ -15,7 +21,7 @@ class BaseScalar(AtomicExpr):
 
     kind = NumberKind
 
-    def __new__(cls, index, system, pretty_str=None, latex_str=None):
+    def __new__(cls, index, system, pretty_str=None, latex_str=None) -> Self:
         from sympy.vector.coordsysrect import CoordSys3D
         if pretty_str is None:
             pretty_str = "x{}".format(index)
@@ -46,7 +52,7 @@ class BaseScalar(AtomicExpr):
     is_symbol = True
 
     @property
-    def free_symbols(self):
+    def free_symbols(self) -> set[Self]:
         return {self}
 
     _diff_wrt = True

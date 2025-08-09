@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.core.expr import Expr
 from sympy.core.function import Derivative
@@ -10,12 +11,15 @@ from sympy.matrices.expressions.matexpr import MatrixExpr
 from sympy.matrices.expressions.special import ZeroMatrix
 from sympy.matrices.expressions.matexpr import _matrix_derivative
 
+if TYPE_CHECKING:
+    from typing_extensions import Self
+
 
 class ArrayDerivative(Derivative):
 
     is_scalar = False
 
-    def __new__(cls, expr, *variables, **kwargs):
+    def __new__(cls, expr, *variables, **kwargs) -> Self:
         obj = super().__new__(cls, expr, *variables, **kwargs)
         if isinstance(obj, ArrayDerivative):
             obj._shape = obj._get_shape()

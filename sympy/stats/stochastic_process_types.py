@@ -1,7 +1,8 @@
 from __future__ import annotations
+
 import random
 import itertools
-from typing import Sequence as tSequence
+from typing import Any, Sequence as tSequence, TYPE_CHECKING
 from sympy.concrete.summations import Sum
 from sympy.core.add import Add
 from sympy.core.basic import Basic
@@ -12,7 +13,7 @@ from sympy.core.function import (Function, Lambda)
 from sympy.core.mul import Mul
 from sympy.core.intfunc import igcd
 from sympy.core.numbers import (Integer, Rational, oo, pi)
-from sympy.core.relational import (Eq, Ge, Gt, Le, Lt, Ne)
+from sympy.core.relational import (Eq, Ge, Gt, Le, Lt, Ne, Equality, Relational)
 from sympy.core.singleton import S
 from sympy.core.symbol import (Dummy, Symbol)
 from sympy.functions.combinatorial.factorials import factorial
@@ -34,11 +35,10 @@ from sympy.sets.fancysets import Range
 from sympy.sets.sets import (FiniteSet, Intersection, Interval, Set, Union)
 from sympy.solvers.solveset import linsolve
 from sympy.tensor.indexed import (Indexed, IndexedBase)
-from sympy.core.relational import Relational
 from sympy.logic.boolalg import Boolean
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.utilities.iterables import strongly_connected_components
-from sympy.stats.joint_rv import JointDistribution
+from sympy.stats.joint_rv import JointRandomSymbol, JointDistribution
 from sympy.stats.joint_rv_types import JointDistributionHandmade
 from sympy.stats.rv import (RandomIndexedSymbol, random_symbols, RandomSymbol,
                             _symbol_converter, _value_check, pspace, given,
@@ -50,6 +50,13 @@ from sympy.stats.frv_types import Bernoulli, BernoulliDistribution, FiniteRV
 from sympy.stats.drv_types import Poisson, PoissonDistribution
 from sympy.stats.crv_types import Normal, NormalDistribution, Gamma, GammaDistribution
 from sympy.core.sympify import _sympify, sympify
+from collections.abc import Generator
+from sympy.series.order import Order
+from sympy.stats.symbolic_multivariate_probability import ExpectationMatrix
+from sympy.integrals.integrals import Integral
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 EmptySet = S.EmptySet
 
@@ -69,11 +76,11 @@ __all__ = [
 
 
 @is_random.register(Indexed)
-def _(x):
+def _(x) -> bool:
     return is_random(x.base)
 
 @is_random.register(RandomIndexedSymbol)  # type: ignore
-def _(x):
+def _(x) -> bool:
     return True
 
 def _set_converter(itr):
@@ -182,13 +189,13 @@ class StochasticProcess(Basic):
 
     index_set = S.Reals
 
-    def __new__(cls, sym, state_space=S.Reals, **kwargs):
+    def __new__(cls, sym, state_space=S.Reals, **kwargs) -> Self:
         sym = _symbol_converter(sym)
         state_space = _set_converter(state_space)
         return Basic.__new__(cls, sym, state_space)
 
     @property
-    def symbol(self):
+    def symbol(self) -> Basic:
         return self.args[0]
 
     @property
@@ -212,12 +219,12 @@ class StochasticProcess(Basic):
             stacklevel=4,
         )
 
-    def distribution(self, key=None):
+    def distribution(self, key=None) -> Distribution:
         if key is None:
             self._deprecation_warn_distribution()
         return Distribution()
 
-    def density(self, x):
+    def density(self, x) -> Density:
         return Density()
 
     def __call__(self, time):
@@ -235,7 +242,7 @@ class StochasticProcess(Basic):
     def probability(self, condition):
         raise NotImplementedError()
 
-    def joint_distribution(self, *args):
+    def joint_distribution(self, *args) -> JointDistribution | JointDistributionHandmade:
         """
         Computes the joint distribution of the random indexed variables.
 
@@ -287,7 +294,7 @@ class DiscreteTimeStochasticProcess(StochasticProcess):
     """
     Base class for all discrete stochastic processes.
     """
-    def __getitem__(self, time):
+    def __getitem__(self, time) -> RandomIndexedSymbol:
         """
         For indexing discrete time stochastic processes.
 
@@ -307,7 +314,7 @@ class ContinuousTimeStochasticProcess(StochasticProcess):
     """
     Base class for all continuous time stochastic process.
     """
-    def __call__(self, time):
+    def __call__(self, time) -> RandomIndexedSymbol:
         """
         For indexing continuous time stochastic processes.
 
@@ -329,7 +336,7 @@ class TransitionMatrixOf(Boolean):
     of the process.
     """
 
-    def __new__(cls, process, matrix):
+    def __new__(cls, process, matrix) -> Self:
         if not isinstance(process, DiscreteMarkovChain):
             raise ValueError("Currently only DiscreteMarkovChain "
                                 "support TransitionMatrixOf.")
@@ -345,7 +352,7 @@ class GeneratorMatrixOf(TransitionMatrixOf):
     of the process.
     """
 
-    def __new__(cls, process, matrix):
+    def __new__(cls, process, matrix) -> Self:
         if not isinstance(process, ContinuousMarkovChain):
             raise ValueError("Currently only ContinuousMarkovChain "
                                 "support GeneratorMatrixOf.")
@@ -354,7 +361,7 @@ class GeneratorMatrixOf(TransitionMatrixOf):
 
 class StochasticStateSpaceOf(Boolean):
 
-    def __new__(cls, process, state_space):
+    def __new__(cls, process, state_space) -> Self:
         if not isinstance(process, (DiscreteMarkovChain, ContinuousMarkovChain)):
             raise ValueError("Currently only DiscreteMarkovChain and ContinuousMarkovChain "
                                 "support StochasticStateSpaceOf.")
@@ -519,7 +526,7 @@ class MarkovProcess(StochasticProcess):
 
         return is_insufficient, trans_probs, state_index, given_condition
 
-    def replace_with_index(self, condition):
+    def replace_with_index(self, condition) -> Relational | Eq | Ne:
         if isinstance(condition, Relational):
             lhs, rhs = condition.lhs, condition.rhs
             if not isinstance(lhs, RandomIndexedSymbol):
@@ -757,7 +764,7 @@ class MarkovProcess(StochasticProcess):
         else:
             return Probability(condition, new_given_condition)
 
-    def expectation(self, expr, condition=None, evaluate=True, **kwargs):
+    def expectation(self, expr, condition=None, evaluate=True, **kwargs) -> ExpectationMatrix | Expectation | int:
         """
         Handles expectation queries for markov process.
 
@@ -940,7 +947,7 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
     """
     index_set = S.Naturals0
 
-    def __new__(cls, sym, state_space=None, trans_probs=None):
+    def __new__(cls, sym, state_space=None, trans_probs=None) -> Self:
         sym = _symbol_converter(sym)
 
         state_space, trans_probs = MarkovProcess._sanity_checks(state_space, trans_probs)
@@ -954,7 +961,7 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         return obj
 
     @property
-    def transition_probabilities(self):
+    def transition_probabilities(self) -> Basic:
         """
         Transition probabilities of discrete Markov chain,
         either an instance of Matrix or MatrixSymbol.
@@ -1124,7 +1131,7 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
                 raise ValueError("The fundamental matrix doesn't exist.")
             return (I - P + W).inv().as_immutable()
 
-    def absorbing_probabilities(self):
+    def absorbing_probabilities(self) -> None:
         """
         Computes the absorbing probabilities, i.e.
         the ij-th entry of the matrix denotes the
@@ -1137,7 +1144,7 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
             return None
         return N*R
 
-    def absorbing_probabilites(self):
+    def absorbing_probabilites(self) -> None:
         sympy_deprecation_warning(
             """
             DiscreteMarkovChain.absorbing_probabilites() is deprecated. Use
@@ -1148,7 +1155,7 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         )
         return self.absorbing_probabilities()
 
-    def is_regular(self):
+    def is_regular(self) -> And:
         tuples = self.communication_classes()
         if len(tuples) == 0:
             return S.false  # not defined for a 0x0 matrix
@@ -1162,13 +1169,13 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         classes, _, _ = list(zip(*tuples))
         return S(len(classes) == 1)
 
-    def is_absorbing_state(self, state):
+    def is_absorbing_state(self, state) -> bool | None:
         trans_probs = self.transition_probabilities
         if isinstance(trans_probs, ImmutableMatrix) and \
             state < trans_probs.shape[0]:
             return S(trans_probs[state, state]) is S.One
 
-    def is_absorbing_chain(self):
+    def is_absorbing_chain(self) -> And:
         states, A, B, C = self.decompose()
         r = A.shape[0]
         return And(r > 0, A == Identity(r).as_explicit())
@@ -1259,14 +1266,14 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         soln = list(linsolve((a, b)))[0]
         return ImmutableMatrix([soln])
 
-    def fixed_row_vector(self):
+    def fixed_row_vector(self) -> ImmutableMatrix | ConditionSet | Lambda:
         """
         A wrapper for ``stationary_distribution()``.
         """
         return self.stationary_distribution()
 
     @property
-    def limiting_distribution(self):
+    def limiting_distribution(self) -> ImmutableMatrix | ConditionSet | Lambda:
         """
         The fixed row vector is the limiting
         distribution of a discrete Markov chain.
@@ -1472,7 +1479,7 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
         O = zeros(A.shape[0], C.shape[1])
         return states, BlockMatrix([[A, O], [B, C]]).as_explicit()
 
-    def sample(self):
+    def sample(self) -> Generator[Basic]:
         """
         Returns
         =======
@@ -1574,7 +1581,7 @@ class ContinuousMarkovChain(ContinuousTimeStochasticProcess, MarkovProcess):
     """
     index_set = S.Reals
 
-    def __new__(cls, sym, state_space=None, gen_mat=None):
+    def __new__(cls, sym, state_space=None, gen_mat=None) -> Self:
         sym = _symbol_converter(sym)
         state_space, gen_mat = MarkovProcess._sanity_checks(state_space, gen_mat)
         obj = Basic.__new__(cls, sym, state_space, gen_mat)
@@ -1586,11 +1593,11 @@ class ContinuousMarkovChain(ContinuousTimeStochasticProcess, MarkovProcess):
         return obj
 
     @property
-    def generator_matrix(self):
+    def generator_matrix(self) -> Basic:
         return self.args[2]
 
     @cacheit
-    def transition_probabilities(self, gen_mat=None):
+    def transition_probabilities(self, gen_mat=None) -> Lambda | None:
         t = Dummy('t')
         if isinstance(gen_mat, (Matrix, ImmutableMatrix)) and \
                 gen_mat.is_diagonalizable():
@@ -1600,7 +1607,7 @@ class ContinuousMarkovChain(ContinuousTimeStochasticProcess, MarkovProcess):
         if gen_mat != None:
             return Lambda(t, exp(t*gen_mat))
 
-    def limiting_distribution(self):
+    def limiting_distribution(self) -> Lambda | ImmutableMatrix | None:
         gen_mat = self.generator_matrix
         if gen_mat is None:
             return None
@@ -1680,7 +1687,7 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
 
     index_set = S.Naturals0
 
-    def __new__(cls, sym, p, success=1, failure=0):
+    def __new__(cls, sym, p, success=1, failure=0) -> Self:
         _value_check(p >= 0 and p <= 1, 'Value of p must be between 0 and 1.')
         sym = _symbol_converter(sym)
         p = _sympify(p)
@@ -1689,36 +1696,51 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
         return Basic.__new__(cls, sym, p, success, failure)
 
     @property
-    def symbol(self):
+    def symbol(self) -> Basic:
         return self.args[0]
 
     @property
-    def p(self):
+    def p(self) -> Basic:
         return self.args[1]
 
     @property
-    def success(self):
+    def success(self) -> Basic:
         return self.args[2]
 
     @property
-    def failure(self):
+    def failure(self) -> Basic:
         return self.args[3]
 
     @property
-    def state_space(self):
+    def state_space(self) -> FiniteSet:
         return _set_converter([self.success, self.failure])
 
-    def distribution(self, key=None):
+    def distribution(self, key=None) -> BernoulliDistribution:
         if key is None:
             self._deprecation_warn_distribution()
             return BernoulliDistribution(self.p)
         return BernoulliDistribution(self.p, self.success, self.failure)
 
-    def simple_rv(self, rv):
+    def simple_rv(self, rv) -> RandomSymbol:
         return Bernoulli(rv.name, p=self.p,
                 succ=self.success, fail=self.failure)
 
-    def expectation(self, expr, condition=None, evaluate=True, **kwargs):
+    def expectation(
+        self, expr, condition=None, evaluate=True, **kwargs
+    ) -> (
+        Order
+        | tuple
+        | Sum
+        | Any
+        | Piecewise
+        | Basic
+        | Equality
+        | Relational
+        | Ne
+        | Integral
+        | bool
+        | None
+    ):
         """
         Computes expectation.
 
@@ -1740,7 +1762,7 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
 
         return _SubstituteRV._expectation(expr, condition, evaluate, **kwargs)
 
-    def probability(self, condition, given_condition=None, evaluate=True, **kwargs):
+    def probability(self, condition, given_condition=None, evaluate=True, **kwargs) -> BernoulliDistribution | Probability | Any | Equality | Lambda | Order | Relational | Ne | int:
         """
         Computes probability.
 
@@ -1762,7 +1784,7 @@ class BernoulliProcess(DiscreteTimeStochasticProcess):
 
         return _SubstituteRV._probability(condition, given_condition, evaluate, **kwargs)
 
-    def density(self, x):
+    def density(self, x) -> Piecewise:
         return Piecewise((self.p, Eq(x, self.success)),
                          (1 - self.p, Eq(x, self.failure)),
                          (S.Zero, True))
@@ -1895,7 +1917,7 @@ class _SubstituteRV:
         else:
             return result
 
-def get_timerv_swaps(expr, condition):
+def get_timerv_swaps(expr, condition) -> tuple[list, dict]:
     """
     Finds the appropriate interval for each time stamp in expr by parsing
     the given condition and returns intervals for each timestamp and
@@ -1966,10 +1988,28 @@ class CountingProcess(ContinuousTimeStochasticProcess):
     index_set = _set_converter(Interval(0, oo))
 
     @property
-    def symbol(self):
+    def symbol(self) -> Basic:
         return self.args[0]
 
-    def expectation(self, expr, condition=None, evaluate=True, **kwargs):
+    def expectation(
+        self, expr, condition=None, evaluate=True, **kwargs
+    ) -> (
+        Add
+        | ExpectationMatrix
+        | Expectation
+        | Order
+        | tuple
+        | Sum
+        | Any
+        | Piecewise
+        | Basic
+        | Equality
+        | Relational
+        | Ne
+        | Integral
+        | bool
+        | None
+    ):
         """
         Computes expectation
 
@@ -2074,7 +2114,7 @@ class CountingProcess(ContinuousTimeStochasticProcess):
         return Mul.fromiter(result)
 
 
-    def probability(self, condition, given_condition=None, evaluate=True, **kwargs):
+    def probability(self, condition, given_condition=None, evaluate=True, **kwargs) -> Add | Mul | Probability | BernoulliDistribution | Any | Equality | Lambda | Order | Relational | Ne | int:
         """
         Computes probability.
 
@@ -2212,21 +2252,21 @@ class PoissonProcess(CountingProcess):
 
     """
 
-    def __new__(cls, sym, lamda):
+    def __new__(cls, sym, lamda) -> Self:
         _value_check(lamda > 0, 'lamda should be a positive number.')
         sym = _symbol_converter(sym)
         lamda = _sympify(lamda)
         return Basic.__new__(cls, sym, lamda)
 
     @property
-    def lamda(self):
+    def lamda(self) -> Basic:
         return self.args[1]
 
     @property
     def state_space(self):
         return S.Naturals0
 
-    def distribution(self, key):
+    def distribution(self, key) -> PoissonDistribution:
         if isinstance(key, RandomIndexedSymbol):
             self._deprecation_warn_distribution()
             return PoissonDistribution(self.lamda*key.key)
@@ -2235,16 +2275,16 @@ class PoissonProcess(CountingProcess):
     def density(self, x):
         return (self.lamda*x.key)**x / factorial(x) * exp(-(self.lamda*x.key))
 
-    def simple_rv(self, rv):
+    def simple_rv(self, rv) -> RandomSymbol:
         return Poisson(rv.name, lamda=self.lamda*rv.key)
 
-    def __add__(self, other):
+    def __add__(self, other) -> PoissonProcess:
         if not isinstance(other, PoissonProcess):
             raise ValueError("Only instances of Poisson Process can be merged")
         return PoissonProcess(Dummy(self.symbol.name + other.symbol.name),
                 self.lamda + other.lamda)
 
-    def split(self, l1, l2):
+    def split(self, l1, l2) -> tuple[PoissonProcess, PoissonProcess]:
         if _sympify(l1 + l2) != self.lamda:
             raise ValueError("Sum of l1 and l2 should be %s" % str(self.lamda))
         return PoissonProcess(Dummy("l1"), l1), PoissonProcess(Dummy("l2"), l2)
@@ -2287,7 +2327,7 @@ class WienerProcess(CountingProcess):
     .. [2] https://en.wikipedia.org/wiki/Wiener_process
 
     """
-    def __new__(cls, sym):
+    def __new__(cls, sym) -> Self:
         sym = _symbol_converter(sym)
         return Basic.__new__(cls, sym)
 
@@ -2295,7 +2335,7 @@ class WienerProcess(CountingProcess):
     def state_space(self):
         return S.Reals
 
-    def distribution(self, key):
+    def distribution(self, key) -> NormalDistribution:
         if isinstance(key, RandomIndexedSymbol):
             self._deprecation_warn_distribution()
             return NormalDistribution(0, sqrt(key.key))
@@ -2304,7 +2344,7 @@ class WienerProcess(CountingProcess):
     def density(self, x):
         return exp(-x**2/(2*x.key)) / (sqrt(2*pi)*sqrt(x.key))
 
-    def simple_rv(self, rv):
+    def simple_rv(self, rv) -> RandomSymbol | JointRandomSymbol:
         return Normal(rv.name, 0, sqrt(rv.key))
 
 
@@ -2348,7 +2388,7 @@ class GammaProcess(CountingProcess):
     .. [1] https://en.wikipedia.org/wiki/Gamma_process
 
     """
-    def __new__(cls, sym, lamda, gamma):
+    def __new__(cls, sym, lamda, gamma) -> Self:
         _value_check(lamda > 0, 'lamda should be a positive number')
         _value_check(gamma > 0, 'gamma should be a positive number')
         sym = _symbol_converter(sym)
@@ -2357,18 +2397,18 @@ class GammaProcess(CountingProcess):
         return Basic.__new__(cls, sym, lamda, gamma)
 
     @property
-    def lamda(self):
+    def lamda(self) -> Basic:
         return self.args[1]
 
     @property
-    def gamma(self):
+    def gamma(self) -> Basic:
         return self.args[2]
 
     @property
-    def state_space(self):
+    def state_space(self) -> FiniteSet:
         return _set_converter(Interval(0, oo))
 
-    def distribution(self, key):
+    def distribution(self, key) -> GammaDistribution:
         if isinstance(key, RandomIndexedSymbol):
             self._deprecation_warn_distribution()
             return GammaDistribution(self.gamma*key.key, 1/self.lamda)
@@ -2379,5 +2419,5 @@ class GammaProcess(CountingProcess):
         theta = 1/self.lamda
         return x**(k - 1) * exp(-x/theta) / (gamma(k)*theta**k)
 
-    def simple_rv(self, rv):
+    def simple_rv(self, rv) -> RandomSymbol:
         return Gamma(rv.name, self.gamma*rv.key, 1/self.lamda)

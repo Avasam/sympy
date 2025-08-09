@@ -16,9 +16,11 @@ from sympy.utilities.iterables import iproduct
 from sympy.core.random import _randint, randint
 
 from itertools import product
+from collections.abc import Generator
+from typing import Any
 
 
-def n_order(a, n):
+def n_order(a, n) -> int:
     r""" Returns the order of ``a`` modulo ``n``.
 
     Explanation
@@ -332,7 +334,7 @@ def primitive_root(p, smallest=True):
             return i
 
 
-def is_primitive_root(a, p):
+def is_primitive_root(a, p) -> bool:
     r""" Returns True if ``a`` is a primitive root of ``p``.
 
     Explanation
@@ -484,7 +486,7 @@ def _sqrt_mod_tonelli_shanks(a, p):
     return x
 
 
-def sqrt_mod(a, p, all_roots=False):
+def sqrt_mod(a, p, all_roots=False) -> list[Any | int] | Any | int | None:
     """
     Find a root of ``x**2 = a mod p``.
 
@@ -529,7 +531,7 @@ def sqrt_mod(a, p, all_roots=False):
     return x
 
 
-def sqrt_mod_iter(a, p, domain=int):
+def sqrt_mod_iter(a, p, domain=int) -> Generator[Any | int]:
     """
     Iterate over solutions to ``x**2 = a mod p``.
 
@@ -687,7 +689,7 @@ def _sqrt_mod1(a, p, n):
     return (x for rx in res for x in range(rx*p**m, pn, p**(n - m)))
 
 
-def is_quad_residue(a, p):
+def is_quad_residue(a, p) -> bool:
     """
     Returns True if ``a`` (mod ``p``) is in the set of squares mod ``p``,
     i.e a % p in set([i**2 % p for i in range(p)]).
@@ -778,7 +780,7 @@ def is_quad_residue(a, p):
     return True
 
 
-def is_nthpow_residue(a, n, m):
+def is_nthpow_residue(a, n, m) -> bool:
     """
     Returns True if ``x**n == a (mod m)`` has solutions.
 
@@ -978,7 +980,9 @@ def _nthroot_mod_prime_power(a, n, p, k):
     return sorted(tot_roots)
 
 
-def nthroot_mod(a, n, p, all_roots=False):
+def nthroot_mod(
+    a, n, p, all_roots=False
+) -> list[Any | int] | Any | int | list | list[int] | list[int | Any] | None:
     """
     Find the solutions to ``x**n = a mod p``.
 
@@ -1078,7 +1082,7 @@ def quadratic_residues(p) -> list[int]:
 The `sympy.ntheory.residue_ntheory.legendre_symbol` has been moved to `sympy.functions.combinatorial.numbers.legendre_symbol`.""",
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
-def legendre_symbol(a, p):
+def legendre_symbol(a, p) -> int:
     r"""
     Returns the Legendre symbol `(a / p)`.
 
@@ -1127,7 +1131,7 @@ def legendre_symbol(a, p):
 The `sympy.ntheory.residue_ntheory.jacobi_symbol` has been moved to `sympy.functions.combinatorial.numbers.jacobi_symbol`.""",
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
-def jacobi_symbol(m, n):
+def jacobi_symbol(m, n) -> int:
     r"""
     Returns the Jacobi symbol `(m / n)`.
 
@@ -1592,7 +1596,7 @@ def _discrete_log_pohlig_hellman(n, a, b, order=None, order_factors=None):
     return d
 
 
-def discrete_log(n, a, b, order=None, prime_order=None):
+def discrete_log(n, a, b, order=None, prime_order=None) -> int:
     """
     Compute the discrete logarithm of ``a`` to the base ``b`` modulo ``n``.
 
@@ -1683,7 +1687,7 @@ def discrete_log(n, a, b, order=None, prime_order=None):
 
 
 
-def quadratic_congruence(a, b, c, n):
+def quadratic_congruence(a, b, c, n) -> list[int] | list:
     r"""
     Find the solutions to `a x^2 + b x + c \equiv 0 \pmod{n}`.
 
@@ -1770,7 +1774,9 @@ def _valid_expr(expr):
     return polynomial.all_coeffs()
 
 
-def polynomial_congruence(expr, m):
+def polynomial_congruence(
+    expr, m
+) -> list[Any | int] | Any | int | list | list[int] | list[int | Any] | None:
     """
     Find the solutions to a polynomial congruence equation modulo m.
 

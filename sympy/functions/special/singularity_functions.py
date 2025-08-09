@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core import S, oo, diff
 from sympy.core.function import DefinedFunction, ArgumentIndexError
 from sympy.core.logic import fuzzy_not
@@ -5,6 +8,9 @@ from sympy.core.relational import Eq
 from sympy.functions.elementary.complexes import im
 from sympy.functions.elementary.piecewise import Piecewise
 from sympy.functions.special.delta_functions import Heaviside
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 ###############################################################################
 ############################# SINGULARITY FUNCTION ############################
@@ -85,7 +91,7 @@ class SingularityFunction(DefinedFunction):
 
     is_real = True
 
-    def fdiff(self, argindex=1):
+    def fdiff(self, argindex=1) -> Self | None:
         """
         Returns the first derivative of a DiracDelta Function.
 
@@ -111,7 +117,7 @@ class SingularityFunction(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, variable, offset, exponent):
+    def eval(cls, variable, offset, exponent) -> None:
         """
         Returns a simplified form or a value of Singularity Function depending
         on the argument passed by the object.

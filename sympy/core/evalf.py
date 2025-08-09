@@ -28,6 +28,7 @@ from sympy.utilities.lambdify import lambdify
 from sympy.utilities.misc import as_int
 
 if TYPE_CHECKING:
+    from typing_extensions import Self
     from sympy.core.expr import Expr
     from sympy.core.add import Add
     from sympy.core.mul import Mul
@@ -351,7 +352,7 @@ def chop_parts(value: TMP_RES, prec: int) -> TMP_RES:
     return re, im, re_acc, im_acc
 
 
-def check_target(expr: Expr, result: TMP_RES, prec: int):
+def check_target(expr: Expr, result: TMP_RES, prec: int) -> None:
     a = complex_accuracy(result)
     if a < prec:
         raise PrecisionExhausted("Failed to distinguish the expression: \n\n%s\n\n"
@@ -1558,7 +1559,7 @@ class EvalfMixin:
 
     __slots__: tuple[str, ...] = ()
 
-    def evalf(self, n=15, subs=None, maxn=100, chop=False, strict=False, quad=None, verbose=False):
+    def evalf(self, n=15, subs=None, maxn=100, chop=False, strict=False, quad=None, verbose=False) -> Self | EvalfMixin | TMP_RES | Float:
         """
         Evaluate the given formula to an accuracy of *n* digits.
 

@@ -5,9 +5,10 @@ See also functions.combinatorial.numbers which contains some
 combinatorial polynomials.
 
 """
+from __future__ import annotations
 
 from sympy.core import Rational
-from sympy.core.function import DefinedFunction, ArgumentIndexError
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError
 from sympy.core.singleton import S
 from sympy.core.symbol import Dummy
 from sympy.functions.combinatorial.factorials import binomial, factorial, RisingFactorial
@@ -21,6 +22,12 @@ from sympy.functions.special.hyper import hyper
 from sympy.polys.orthopolys import (chebyshevt_poly, chebyshevu_poly,
                                     gegenbauer_poly, hermite_poly, hermite_prob_poly,
                                     jacobi_poly, laguerre_poly, legendre_poly)
+from typing import Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from sympy.concrete.summations import Sum
+    from sympy.core.mul import Mul
+    from sympy.core.relational import Equality, Ne, Relational
 
 _x = Dummy('x')
 
@@ -124,7 +131,7 @@ class jacobi(OrthogonalPolynomial):
     """
 
     @classmethod
-    def eval(cls, n, a, b, x):
+    def eval(cls, n, a, b, x) -> type[UndefinedFunction] | Any | None:
         # Simplify to other polynomials
         # P^{a, a}_n(x)
         if a == b:
@@ -161,7 +168,7 @@ class jacobi(OrthogonalPolynomial):
             # n is a given fixed integer, evaluate into polynomial
             return jacobi_poly(n, a, b, x)
 
-    def fdiff(self, argindex=4):
+    def fdiff(self, argindex=4) -> Equality | Relational | Ne | Sum:
         from sympy.concrete.summations import Sum
         if argindex == 1:
             # Diff wrt n
@@ -357,7 +364,7 @@ class gegenbauer(OrthogonalPolynomial):
     """
 
     @classmethod
-    def eval(cls, n, a, x):
+    def eval(cls, n, a, x) -> type[UndefinedFunction] | None:
         # For negative n the polynomials vanish
         # See https://functions.wolfram.com/Polynomials/GegenbauerC3/03/01/03/0012/
         if n.is_negative:
@@ -397,7 +404,7 @@ class gegenbauer(OrthogonalPolynomial):
             # n is a given fixed integer, evaluate into polynomial
             return gegenbauer_poly(n, a, x)
 
-    def fdiff(self, argindex=3):
+    def fdiff(self, argindex=3) -> Equality | Relational | Ne | Sum:
         from sympy.concrete.summations import Sum
         if argindex == 1:
             # Diff wrt n
@@ -511,7 +518,7 @@ class chebyshevt(OrthogonalPolynomial):
     _ortho_poly = staticmethod(chebyshevt_poly)
 
     @classmethod
-    def eval(cls, n, x):
+    def eval(cls, n, x) -> type[UndefinedFunction] | None:
         if not n.is_Number:
             # Symbolic result T_n(x)
             # T_n(-x)  --->  (-1)**n * T_n(x)
@@ -629,7 +636,7 @@ class chebyshevu(OrthogonalPolynomial):
     _ortho_poly = staticmethod(chebyshevu_poly)
 
     @classmethod
-    def eval(cls, n, x):
+    def eval(cls, n, x) -> type[UndefinedFunction] | None:
         if not n.is_Number:
             # Symbolic result U_n(x)
             # U_n(-x)  --->  (-1)**n * U_n(x)
@@ -718,7 +725,7 @@ class chebyshevt_root(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, n, k):
+    def eval(cls, n, k) -> type[UndefinedFunction]:
         if not ((0 <= k) and (k < n)):
             raise ValueError("must have 0 <= k < n, "
                 "got k = %s and n = %s" % (k, n))
@@ -759,7 +766,7 @@ class chebyshevu_root(DefinedFunction):
 
 
     @classmethod
-    def eval(cls, n, k):
+    def eval(cls, n, k) -> type[UndefinedFunction]:
         if not ((0 <= k) and (k < n)):
             raise ValueError("must have 0 <= k < n, "
                 "got k = %s and n = %s" % (k, n))
@@ -827,7 +834,7 @@ class legendre(OrthogonalPolynomial):
     _ortho_poly = staticmethod(legendre_poly)
 
     @classmethod
-    def eval(cls, n, x):
+    def eval(cls, n, x) -> type[UndefinedFunction] | None:
         if not n.is_Number:
             # Symbolic result L_n(x)
             # L_n(-x)  --->  (-1)**n * L_n(x)
@@ -951,7 +958,7 @@ class assoc_legendre(DefinedFunction):
         return S.NegativeOne**m * (1 - _x**2)**Rational(m, 2) * P.as_expr()
 
     @classmethod
-    def eval(cls, n, m, x):
+    def eval(cls, n, m, x) -> type[UndefinedFunction] | None:
         if m.could_extract_minus_sign():
             # P^{-m}_n  --->  F * P^m_n
             return S.NegativeOne**(-m) * (factorial(m + n)/factorial(n - m)) * assoc_legendre(n, -m, x)
@@ -1060,7 +1067,7 @@ class hermite(OrthogonalPolynomial):
     _ortho_poly = staticmethod(hermite_poly)
 
     @classmethod
-    def eval(cls, n, x):
+    def eval(cls, n, x) -> None:
         if not n.is_Number:
             # Symbolic result H_n(x)
             # H_n(-x)  --->  (-1)**n * H_n(x)
@@ -1166,7 +1173,7 @@ class hermite_prob(OrthogonalPolynomial):
     _ortho_poly = staticmethod(hermite_prob_poly)
 
     @classmethod
-    def eval(cls, n, x):
+    def eval(cls, n, x) -> None:
         if not n.is_Number:
             if x.could_extract_minus_sign():
                 return S.NegativeOne**n * hermite_prob(n, -x)
@@ -1267,7 +1274,7 @@ class laguerre(OrthogonalPolynomial):
     _ortho_poly = staticmethod(laguerre_poly)
 
     @classmethod
-    def eval(cls, n, x):
+    def eval(cls, n, x) -> None:
         if n.is_integer is False:
             raise ValueError("Error: n should be an integer.")
         if not n.is_Number:
@@ -1289,7 +1296,7 @@ class laguerre(OrthogonalPolynomial):
             else:
                 return cls._eval_at_order(n, x)
 
-    def fdiff(self, argindex=2):
+    def fdiff(self, argindex=2) -> Mul:
         if argindex == 1:
             # Diff wrt n
             raise ArgumentIndexError(self, argindex)
@@ -1389,7 +1396,7 @@ class assoc_laguerre(OrthogonalPolynomial):
     """
 
     @classmethod
-    def eval(cls, n, alpha, x):
+    def eval(cls, n, alpha, x) -> type[UndefinedFunction] | Any | None:
         # L_{n}^{0}(x)  --->  L_{n}(x)
         if alpha.is_zero:
             return laguerre(n, x)
@@ -1410,7 +1417,7 @@ class assoc_laguerre(OrthogonalPolynomial):
             else:
                 return laguerre_poly(n, x, alpha)
 
-    def fdiff(self, argindex=3):
+    def fdiff(self, argindex=3) -> Equality | Relational | Ne | Sum | Mul:
         from sympy.concrete.summations import Sum
         if argindex == 1:
             # Diff wrt n

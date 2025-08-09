@@ -1,7 +1,7 @@
 """Implementation of :class:`ModularInteger` class. """
 
 from __future__ import annotations
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 import operator
 
@@ -11,6 +11,10 @@ from sympy.polys.domains.domainelement import DomainElement
 
 from sympy.utilities import public
 from sympy.utilities.exceptions import sympy_deprecation_warning
+from types import NotImplementedType
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 @public
 class ModularInteger(PicklableWithSlots, DomainElement):
@@ -20,10 +24,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
 
     __slots__ = ('val',)
 
-    def parent(self):
+    def parent(self) -> None:
         return self._parent
 
-    def __init__(self, val):
+    def __init__(self, val) -> None:
         if isinstance(val, self.__class__):
             self.val = val.val % self.mod
         else:
@@ -32,16 +36,16 @@ class ModularInteger(PicklableWithSlots, DomainElement):
     def modulus(self):
         return self.mod
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.val, self.mod))
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "%s(%s)" % (self.__class__.__name__, self.val)
 
     def __str__(self):
         return "%s mod %s" % (self.val, self.mod)
 
-    def __int__(self):
+    def __int__(self) -> int:
         return int(self.val)
 
     def to_int(self):
@@ -63,10 +67,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return self.val
 
-    def __pos__(self):
+    def __pos__(self) -> Self:
         return self
 
-    def __neg__(self):
+    def __neg__(self) -> Self:
         return self.__class__(-self.val)
 
     @classmethod
@@ -79,7 +83,7 @@ class ModularInteger(PicklableWithSlots, DomainElement):
             except CoercionFailed:
                 return None
 
-    def __add__(self, other):
+    def __add__(self, other) -> Self | NotImplementedType:
         val = self._get_val(other)
 
         if val is not None:
@@ -87,10 +91,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return NotImplemented
 
-    def __radd__(self, other):
+    def __radd__(self, other) -> Self | NotImplementedType:
         return self.__add__(other)
 
-    def __sub__(self, other):
+    def __sub__(self, other) -> Self | NotImplementedType:
         val = self._get_val(other)
 
         if val is not None:
@@ -98,10 +102,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return NotImplemented
 
-    def __rsub__(self, other):
+    def __rsub__(self, other) -> Self | NotImplementedType:
         return (-self).__add__(other)
 
-    def __mul__(self, other):
+    def __mul__(self, other) -> Self | NotImplementedType:
         val = self._get_val(other)
 
         if val is not None:
@@ -109,10 +113,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return NotImplemented
 
-    def __rmul__(self, other):
+    def __rmul__(self, other) -> Self | NotImplementedType:
         return self.__mul__(other)
 
-    def __truediv__(self, other):
+    def __truediv__(self, other) -> Self | NotImplementedType:
         val = self._get_val(other)
 
         if val is not None:
@@ -120,10 +124,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return NotImplemented
 
-    def __rtruediv__(self, other):
+    def __rtruediv__(self, other) -> Self | NotImplementedType:
         return self.invert().__mul__(other)
 
-    def __mod__(self, other):
+    def __mod__(self, other) -> Self | NotImplementedType:
         val = self._get_val(other)
 
         if val is not None:
@@ -131,7 +135,7 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return NotImplemented
 
-    def __rmod__(self, other):
+    def __rmod__(self, other) -> Self | NotImplementedType:
         val = self._get_val(other)
 
         if val is not None:
@@ -139,7 +143,7 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return NotImplemented
 
-    def __pow__(self, exp):
+    def __pow__(self, exp) -> Self:
         if not exp:
             return self.__class__(self.dom.one)
 
@@ -176,37 +180,37 @@ class ModularInteger(PicklableWithSlots, DomainElement):
 
         return op(self.val, val % self.mod)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self._compare(other, operator.eq)
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         return self._compare(other, operator.ne)
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         return self._compare_deprecated(other, operator.lt)
 
-    def __le__(self, other):
+    def __le__(self, other) -> bool:
         return self._compare_deprecated(other, operator.le)
 
-    def __gt__(self, other):
+    def __gt__(self, other) -> bool:
         return self._compare_deprecated(other, operator.gt)
 
-    def __ge__(self, other):
+    def __ge__(self, other) -> bool:
         return self._compare_deprecated(other, operator.ge)
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         return bool(self.val)
 
     @classmethod
     def _invert(cls, value):
         return cls.dom.invert(value, cls.mod)
 
-    def invert(self):
+    def invert(self) -> Self:
         return self.__class__(self._invert(self.val))
 
 _modular_integer_cache: dict[tuple[Any, Any, Any], type[ModularInteger]] = {}
 
-def ModularIntegerFactory(_mod, _dom, _sym, parent):
+def ModularIntegerFactory(_mod, _dom, _sym, parent) -> type:
     """Create custom class for specific integer modulus."""
     try:
         _mod = _dom.convert(_mod)

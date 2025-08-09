@@ -1,6 +1,11 @@
+from __future__ import annotations
 from sympy.assumptions.cnf import EncodedCNF
+from collections.abc import Generator
+from typing import Any, NoReturn
 
-def minisat22_satisfiable(expr, all_models=False, minimal=False):
+def minisat22_satisfiable(expr, all_models=False, minimal=False) -> (
+    Generator[bool] | dict | Generator[dict | bool, Any, NoReturn] | bool
+):
 
     if not isinstance(expr, EncodedCNF):
         exprs = EncodedCNF()

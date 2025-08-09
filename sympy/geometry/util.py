@@ -10,6 +10,7 @@ are_coplanar
 are_similar
 
 """
+from __future__ import annotations
 
 from collections import deque
 from math import sqrt as _sqrt
@@ -30,6 +31,15 @@ from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.utilities.iterables import is_sequence
 
 from mpmath.libmp.libmpf import prec_to_dps
+from ast import Add
+from sympy.core.basic import Basic
+from sympy.core.mul import Mul
+from sympy.series.order import Order
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from .polygon import Polygon, RegularPolygon, Triangle
+    from .line import Segment, Segment2D, Segment3D
 
 
 def find(x, equation):
@@ -75,7 +85,7 @@ def _ordered_points(p):
     return tuple(sorted(p, key=lambda x: x.args))
 
 
-def are_coplanar(*e):
+def are_coplanar(*e) -> bool:
     """ Returns True if the given entities are coplanar otherwise False
 
     Parameters
@@ -145,7 +155,7 @@ def are_coplanar(*e):
         return are_coplanar(*pt3d)
 
 
-def are_similar(e1, e2):
+def are_similar(e1, e2) -> Any | bool:
     """Are two geometrical entities similar.
 
     Can one geometrical entity be uniformly scaled to the other?
@@ -205,7 +215,7 @@ def are_similar(e1, e2):
         "Cannot test similarity between %s and %s" % (n1, n2))
 
 
-def centroid(*args):
+def centroid(*args) -> None:
     """Find the centroid (center of mass) of the collection containing only Points,
     Segments or Polygons. The centroid is the weighted average of the individual centroid
     where the weights are the lengths (of segments) or areas (of polygons).
@@ -281,7 +291,7 @@ def centroid(*args):
         return c.func(*[i.simplify() for i in c.args])
 
 
-def closest_points(*args):
+def closest_points(*args) -> set[tuple[Point2D, ...]]:
     """Return the subset of points from a set of points that were
     the closest to each other in the 2D plane.
 
@@ -357,7 +367,23 @@ def closest_points(*args):
     return {tuple([p[i] for i in pair]) for pair in rv}
 
 
-def convex_hull(*args, polygon=True):
+def convex_hull(
+    *args, polygon=True
+) -> (
+    tuple[Any, None]
+    | Point
+    | Point2D
+    | Point3D
+    | Segment2D
+    | Segment3D
+    | Segment
+    | tuple[Point | Point2D | Point3D | Segment2D | Segment3D | Segment, None]
+    | RegularPolygon
+    | Polygon
+    | Triangle
+    | tuple[list, list]
+    | None
+):
     """The convex hull surrounding the Points contained in the list of entities.
 
     Parameters
@@ -471,7 +497,7 @@ def convex_hull(*args, polygon=True):
         U.reverse()
         return (U, L)
 
-def farthest_points(*args):
+def farthest_points(*args) -> set[tuple[Any, Any]]:
     """Return the subset of points from a set of points that were
     the furthest apart from each other in the 2D plane.
 
@@ -559,7 +585,7 @@ def farthest_points(*args):
     return set(rv)
 
 
-def idiff(eq, y, x, n=1):
+def idiff(eq, y, x, n=1) -> Basic | Add | Order | Mul | Any | None:
     """Return ``dy/dx`` assuming that ``eq == 0``.
 
     Parameters
@@ -632,7 +658,7 @@ def idiff(eq, y, x, n=1):
         dydx = dydx.diff(x)
 
 
-def intersection(*entities, pairwise=False, **kwargs):
+def intersection(*entities, pairwise=False, **kwargs) -> list:
     """The intersection of a collection of GeometryEntity instances.
 
     Parameters

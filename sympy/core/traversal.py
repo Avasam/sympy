@@ -1,15 +1,16 @@
 from __future__ import annotations
 
-from typing import Iterator
+from typing import Any, Iterator
 
 from .basic import Basic
 from .sorting import ordered
 from .sympify import sympify
 from sympy.utilities.iterables import iterable
+from collections.abc import Generator
 
 
 
-def iterargs(expr):
+def iterargs(expr) -> Generator:
     """Yield the args of a Basic object in a breadth-first traversal.
     Depth-traversal stops if `arg.args` is either empty or is not
     an iterable.
@@ -34,7 +35,7 @@ def iterargs(expr):
         args.extend(i.args)
 
 
-def iterfreeargs(expr, _first=True):
+def iterfreeargs(expr, _first=True) -> Generator:
     """Yield the args of a Basic object in a breadth-first traversal.
     Depth-traversal stops if `arg.args` is either empty or is not
     an iterable. The bound objects of an expression will be returned
@@ -110,7 +111,7 @@ class preorder_traversal:
     [z*(x + y), z, x + y, x, y]
 
     """
-    def __init__(self, node, keys=None):
+    def __init__(self, node, keys=None) -> None:
         self._skip_flag = False
         self._pt = self._preorder_traversal(node, keys)
 
@@ -137,7 +138,7 @@ class preorder_traversal:
             for item in node:
                 yield from self._preorder_traversal(item, keys)
 
-    def skip(self):
+    def skip(self) -> None:
         """
         Skip yielding current node's (last yielded node's) subtrees.
 
@@ -196,7 +197,7 @@ def use(expr, func, level=0, args=(), kwargs={}):
     return _use(sympify(expr), level)
 
 
-def walk(e, *target):
+def walk(e, *target) -> Generator:
     """Iterate through the args that are the given types (target) and
     return a list of the args that were traversed; arguments
     that are not of the specified types are not traversed.
@@ -247,7 +248,7 @@ def bottom_up(rv, F, atoms=False, nonbasic=False):
     return rv
 
 
-def postorder_traversal(node, keys=None):
+def postorder_traversal(node, keys=None) -> Generator[Any | Basic]:
     """
     Do a postorder traversal of a tree.
 

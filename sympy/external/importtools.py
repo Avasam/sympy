@@ -30,7 +30,7 @@ if __sympy_debug():
 
 _component_re = re.compile(r'(\d+ | [a-z]+ | \.)', re.VERBOSE)
 
-def version_tuple(vstring):
+def version_tuple(vstring) -> tuple:
     # Parse a version string to a tuple e.g. '1.2' -> (1, 2)
     # Simplified from distutils.version.LooseVersion which was deprecated in
     # Python 3.10.

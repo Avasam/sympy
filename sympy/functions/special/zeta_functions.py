@@ -1,8 +1,9 @@
 """ Riemann zeta and related function. """
+from __future__ import annotations
 
 from sympy.core.add import Add
 from sympy.core.cache import cacheit
-from sympy.core.function import ArgumentIndexError, expand_mul, DefinedFunction
+from sympy.core.function import UndefinedFunction, ArgumentIndexError, expand_mul, DefinedFunction
 from sympy.core.logic import fuzzy_not
 from sympy.core.numbers import pi, I, Integer
 from sympy.core.relational import Eq
@@ -16,6 +17,10 @@ from sympy.functions.elementary.integers import ceiling, floor
 from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.functions.elementary.piecewise import Piecewise
 from sympy.polys.polytools import Poly
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 ###############################################################################
 ###################### LERCH TRANSCENDENT #####################################
@@ -291,7 +296,7 @@ class polylog(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, s, z):
+    def eval(cls, s, z) -> type[UndefinedFunction] | Self | None:
         if z.is_number:
             if z is S.One:
                 return zeta(s)
@@ -500,7 +505,7 @@ class zeta(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, s, a=None):
+    def eval(cls, s, a=None) -> Self | None:
         if a is S.One:
             return cls(s)
         elif s is S.NaN or a is S.NaN:
@@ -629,7 +634,7 @@ class dirichlet_eta(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, s, a=None):
+    def eval(cls, s, a=None) -> Self | type[UndefinedFunction] | None:
         if a is S.One:
             return cls(s)
         if a is None:
@@ -689,7 +694,7 @@ class riemann_xi(DefinedFunction):
 
 
     @classmethod
-    def eval(cls, s):
+    def eval(cls, s) -> None:
         from sympy.functions.special.gamma_functions import gamma
         z = zeta(s)
         if s in (S.Zero, S.One):
@@ -741,7 +746,7 @@ class stieltjes(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, n, a=None):
+    def eval(cls, n, a=None) -> None:
         if a is not None:
             a = sympify(a)
             if a is S.NaN:

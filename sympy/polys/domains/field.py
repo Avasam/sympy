@@ -1,10 +1,14 @@
 """Implementation of :class:`Field` class. """
-
+from __future__ import annotations
 
 from sympy.polys.domains.domain import Ef
 from sympy.polys.domains.ring import Ring
 from sympy.polys.polyerrors import NotReversible, DomainError
 from sympy.utilities import public
+from typing import Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 @public
@@ -18,7 +22,7 @@ class Field(Ring[Ef]):
         """Returns a ring associated with ``self``. """
         raise DomainError('there is no ring associated with %s' % self)
 
-    def get_field(self):
+    def get_field(self) -> Self:
         """Returns a field associated with ``self``. """
         return self
 
@@ -34,7 +38,7 @@ class Field(Ring[Ef]):
         """Remainder of ``a`` and ``b``, implies nothing.  """
         return self.zero
 
-    def div(self, a, b):
+    def div(self, a, b) -> tuple[Any, Any]:
         """Division of ``a`` and ``b``, implies ``__truediv__``. """
         return a / b, self.zero
 
@@ -115,6 +119,6 @@ class Field(Ring[Ef]):
         else:
             raise NotReversible('zero is not reversible')
 
-    def is_unit(self, a):
+    def is_unit(self, a) -> bool:
         """Return true if ``a`` is a invertible"""
         return bool(a)

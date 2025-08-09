@@ -1,13 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, overload
-
-if TYPE_CHECKING:
-    from typing import Literal, Callable, TypeVar
-    from sympy.core.expr import Expr
-    from sympy.matrices.matrixbase import MatrixBase
-    Tmat = TypeVar('Tmat', bound=MatrixBase)
-
+from typing import TYPE_CHECKING, overload, Any, Callable, TypeVar
 from types import FunctionType
 
 from sympy.polys.polyerrors import CoercionFailed
@@ -16,9 +9,10 @@ from sympy.polys.domains import ZZ, QQ
 from .utilities import _get_intermediate_simp, _iszero, _dotprodsimp, _simplify
 from .determinant import _find_reasonable_pivot
 
-
 if TYPE_CHECKING:
-    from typing import Any
+    from sympy.core.expr import Expr
+    from sympy.matrices.matrixbase import MatrixBase
+    Tmat = TypeVar('Tmat', bound=MatrixBase)
 
 
 def _row_reduce_list(mat, rows, cols, one, iszerofunc, simpfunc,
@@ -166,14 +160,14 @@ def _echelon_form(M: Tmat,
         iszerofunc: Callable[[Expr], bool | None] = _iszero,
         simplify: bool | Callable[[Expr], Expr] = False,
         *,
-        with_pivots: Literal[False] = False
+        with_pivots: bool = False
     ) -> Tmat: ...
 @overload
 def _echelon_form(M: Tmat,
         iszerofunc: Callable[[Expr], bool | None] = _iszero,
         simplify: bool | Callable[[Expr], Expr] = False,
         *,
-        with_pivots: Literal[True],
+        with_pivots: bool,
     ) -> tuple[Tmat, tuple[int]]: ...
 @overload
 def _echelon_form(M: Tmat,
@@ -339,7 +333,7 @@ def _rref(
         iszerofunc: Callable[[Expr], bool | None] = _iszero,
         simplify: bool | Callable[[Expr], Expr] = False,
         *,
-        pivots: Literal[False],
+        pivots: bool,
         normalize_last: bool = True,
         ) -> Tmat: ...
 @overload
@@ -348,7 +342,7 @@ def _rref(
         iszerofunc: Callable[[Expr], bool | None] = _iszero,
         simplify: bool | Callable[[Expr], Expr] = False,
         *,
-        pivots: Literal[True] = True,
+        pivots: bool = True,
         normalize_last: bool = True,
     ) -> tuple[Tmat, tuple[int]]: ...
 @overload

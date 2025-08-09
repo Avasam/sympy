@@ -12,13 +12,18 @@ from sympy.polys.polyerrors import ExactQuotientFailed
 from sympy.polys.polyutils import PicklableWithSlots, dict_from_expr
 from sympy.utilities import public
 from sympy.utilities.iterables import is_sequence, iterable
+from collections.abc import Generator, Iterator
+from typing import TYPE_CHECKING, Any
 
+if TYPE_CHECKING:
+    from typing_extensions import Self
+    from sympy.series.order import Order
 
 monom = tuple[int, ...]
 
 
 @public
-def itermonomials(variables, max_degrees, min_degrees=None):
+def itermonomials(variables, max_degrees, min_degrees=None) -> Generator[Any | Order]:
     r"""
     ``max_degrees`` and ``min_degrees`` are either both integers or both lists.
     Unless otherwise specified, ``min_degrees`` is either ``0`` or
@@ -178,7 +183,7 @@ def monomial_count(V, N):
     from sympy.functions.combinatorial.factorials import factorial
     return factorial(V + N) / factorial(V) / factorial(N)
 
-def monomial_mul(A, B):
+def monomial_mul(A, B) -> tuple:
     """
     Multiplication of tuples representing monomials.
 
@@ -250,11 +255,11 @@ def monomial_ldiv(A: monom, B: monom) -> monom:
     """
     return tuple([ a - b for a, b in zip(A, B) ])
 
-def monomial_pow(A, n):
+def monomial_pow(A, n) -> tuple:
     """Return the n-th pow of the monomial. """
     return tuple([ a*n for a in A ])
 
-def monomial_gcd(A, B):
+def monomial_gcd(A, B) -> tuple:
     """
     Greatest common divisor of tuples representing monomials.
 
@@ -273,7 +278,7 @@ def monomial_gcd(A, B):
     """
     return tuple([ min(a, b) for a, b in zip(A, B) ])
 
-def monomial_lcm(A, B):
+def monomial_lcm(A, B) -> tuple:
     """
     Least common multiple of tuples representing monomials.
 
@@ -292,7 +297,7 @@ def monomial_lcm(A, B):
     """
     return tuple([ max(a, b) for a, b in zip(A, B) ])
 
-def monomial_divides(A, B):
+def monomial_divides(A, B) -> bool:
     """
     Does there exist a monomial X such that XA == B?
 
@@ -307,7 +312,7 @@ def monomial_divides(A, B):
     """
     return all(a <= b for a, b in zip(A, B))
 
-def monomial_max(*monoms):
+def monomial_max(*monoms) -> tuple:
     """
     Returns maximal degree for each variable in a set of monomials.
 
@@ -357,7 +362,7 @@ def monomial_min(*monoms: monom) -> monom:
 
     return tuple(M)
 
-def monomial_deg(M):
+def monomial_deg(M) -> int:
     """
     Returns the total degree of a monomial.
 
@@ -372,7 +377,7 @@ def monomial_deg(M):
     """
     return sum(M)
 
-def term_div(a, b, domain):
+def term_div(a, b, domain) -> tuple[tuple, Any] | None:
     """Division of two terms in over a ring/field. """
     a_lm, a_lc = a
     b_lm, b_lc = b
@@ -521,7 +526,7 @@ class Monomial(PicklableWithSlots):
 
     __slots__ = ('exponents', 'gens')
 
-    def __init__(self, monom, gens=None):
+    def __init__(self, monom, gens=None) -> None:
         if not iterable(monom):
             rep, gens = dict_from_expr(sympify(monom), gens=gens)
             if len(rep) == 1 and list(rep.values())[0] == 1:
@@ -532,19 +537,19 @@ class Monomial(PicklableWithSlots):
         self.exponents = tuple(map(int, monom))
         self.gens = gens
 
-    def rebuild(self, exponents, gens=None):
+    def rebuild(self, exponents, gens=None) -> Self:
         return self.__class__(exponents, gens or self.gens)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.exponents)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[int]:
         return iter(self.exponents)
 
     def __getitem__(self, item):
         return self.exponents[item]
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.__class__.__name__, self.exponents, self.gens))
 
     def __str__(self):
@@ -553,7 +558,7 @@ class Monomial(PicklableWithSlots):
         else:
             return "%s(%s)" % (self.__class__.__name__, self.exponents)
 
-    def as_expr(self, *gens):
+    def as_expr(self, *gens) -> Order:
         """Convert a monomial instance to a SymPy expression. """
         gens = gens or self.gens
 
@@ -563,7 +568,7 @@ class Monomial(PicklableWithSlots):
 
         return Mul(*[ gen**exp for gen, exp in zip(gens, self.exponents) ])
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, Monomial):
             exponents = other.exponents
         elif isinstance(other, (tuple, Tuple)):
@@ -573,10 +578,10 @@ class Monomial(PicklableWithSlots):
 
         return self.exponents == exponents
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         return not self == other
 
-    def __mul__(self, other):
+    def __mul__(self, other) -> Self:
         if isinstance(other, Monomial):
             exponents = other.exponents
         elif isinstance(other, (tuple, Tuple)):
@@ -586,7 +591,7 @@ class Monomial(PicklableWithSlots):
 
         return self.rebuild(monomial_mul(self.exponents, exponents))
 
-    def __truediv__(self, other):
+    def __truediv__(self, other) -> Self:
         if isinstance(other, Monomial):
             exponents = other.exponents
         elif isinstance(other, (tuple, Tuple)):
@@ -603,13 +608,13 @@ class Monomial(PicklableWithSlots):
 
     __floordiv__ = __truediv__
 
-    def __pow__(self, other):
+    def __pow__(self, other) -> Self:
         n = int(other)
         if n < 0:
             raise ValueError("a non-negative integer expected, got %s" % other)
         return self.rebuild(monomial_pow(self.exponents, n))
 
-    def gcd(self, other):
+    def gcd(self, other) -> Self:
         """Greatest common divisor of monomials. """
         if isinstance(other, Monomial):
             exponents = other.exponents
@@ -621,7 +626,7 @@ class Monomial(PicklableWithSlots):
 
         return self.rebuild(monomial_gcd(self.exponents, exponents))
 
-    def lcm(self, other):
+    def lcm(self, other) -> Self:
         """Least common multiple of monomials. """
         if isinstance(other, Monomial):
             exponents = other.exponents

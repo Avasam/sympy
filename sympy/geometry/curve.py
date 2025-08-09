@@ -5,18 +5,25 @@ Contains
 Curve
 
 """
+from __future__ import annotations
 
 from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.core import diff
 from sympy.core.containers import Tuple
-from sympy.core.symbol import _symbol
+from sympy.core.symbol import Symbol, _symbol
 from sympy.geometry.entity import GeometryEntity, GeometrySet
-from sympy.geometry.point import Point
+from sympy.geometry.point import Point2D, Point3D, Point
 from sympy.integrals import integrate
 from sympy.matrices import Matrix, rot_axis3
 from sympy.utilities.iterables import is_sequence
 
 from mpmath.libmp.libmpf import prec_to_dps
+from sympy.core.basic import Basic
+from sympy.core.relational import Equality, Ne, Relational
+from typing import Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Curve(GeometrySet):
@@ -73,7 +80,7 @@ class Curve(GeometrySet):
 
     """
 
-    def __new__(cls, function, limits):
+    def __new__(cls, function, limits) -> Self:
         if not is_sequence(function) or len(function) != 2:
             raise ValueError("Function argument should be (x(t), y(t)) "
                 "but got %s" % str(function))
@@ -83,7 +90,7 @@ class Curve(GeometrySet):
 
         return GeometryEntity.__new__(cls, Tuple(*function), Tuple(*limits))
 
-    def __call__(self, f):
+    def __call__(self, f) -> Self | Basic:
         return self.subs(self.parameter, f)
 
     def _eval_subs(self, old, new):
@@ -97,7 +104,7 @@ class Curve(GeometrySet):
         a, b = [i.evalf(n=dps, **options) for i in (a, b)]
         return self.func(f, (t, a, b))
 
-    def arbitrary_point(self, parameter='t'):
+    def arbitrary_point(self, parameter='t') -> Point | Point2D | Point3D:
         """A parameterized point on the curve.
 
         Parameters
@@ -153,7 +160,7 @@ class Curve(GeometrySet):
         return Point(*[w.subs(t, tnew) for w in self.functions])
 
     @property
-    def free_symbols(self):
+    def free_symbols(self) -> set:
         """Return a set of symbols other than the bound symbols used to
         parametrically define the Curve.
 
@@ -181,7 +188,7 @@ class Curve(GeometrySet):
         return free
 
     @property
-    def ambient_dimension(self):
+    def ambient_dimension(self) -> int:
         """The dimension of the curve.
 
         Returns
@@ -204,7 +211,7 @@ class Curve(GeometrySet):
         return len(self.args[0])
 
     @property
-    def functions(self):
+    def functions(self) -> Basic:
         """The functions specifying the curve.
 
         Returns
@@ -231,7 +238,7 @@ class Curve(GeometrySet):
         return self.args[0]
 
     @property
-    def limits(self):
+    def limits(self) -> Basic:
         """The limits for the curve.
 
         Returns
@@ -285,7 +292,7 @@ class Curve(GeometrySet):
         return self.args[1][0]
 
     @property
-    def length(self):
+    def length(self) -> Equality | Relational | Ne:
         """The curve length.
 
         Examples
@@ -300,7 +307,7 @@ class Curve(GeometrySet):
         integrand = sqrt(sum(diff(func, self.limits[0])**2 for func in self.functions))
         return integrate(integrand, self.limits)
 
-    def plot_interval(self, parameter='t'):
+    def plot_interval(self, parameter='t') -> list[Any | Symbol]:
         """The plot interval for the default geometric plot of the curve.
 
         Parameters
@@ -336,7 +343,7 @@ class Curve(GeometrySet):
         t = _symbol(parameter, self.parameter, real=True)
         return [t] + list(self.limits[1:])
 
-    def rotate(self, angle=0, pt=None):
+    def rotate(self, angle=0, pt=None) -> Self:
         """This function is used to rotate a curve along given point ``pt`` at given angle(in radian).
 
         Parameters
@@ -378,7 +385,7 @@ class Curve(GeometrySet):
         pt = -pt
         return rv.translate(*pt.args)
 
-    def scale(self, x=1, y=1, pt=None):
+    def scale(self, x=1, y=1, pt=None) -> Self:
         """Override GeometryEntity.scale since Curve is not made up of Points.
 
         Returns
@@ -402,7 +409,7 @@ class Curve(GeometrySet):
         fx, fy = self.functions
         return self.func((fx*x, fy*y), self.limits)
 
-    def translate(self, x=0, y=0):
+    def translate(self, x=0, y=0) -> Self:
         """Translate the Curve by (x, y).
 
         Returns

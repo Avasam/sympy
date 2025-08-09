@@ -5,11 +5,17 @@ This module implements classes for representing homomorphisms of rings and
 their modules. Instead of instantiating the classes directly, you should use
 the function ``homomorphism(from, to, matrix)`` to create homomorphism objects.
 """
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
 
 from sympy.polys.agca.modules import (Module, FreeModule, QuotientModule,
     SubModule, SubQuotientModule)
 from sympy.polys.polyerrors import CoercionFailed
+from types import NotImplementedType
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 # The main computational task for module homomorphisms is kernels.
 # For this reason, the concrete classes are organised by domain module type.
@@ -53,7 +59,7 @@ class ModuleHomomorphism:
     - _add
     """
 
-    def __init__(self, domain, codomain):
+    def __init__(self, domain, codomain) -> None:
         if not isinstance(domain, Module):
             raise TypeError('Source must be a module, got %s' % domain)
         if not isinstance(codomain, Module):
@@ -135,7 +141,7 @@ class ModuleHomomorphism:
         """Implementation of codomain quotient."""
         raise NotImplementedError
 
-    def restrict_domain(self, sm):
+    def restrict_domain(self, sm) -> Self:
         """
         Return ``self``, with the domain restricted to ``sm``.
 
@@ -174,7 +180,7 @@ class ModuleHomomorphism:
             return self
         return self._restrict_domain(sm)
 
-    def restrict_codomain(self, sm):
+    def restrict_codomain(self, sm) -> Self:
         """
         Return ``self``, with codomain restricted to to ``sm``.
 
@@ -206,7 +212,7 @@ class ModuleHomomorphism:
             return self
         return self._restrict_codomain(sm)
 
-    def quotient_domain(self, sm):
+    def quotient_domain(self, sm) -> Self:
         """
         Return ``self`` with domain replaced by ``domain/sm``.
 
@@ -237,7 +243,7 @@ class ModuleHomomorphism:
             return self
         return self._quotient_domain(sm)
 
-    def quotient_codomain(self, sm):
+    def quotient_codomain(self, sm) -> Self:
         """
         Return ``self`` with codomain replaced by ``codomain/sm``.
 
@@ -309,7 +315,7 @@ class ModuleHomomorphism:
             return False
         return oth.domain == self.domain and oth.codomain == self.codomain
 
-    def __mul__(self, oth):
+    def __mul__(self, oth) -> NotImplementedType:
         if isinstance(oth, ModuleHomomorphism) and self.domain == oth.codomain:
             return oth._compose(self)
         try:
@@ -320,18 +326,18 @@ class ModuleHomomorphism:
     # NOTE: _compose will never be called from rmul
     __rmul__ = __mul__
 
-    def __truediv__(self, oth):
+    def __truediv__(self, oth) -> NotImplementedType:
         try:
             return self._mul_scalar(1/self.ring.convert(oth))
         except CoercionFailed:
             return NotImplemented
 
-    def __add__(self, oth):
+    def __add__(self, oth) -> NotImplementedType:
         if self._check_hom(oth):
             return self._add(oth)
         return NotImplemented
 
-    def __sub__(self, oth):
+    def __sub__(self, oth) -> NotImplementedType:
         if self._check_hom(oth):
             return self._add(oth._mul_scalar(self.ring.convert(-1)))
         return NotImplemented
@@ -431,13 +437,13 @@ class ModuleHomomorphism:
         """
         return self.image().is_zero()
 
-    def __eq__(self, oth):
+    def __eq__(self, oth) -> bool:
         try:
             return (self - oth).is_zero()
         except TypeError:
             return False
 
-    def __ne__(self, oth):
+    def __ne__(self, oth) -> bool:
         return not (self == oth)
 
 
@@ -471,7 +477,7 @@ class MatrixHomomorphism(ModuleHomomorphism):
     - _apply
     """
 
-    def __init__(self, domain, codomain, matrix):
+    def __init__(self, domain, codomain, matrix) -> None:
         ModuleHomomorphism.__init__(self, domain, codomain)
         if len(matrix) != domain.rank:
             raise ValueError('Need to provide %s elements, got %s'
@@ -605,7 +611,7 @@ class SubModuleHomomorphism(MatrixHomomorphism):
               for s in syz.gens])
 
 
-def homomorphism(domain, codomain, matrix):
+def homomorphism(domain, codomain, matrix) -> FreeModuleHomomorphism:
     r"""
     Create a homomorphism object.
 

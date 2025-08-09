@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from collections import Counter
 
 from sympy.core import Mul, sympify
@@ -12,6 +15,10 @@ from sympy.strategies import (
     unpack, flatten, condition, exhaust, rm_id, sort
 )
 from sympy.utilities.exceptions import sympy_deprecation_warning
+from sympy.core.basic import Basic
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 def hadamard_product(*matrices):
@@ -62,7 +69,7 @@ class HadamardProduct(MatrixExpr):
     """
     is_HadamardProduct = True
 
-    def __new__(cls, *args, evaluate=False, check=None):
+    def __new__(cls, *args, evaluate=False, check=None) -> Self:
         args = list(map(sympify, args))
         if len(args) == 0:
             # We currently don't have a way to support one-matrices of generic dimensions:
@@ -298,7 +305,7 @@ def canonicalize(x):
     return x
 
 
-def hadamard_power(base, exp):
+def hadamard_power(base, exp) -> HadamardPower:
     base = sympify(base)
     exp = sympify(exp)
     if exp == 1:
@@ -367,7 +374,7 @@ class HadamardPower(MatrixExpr):
         a^{\circ b} = a^b
     """
 
-    def __new__(cls, base, exp):
+    def __new__(cls, base, exp) -> Self:
         base = sympify(base)
         exp = sympify(exp)
 
@@ -381,11 +388,11 @@ class HadamardPower(MatrixExpr):
         return obj
 
     @property
-    def base(self):
+    def base(self) -> Basic:
         return self._args[0]
 
     @property
-    def exp(self):
+    def exp(self) -> Basic:
         return self._args[1]
 
     @property

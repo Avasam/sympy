@@ -1,3 +1,4 @@
+from __future__ import annotations
 from collections import defaultdict
 from functools import reduce
 
@@ -24,9 +25,11 @@ from sympy.strategies.core import identity
 from sympy.strategies.tree import greedy
 from sympy.utilities.iterables import iterable
 from sympy.utilities.misc import debug
+from sympy.series.order import Order
+from typing import Any
 
 def trigsimp_groebner(expr, hints=[], quick=False, order="grlex",
-                      polynomial=False):
+                      polynomial=False) -> Order | Any:
     """
     Simplify trigonometric expressions using a groebner basis algorithm.
 
@@ -568,7 +571,7 @@ def trigsimp(expr, inverse=False, **opts):
     return expr_simplified
 
 
-def exptrigsimp(expr):
+def exptrigsimp(expr) -> Order:
     """
     Simplifies exponential / trigonometric / hyperbolic functions.
 
@@ -1124,7 +1127,7 @@ def __trigsimp(expr, deep=False):
 #------------------- end of old trigsimp routines --------------------
 
 
-def futrig(e, *, hyper=True, **kwargs):
+def futrig(e, *, hyper=True, **kwargs) -> Basic | Order:
     """Return simplified ``e`` using Fu-like transformations.
     This is not the "Fu" algorithm. This is called by default
     from ``trigsimp``. By default, hyperbolics subexpressions

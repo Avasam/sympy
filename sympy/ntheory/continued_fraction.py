@@ -6,7 +6,15 @@ from sympy.core.singleton import S
 from sympy.core.symbol import Dummy
 from sympy.core.sympify import _sympify
 from sympy.utilities.misc import as_int
+from collections.abc import Generator
+from sympy.core.add import Add
+from sympy.core.basic import Basic
+from sympy.core.function import UndefinedFunction
+from sympy.core.mul import Mul
+from typing import TYPE_CHECKING, Any
 
+if TYPE_CHECKING:
+    from sympy.series.order import Order
 
 def continued_fraction(a) -> list:
     """Return the continued fraction representation of a Rational or
@@ -181,7 +189,7 @@ def continued_fraction_periodic(p, q, d=0, s=1) -> list:
     return terms[:i] + [terms[i:]]  # type: ignore
 
 
-def continued_fraction_reduce(cf):
+def continued_fraction_reduce(cf) -> Order | Basic | Any | Add | Mul:
     """
     Reduce a continued fraction to a rational or quadratic irrational.
 
@@ -256,7 +264,7 @@ def continued_fraction_reduce(cf):
     return rv
 
 
-def continued_fraction_iterator(x):
+def continued_fraction_iterator(x) -> Generator[type[UndefinedFunction] | Any]:
     """
     Return continued fraction expansion of x as iterator.
 
@@ -300,7 +308,7 @@ def continued_fraction_iterator(x):
         x = 1/x
 
 
-def continued_fraction_convergents(cf):
+def continued_fraction_convergents(cf) -> Generator:
     """
     Return an iterator over the convergents of a continued fraction (cf).
 

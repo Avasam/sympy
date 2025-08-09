@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Iterator
+from collections.abc import Generator, Iterator
 
 from sympy.core.expr import Expr
 from sympy.core.singleton import S
@@ -11,7 +11,7 @@ from sympy import Poly
 from sympy.polys.polytools import gcdex_steps
 
 @public
-def approximants(l, X=Symbol('x'), simplify=False):
+def approximants(l, X=Symbol('x'), simplify=False) -> Generator:
     """
     Return a generator for consecutive Pade approximants for a series.
     It can also be used for computing the rational generating function of a

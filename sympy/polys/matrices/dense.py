@@ -46,6 +46,7 @@ from typing import Sequence, TypeVar
 from sympy.polys.matrices._typing import RingElement
 
 
+
 #: Type variable for the elements of the matrix
 T = TypeVar('T')
 
@@ -104,7 +105,7 @@ def ddm_imatmul(
             ai[j] = sum(map(mul, bi, cTj), ai[j])
 
 
-def ddm_irref(a, _partial_pivot=False):
+def ddm_irref(a, _partial_pivot=False) -> list:
     """In-place reduced row echelon form of a matrix.
 
     Compute the reduced row echelon form of $a$. Modifies $a$ in place and
@@ -497,7 +498,7 @@ def ddm_idet(a, K):
     return uf * a[-1][-1]
 
 
-def ddm_iinv(ainv, a, K):
+def ddm_iinv(ainv, a, K) -> None:
     """ainv  <--  inv(a)
 
     Compute the inverse of a matrix $a$ over a field $K$ using Gauss-Jordan
@@ -544,7 +545,7 @@ def ddm_iinv(ainv, a, K):
     ainv[:] = [row[n:] for row in Aaug]
 
 
-def ddm_ilu_split(L, U, K):
+def ddm_ilu_split(L, U, K) -> list:
     """L, U  <--  LU(U)
 
     Compute the LU decomposition of a matrix $L$ in place and store the lower
@@ -590,7 +591,7 @@ def ddm_ilu_split(L, U, K):
     return swaps
 
 
-def ddm_ilu(a):
+def ddm_ilu(a) -> list:
     """a  <--  LU(a)
 
     Computes the LU decomposition of a matrix in place. Returns a list of
@@ -665,7 +666,7 @@ def ddm_ilu(a):
     return swaps
 
 
-def ddm_ilu_solve(x, L, U, swaps, b):
+def ddm_ilu_solve(x, L, U, swaps, b) -> None:
     """x  <--  solve(L*U*x = swaps(b))
 
     Solve a linear system, $A*x = b$, given an LU factorization of $A$.
@@ -751,7 +752,7 @@ def ddm_ilu_solve(x, L, U, swaps, b):
             x[i][k] = rhs / U[i][i]
 
 
-def ddm_berk(M, K):
+def ddm_berk(M, K) -> list[list]:
     """
     Berkowitz algorithm for computing the characteristic polynomial.
 

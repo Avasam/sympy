@@ -117,7 +117,7 @@ def _linsolve(eqs, syms):
     return sol
 
 
-def sympy_dict_to_dm(eqs_coeffs, eqs_rhs, syms):
+def sympy_dict_to_dm(eqs_coeffs, eqs_rhs, syms) -> SDM:
     """Convert a system of dict equations to a sparse augmented matrix"""
     elems = set(eqs_rhs).union(*(e.values() for e in eqs_coeffs))
     K, elems_K = construct_domain(elems, field=True, extension=True)

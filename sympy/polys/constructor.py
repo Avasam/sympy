@@ -1,4 +1,5 @@
 """Tools for constructing domains for expressions. """
+from __future__ import annotations
 from math import prod
 
 from sympy.core import sympify
@@ -10,6 +11,8 @@ from sympy.polys.domains.realfield import RealField
 from sympy.polys.polyoptions import build_options
 from sympy.polys.polyutils import parallel_dict_from_basic
 from sympy.utilities import public
+from sympy.polys.domains.gaussiandomains import GaussianIntegerRing, GaussianRationalField
+from typing import Any
 
 
 def _construct_simple(coeffs, opt):
@@ -264,7 +267,15 @@ def _construct_expression(coeffs, opt):
 
 
 @public
-def construct_domain(obj, **args):
+def construct_domain(
+    obj, **args
+) -> (
+    tuple[Any | GaussianRationalField | GaussianIntegerRing, dict[Any, Any | int]]
+    | tuple[
+        Any | GaussianRationalField | GaussianIntegerRing, list[Any | int] | list | Any
+    ]
+    | tuple[Any | GaussianRationalField | GaussianIntegerRing, Any | int]
+):
     """Construct a minimal domain for a list of expressions.
 
     Explanation

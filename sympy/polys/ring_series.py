@@ -40,6 +40,7 @@ To make a function work with rs_series you need to do two things::
 Look at rs_sin and rs_series for further reference.
 
 """
+from __future__ import annotations
 
 from sympy.polys.domains import QQ, EX
 from sympy.polys.rings import PolyElement, ring, sring
@@ -124,7 +125,7 @@ def rs_trunc(p1, x, prec):
         p[exp1] = p1[exp1]
     return R(p)
 
-def rs_is_puiseux(p, x):
+def rs_is_puiseux(p, x) -> bool:
     """
     Test if ``p`` is Puiseux series in ``x``.
 
@@ -149,7 +150,7 @@ def rs_is_puiseux(p, x):
             raise ValueError('The series is not regular in %s' % x)
     return False
 
-def rs_puiseux(f, p, x, prec):
+def rs_puiseux(f, p, x, prec) -> tuple:
     """
     Return the puiseux series for `f(p, x, prec)`.
 
@@ -302,7 +303,7 @@ def rs_square(p1, x, prec):
             p[e2] = get(e2, 0) + v**2
     return R(p)
 
-def rs_pow(p1, n, x, prec):
+def rs_pow(p1, n, x, prec) -> tuple | int:
     """
     Return ``p1**n`` modulo ``O(x**prec)``
 
@@ -522,7 +523,7 @@ def _series_inversion1(p, x, prec):
         p1 = p1 + rs_mul(p1, t, x, precx)
     return p1
 
-def rs_series_inversion(p, x, prec):
+def rs_series_inversion(p, x, prec) -> tuple:
     """
     Multivariate series inversion ``1/p`` modulo ``O(x**prec)``.
 
@@ -918,7 +919,7 @@ def _nth_root1(p, n, x, prec):
     else:
         return _series_inversion1(p1, x, prec)
 
-def rs_nth_root(p, n, x, prec):
+def rs_nth_root(p, n, x, prec) -> tuple | int:
     """
     Multivariate series expansion of the nth root of ``p``.
 
@@ -991,7 +992,7 @@ def rs_nth_root(p, n, x, prec):
         res = mul_xin(res, index, m)
     return res
 
-def rs_log(p, x, prec):
+def rs_log(p, x, prec) -> tuple:
     """
     The Logarithm of ``p`` modulo ``O(x**prec)``.
 
@@ -1038,7 +1039,7 @@ def rs_log(p, x, prec):
     else:
         raise NotImplementedError
 
-def rs_LambertW(p, x, prec):
+def rs_LambertW(p, x, prec) -> tuple:
     """
     Calculate the series expansion of the principal branch of the Lambert W
     function.
@@ -1087,7 +1088,7 @@ def _exp1(p, x, prec):
         p1 += tmp
     return p1
 
-def rs_exp(p, x, prec):
+def rs_exp(p, x, prec) -> tuple:
     """
     Exponentiation of a series modulo ``O(x**prec)``
 
@@ -1151,7 +1152,7 @@ def _atan(p, iv, prec):
     s = rs_mul(s, p, iv, prec)
     return s
 
-def rs_atan(p, x, prec):
+def rs_atan(p, x, prec) -> tuple:
     """
     The arctangent of a series
 
@@ -1197,7 +1198,7 @@ def rs_atan(p, x, prec):
     p1 = rs_mul(dp, p1, x, prec - 1)
     return rs_integrate(p1, x) + const
 
-def rs_asin(p, x, prec):
+def rs_asin(p, x, prec) -> tuple:
     """
     Arcsine of a series
 
@@ -1263,7 +1264,7 @@ def _tan1(p, x, prec):
         p1 += tmp
     return p1
 
-def rs_tan(p, x, prec):
+def rs_tan(p, x, prec) -> tuple:
     """
     Tangent of a series.
 
@@ -1315,7 +1316,7 @@ def rs_tan(p, x, prec):
     else:
         return rs_fun(p, rs_tan, x, prec)
 
-def rs_cot(p, x, prec):
+def rs_cot(p, x, prec) -> tuple:
     """
     Cotangent of a series
 
@@ -1351,7 +1352,7 @@ def rs_cot(p, x, prec):
     res = rs_trunc(res, x, prec)
     return res
 
-def rs_sin(p, x, prec):
+def rs_sin(p, x, prec) -> tuple:
     """
     Sine of a series
 
@@ -1413,7 +1414,7 @@ def rs_sin(p, x, prec):
         n *= -k*(k + 1)
     return rs_series_from_list(p, c, x, prec)
 
-def rs_cos(p, x, prec):
+def rs_cos(p, x, prec) -> tuple:
     """
     Cosine of a series
 
@@ -1472,7 +1473,7 @@ def rs_cos(p, x, prec):
         n *= -k*(k - 1)
     return rs_series_from_list(p, c, x, prec)
 
-def rs_cos_sin(p, x, prec):
+def rs_cos_sin(p, x, prec) -> tuple:
     """
     Cosine and sine of a series
 
@@ -1549,7 +1550,7 @@ def _atanh(p, x, prec):
     s = rs_mul(s, p, x, prec)
     return s
 
-def rs_atanh(p, x, prec):
+def rs_atanh(p, x, prec) -> tuple:
     """
     Hyperbolic arctangent of a series
 
@@ -1636,7 +1637,7 @@ def rs_asinh(p, x, prec):
     p1 = rs_mul(dp, p1, x, prec - 1)
     return rs_integrate(p1, x) + const
 
-def rs_sinh(p, x, prec):
+def rs_sinh(p, x, prec) -> tuple:
     """
     Hyperbolic sine of a series
 
@@ -1682,7 +1683,7 @@ def rs_sinh(p, x, prec):
     t1 = rs_series_inversion(t, x, prec)
     return (t - t1)/2
 
-def rs_cosh(p, x, prec):
+def rs_cosh(p, x, prec) -> tuple:
     """
     Hyperbolic cosine of a series
 
@@ -1799,7 +1800,7 @@ def _tanh(p, x, prec):
         p1 += tmp
     return p1
 
-def rs_tanh(p, x, prec):
+def rs_tanh(p, x, prec) -> tuple:
     """
     Hyperbolic tangent of a series
 

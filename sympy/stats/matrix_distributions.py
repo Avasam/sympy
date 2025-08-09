@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from math import prod
 
 from sympy.core.basic import Basic
@@ -12,6 +14,10 @@ from sympy.matrices import (ImmutableMatrix, Inverse, Trace, Determinant,
 from sympy.stats.rv import (_value_check, RandomMatrixSymbol, NamedArgsMixin, PSpace,
                             _symbol_converter, MatrixDomain, Distribution)
 from sympy.external import import_module
+from typing import Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 ################################################################################
@@ -22,7 +28,7 @@ class MatrixPSpace(PSpace):
     Represents probability space for
     Matrix Distributions.
     """
-    def __new__(cls, sym, distribution, dim_n, dim_m):
+    def __new__(cls, sym, distribution, dim_n, dim_m) -> Self:
         sym = _symbol_converter(sym)
         dim_n, dim_m = _sympify(dim_n), _sympify(dim_m)
         if not (dim_n.is_integer and dim_m.is_integer):
@@ -33,15 +39,15 @@ class MatrixPSpace(PSpace):
     symbol = property(lambda self: self.args[0])
 
     @property
-    def domain(self):
+    def domain(self) -> MatrixDomain:
         return MatrixDomain(self.symbol, self.distribution.set)
 
     @property
-    def value(self):
+    def value(self) -> RandomMatrixSymbol:
         return RandomMatrixSymbol(self.symbol, self.args[2], self.args[3], self)
 
     @property
-    def values(self):
+    def values(self) -> set[RandomMatrixSymbol]:
         return {self.value}
 
     def compute_density(self, expr, *args):
@@ -52,7 +58,7 @@ class MatrixPSpace(PSpace):
                     "multiple matrix distributions.")
         return self.distribution.pdf(expr)
 
-    def sample(self, size=(), library='scipy', seed=None):
+    def sample(self, size=(), library='scipy', seed=None) -> dict[RandomMatrixSymbol, Any]:
         """
         Internal sample method
 
@@ -61,7 +67,7 @@ class MatrixPSpace(PSpace):
         return {self.value: self.distribution.sample(size, library=library, seed=seed)}
 
 
-def rv(symbol, cls, args):
+def rv(symbol, cls, args) -> RandomMatrixSymbol:
     args = list(map(sympify, args))
     dist = cls(*args)
     dist.check(*args)
@@ -72,7 +78,7 @@ def rv(symbol, cls, args):
 
 class SampleMatrixScipy:
     """Returns the sample from scipy of the given distribution"""
-    def __new__(cls, dist, size, seed=None):
+    def __new__(cls, dist, size, seed=None) -> None:
         return cls._sample_scipy(dist, size, seed)
 
     @classmethod
@@ -112,7 +118,7 @@ class SampleMatrixNumpy:
     """Returns the sample from numpy of the given distribution"""
 
     ### TODO: Add tests after adding matrix distributions in numpy_rv_map
-    def __new__(cls, dist, size, seed=None):
+    def __new__(cls, dist, size, seed=None) -> None:
         return cls._sample_numpy(dist, size, seed)
 
     @classmethod
@@ -142,7 +148,7 @@ class SampleMatrixNumpy:
 class SampleMatrixPymc:
     """Returns the sample from pymc of the given distribution"""
 
-    def __new__(cls, dist, size, seed=None):
+    def __new__(cls, dist, size, seed=None) -> None:
         return cls._sample_pymc(dist, size, seed)
 
     @classmethod
@@ -194,13 +200,13 @@ class MatrixDistribution(Distribution, NamedArgsMixin):
     """
     Abstract class for Matrix Distribution.
     """
-    def __new__(cls, *args):
+    def __new__(cls, *args) -> Self:
         args = [ImmutableMatrix(arg) if isinstance(arg, list)
                 else _sympify(arg) for arg in args]
         return Basic.__new__(cls, *args)
 
     @staticmethod
-    def check(*args):
+    def check(*args) -> None:
         pass
 
     def __call__(self, expr):
@@ -243,7 +249,7 @@ class MatrixGammaDistribution(MatrixDistribution):
     _argnames = ('alpha', 'beta', 'scale_matrix')
 
     @staticmethod
-    def check(alpha, beta, scale_matrix):
+    def check(alpha, beta, scale_matrix) -> None:
         if not isinstance(scale_matrix, MatrixSymbol):
             _value_check(scale_matrix.is_positive_definite, "The shape "
                 "matrix must be positive definite.")
@@ -253,7 +259,7 @@ class MatrixGammaDistribution(MatrixDistribution):
         _value_check(beta.is_positive, "Scale parameter should be positive.")
 
     @property
-    def set(self):
+    def set(self) -> MatrixSet:
         k = self.scale_matrix.shape[0]
         return MatrixSet(k, k, S.Reals)
 
@@ -275,7 +281,7 @@ class MatrixGammaDistribution(MatrixDistribution):
         term3 = (Determinant(x))**(alpha - S(p + 1)/2)
         return term1 * term2 * term3
 
-def MatrixGamma(symbol, alpha, beta, scale_matrix):
+def MatrixGamma(symbol, alpha, beta, scale_matrix) -> RandomMatrixSymbol:
     """
     Creates a random variable with Matrix Gamma Distribution.
 
@@ -330,7 +336,7 @@ class WishartDistribution(MatrixDistribution):
     _argnames = ('n', 'scale_matrix')
 
     @staticmethod
-    def check(n, scale_matrix):
+    def check(n, scale_matrix) -> None:
         if not isinstance(scale_matrix, MatrixSymbol):
             _value_check(scale_matrix.is_positive_definite, "The shape "
                 "matrix must be positive definite.")
@@ -339,7 +345,7 @@ class WishartDistribution(MatrixDistribution):
         _value_check(n.is_positive, "Shape parameter should be positive.")
 
     @property
-    def set(self):
+    def set(self) -> MatrixSet:
         k = self.scale_matrix.shape[0]
         return MatrixSet(k, k, S.Reals)
 
@@ -361,7 +367,7 @@ class WishartDistribution(MatrixDistribution):
         term3 = (Determinant(x))**(S(n - p - 1)/2)
         return term1 * term2 * term3
 
-def Wishart(symbol, n, scale_matrix):
+def Wishart(symbol, n, scale_matrix) -> RandomMatrixSymbol:
     """
     Creates a random variable with Wishart Distribution.
 
@@ -413,7 +419,7 @@ class MatrixNormalDistribution(MatrixDistribution):
     _argnames = ('location_matrix', 'scale_matrix_1', 'scale_matrix_2')
 
     @staticmethod
-    def check(location_matrix, scale_matrix_1, scale_matrix_2):
+    def check(location_matrix, scale_matrix_1, scale_matrix_2) -> None:
         if not isinstance(scale_matrix_1, MatrixSymbol):
             _value_check(scale_matrix_1.is_positive_definite, "The shape "
                 "matrix must be positive definite.")
@@ -432,7 +438,7 @@ class MatrixNormalDistribution(MatrixDistribution):
         " of shape %s x %s"% (str(p), str(p)))
 
     @property
-    def set(self):
+    def set(self) -> MatrixSet:
         n, p = self.location_matrix.shape
         return MatrixSet(n, p, S.Reals)
 
@@ -453,7 +459,7 @@ class MatrixNormalDistribution(MatrixDistribution):
         den = (2*pi)**(S(n*p)/2) * Determinant(U)**(S(p)/2) * Determinant(V)**(S(n)/2)
         return num/den
 
-def MatrixNormal(symbol, location_matrix, scale_matrix_1, scale_matrix_2):
+def MatrixNormal(symbol, location_matrix, scale_matrix_1, scale_matrix_2) -> RandomMatrixSymbol:
     """
     Creates a random variable with Matrix Normal Distribution.
 
@@ -511,7 +517,7 @@ class MatrixStudentTDistribution(MatrixDistribution):
     _argnames = ('nu', 'location_matrix', 'scale_matrix_1', 'scale_matrix_2')
 
     @staticmethod
-    def check(nu, location_matrix, scale_matrix_1, scale_matrix_2):
+    def check(nu, location_matrix, scale_matrix_1, scale_matrix_2) -> None:
         if not isinstance(scale_matrix_1, MatrixSymbol):
             _value_check(scale_matrix_1.is_positive_definite != False, "The shape "
                                                               "matrix must be positive definite.")
@@ -531,7 +537,7 @@ class MatrixStudentTDistribution(MatrixDistribution):
         _value_check(nu.is_positive != False, "Degrees of freedom must be positive")
 
     @property
-    def set(self):
+    def set(self) -> MatrixSet:
         n, p = self.location_matrix.shape
         return MatrixSet(n, p, S.Reals)
 
@@ -556,7 +562,7 @@ class MatrixStudentTDistribution(MatrixDistribution):
 
 
 
-def MatrixStudentT(symbol, nu, location_matrix, scale_matrix_1, scale_matrix_2):
+def MatrixStudentT(symbol, nu, location_matrix, scale_matrix_1, scale_matrix_2) -> RandomMatrixSymbol:
     """
     Creates a random variable with Matrix Gamma Distribution.
 

@@ -22,6 +22,7 @@ from mpmath.libmp.libmpf import prec_to_dps
 
 if TYPE_CHECKING:
     from typing import Iterable, Sequence
+    from typing_extensions import Self
     from sympy.integrals.integrals import SymbolLimits
     SExpr = Expr | complex
 
@@ -654,7 +655,7 @@ class Quaternion(Expr):
         return cls(a, b, c, d)
 
     @classmethod
-    def from_rotation_matrix(cls, M):
+    def from_rotation_matrix(cls, M) -> Quaternion:
         """Returns the equivalent quaternion of a matrix. The quaternion will be normalized
         only if the matrix is special orthogonal (orthogonal and det(M) = 1).
 
@@ -727,7 +728,7 @@ class Quaternion(Expr):
     def _eval_Integral(self, *args) -> Quaternion:
         return self.integrate(*args)
 
-    def diff(self, *symbols, **kwargs):
+    def diff(self, *symbols, **kwargs) -> Self:
         kwargs.setdefault('evaluate', True)
         a, b, c, d = [arg.diff(*symbols, **kwargs) for arg in self.args]
         return self.func(a, b, c, d)

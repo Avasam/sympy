@@ -5,7 +5,7 @@ from typing import Callable
 class _cache(list):
     """ List of cached functions """
 
-    def print_cache(self):
+    def print_cache(self) -> None:
         """print cache info"""
 
         for item in self:
@@ -22,7 +22,7 @@ class _cache(list):
 
             print(name, info)
 
-    def clear_cache(self):
+    def clear_cache(self) -> None:
         """clear cache content"""
         for item in self:
             myfunc = item
@@ -41,6 +41,7 @@ print_cache = CACHE.print_cache
 clear_cache = CACHE.clear_cache
 
 from functools import lru_cache, wraps
+
 
 def __cacheit(maxsize):
     """caching decorator.
@@ -152,7 +153,7 @@ else:
         'unrecognized value for SYMPY_USE_CACHE: %s' % USE_CACHE)
 
 
-def cached_property(func):
+def cached_property(func) -> property:
     '''Decorator to cache property method'''
     attrname = '__' + func.__name__
     _cached_property_sentinel = object()

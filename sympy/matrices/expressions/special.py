@@ -1,3 +1,4 @@
+from __future__ import annotations
 from sympy.assumptions.ask import ask, Q
 from sympy.core.relational import Eq
 from sympy.core.singleton import S
@@ -5,6 +6,11 @@ from sympy.core.sympify import _sympify
 from sympy.functions.special.tensor_functions import KroneckerDelta
 from sympy.matrices.exceptions import NonInvertibleMatrixError
 from .matexpr import MatrixExpr
+from sympy.core.basic import Basic
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class ZeroMatrix(MatrixExpr):
@@ -23,7 +29,7 @@ class ZeroMatrix(MatrixExpr):
     """
     is_ZeroMatrix = True
 
-    def __new__(cls, m, n):
+    def __new__(cls, m, n) -> Self:
         m, n = _sympify(m), _sympify(n)
         cls._check_dim(m)
         cls._check_dim(n)
@@ -31,7 +37,7 @@ class ZeroMatrix(MatrixExpr):
         return super().__new__(cls, m, n)
 
     @property
-    def shape(self):
+    def shape(self) -> tuple[Basic, Basic]:
         return (self.args[0], self.args[1])
 
     def _eval_power(self, exp):
@@ -72,7 +78,7 @@ class GenericZeroMatrix(ZeroMatrix):
     This exists primarily so MatAdd() with no arguments can return something
     meaningful.
     """
-    def __new__(cls):
+    def __new__(cls) -> Self:
         # super(ZeroMatrix, cls) instead of super(GenericZeroMatrix, cls)
         # because ZeroMatrix.__new__ doesn't have the same signature
         return super(ZeroMatrix, cls).__new__(cls)
@@ -90,13 +96,13 @@ class GenericZeroMatrix(ZeroMatrix):
         raise TypeError("GenericZeroMatrix does not have a specified shape")
 
     # Avoid Matrix.__eq__ which might call .shape
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return isinstance(other, GenericZeroMatrix)
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         return not (self == other)
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return super().__hash__()
 
 
@@ -116,26 +122,26 @@ class Identity(MatrixExpr):
 
     is_Identity = True
 
-    def __new__(cls, n):
+    def __new__(cls, n) -> Self:
         n = _sympify(n)
         cls._check_dim(n)
 
         return super().__new__(cls, n)
 
     @property
-    def rows(self):
+    def rows(self) -> Basic:
         return self.args[0]
 
     @property
-    def cols(self):
+    def cols(self) -> Basic:
         return self.args[0]
 
     @property
-    def shape(self):
+    def shape(self) -> tuple[Basic, Basic]:
         return (self.args[0], self.args[0])
 
     @property
-    def is_square(self):
+    def is_square(self) -> bool:
         return True
 
     def _eval_transpose(self):
@@ -178,7 +184,7 @@ class GenericIdentity(Identity):
     This exists primarily so MatMul() with no arguments can return something
     meaningful.
     """
-    def __new__(cls):
+    def __new__(cls) -> Self:
         # super(Identity, cls) instead of super(GenericIdentity, cls) because
         # Identity.__new__ doesn't have the same signature
         return super(Identity, cls).__new__(cls)
@@ -196,17 +202,17 @@ class GenericIdentity(Identity):
         raise TypeError("GenericIdentity does not have a specified shape")
 
     @property
-    def is_square(self):
+    def is_square(self) -> bool:
         return True
 
     # Avoid Matrix.__eq__ which might call .shape
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return isinstance(other, GenericIdentity)
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         return not (self == other)
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return super().__hash__()
 
 
@@ -214,7 +220,7 @@ class OneMatrix(MatrixExpr):
     """
     Matrix whose all entries are ones.
     """
-    def __new__(cls, m, n, evaluate=False):
+    def __new__(cls, m, n, evaluate=False) -> Identity | Self:
         m, n = _sympify(m), _sympify(n)
         cls._check_dim(m)
         cls._check_dim(n)
@@ -228,7 +234,7 @@ class OneMatrix(MatrixExpr):
         return obj
 
     @property
-    def shape(self):
+    def shape(self) -> tuple[Basic, ...]:
         return self._args
 
     @property
@@ -239,7 +245,7 @@ class OneMatrix(MatrixExpr):
         from sympy.matrices.immutable import ImmutableDenseMatrix
         return ImmutableDenseMatrix.ones(*self.shape)
 
-    def doit(self, **hints):
+    def doit(self, **hints) -> Self:
         args = self.args
         if hints.get('deep', True):
             args = [a.doit(**hints) for a in args]

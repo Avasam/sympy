@@ -1,9 +1,15 @@
 """ This module contains the Mathieu functions.
 """
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
-from sympy.core.function import DefinedFunction, ArgumentIndexError
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError
 from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.functions.elementary.trigonometric import sin, cos
+from sympy.core.mul import Mul
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class MathieuBase(DefinedFunction):
@@ -67,7 +73,7 @@ class mathieus(MathieuBase):
 
     """
 
-    def fdiff(self, argindex=1):
+    def fdiff(self, argindex=1) -> type[UndefinedFunction]:
         if argindex == 3:
             a, q, z = self.args
             return mathieusprime(a, q, z)
@@ -75,7 +81,7 @@ class mathieus(MathieuBase):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, a, q, z):
+    def eval(cls, a, q, z) -> type[UndefinedFunction] | Mul | None:
         if q.is_Number and q.is_zero:
             return sin(sqrt(a)*z)
         # Try to pull out factors of -1
@@ -129,7 +135,7 @@ class mathieuc(MathieuBase):
 
     """
 
-    def fdiff(self, argindex=1):
+    def fdiff(self, argindex=1) -> type[UndefinedFunction]:
         if argindex == 3:
             a, q, z = self.args
             return mathieucprime(a, q, z)
@@ -137,7 +143,7 @@ class mathieuc(MathieuBase):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, a, q, z):
+    def eval(cls, a, q, z) -> type[UndefinedFunction] | Self | None:
         if q.is_Number and q.is_zero:
             return cos(sqrt(a)*z)
         # Try to pull out factors of -1
@@ -199,7 +205,7 @@ class mathieusprime(MathieuBase):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, a, q, z):
+    def eval(cls, a, q, z) -> Self | None:
         if q.is_Number and q.is_zero:
             return sqrt(a)*cos(sqrt(a)*z)
         # Try to pull out factors of -1
@@ -261,7 +267,7 @@ class mathieucprime(MathieuBase):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, a, q, z):
+    def eval(cls, a, q, z) -> Mul | None:
         if q.is_Number and q.is_zero:
             return -sqrt(a)*sin(sqrt(a)*z)
         # Try to pull out factors of -1

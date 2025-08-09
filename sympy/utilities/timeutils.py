@@ -3,14 +3,14 @@
 
 import timeit
 import math
-from typing import TypeVar, Callable
+from typing import Callable, TypeVar
 
 _CallableT = TypeVar("_CallableT", bound=Callable)
 _scales = [1e0, 1e3, 1e6, 1e9]
 _units = ['s', 'ms', '\N{GREEK SMALL LETTER MU}s', 'ns']
 
 
-def timed(func, setup="pass", limit=None):
+def timed(func, setup="pass", limit=None) -> tuple[int, float, float, str]:
     """Adaptively measure execution time of a function. """
     timer = timeit.Timer(func, setup=setup)
     repeat, number = 3, 1
@@ -52,7 +52,7 @@ def _print_timestack(stack, level=1):
 
 
 def timethis(name) -> Callable[[_CallableT], _CallableT]:
-    def decorator(func):
+    def decorator(func: _CallableT) -> _CallableT:
         if name not in _do_timings:
             return func
 

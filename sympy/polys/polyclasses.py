@@ -6,11 +6,14 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Generic,
-    Literal,
     overload,
     Callable,
     TypeVar,
 )
+import typing_extensions
+from sympy.core.sympify import CantSympify
+from sympy.polys.polyutils import PicklableWithSlots
+from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing import Self, TypeAlias
@@ -22,8 +25,7 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 
 from sympy.core.expr import Expr
 from sympy.core.numbers import oo, NegativeInfinity
-from sympy.core.sympify import CantSympify
-from sympy.polys.polyutils import PicklableWithSlots, _sort_factors
+from sympy.polys.polyutils import _sort_factors
 from sympy.polys.domains import Domain, ZZ, QQ
 from sympy.polys.domains.domain import Er, Es, Et, Eg
 from sympy.polys.domains.polynomialring import PolynomialRing
@@ -838,11 +840,11 @@ class DMP(CantSympify, Generic[Er]):
 
     @overload
     def resultant(
-        f, g: Self, includePRS: Literal[True]
+        f, g: Self, includePRS: bool
     ) -> tuple[DMP[Er] | Er, list[DMP[Er]]]: ...
 
     @overload
-    def resultant(f, g: Self, includePRS: Literal[False] = ...) -> DMP[Er] | Er: ...
+    def resultant(f, g: Self, includePRS: bool = ...) -> DMP[Er] | Er: ...
 
     def resultant(
         f, g: Self, includePRS: bool = False
@@ -889,11 +891,11 @@ class DMP(CantSympify, Generic[Er]):
         raise NotImplementedError
 
     @overload
-    def cancel(f: Self, g: Self, include: Literal[True] = ...) -> tuple[Self, Self]:
+    def cancel(f: Self, g: Self, include: bool = ...) -> tuple[Self, Self]:
         ...
 
     @overload
-    def cancel(f: Self, g: Self, include: Literal[False]) -> tuple[Er, Er, Self, Self]:
+    def cancel(f: Self, g: Self, include: bool) -> tuple[Er, Er, Self, Self]:
         ...
 
     def cancel(f: Self, g: Self, include: bool = True) -> tuple[Self, Self] | tuple[Er, Er, Self, Self]:
@@ -958,7 +960,7 @@ class DMP(CantSympify, Generic[Er]):
     def _shift(f, a: Er) -> Self:
         raise NotImplementedError
 
-    def shift_list(f, a: list[Any]) -> Self:
+    def shift_list(f, a: list) -> Self:
         """Efficiently compute Taylor shift ``f(X + A)``. """
         a = [f.dom.convert(ai) for ai in a]
         return f._shift_list(a)
@@ -1061,7 +1063,7 @@ class DMP(CantSympify, Generic[Er]):
     @overload
     def intervals(
         f,
-        all: Literal[False] = ...,
+        all: bool = ...,
         eps: MPQ | None = ...,
         inf: MPQ | None = ...,
         sup: MPQ | None = ...,
@@ -1073,7 +1075,7 @@ class DMP(CantSympify, Generic[Er]):
     @overload
     def intervals(
         f,
-        all: Literal[True],
+        all: bool,
         eps: MPQ | None = ...,
         inf: MPQ | None = ...,
         sup: MPQ | None = ...,
@@ -2603,7 +2605,7 @@ class DUP_Flint(DMP[Er]):
             return False
 
 
-def init_normal_DMF(num, den, lev, dom):
+def init_normal_DMF(num, den, lev, dom) -> DMF:
     return DMF(dmp_normal(num, lev, dom),
                dmp_normal(den, lev, dom), dom, lev)
 
@@ -2685,11 +2687,28 @@ class DMF(PicklableWithSlots, CantSympify):
     def __repr__(f):
         return "%s((%s, %s), %s)" % (f.__class__.__name__, f.num, f.den, f.dom)
 
-    def __hash__(f):
+    def __hash__(f) -> int:
         return hash((f.__class__.__name__, dmp_to_tuple(f.num, f.lev),
             dmp_to_tuple(f.den, f.lev), f.lev, f.dom))
 
-    def poly_unify(f, g):
+    def poly_unify(
+        f, g
+    ) -> (
+        tuple[
+            Any,
+            Any,
+            Callable[..., Any | typing_extensions.Self],
+            tuple[Any | list, Any | list],
+            list | Any | list[list],
+        ]
+        | tuple[
+            Any,
+            Any,
+            Callable[..., Any | typing_extensions.Self],
+            tuple[Any | list[list], Any | list[list]],
+            Any | list[list],
+        ]
+    ):
         """Unify a multivariate fraction and a polynomial. """
         if not isinstance(g, DMP) or f.lev != g.lev:
             raise UnificationFailed("Cannot unify %s with %s" % (f, g))
@@ -2718,7 +2737,24 @@ class DMF(PicklableWithSlots, CantSympify):
 
             return lev, dom, per, F, G
 
-    def frac_unify(f, g):
+    def frac_unify(
+        f, g
+    ) -> (
+        tuple[
+            Any,
+            Any,
+            Callable[..., Any | typing_extensions.Self],
+            tuple[Any | list, Any | list],
+            tuple[Any | list, Any | list],
+        ]
+        | tuple[
+            Any,
+            Any,
+            Callable[..., Any | typing_extensions.Self],
+            tuple[Any | list[list], Any | list[list]],
+            tuple[Any | list[list], Any | list[list]],
+        ]
+    ):
         """Unify representations of two multivariate fractions. """
         if not isinstance(g, DMF) or f.lev != g.lev:
             raise UnificationFailed("Cannot unify %s with %s" % (f, g))
@@ -2764,7 +2800,7 @@ class DMF(PicklableWithSlots, CantSympify):
 
         return f.__class__.new((num, den), dom, lev)
 
-    def half_per(f, rep, kill=False):
+    def half_per(f, rep, kill=False) -> DMP:
         """Create a DMP out of the given representation. """
         lev = f.lev
 
@@ -2784,19 +2820,19 @@ class DMF(PicklableWithSlots, CantSympify):
     def one(cls, lev, dom):
         return cls.new(1, dom, lev)
 
-    def numer(f):
+    def numer(f) -> DMP:
         """Returns the numerator of ``f``. """
         return f.half_per(f.num)
 
-    def denom(f):
+    def denom(f) -> DMP:
         """Returns the denominator of ``f``. """
         return f.half_per(f.den)
 
-    def cancel(f):
+    def cancel(f) -> typing_extensions.Self:
         """Remove common factors from ``f.num`` and ``f.den``. """
         return f.per(f.num, f.den)
 
-    def neg(f):
+    def neg(f) -> typing_extensions.Self:
         """Negate all coefficients in ``f``. """
         return f.per(dmp_neg(f.num, f.lev, f.dom), f.den, cancel=False)
 
@@ -2804,7 +2840,7 @@ class DMF(PicklableWithSlots, CantSympify):
         """Add an element of the ground domain to ``f``. """
         return f + f.ground_new(c)
 
-    def add(f, g):
+    def add(f, g) -> typing_extensions.Self:
         """Add two multivariate fractions ``f`` and ``g``. """
         if isinstance(g, DMP):
             lev, dom, per, (F_num, F_den), G = f.poly_unify(g)
@@ -2819,7 +2855,7 @@ class DMF(PicklableWithSlots, CantSympify):
 
         return per(num, den)
 
-    def sub(f, g):
+    def sub(f, g) -> typing_extensions.Self:
         """Subtract two multivariate fractions ``f`` and ``g``. """
         if isinstance(g, DMP):
             lev, dom, per, (F_num, F_den), G = f.poly_unify(g)
@@ -2834,7 +2870,7 @@ class DMF(PicklableWithSlots, CantSympify):
 
         return per(num, den)
 
-    def mul(f, g):
+    def mul(f, g) -> typing_extensions.Self:
         """Multiply two multivariate fractions ``f`` and ``g``. """
         if isinstance(g, DMP):
             lev, dom, per, (F_num, F_den), G = f.poly_unify(g)
@@ -2848,7 +2884,7 @@ class DMF(PicklableWithSlots, CantSympify):
 
         return per(num, den)
 
-    def pow(f, n):
+    def pow(f, n) -> typing_extensions.Self:
         """Raise ``f`` to a non-negative power ``n``. """
         if isinstance(n, int):
             num, den = f.num, f.den
@@ -2859,7 +2895,7 @@ class DMF(PicklableWithSlots, CantSympify):
         else:
             raise TypeError("``int`` expected, got %s" % type(n))
 
-    def quo(f, g):
+    def quo(f, g) -> typing_extensions.Self:
         """Computes quotient of fractions ``f`` and ``g``. """
         if isinstance(g, DMP):
             lev, dom, per, (F_num, F_den), G = f.poly_unify(g)
@@ -2875,17 +2911,17 @@ class DMF(PicklableWithSlots, CantSympify):
 
     exquo = quo
 
-    def invert(f, check=True):
+    def invert(f, check=True) -> typing_extensions.Self:
         """Computes inverse of a fraction ``f``. """
         return f.per(f.den, f.num, cancel=False)
 
     @property
-    def is_zero(f):
+    def is_zero(f) -> bool:
         """Returns ``True`` if ``f`` is a zero fraction. """
         return dmp_zero_p(f.num, f.lev)
 
     @property
-    def is_one(f):
+    def is_one(f) -> bool:
         """Returns ``True`` if ``f`` is a unit fraction. """
         return dmp_one_p(f.num, f.lev, f.dom) and \
             dmp_one_p(f.den, f.lev, f.dom)
@@ -2893,10 +2929,10 @@ class DMF(PicklableWithSlots, CantSympify):
     def __pos__(f):
         return f
 
-    def __neg__(f):
+    def __neg__(f) -> typing_extensions.Self:
         return f.neg()
 
-    def __add__(f, g):
+    def __add__(f, g) -> typing_extensions.Self | NotImplementedType:
         if isinstance(g, (DMP, DMF)):
             return f.add(g)
         elif g in f.dom:
@@ -2907,10 +2943,10 @@ class DMF(PicklableWithSlots, CantSympify):
         except (TypeError, CoercionFailed, NotImplementedError):
             return NotImplemented
 
-    def __radd__(f, g):
+    def __radd__(f, g) -> typing_extensions.Self | NotImplementedType:
         return f.__add__(g)
 
-    def __sub__(f, g):
+    def __sub__(f, g) -> typing_extensions.Self | NotImplementedType:
         if isinstance(g, (DMP, DMF)):
             return f.sub(g)
 
@@ -2919,10 +2955,10 @@ class DMF(PicklableWithSlots, CantSympify):
         except (TypeError, CoercionFailed, NotImplementedError):
             return NotImplemented
 
-    def __rsub__(f, g):
+    def __rsub__(f, g) -> DMF | NotImplementedType:
         return (-f).__add__(g)
 
-    def __mul__(f, g):
+    def __mul__(f, g) -> typing_extensions.Self | NotImplementedType:
         if isinstance(g, (DMP, DMF)):
             return f.mul(g)
 
@@ -2931,13 +2967,13 @@ class DMF(PicklableWithSlots, CantSympify):
         except (TypeError, CoercionFailed, NotImplementedError):
             return NotImplemented
 
-    def __rmul__(f, g):
+    def __rmul__(f, g) -> typing_extensions.Self | NotImplementedType:
         return f.__mul__(g)
 
-    def __pow__(f, n):
+    def __pow__(f, n) -> typing_extensions.Self:
         return f.pow(n)
 
-    def __truediv__(f, g):
+    def __truediv__(f, g) -> typing_extensions.Self | NotImplementedType:
         if isinstance(g, (DMP, DMF)):
             return f.quo(g)
 
@@ -2949,7 +2985,7 @@ class DMF(PicklableWithSlots, CantSympify):
     def __rtruediv__(self, g):
         return self.invert(check=False)*g
 
-    def __eq__(f, g):
+    def __eq__(f, g) -> bool:
         try:
             if isinstance(g, DMP):
                 _, _, _, (F_num, F_den), G = f.poly_unify(g)
@@ -2966,7 +3002,7 @@ class DMF(PicklableWithSlots, CantSympify):
 
         return False
 
-    def __ne__(f, g):
+    def __ne__(f, g) -> bool:
         try:
             if isinstance(g, DMP):
                 _, _, _, (F_num, F_den), G = f.poly_unify(g)
@@ -2983,27 +3019,27 @@ class DMF(PicklableWithSlots, CantSympify):
 
         return True
 
-    def __lt__(f, g):
+    def __lt__(f, g) -> bool:
         _, _, _, F, G = f.frac_unify(g)
         return F < G
 
-    def __le__(f, g):
+    def __le__(f, g) -> bool:
         _, _, _, F, G = f.frac_unify(g)
         return F <= G
 
-    def __gt__(f, g):
+    def __gt__(f, g) -> bool:
         _, _, _, F, G = f.frac_unify(g)
         return F > G
 
-    def __ge__(f, g):
+    def __ge__(f, g) -> bool:
         _, _, _, F, G = f.frac_unify(g)
         return F >= G
 
-    def __bool__(f):
+    def __bool__(f) -> bool:
         return not dmp_zero_p(f.num, f.lev)
 
 
-def init_normal_ANP(rep, mod, dom):
+def init_normal_ANP(rep, mod, dom) -> ANP:
     return ANP(dup_normal(rep, dom),
                dup_normal(mod, dom), dom)
 
@@ -3079,7 +3115,7 @@ class ANP(CantSympify, Generic[Eg]):
     def __repr__(f):
         return "%s(%s, %s, %s)" % (f.__class__.__name__, f._rep.to_list(), f._mod.to_list(), f.dom)
 
-    def __hash__(f):
+    def __hash__(f) -> int:
         return hash((f.__class__.__name__, f.to_tuple(), f._mod.to_tuple(), f.dom))
 
     def convert(f, dom):
@@ -3089,7 +3125,12 @@ class ANP(CantSympify, Generic[Eg]):
         else:
             return f.new(f._rep.convert(dom), f._mod.convert(dom), dom)
 
-    def unify(f, g):
+    def unify(
+        f, g
+    ) -> (
+        tuple[Any, Callable[..., ANP], list | Any, list | Any, list | Any | list[list]]
+        | tuple[Any, Callable[..., ANP], Any, Any, Any | list | list[list]]
+    ):
         """Unify representations of two algebraic numbers. """
 
         # XXX: This unify method is not used any more because unify_ANP is used
@@ -3132,18 +3173,18 @@ class ANP(CantSympify, Generic[Eg]):
         return f._rep, g._rep, f._mod, f.dom
 
     @classmethod
-    def zero(cls, mod, dom):
+    def zero(cls, mod, dom) -> ANP:
         return ANP(0, mod, dom)
 
     @classmethod
-    def one(cls, mod, dom):
+    def one(cls, mod, dom) -> ANP:
         return ANP(1, mod, dom)
 
-    def to_dict(f):
+    def to_dict(f) -> dict[tuple[int], Any] | dict:
         """Convert ``f`` to a dict representation with native coefficients. """
         return f._rep.to_dict()
 
-    def to_sympy_dict(f):
+    def to_sympy_dict(f) -> dict[tuple[int], Any] | dict:
         """Convert ``f`` to a dict representation with SymPy coefficients. """
         rep = dmp_to_dict(f.rep, 0, f.dom)
 
@@ -3152,7 +3193,7 @@ class ANP(CantSympify, Generic[Eg]):
 
         return rep
 
-    def to_list(f):
+    def to_list(f) -> list:
         """Convert ``f`` to a list representation with native coefficients. """
         return f._rep.to_list()
 
@@ -3160,11 +3201,11 @@ class ANP(CantSympify, Generic[Eg]):
         """Return ``f.mod`` as a list with native coefficients. """
         return f._mod.to_list()
 
-    def to_sympy_list(f):
+    def to_sympy_list(f) -> list:
         """Convert ``f`` to a list representation with SymPy coefficients. """
         return [ f.dom.to_sympy(c) for c in f.to_list() ]
 
-    def to_tuple(f):
+    def to_tuple(f) -> tuple:
         """
         Convert ``f`` to a tuple representation with native coefficients.
 
@@ -3173,7 +3214,7 @@ class ANP(CantSympify, Generic[Eg]):
         return f._rep.to_tuple()
 
     @classmethod
-    def from_list(cls, rep, mod, dom):
+    def from_list(cls, rep, mod, dom) -> ANP:
         return ANP(dup_strip(list(map(dom.convert, rep))), mod, dom)
 
     def add_ground(f, c):
@@ -3192,22 +3233,22 @@ class ANP(CantSympify, Generic[Eg]):
         """Quotient of ``f`` by an element of the ground domain. """
         return f.per(f._rep.quo_ground(c))
 
-    def neg(f):
+    def neg(f) -> ANP:
         return f.per(f._rep.neg())
 
-    def add(f, g):
+    def add(f, g) -> ANP:
         F, G, mod, dom = f.unify_ANP(g)
         return f.new(F.add(G), mod, dom)
 
-    def sub(f, g):
+    def sub(f, g) -> ANP:
         F, G, mod, dom = f.unify_ANP(g)
         return f.new(F.sub(G), mod, dom)
 
-    def mul(f, g):
+    def mul(f, g) -> ANP:
         F, G, mod, dom = f.unify_ANP(g)
         return f.new(F.mul(G).rem(mod), mod, dom)
 
-    def pow(f, n):
+    def pow(f, n) -> ANP:
         """Raise ``f`` to a non-negative power ``n``. """
         if not isinstance(n, int):
             raise TypeError("``int`` expected, got %s" % type(n))
@@ -3225,13 +3266,13 @@ class ANP(CantSympify, Generic[Eg]):
         F, G, mod, dom = f.unify_ANP(g)
         return f.new(F.mul(G.invert(mod)).rem(mod), mod, dom)
 
-    def div(f, g):
+    def div(f, g) -> tuple[ANP, ANP]:
         return f.exquo(g), f.zero(f._mod, f.dom)
 
-    def quo(f, g):
+    def quo(f, g) -> ANP:
         return f.exquo(g)
 
-    def rem(f, g):
+    def rem(f, g) -> ANP:
         F, G, mod, dom = f.unify_ANP(g)
         s, h = F.half_gcdex(G)
 
@@ -3249,27 +3290,27 @@ class ANP(CantSympify, Generic[Eg]):
         return f._rep.TC()
 
     @property
-    def is_zero(f):
+    def is_zero(f) -> bool:
         """Returns ``True`` if ``f`` is a zero algebraic number. """
         return f._rep.is_zero
 
     @property
-    def is_one(f):
+    def is_one(f) -> bool:
         """Returns ``True`` if ``f`` is a unit algebraic number. """
         return f._rep.is_one
 
     @property
-    def is_ground(f):
+    def is_ground(f) -> bool:
         """Returns ``True`` if ``f`` is an element of the ground domain. """
         return f._rep.is_ground
 
-    def __pos__(f):
+    def __pos__(f) -> typing_extensions.Self:
         return f
 
-    def __neg__(f):
+    def __neg__(f) -> ANP:
         return f.neg()
 
-    def __add__(f, g):
+    def __add__(f, g) -> ANP | NotImplementedType:
         if isinstance(g, ANP):
             return f.add(g)
         try:
@@ -3279,10 +3320,10 @@ class ANP(CantSympify, Generic[Eg]):
         else:
             return f.add_ground(g)
 
-    def __radd__(f, g):
+    def __radd__(f, g) -> ANP | NotImplementedType:
         return f.__add__(g)
 
-    def __sub__(f, g):
+    def __sub__(f, g) -> ANP | NotImplementedType:
         if isinstance(g, ANP):
             return f.sub(g)
         try:
@@ -3292,10 +3333,10 @@ class ANP(CantSympify, Generic[Eg]):
         else:
             return f.sub_ground(g)
 
-    def __rsub__(f, g):
+    def __rsub__(f, g) -> ANP | NotImplementedType:
         return (-f).__add__(g)
 
-    def __mul__(f, g):
+    def __mul__(f, g) -> ANP | NotImplementedType:
         if isinstance(g, ANP):
             return f.mul(g)
         try:
@@ -3305,19 +3346,19 @@ class ANP(CantSympify, Generic[Eg]):
         else:
             return f.mul_ground(g)
 
-    def __rmul__(f, g):
+    def __rmul__(f, g) -> ANP | NotImplementedType:
         return f.__mul__(g)
 
-    def __pow__(f, n):
+    def __pow__(f, n) -> ANP:
         return f.pow(n)
 
-    def __divmod__(f, g):
+    def __divmod__(f, g) -> tuple[ANP, ANP]:
         return f.div(g)
 
-    def __mod__(f, g):
+    def __mod__(f, g) -> ANP:
         return f.rem(g)
 
-    def __truediv__(f, g):
+    def __truediv__(f, g) -> ANP | NotImplementedType:
         if isinstance(g, ANP):
             return f.quo(g)
         try:
@@ -3327,35 +3368,35 @@ class ANP(CantSympify, Generic[Eg]):
         else:
             return f.quo_ground(g)
 
-    def __eq__(f, g):
+    def __eq__(f, g) -> bool:
         try:
             F, G, _, _ = f.unify_ANP(g)
         except UnificationFailed:
             return NotImplemented
         return F == G
 
-    def __ne__(f, g):
+    def __ne__(f, g) -> bool:
         try:
             F, G, _, _ = f.unify_ANP(g)
         except UnificationFailed:
             return NotImplemented
         return F != G
 
-    def __lt__(f, g):
+    def __lt__(f, g) -> bool:
         F, G, _, _ = f.unify_ANP(g)
         return F < G
 
-    def __le__(f, g):
+    def __le__(f, g) -> bool:
         F, G, _, _ = f.unify_ANP(g)
         return F <= G
 
-    def __gt__(f, g):
+    def __gt__(f, g) -> bool:
         F, G, _, _ = f.unify_ANP(g)
         return F > G
 
-    def __ge__(f, g):
+    def __ge__(f, g) -> bool:
         F, G, _, _ = f.unify_ANP(g)
         return F >= G
 
-    def __bool__(f):
+    def __bool__(f) -> bool:
         return bool(f._rep)

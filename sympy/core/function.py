@@ -32,8 +32,9 @@ There are three types of functions implemented in SymPy:
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Callable, Any, TYPE_CHECKING
 from collections.abc import Iterable
+from collections import Counter
 import copyreg
 
 from .add import Add
@@ -64,7 +65,13 @@ import mpmath
 from mpmath.libmp.libmpf import prec_to_dps
 
 import inspect
-from collections import Counter
+from .kind import Kind
+from types import NotImplementedType
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
+    from sympy.sets.sets import FiniteSet
+    from sympy.tensor.array.array_derivatives import ArrayDerivative
 
 def _coeff_isneg(a):
     """Return True if the leading Number is negative.
@@ -121,7 +128,7 @@ class BadArgumentsError(TypeError):
 
 
 # Python 3 version that does not raise a Deprecation warning
-def arity(cls):
+def arity(cls) -> int | tuple[int, ...] | None:
     """Return the arity of the function if it is known, else None.
 
     Explanation
@@ -161,7 +168,7 @@ class FunctionClass(type):
     """
     _new = type.__new__
 
-    def __init__(cls, *args, **kwargs):
+    def __init__(cls, *args, **kwargs) -> None:
         # honor kwarg value or class-defined value before using
         # the number of arguments in the eval function (if present)
         nargs = kwargs.pop('nargs', cls.__dict__.get('nargs', arity(cls)))
@@ -197,7 +204,7 @@ class FunctionClass(type):
                 raise TypeError("eval on Function subclasses should be a class method (defined with @classmethod)")
 
     @property
-    def __signature__(self):
+    def __signature__(self) -> inspect.Signature | None:
         """
         Allow Python 3's inspect.signature to give a useful signature for
         Function subclasses.
@@ -213,18 +220,18 @@ class FunctionClass(type):
         return signature(self.eval)
 
     @property
-    def free_symbols(self):
+    def free_symbols(self) -> set:
         return set()
 
     @property
-    def xreplace(self):
+    def xreplace(self) -> Callable:
         # Function needs args so we define a property that returns
         # a function that takes args...and then use that function
         # to return the right value
         return lambda rule, **_: rule.get(self, self)
 
     @property
-    def nargs(self):
+    def nargs(self) -> FiniteSet:
         """Return a set of the allowed number of arguments for the function.
 
         Examples
@@ -292,7 +299,7 @@ class Application(Basic, metaclass=FunctionClass):
     is_Function = True
 
     @cacheit
-    def __new__(cls, *args, **options):
+    def __new__(cls, *args, **options) -> Self:
         from sympy.sets.fancysets import Naturals0
         from sympy.sets.sets import FiniteSet
 
@@ -337,7 +344,7 @@ class Application(Basic, metaclass=FunctionClass):
         return obj
 
     @classmethod
-    def eval(cls, *args):
+    def eval(cls, *args) -> None:
         """
         Returns a canonical form of cls applied to arguments args.
 
@@ -369,7 +376,7 @@ class Application(Basic, metaclass=FunctionClass):
         return
 
     @property
-    def func(self):
+    def func(self) -> type[Self]:
         return self.__class__
 
     def _eval_subs(self, old, new):
@@ -504,7 +511,7 @@ class Function(Application, Expr):
         return max(m[0]._prec, m[1]._prec)
 
     @classmethod
-    def class_key(cls):
+    def class_key(cls) -> tuple[int, int, str]:
         from sympy.sets.fancysets import Naturals0
         funcs = {
             'exp': 10,
@@ -631,7 +638,7 @@ class Function(Application, Expr):
     _singularities: FuzzyBool | tuple[Expr, ...] = None
 
     @classmethod
-    def is_singular(cls, a):
+    def is_singular(cls, a) -> FuzzyBool:
         """
         Tests whether the argument is an essential singularity
         or a branch point, or the functions is non-holomorphic.
@@ -762,7 +769,7 @@ class Function(Application, Expr):
             l.append(g)
         return Add(*l) + Order(x**n, x)
 
-    def fdiff(self, argindex=1):
+    def fdiff(self, argindex=1) -> ArrayDerivative | Derivative | Subs:
         """
         Returns the first derivative of the function.
         """
@@ -868,7 +875,7 @@ class UndefSageHelper:
     """
     Helper to facilitate Sage conversion.
     """
-    def __get__(self, ins, typ):
+    def __get__(self, ins, typ) -> Callable[[], Any]:
         import sage.all as sage
         if ins is None:
             return lambda: sage.function(typ.__name__)
@@ -919,20 +926,20 @@ class UndefinedFunction(FunctionClass):
         obj._sage_ = _undef_sage_helper
         return obj  # type: ignore
 
-    def __instancecheck__(cls, instance):
+    def __instancecheck__(cls, instance) -> bool:
         return cls in type(instance).__mro__
 
     _kwargs: dict[str, bool | None] = {}
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.class_key(), frozenset(self._kwargs.items())))
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return (isinstance(other, self.__class__) and
             self.class_key() == other.class_key() and
             self._kwargs == other._kwargs)
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         return not self == other
 
     @property
@@ -1012,9 +1019,9 @@ class WildFunction(Function, AtomicExpr):  # type: ignore
     """
 
     # XXX: What is this class attribute used for?
-    include: set[Any] = set()
+    include: set = set()
 
-    def __init__(cls, name, **assumptions):
+    def __init__(cls, name, **assumptions) -> None:
         from sympy.sets.sets import Set, FiniteSet
         cls.name = name
         nargs = assumptions.pop('nargs', S.Naturals0)
@@ -1027,7 +1034,7 @@ class WildFunction(Function, AtomicExpr):  # type: ignore
             nargs = FiniteSet(*nargs)
         cls.nargs = nargs
 
-    def matches(self, expr, repl_dict=None, old=False):
+    def matches(self, expr, repl_dict=None, old=False) -> dict | None:
         if not isinstance(expr, (AppliedUndef, Function)):
             return None
         if len(expr.args) not in self.nargs:
@@ -1505,7 +1512,7 @@ class Derivative(Expr):
         return expr
 
     @property
-    def canonical(cls):
+    def canonical(cls) -> Self:
         return cls.func(cls.expr,
             *Derivative._sort_variable_count(cls.variable_count))
 
@@ -1628,7 +1635,7 @@ class Derivative(Expr):
         variable_count.append((v, 1))
         return self.func(self.expr, *variable_count, evaluate=False)
 
-    def doit(self, **hints):
+    def doit(self, **hints) -> Self:
         expr = self.expr
         if hints.get('deep', True):
             expr = expr.doit(**hints)
@@ -1639,7 +1646,7 @@ class Derivative(Expr):
         return rv
 
     @_sympifyit('z0', NotImplementedError)
-    def doit_numerically(self, z0):
+    def doit_numerically(self, z0) -> Float:
         """
         Evaluate the derivative at z numerically.
 
@@ -1659,7 +1666,7 @@ class Derivative(Expr):
                                  mpmath.mp.prec)
 
     @property
-    def expr(self):
+    def expr(self) -> Basic:
         return self._args[0]
 
     @property
@@ -1669,7 +1676,7 @@ class Derivative(Expr):
         return [i[0] for i in self.variable_count]
 
     @property
-    def variables(self):
+    def variables(self) -> tuple:
         # TODO: deprecate?  YES, make this 'enumerated_variables' and
         #       name _wrt_variables as variables
         # TODO: support for `d^n`?
@@ -1684,15 +1691,15 @@ class Derivative(Expr):
         return tuple(rv)
 
     @property
-    def variable_count(self):
+    def variable_count(self) -> tuple[Basic, ...]:
         return self._args[1:]
 
     @property
-    def derivative_count(self):
+    def derivative_count(self) -> int:
         return sum([count for _, count in self.variable_count], 0)
 
     @property
-    def free_symbols(self):
+    def free_symbols(self) -> set[Basic]:
         ret = self.expr.free_symbols
         # Add symbolic counts to free_symbols
         for _, count in self.variable_count:
@@ -1700,7 +1707,7 @@ class Derivative(Expr):
         return ret
 
     @property
-    def kind(self):
+    def kind(self) -> Kind:
         return self.args[0].kind
 
     def _eval_subs(self, old, new):
@@ -1825,7 +1832,7 @@ class Derivative(Expr):
                 break
         return d
 
-    def as_finite_difference(self, points=1, x0=None, wrt=None):
+    def as_finite_difference(self, points=1, x0=None, wrt=None) -> int:
         """ Expresses a Derivative instance as a finite difference.
 
         Parameters
@@ -2020,17 +2027,17 @@ class Lambda(Expr):
         rcheck(sig)
 
     @property
-    def signature(self):
+    def signature(self) -> Basic:
         """The expected form of the arguments to be unpacked into variables"""
         return self._args[0]
 
     @property
-    def expr(self):
+    def expr(self) -> Basic:
         """The return value of the function"""
         return self._args[1]
 
     @property
-    def variables(self):
+    def variables(self) -> tuple:
         """The variables used in the internal representation of the function"""
         def _variables(args):
             if isinstance(args, Tuple):
@@ -2041,17 +2048,17 @@ class Lambda(Expr):
         return tuple(_variables(self.signature))
 
     @property
-    def nargs(self):
+    def nargs(self) -> FiniteSet:
         from sympy.sets.sets import FiniteSet
         return FiniteSet(len(self.signature))
 
     bound_symbols = variables
 
     @property
-    def free_symbols(self):
+    def free_symbols(self) -> set[Basic]:
         return self.expr.free_symbols - set(self.variables)
 
-    def __call__(self, *args):
+    def __call__(self, *args) -> Basic:
         n = len(args)
         if n not in self.nargs:  # Lambda only ever has 1 value in nargs
             # XXX: exception message must be in exactly this format to
@@ -2090,7 +2097,7 @@ class Lambda(Expr):
         return symargmap
 
     @property
-    def is_identity(self):
+    def is_identity(self) -> NotImplementedType | bool:
         """Return ``True`` if this ``Lambda`` is an identity function. """
         return self.signature == self.expr
 
@@ -2183,7 +2190,7 @@ class Subs(Expr):
     >>> s, ss
     (Subs(x, x, 0), Subs(y, y, 0))
     """
-    def __new__(cls, expr, variables, point, **assumptions):
+    def __new__(cls, expr, variables, point, **assumptions) -> Self:
         if not is_sequence(variables, Tuple):
             variables = [variables]
         variables = Tuple(*variables)
@@ -2248,7 +2255,7 @@ class Subs(Expr):
     def _eval_is_commutative(self):
         return self.expr.is_commutative
 
-    def doit(self, **hints):
+    def doit(self, **hints) -> Basic:
         e, v, p = self.args
 
         # remove self mappings
@@ -2314,29 +2321,29 @@ class Subs(Expr):
     n = evalf  # type:ignore
 
     @property
-    def variables(self):
+    def variables(self) -> Basic:
         """The variables to be evaluated"""
         return self._args[1]
 
     bound_symbols = variables
 
     @property
-    def expr(self):
+    def expr(self) -> Basic:
         """The expression on which the substitution operates"""
         return self._args[0]
 
     @property
-    def point(self):
+    def point(self) -> Basic:
         """The values for which the variables are to be substituted"""
         return self._args[2]
 
     @property
-    def free_symbols(self):
+    def free_symbols(self) -> set[Basic]:
         return (self.expr.free_symbols - set(self.variables) |
             set(self.point.free_symbols))
 
     @property
-    def expr_free_symbols(self):
+    def expr_free_symbols(self) -> set:
         sympy_deprecation_warning("""
         The expr_free_symbols property is deprecated. Use free_symbols to get
         the free symbols of an expression.
@@ -2348,15 +2355,15 @@ class Subs(Expr):
             return (self.expr.expr_free_symbols - set(self.variables) |
                     set(self.point.expr_free_symbols))
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if not isinstance(other, Subs):
             return False
         return self._hashable_content() == other._hashable_content()
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         return not(self == other)
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return super().__hash__()
 
     def _hashable_content(self):
@@ -2443,7 +2450,7 @@ class Subs(Expr):
         return self.expr.as_leading_term(x)
 
 
-def diff(f, *symbols, **kwargs):
+def diff(f, *symbols, **kwargs) -> ArrayDerivative | Derivative:
     """
     Differentiate f with respect to symbols.
 
@@ -3332,7 +3339,7 @@ def count_ops(expr, visual=False):
     return sum(int((a.args or [1])[0]) for a in Add.make_args(ops))
 
 
-def nfloat(expr, n=15, exponent=False, dkeys=False):
+def nfloat(expr, n=15, exponent=False, dkeys=False) -> dict | Basic | Any | Float:
     """Make all Rationals in expr Floats except those in exponents
     (unless the exponents flag is set to True) and those in undefined
     functions. When processing dictionaries, do not modify the keys

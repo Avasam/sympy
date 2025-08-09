@@ -16,7 +16,8 @@ a few non-implemented methods. The concrete base classes supply only these
 non-implemented methods. They may also supply new implementations of the
 convenience methods, for example if there are faster algorithms available.
 """
-
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from copy import copy
 from functools import reduce
@@ -28,6 +29,11 @@ from sympy.polys.polyclasses import DMP
 from sympy.polys.polyerrors import CoercionFailed
 from sympy.core.basic import _aresame
 from sympy.utilities.iterables import iterable
+from types import NotImplementedType
+
+if TYPE_CHECKING:
+    from sympy.polys.agca.homomorphisms import FreeModuleHomomorphism
+    from typing_extensions import Self
 
 # TODO
 # - module saturation
@@ -68,7 +74,7 @@ class Module:
     The method convert likely needs to be changed in subclasses.
     """
 
-    def __init__(self, ring):
+    def __init__(self, ring) -> None:
         self.ring = ring
 
     def convert(self, elem, M=None):
@@ -94,7 +100,7 @@ class Module:
             e = self.submodule(*e)
         return self.quotient_module(e)
 
-    def contains(self, elem):
+    def contains(self, elem) -> bool:
         """Return True if ``elem`` is an element of this module."""
         try:
             self.convert(elem)
@@ -102,10 +108,10 @@ class Module:
         except CoercionFailed:
             return False
 
-    def __contains__(self, elem):
+    def __contains__(self, elem) -> bool:
         return self.contains(elem)
 
-    def subset(self, other):
+    def subset(self, other) -> bool:
         """
         Returns True if ``other`` is is a subset of ``self``.
 
@@ -122,10 +128,10 @@ class Module:
         """
         return all(self.contains(x) for x in other)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self.is_submodule(other) and other.is_submodule(self)
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         return not (self == other)
 
     def is_zero(self):
@@ -142,7 +148,7 @@ class Module:
         """
         raise NotImplementedError
 
-    def __mul__(self, e):
+    def __mul__(self, e) -> NotImplementedType:
         if not isinstance(e, Ideal):
             try:
                 e = self.ring.ideal(e)
@@ -178,7 +184,7 @@ class ModuleElement:
     - eq
     """
 
-    def __init__(self, module, data):
+    def __init__(self, module, data) -> None:
         self.module = module
         self.data = data
 
@@ -198,7 +204,7 @@ class ModuleElement:
         """Return true if d1 and d2 represent the same element."""
         return d1 == d2
 
-    def __add__(self, om):
+    def __add__(self, om) -> NotImplementedType | Self:
         if not isinstance(om, self.__class__) or om.module != self.module:
             try:
                 om = self.module.convert(om)
@@ -208,11 +214,11 @@ class ModuleElement:
 
     __radd__ = __add__
 
-    def __neg__(self):
+    def __neg__(self) -> Self:
         return self.__class__(self.module, self.mul(self.data,
                        self.module.ring.convert(-1)))
 
-    def __sub__(self, om):
+    def __sub__(self, om) -> NotImplementedType | Self:
         if not isinstance(om, self.__class__) or om.module != self.module:
             try:
                 om = self.module.convert(om)
@@ -220,10 +226,10 @@ class ModuleElement:
                 return NotImplemented
         return self.__add__(-om)
 
-    def __rsub__(self, om):
+    def __rsub__(self, om) -> NotImplementedType | ModuleElement:
         return (-self).__add__(om)
 
-    def __mul__(self, o):
+    def __mul__(self, o) -> NotImplementedType | Self:
         if not isinstance(o, self.module.ring.dtype):
             try:
                 o = self.module.ring.convert(o)
@@ -233,7 +239,7 @@ class ModuleElement:
 
     __rmul__ = __mul__
 
-    def __truediv__(self, o):
+    def __truediv__(self, o) -> NotImplementedType | Self:
         if not isinstance(o, self.module.ring.dtype):
             try:
                 o = self.module.ring.convert(o)
@@ -241,7 +247,7 @@ class ModuleElement:
                 return NotImplemented
         return self.__class__(self.module, self.div(self.data, o))
 
-    def __eq__(self, om):
+    def __eq__(self, om) -> bool:
         if not isinstance(om, self.__class__) or om.module != self.module:
             try:
                 om = self.module.convert(om)
@@ -249,7 +255,7 @@ class ModuleElement:
                 return False
         return self.eq(self.data, om.data)
 
-    def __ne__(self, om):
+    def __ne__(self, om) -> bool:
         return not self == om
 
 ##########################################################################
@@ -260,16 +266,16 @@ class ModuleElement:
 class FreeModuleElement(ModuleElement):
     """Element of a free module. Data stored as a tuple."""
 
-    def add(self, d1, d2):
+    def add(self, d1, d2) -> tuple:
         return tuple(x + y for x, y in zip(d1, d2))
 
-    def mul(self, d, p):
+    def mul(self, d, p) -> tuple:
         return tuple(x * p for x in d)
 
-    def div(self, d, p):
+    def div(self, d, p) -> tuple:
         return tuple(x / p for x in d)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         from sympy.printing.str import sstr
         data = self.data
         if any(isinstance(x, DMP) for x in data):
@@ -298,14 +304,14 @@ class FreeModule(Module):
 
     dtype = FreeModuleElement
 
-    def __init__(self, ring, rank):
+    def __init__(self, ring, rank) -> None:
         Module.__init__(self, ring)
         self.rank = rank
 
     def __repr__(self):
         return repr(self.ring) + "**" + repr(self.rank)
 
-    def is_submodule(self, other):
+    def is_submodule(self, other) -> bool:
         """
         Returns True if ``other`` is a submodule of ``self``.
 
@@ -329,7 +335,7 @@ class FreeModule(Module):
             return other.ring == self.ring and other.rank == self.rank
         return False
 
-    def convert(self, elem, M=None):
+    def convert(self, elem, M=None) -> FreeModuleElement:
         """
         Convert ``elem`` into the internal representation.
 
@@ -381,7 +387,7 @@ class FreeModule(Module):
         """
         return self.rank == 0
 
-    def basis(self):
+    def basis(self) -> tuple[FreeModuleElement, ...]:
         """
         Return a set of basis elements.
 
@@ -397,7 +403,7 @@ class FreeModule(Module):
         M = eye(self.rank)
         return tuple(self.convert(M.row(i)) for i in range(self.rank))
 
-    def quotient_module(self, submodule):
+    def quotient_module(self, submodule) -> QuotientModule:
         """
         Return a quotient module.
 
@@ -433,7 +439,7 @@ class FreeModule(Module):
         """
         return self.submodule(*self.basis()).multiply_ideal(other)
 
-    def identity_hom(self):
+    def identity_hom(self) -> FreeModuleHomomorphism:
         """
         Return the identity homomorphism on ``self``.
 
@@ -471,7 +477,7 @@ class FreeModulePolyRing(FreeModule):
     False
     """
 
-    def __init__(self, ring, rank):
+    def __init__(self, ring, rank) -> None:
         from sympy.polys.domains.old_polynomialring import PolynomialRingBase
         FreeModule.__init__(self, ring, rank)
         if not isinstance(ring, PolynomialRingBase):
@@ -481,7 +487,7 @@ class FreeModulePolyRing(FreeModule):
             raise NotImplementedError('Ground domain must be a field, '
                                       + 'got %s' % ring.dom)
 
-    def submodule(self, *gens, **opts):
+    def submodule(self, *gens, **opts) -> SubModulePolyRing:
         """
         Generate a submodule.
 
@@ -521,7 +527,7 @@ class FreeModuleQuotientRing(FreeModule):
     - quot - the quotient module `R^n / IR^n`, where `R/I` is our ring
     """
 
-    def __init__(self, ring, rank):
+    def __init__(self, ring, rank) -> None:
         from sympy.polys.domains.quotientring import QuotientRing
         FreeModule.__init__(self, ring, rank)
         if not isinstance(ring, QuotientRing):
@@ -533,7 +539,7 @@ class FreeModuleQuotientRing(FreeModule):
     def __repr__(self):
         return "(" + repr(self.ring) + ")" + "**" + repr(self.rank)
 
-    def submodule(self, *gens, **opts):
+    def submodule(self, *gens, **opts) -> SubModuleQuotientRing:
         """
         Generate a submodule.
 
@@ -577,7 +583,7 @@ class FreeModuleQuotientRing(FreeModule):
         """
         return self.quot.convert([x.data for x in elem])
 
-    def unlift(self, elem):
+    def unlift(self, elem) -> FreeModuleElement:
         """
         Push down an element of self.quot to self.
 
@@ -626,7 +632,7 @@ class SubModule(Module):
     - reduce_element
     """
 
-    def __init__(self, gens, container):
+    def __init__(self, gens, container) -> None:
         Module.__init__(self, container.ring)
         self.gens = tuple(container.convert(x) for x in gens)
         self.container = container
@@ -758,7 +764,7 @@ class SubModule(Module):
                 '%s is contained in a different free module' % other)
         return self._module_quotient(other, **options)
 
-    def union(self, other):
+    def union(self, other) -> Self:
         """
         Returns the module generated by the union of ``self`` and ``other``.
 
@@ -780,7 +786,7 @@ class SubModule(Module):
                 '%s is contained in a different free module' % other)
         return self.__class__(self.gens + other.gens, self.container)
 
-    def is_zero(self):
+    def is_zero(self) -> bool:
         """
         Return True if ``self`` is a zero module.
 
@@ -797,7 +803,7 @@ class SubModule(Module):
         """
         return all(x == 0 for x in self.gens)
 
-    def submodule(self, *gens):
+    def submodule(self, *gens) -> Self:
         """
         Generate a submodule.
 
@@ -814,7 +820,7 @@ class SubModule(Module):
             raise ValueError('%s not a subset of %s' % (gens, self))
         return self.__class__(gens, self.container)
 
-    def is_full_module(self):
+    def is_full_module(self) -> bool:
         """
         Return True if ``self`` is the entire free module.
 
@@ -831,7 +837,7 @@ class SubModule(Module):
         """
         return all(self.contains(x) for x in self.container.basis())
 
-    def is_submodule(self, other):
+    def is_submodule(self, other) -> bool:
         """
         Returns True if ``other`` is a submodule of ``self``.
 
@@ -917,7 +923,7 @@ class SubModule(Module):
         """
         return x
 
-    def quotient_module(self, other, **opts):
+    def quotient_module(self, other, **opts) -> SubQuotientModule:
         """
         Return a quotient module.
 
@@ -950,7 +956,7 @@ class SubModule(Module):
 
     __radd__ = __add__
 
-    def multiply_ideal(self, I):
+    def multiply_ideal(self, I) -> Self:
         """
         Multiply ``self`` by the ideal ``I``.
 
@@ -1024,7 +1030,7 @@ class SubQuotientModule(SubModule):
     - base - base module we are quotient of
     - killed_module - submodule used to form the quotient
     """
-    def __init__(self, gens, container, **opts):
+    def __init__(self, gens, container, **opts) -> None:
         SubModule.__init__(self, gens, container)
         self.killed_module = self.container.killed_module
         # XXX it is important for some code below that the generators of base
@@ -1096,7 +1102,7 @@ _subs1 = lambda x: x[1:]
 class ModuleOrder(ProductOrder):
     """A product monomial order with a zeroth term as module index."""
 
-    def __init__(self, o1, o2, TOP):
+    def __init__(self, o1, o2, TOP) -> None:
         if TOP:
             ProductOrder.__init__(self, (o2, _subs1), (o1, _subs0))
         else:
@@ -1123,7 +1129,7 @@ class SubModulePolyRing(SubModule):
     #self._gb - cached groebner basis
     #self._gbe - cached groebner basis relations
 
-    def __init__(self, gens, container, order="lex", TOP=True):
+    def __init__(self, gens, container, order="lex", TOP=True) -> None:
         SubModule.__init__(self, gens, container)
         if not isinstance(container, FreeModulePolyRing):
             raise NotImplementedError('This implementation is for submodules of '
@@ -1132,7 +1138,7 @@ class SubModulePolyRing(SubModule):
         self._gb = None
         self._gbe = None
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, SubModulePolyRing) and self.order != other.order:
             return False
         return SubModule.__eq__(self, other)
@@ -1304,7 +1310,7 @@ class SubModuleQuotientRing(SubModule):
     - quot - the subquotient of `R^n/IR^n` generated by lifts of our generators
     """
 
-    def __init__(self, gens, container):
+    def __init__(self, gens, container) -> None:
         SubModule.__init__(self, gens, container)
         self.quot = self.container.quot.submodule(
             *[self.container.lift(x) for x in self.gens])
@@ -1352,7 +1358,7 @@ class QuotientModule(Module):
 
     dtype = QuotientModuleElement
 
-    def __init__(self, ring, base, submodule):
+    def __init__(self, ring, base, submodule) -> None:
         Module.__init__(self, ring)
         if not base.is_submodule(submodule):
             raise ValueError('%s is not a submodule of %s' % (submodule, base))
@@ -1383,7 +1389,7 @@ class QuotientModule(Module):
         """
         return self.base == self.killed_module
 
-    def is_submodule(self, other):
+    def is_submodule(self, other) -> bool:
         """
         Return True if ``other`` is a submodule of ``self``.
 
@@ -1406,7 +1412,7 @@ class QuotientModule(Module):
             return other.container == self
         return False
 
-    def submodule(self, *gens, **opts):
+    def submodule(self, *gens, **opts) -> SubQuotientModule:
         """
         Generate a submodule.
 
@@ -1424,7 +1430,7 @@ class QuotientModule(Module):
         """
         return SubQuotientModule(gens, self, **opts)
 
-    def convert(self, elem, M=None):
+    def convert(self, elem, M=None) -> QuotientModuleElement:
         """
         Convert ``elem`` into the internal representation.
 

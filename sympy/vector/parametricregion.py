@@ -1,3 +1,4 @@
+from __future__ import annotations
 from functools import singledispatch
 from sympy.core.numbers import pi
 from sympy.functions.elementary.trigonometric import tan
@@ -7,6 +8,10 @@ from sympy.core.symbol import _symbol
 from sympy.solvers import solve
 from sympy.geometry import Point, Segment, Curve, Ellipse, Polygon
 from sympy.vector import ImplicitRegion
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class ParametricRegion(Basic):
@@ -51,7 +56,7 @@ class ParametricRegion(Basic):
     bounds : Parameter or a tuple of length 3 to define parameter and corresponding lower and upper bound.
 
     """
-    def __new__(cls, definition, *bounds):
+    def __new__(cls, definition, *bounds) -> Self:
         parameters = ()
         limits = {}
 
@@ -77,7 +82,7 @@ class ParametricRegion(Basic):
         return obj
 
     @property
-    def definition(self):
+    def definition(self) -> Basic:
         return self.args[0]
 
     @property
@@ -89,7 +94,7 @@ class ParametricRegion(Basic):
         return self._parameters
 
     @property
-    def dimensions(self):
+    def dimensions(self) -> int:
         return len(self.limits)
 
 
@@ -132,19 +137,19 @@ def parametric_region_list(reg):
 
 
 @parametric_region_list.register(Point)
-def _(obj):
+def _(obj) -> list[ParametricRegion]:
     return [ParametricRegion(obj.args)]
 
 
 @parametric_region_list.register(Curve)  # type: ignore
-def _(obj):
+def _(obj) -> list[ParametricRegion]:
     definition = obj.arbitrary_point(obj.parameter).args
     bounds = obj.limits
     return [ParametricRegion(definition, bounds)]
 
 
 @parametric_region_list.register(Ellipse) # type: ignore
-def _(obj, parameter='t'):
+def _(obj, parameter='t') -> list[ParametricRegion]:
     definition = obj.arbitrary_point(parameter).args
     t = _symbol(parameter, real=True)
     bounds = (t, 0, 2*pi)
@@ -152,7 +157,7 @@ def _(obj, parameter='t'):
 
 
 @parametric_region_list.register(Segment) # type: ignore
-def _(obj, parameter='t'):
+def _(obj, parameter='t') -> list[ParametricRegion]:
     t = _symbol(parameter, real=True)
     definition = obj.arbitrary_point(t).args
 
@@ -169,13 +174,13 @@ def _(obj, parameter='t'):
 
 
 @parametric_region_list.register(Polygon) # type: ignore
-def _(obj, parameter='t'):
+def _(obj, parameter='t') -> list[ParametricRegion]:
     l = [parametric_region_list(side, parameter)[0] for side in obj.sides]
     return l
 
 
 @parametric_region_list.register(ImplicitRegion) # type: ignore
-def _(obj, parameters=('t', 's')):
+def _(obj, parameters=('t', 's')) -> list[ParametricRegion]:
     definition = obj.rational_parametrization(parameters)
     bounds = []
 

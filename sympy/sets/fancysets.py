@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functools import reduce
 from itertools import product
 
@@ -5,7 +7,7 @@ from sympy.core.basic import Basic
 from sympy.core.containers import Tuple
 from sympy.core.expr import Expr
 from sympy.core.function import Lambda
-from sympy.core.logic import fuzzy_not, fuzzy_or, fuzzy_and
+from sympy.core.logic import fuzzy_not, fuzzy_or, fuzzy_and, And, Or
 from sympy.core.mod import Mod
 from sympy.core.intfunc import igcd
 from sympy.core.numbers import oo, Rational, Integer
@@ -16,9 +18,13 @@ from sympy.core.symbol import Dummy, symbols, Symbol
 from sympy.core.sympify import _sympify, sympify, _sympy_converter
 from sympy.functions.elementary.integers import ceiling, floor
 from sympy.functions.elementary.trigonometric import sin, cos
-from sympy.logic.boolalg import And, Or
 from .sets import tfn, Set, Interval, Union, FiniteSet, ProductSet, SetKind
 from sympy.utilities.misc import filldedent
+from collections.abc import Generator, Iterator
+from typing import Any, NoReturn, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Rationals(Set, metaclass=Singleton):
@@ -48,7 +54,7 @@ class Rationals(Set, metaclass=Singleton):
             return S.false
         return tfn[other.is_rational]
 
-    def __iter__(self):
+    def __iter__(self) -> Generator[Any | Rational | Integer, Any, NoReturn]:
         yield S.Zero
         yield S.One
         yield S.NegativeOne
@@ -119,7 +125,7 @@ class Naturals(Set, metaclass=Singleton):
     def _eval_is_superset(self, other):
         return Range(1, oo).is_superset(other)
 
-    def __iter__(self):
+    def __iter__(self) -> Generator[Any, Any, NoReturn]:
         i = self._inf
         while True:
             yield i
@@ -129,7 +135,7 @@ class Naturals(Set, metaclass=Singleton):
     def _boundary(self):
         return self
 
-    def as_relational(self, x):
+    def as_relational(self, x) -> And:
         return And(Eq(floor(x), x), x >= self.inf, x < oo)
 
     def _kind(self):
@@ -203,7 +209,7 @@ class Integers(Set, metaclass=Singleton):
             return S.false
         return tfn[other.is_integer]
 
-    def __iter__(self):
+    def __iter__(self) -> Generator[Any, Any, NoReturn]:
         yield S.Zero
         i = S.One
         while True:
@@ -226,7 +232,7 @@ class Integers(Set, metaclass=Singleton):
     def _kind(self):
         return SetKind(NumberKind)
 
-    def as_relational(self, x):
+    def as_relational(self, x) -> And:
         return And(Eq(floor(x), x), -oo < x, x < oo)
 
     def _eval_is_subset(self, other):
@@ -274,17 +280,17 @@ class Reals(Interval, metaclass=Singleton):
         return S.Infinity
 
     @property
-    def left_open(self):
+    def left_open(self) -> bool:
         return True
 
     @property
-    def right_open(self):
+    def right_open(self) -> bool:
         return True
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return other == Interval(S.NegativeInfinity, S.Infinity)
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(Interval(S.NegativeInfinity, S.Infinity))
 
 
@@ -344,7 +350,7 @@ class ImageSet(Set):
 
     sympy.sets.sets.imageset
     """
-    def __new__(cls, flambda, *sets):
+    def __new__(cls, flambda, *sets) -> FiniteSet | Self:
         if not isinstance(flambda, Lambda):
             raise ValueError('First argument must be a Lambda')
 
@@ -377,7 +383,7 @@ class ImageSet(Set):
     base_sets = property(lambda self: self.args[1:])
 
     @property
-    def base_set(self):
+    def base_set(self) -> Any | FiniteSet | ProductSet:
         # XXX: Maybe deprecate this? It is poorly defined in handling
         # the multivariate case...
         sets = self.base_sets
@@ -387,7 +393,7 @@ class ImageSet(Set):
             return ProductSet(*sets).flatten()
 
     @property
-    def base_pset(self):
+    def base_pset(self) -> FiniteSet | ProductSet:
         return ProductSet(*self.base_sets)
 
     @classmethod
@@ -409,7 +415,7 @@ class ImageSet(Set):
             # _contains probably only works for ProductSet.
             return True # Give the benefit of the doubt
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator:
         already_seen = set()
         for i in self.base_pset:
             val = self.lamda(*i)
@@ -498,10 +504,10 @@ class ImageSet(Set):
         return tfn[fuzzy_not(solnset.is_empty)]
 
     @property
-    def is_iterable(self):
+    def is_iterable(self) -> bool:
         return all(s.is_iterable for s in self.base_sets)
 
-    def doit(self, **hints):
+    def doit(self, **hints) -> Any | FiniteSet | Self:
         from sympy.sets.setexpr import SetExpr
         f = self.lamda
         sig = f.signature
@@ -683,7 +689,7 @@ class Range(Set):
     step = property(lambda self: self.args[2])
 
     @property
-    def reversed(self):
+    def reversed(self) -> Self:
         """Return an equivalent Range in the opposite order.
 
         Examples
@@ -739,7 +745,7 @@ class Range(Set):
         else:  # symbolic/unsimplified residue modulo step
             return None
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator:
         n = self.size  # validate
         if not (n.has(S.Infinity) or n.has(S.NegativeInfinity) or n.is_Integer):
             raise TypeError("Cannot iterate over symbolic Range")
@@ -757,7 +763,7 @@ class Range(Set):
                     i += self.step
 
     @property
-    def is_iterable(self):
+    def is_iterable(self) -> bool:
         # Check that size can be determined, used by __iter__
         dif = self.stop - self.start
         n = dif/self.step
@@ -769,7 +775,7 @@ class Range(Set):
             return False
         return True
 
-    def __len__(self):
+    def __len__(self) -> int:
         rv = self.size
         if rv is S.Infinity:
             raise ValueError('Use .size to get the length of an infinite Range')
@@ -788,19 +794,19 @@ class Range(Set):
         raise ValueError('Invalid method for symbolic Range')
 
     @property
-    def is_finite_set(self):
+    def is_finite_set(self) -> bool:
         if self.start.is_integer and self.stop.is_integer:
             return True
         return self.size.is_finite
 
     @property
-    def is_empty(self):
+    def is_empty(self) -> None:
         try:
             return self.size.is_zero
         except ValueError:
             return None
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         # this only distinguishes between definite null range
         # and non-null/unknown null; getting True doesn't mean
         # that it actually is not null
@@ -987,7 +993,7 @@ class Range(Set):
     def _boundary(self):
         return self
 
-    def as_relational(self, x):
+    def as_relational(self, x) -> And:
         """Rewrite a Range in terms of equalities and logic operators. """
         if self.start.is_infinite:
             assert not self.stop.is_infinite  # by instantiation
@@ -1022,7 +1028,7 @@ class Range(Set):
 
 _sympy_converter[range] = lambda r: Range(r.start, r.stop, r.step)
 
-def normalize_theta_set(theta):
+def normalize_theta_set(theta) -> FiniteSet | Union | Interval:
     r"""
     Normalize a Real Set `theta` in the interval `[0, 2\pi)`. It returns
     a normalized value of theta in the Set. For Interval, a maximum of
@@ -1187,7 +1193,7 @@ class ComplexRegion(Set):
     """
     is_ComplexRegion = True
 
-    def __new__(cls, sets, polar=False):
+    def __new__(cls, sets, polar=False) -> FiniteSet | CartesianComplexRegion | PolarComplexRegion:
         if polar is False:
             return CartesianComplexRegion(sets)
         elif polar is True:
@@ -1196,7 +1202,7 @@ class ComplexRegion(Set):
             raise ValueError("polar should be either True or False")
 
     @property
-    def sets(self):
+    def sets(self) -> Basic:
         """
         Return raw input sets to the self.
 
@@ -1218,7 +1224,7 @@ class ComplexRegion(Set):
         return self.args[0]
 
     @property
-    def psets(self):
+    def psets(self) -> tuple[Basic] | tuple[Basic, ...]:
         """
         Return a tuple of sets (ProductSets) input of the self.
 
@@ -1245,7 +1251,7 @@ class ComplexRegion(Set):
         return psets
 
     @property
-    def a_interval(self):
+    def a_interval(self) -> FiniteSet | Union:
         """
         Return the union of intervals of `x` when, self is in
         rectangular form, or the union of intervals of `r` when
@@ -1274,7 +1280,7 @@ class ComplexRegion(Set):
         return a_interval
 
     @property
-    def b_interval(self):
+    def b_interval(self) -> FiniteSet | Union:
         """
         Return the union of intervals of `y` when, self is in
         rectangular form, or the union of intervals of `theta`
@@ -1327,7 +1333,7 @@ class ComplexRegion(Set):
         return self.args[0].kind
 
     @classmethod
-    def from_real(cls, sets):
+    def from_real(cls, sets) -> FiniteSet | CartesianComplexRegion:
         """
         Converts given subset of real numbers to a complex region.
 
@@ -1410,7 +1416,7 @@ class CartesianComplexRegion(ComplexRegion):
     polar = False
     variables = symbols('x, y', cls=Dummy)
 
-    def __new__(cls, sets):
+    def __new__(cls, sets) -> FiniteSet | Self:
 
         if sets == S.Reals*S.Reals:
             return S.Complexes
@@ -1467,7 +1473,7 @@ class PolarComplexRegion(ComplexRegion):
     polar = True
     variables = symbols('r, theta', cls=Dummy)
 
-    def __new__(cls, sets):
+    def __new__(cls, sets) -> Self:
 
         new_sets = []
         # sets is Union of ProductSets
@@ -1516,8 +1522,8 @@ class Complexes(CartesianComplexRegion, metaclass=Singleton):
 
     # Override property from superclass since Complexes has no args
     @property
-    def sets(self):
+    def sets(self) -> FiniteSet | ProductSet:
         return ProductSet(S.Reals, S.Reals)
 
-    def __new__(cls):
+    def __new__(cls) -> Self:
         return Set.__new__(cls)

@@ -3,7 +3,7 @@ from functools import reduce
 
 from sympy.core import S, sympify, Dummy, Mod
 from sympy.core.cache import cacheit
-from sympy.core.function import DefinedFunction, ArgumentIndexError, PoleError
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError, PoleError
 from sympy.core.logic import fuzzy_and
 from sympy.core.numbers import Integer, pi, I
 from sympy.core.relational import Eq
@@ -13,6 +13,10 @@ from sympy.ntheory.residue_ntheory import binomial_mod
 from sympy.polys.polytools import Poly
 
 from math import factorial as _factorial, prod, sqrt as _sqrt
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from sympy.series.order import Order
 
 class CombinatorialFunction(DefinedFunction):
     """Base class for combinatorial functions. """
@@ -136,7 +140,7 @@ class factorial(CombinatorialFunction):
             return (cls._recursive(n//2)**2)*cls._swing(n)
 
     @classmethod
-    def eval(cls, n):
+    def eval(cls, n) -> Integer | None:
         n = sympify(n)
 
         if n.is_Number:
@@ -338,7 +342,7 @@ class subfactorial(CombinatorialFunction):
             return z2
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg) -> int | None:
         if arg.is_Number:
             if arg.is_Integer and arg.is_nonnegative:
                 return cls._eval(arg)
@@ -419,7 +423,7 @@ class factorial2(CombinatorialFunction):
     """
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg) -> None:
         # TODO: extend this to complex numbers?
 
         if arg.is_Number:
@@ -563,7 +567,7 @@ class RisingFactorial(CombinatorialFunction):
     """
 
     @classmethod
-    def eval(cls, x, k):
+    def eval(cls, x, k) -> type[UndefinedFunction] | int | float | None:
         x = sympify(x)
         k = sympify(k)
 
@@ -723,7 +727,7 @@ class FallingFactorial(CombinatorialFunction):
     """
 
     @classmethod
-    def eval(cls, x, k):
+    def eval(cls, x, k) -> type[UndefinedFunction] | int | float | None:
         x = sympify(x)
         k = sympify(k)
 
@@ -962,7 +966,7 @@ class binomial(CombinatorialFunction):
                 return result / _factorial(k)
 
     @classmethod
-    def eval(cls, n, k):
+    def eval(cls, n, k) -> Order | Any | Integer | float | None:
         n, k = map(sympify, (n, k))
         d = n - k
         n_nonneg, n_isint = n.is_nonnegative, n.is_integer

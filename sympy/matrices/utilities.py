@@ -1,25 +1,25 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, overload
+from collections.abc import Generator
+from threading import local
 
 if TYPE_CHECKING:
-    from typing import Literal
     from sympy.core.expr import Expr
 
 from contextlib import contextmanager
-from threading import local
 
 from sympy.core.function import expand_mul
 
 
 class DotProdSimpState(local):
-    def __init__(self):
+    def __init__(self) -> None:
         self.state = None
 
 _dotprodsimp_state = DotProdSimpState()
 
 @contextmanager
-def dotprodsimp(x):
+def dotprodsimp(x) -> Generator[None]:
     old = _dotprodsimp_state.state
 
     try:
@@ -29,9 +29,9 @@ def dotprodsimp(x):
         _dotprodsimp_state.state = old
 
 @overload
-def _dotprodsimp(expr: Expr, withsimp: Literal[False] = False) -> Expr: ...
+def _dotprodsimp(expr: Expr, withsimp: bool = False) -> Expr: ...
 @overload
-def _dotprodsimp(expr: Expr, withsimp: Literal[True]) -> tuple[Expr, bool]: ...
+def _dotprodsimp(expr: Expr, withsimp: bool) -> tuple[Expr, bool]: ...
 
 def _dotprodsimp(expr: Expr, withsimp: bool = False) -> Expr | tuple[Expr, bool]:
     """Wrapper for simplify.dotprodsimp to avoid circular imports."""

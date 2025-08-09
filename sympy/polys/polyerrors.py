@@ -1,7 +1,11 @@
 """Definitions of common exceptions for `polys` module. """
+from __future__ import annotations
 
-
+from typing import TYPE_CHECKING
 from sympy.utilities import public
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 @public
 class BasePolynomialError(Exception):
@@ -13,7 +17,7 @@ class BasePolynomialError(Exception):
 @public
 class ExactQuotientFailed(BasePolynomialError):
 
-    def __init__(self, f, g, dom=None):
+    def __init__(self, f, g, dom=None) -> None:
         self.f, self.g, self.dom = f, g, dom
 
     def __str__(self):  # pragma: no cover
@@ -24,13 +28,13 @@ class ExactQuotientFailed(BasePolynomialError):
         else:
             return "%s does not divide %s in %s" % (sstr(self.g), sstr(self.f), sstr(self.dom))
 
-    def new(self, f, g):
+    def new(self, f, g) -> Self:
         return self.__class__(f, g, self.dom)
 
 @public
 class PolynomialDivisionFailed(BasePolynomialError):
 
-    def __init__(self, f, g, domain):
+    def __init__(self, f, g, domain) -> None:
         self.f = f
         self.g = g
         self.domain = domain
@@ -57,7 +61,7 @@ class PolynomialDivisionFailed(BasePolynomialError):
 @public
 class OperationNotSupported(BasePolynomialError):
 
-    def __init__(self, poly, func):
+    def __init__(self, poly, func) -> None:
         self.poly = poly
         self.func = func
 
@@ -136,7 +140,7 @@ class GeneratorsNeeded(GeneratorsError):
 @public
 class ComputationFailed(BasePolynomialError):
 
-    def __init__(self, func, nargs, exc):
+    def __init__(self, func, nargs, exc) -> None:
         self.func = func
         self.nargs = nargs
         self.exc = exc
@@ -155,7 +159,7 @@ class MultivariatePolynomialError(PolynomialError):
 @public
 class PolificationFailed(PolynomialError):
 
-    def __init__(self, opt, origs, exprs, seq=False):
+    def __init__(self, opt, origs, exprs, seq=False) -> None:
         if not seq:
             self.orig = origs
             self.expr = exprs

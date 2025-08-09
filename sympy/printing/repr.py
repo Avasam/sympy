@@ -30,7 +30,7 @@ class ReprPrinter(Printer):
         """
         return sep.join([self.doprint(item) for item in args])
 
-    def emptyPrinter(self, expr):
+    def emptyPrinter(self, expr) -> str:
         """
         The fallback printer.
         """
@@ -330,6 +330,6 @@ class ReprPrinter(Printer):
         return "ExtElem(%s, %s)" % (rep, ext)
 
 @print_function(ReprPrinter)
-def srepr(expr, **settings):
+def srepr(expr, **settings) -> str:
     """return expr in repr form"""
     return ReprPrinter(settings).doprint(expr)

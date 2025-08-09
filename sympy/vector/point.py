@@ -1,9 +1,15 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core.basic import Basic
 from sympy.core.symbol import Str
-from sympy.vector.vector import Vector
+from sympy.vector.vector import VectorZero, Vector
 from sympy.vector.coordsysrect import CoordSys3D
 from sympy.vector.functions import _path
 from sympy.core.cache import cacheit
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Point(Basic):
@@ -11,7 +17,7 @@ class Point(Basic):
     Represents a point in 3-D space.
     """
 
-    def __new__(cls, name, position=Vector.zero, parent_point=None):
+    def __new__(cls, name, position=Vector.zero, parent_point=None) -> Self:
         name = str(name)
         # Check the args first
         if not isinstance(position, Vector):
@@ -41,7 +47,7 @@ class Point(Basic):
         return obj
 
     @cacheit
-    def position_wrt(self, other):
+    def position_wrt(self, other) -> VectorZero:
         """
         Returns the position vector of this Point with respect to
         another Point/CoordSys3D.
@@ -87,7 +93,7 @@ class Point(Basic):
             result -= path[i]._pos
         return result
 
-    def locate_new(self, name, position):
+    def locate_new(self, name, position) -> Point:
         """
         Returns a new Point located at the given position wrt this
         Point.
@@ -115,7 +121,7 @@ class Point(Basic):
         """
         return Point(name, position, self)
 
-    def express_coordinates(self, coordinate_system):
+    def express_coordinates(self, coordinate_system) -> tuple:
         """
         Returns the Cartesian/rectangular coordinates of this point
         wrt the origin of the given CoordSys3D instance.

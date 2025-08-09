@@ -19,6 +19,11 @@ from sympy.core.symbol import Str
 from sympy.core.sympify import sympify
 from sympy.logic import true, false
 from sympy.utilities.iterables import iterable
+from typing import TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 
@@ -278,7 +283,7 @@ class Extent(Basic):
     'real*8, dimension(-3:3, -3:3), intent(out) :: x'
 
     """
-    def __new__(cls, *args):
+    def __new__(cls, *args) -> Self:
         if len(args) == 2:
             low, high = args
             return Basic.__new__(cls, sympify(low), sympify(high))
@@ -295,7 +300,7 @@ class Extent(Basic):
 assumed_extent = Extent() # or Extent(':'), Extent(None)
 
 
-def dimension(*args):
+def dimension(*args) -> Attribute:
     """ Creates a 'dimension' Attribute with (up to 7) extents.
 
     Examples
@@ -332,7 +337,7 @@ def dimension(*args):
 
 assumed_size = dimension('*')
 
-def array(symbol, dim, intent=None, *, attrs=(), value=None, type=None):
+def array(symbol, dim, intent=None, *, attrs=(), value=None, type=None) -> Variable:
     """ Convenience function for creating a Variable instance for a Fortran array.
 
     Parameters
@@ -381,7 +386,7 @@ def _printable(arg):
     return String(arg) if isinstance(arg, str) else sympify(arg)
 
 
-def allocated(array):
+def allocated(array) -> FunctionCall:
     """ Creates an AST node for a function call to Fortran's "allocated(...)"
 
     Examples
@@ -397,7 +402,7 @@ def allocated(array):
     return FunctionCall('allocated', [_printable(array)])
 
 
-def lbound(array, dim=None, kind=None):
+def lbound(array, dim=None, kind=None) -> FunctionCall:
     """ Creates an AST node for a function call to Fortran's "lbound(...)"
 
     Parameters
@@ -425,7 +430,7 @@ def lbound(array, dim=None, kind=None):
     )
 
 
-def ubound(array, dim=None, kind=None):
+def ubound(array, dim=None, kind=None) -> FunctionCall:
     return FunctionCall(
         'ubound',
         [_printable(array)] +
@@ -434,7 +439,7 @@ def ubound(array, dim=None, kind=None):
     )
 
 
-def shape(source, kind=None):
+def shape(source, kind=None) -> FunctionCall:
     """ Creates an AST node for a function call to Fortran's "shape(...)"
 
     Parameters
@@ -460,7 +465,7 @@ def shape(source, kind=None):
     )
 
 
-def size(array, dim=None, kind=None):
+def size(array, dim=None, kind=None) -> FunctionCall:
     """ Creates an AST node for a function call to Fortran's "size(...)"
 
     Examples
@@ -488,7 +493,7 @@ def size(array, dim=None, kind=None):
     )
 
 
-def reshape(source, shape, pad=None, order=None):
+def reshape(source, shape, pad=None, order=None) -> FunctionCall:
     """ Creates an AST node for a function call to Fortran's "reshape(...)"
 
     Parameters
@@ -532,7 +537,7 @@ def reshape(source, shape, pad=None, order=None):
     )
 
 
-def bind_C(name=None):
+def bind_C(name=None) -> Attribute:
     """ Creates an Attribute ``bind_C`` with a name.
 
     Parameters

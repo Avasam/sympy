@@ -4,11 +4,11 @@ Instead, run ./bin/ask_update.py.
 """
 
 from sympy.assumptions.ask import Q
-from sympy.assumptions.cnf import Literal
+from sympy.assumptions.cnf import AND, OR, Literal
 from sympy.core.cache import cacheit
 
 @cacheit
-def get_all_known_facts():
+def get_all_known_facts() -> set[frozenset[OR | AND | Literal]]:
     """
     Known facts between unary predicates as CNF clauses.
     """
@@ -174,7 +174,7 @@ def get_all_known_number_facts():
     }
 
 @cacheit
-def get_known_facts_dict():
+def get_known_facts_dict() -> dict:
     """
     Logical relations between unary predicates as dictionary.
 

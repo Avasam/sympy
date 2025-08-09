@@ -1,17 +1,22 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 import itertools
 
 from .cartan_type import Standard_Cartan
 from sympy.core.backend import eye, Rational
 from sympy.core.singleton import S
 
+if TYPE_CHECKING:
+    from typing_extensions import Self
+
 class TypeE(Standard_Cartan):
 
-    def __new__(cls, n):
+    def __new__(cls, n) -> Self:
         if n < 6 or n > 8:
             raise ValueError("Invalid value of n")
         return Standard_Cartan.__new__(cls, "E", n)
 
-    def dimension(self):
+    def dimension(self) -> int:
         """Dimension of the vector space V underlying the Lie algebra
 
         Examples
@@ -25,7 +30,7 @@ class TypeE(Standard_Cartan):
 
         return 8
 
-    def basic_root(self, i, j):
+    def basic_root(self, i, j) -> list[int]:
         """
         This is a method just to generate roots
         with a -1 in the ith position and a 1
@@ -38,7 +43,7 @@ class TypeE(Standard_Cartan):
         root[j] = 1
         return root
 
-    def simple_root(self, i):
+    def simple_root(self, i) -> list[float] | list[int]:
         """
         Every Lie algebra has a unique root system.
         Given a root system Q, there is a subset of the
@@ -78,7 +83,7 @@ class TypeE(Standard_Cartan):
 
             return self.basic_root(i - 3, i - 2)
 
-    def positive_roots(self):
+    def positive_roots(self) -> dict | None:
         """
         This method generates all the positive roots of
         A_n.  This is half of all of the roots of E_n;
@@ -200,9 +205,7 @@ class TypeE(Standard_Cartan):
                     posroots[k] = root[:]
             return posroots
 
-
-
-    def roots(self):
+    def roots(self) -> int | None:
         """
         Returns the total number of roots of E_n
         """
@@ -250,8 +253,7 @@ class TypeE(Standard_Cartan):
         m[n-1, n-2] = -1
         return m
 
-
-    def basis(self):
+    def basis(self) -> int | None:
         """
         Returns the number of independent generators of E_n
         """
@@ -264,7 +266,7 @@ class TypeE(Standard_Cartan):
         if n == 8:
             return 248
 
-    def dynkin_diagram(self):
+    def dynkin_diagram(self) -> str:
         n = self.n
         diag = " "*8 + str(2) + "\n"
         diag += " "*8 + "0\n"

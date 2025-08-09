@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.calculus.accumulationbounds import AccumBounds
 from sympy.core import S, Symbol, Add, sympify, Expr, PoleError, Mul
 from sympy.core.exprtools import factor_terms
@@ -11,6 +14,10 @@ from sympy.functions.special.gamma_functions import gamma
 from sympy.polys import PolynomialError, factor
 from sympy.series.order import Order
 from .gruntz import gruntz
+from sympy.core.basic import Basic
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 def limit(e, z, z0, dir="+"):
     """Computes the limit of ``e(z)`` at the point ``z0``.
@@ -141,7 +148,7 @@ class Limit(Expr):
 
     """
 
-    def __new__(cls, e, z, z0, dir="+"):
+    def __new__(cls, e, z, z0, dir="+") -> Self:
         e = sympify(e)
         z = sympify(z)
         z0 = sympify(z0)
@@ -169,7 +176,7 @@ class Limit(Expr):
 
 
     @property
-    def free_symbols(self):
+    def free_symbols(self) -> set[Basic]:
         e = self.args[0]
         isyms = e.free_symbols
         isyms.difference_update(self.args[1].free_symbols)

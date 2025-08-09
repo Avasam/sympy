@@ -18,7 +18,7 @@ class FractionField(Field, CompositeDomain):
     has_assoc_Ring = True
     has_assoc_Field = True
 
-    def __init__(self, dom, *gens):
+    def __init__(self, dom, *gens) -> None:
         if not gens:
             raise GeneratorsNeeded("generators not specified")
 
@@ -35,16 +35,16 @@ class FractionField(Field, CompositeDomain):
         """Make a new fraction field with given domain. """
         return self.__class__(dom, *self.gens)
 
-    def new(self, element):
+    def new(self, element) -> DMF:
         return self.dtype(element, self.dom, len(self.gens) - 1)
 
     def __str__(self):
         return str(self.dom) + '(' + ','.join(map(str, self.gens)) + ')'
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.__class__.__name__, self.dtype, self.dom, self.gens))
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         """Returns ``True`` if two domains are equivalent. """
         return isinstance(other, FractionField) and \
             self.dtype == other.dtype and self.dom == other.dom and self.gens == other.gens
@@ -108,7 +108,7 @@ class FractionField(Field, CompositeDomain):
 
             return K1(dict(zip(monoms, coeffs)))
 
-    def from_FractionField(K1, a, K0):
+    def from_FractionField(K1, a, K0) -> None:
         """
         Convert a fraction field element to another fraction field.
 
@@ -183,6 +183,6 @@ class FractionField(Field, CompositeDomain):
         """Returns denominator of ``a``. """
         return a.denom()
 
-    def factorial(self, a):
+    def factorial(self, a) -> DMF:
         """Returns factorial of ``a``. """
         return self.dtype(self.dom.factorial(a))

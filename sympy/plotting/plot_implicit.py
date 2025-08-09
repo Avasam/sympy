@@ -33,7 +33,7 @@ from sympy.core.containers import Tuple
 from sympy.core.symbol import (Dummy, Symbol)
 from sympy.polys.polyutils import _sort_gens
 from sympy.plotting.series import ImplicitSeries, _set_discretization_points
-from sympy.plotting.plot import plot_factory
+from sympy.plotting.plot import Plot, plot_factory
 from sympy.utilities.decorator import doctest_depends_on
 from sympy.utilities.iterables import flatten
 
@@ -43,7 +43,7 @@ __doctest_requires__ = {'plot_implicit': ['matplotlib']}
 
 @doctest_depends_on(modules=('matplotlib',))
 def plot_implicit(expr, x_var=None, y_var=None, adaptive=True, depth=0,
-                  n=300, line_color="blue", show=True, **kwargs):
+                  n=300, line_color="blue", show=True, **kwargs) -> Plot:
     """A plot function to plot implicit equations / inequalities.
 
     Arguments

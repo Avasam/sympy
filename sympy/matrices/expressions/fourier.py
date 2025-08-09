@@ -1,9 +1,15 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core.sympify import _sympify
 from sympy.matrices.expressions import MatrixExpr
 from sympy.core.numbers import I
 from sympy.core.singleton import S
 from sympy.functions.elementary.exponential import exp
 from sympy.functions.elementary.miscellaneous import sqrt
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class DFT(MatrixExpr):
@@ -39,7 +45,7 @@ class DFT(MatrixExpr):
 
     """
 
-    def __new__(cls, n):
+    def __new__(cls, n) -> Self:
         n = _sympify(n)
         cls._check_dim(n)
 

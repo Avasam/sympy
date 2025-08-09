@@ -1,9 +1,12 @@
+from __future__ import annotations
 from sympy.core import Basic, Expr
 from sympy.core.numbers import oo
 from sympy.core.symbol import symbols
 from sympy.multipledispatch import Dispatcher
 from sympy.sets.setexpr import set_mul
-from sympy.sets.sets import Interval, Set
+from sympy.sets.sets import FiniteSet, Union, Interval, Set
+from sympy.sets.fancysets import ImageSet
+from typing import Any
 
 
 _x, _y = symbols("x y")
@@ -14,19 +17,19 @@ _set_div = Dispatcher('_set_div')
 
 
 @_set_mul.register(Basic, Basic)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval | Any | ImageSet | Union:
     return None
 
 @_set_mul.register(Set, Set)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval | Any | ImageSet | Union:
     return None
 
 @_set_mul.register(Expr, Expr)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval | Any | ImageSet | Union:
     return x*y
 
 @_set_mul.register(Interval, Interval)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval | Any | ImageSet | Union:
     """
     Multiplications in interval arithmetic
     https://en.wikipedia.org/wiki/Interval_arithmetic
@@ -49,19 +52,19 @@ def _(x, y):
     )
 
 @_set_div.register(Basic, Basic)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval | Any | ImageSet | Union:
     return None
 
 @_set_div.register(Expr, Expr)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval | Any | ImageSet | Union:
     return x/y
 
 @_set_div.register(Set, Set)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval | Any | ImageSet | Union:
     return None
 
 @_set_div.register(Interval, Interval)
-def _(x, y):
+def _(x, y) -> FiniteSet | Interval | Any | ImageSet | Union:
     """
     Divisions in interval arithmetic
     https://en.wikipedia.org/wiki/Interval_arithmetic

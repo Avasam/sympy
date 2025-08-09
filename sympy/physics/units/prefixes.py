@@ -4,9 +4,14 @@ Module defining unit prefixe class and some constants.
 Constant dict for SI and binary prefixes are defined as PREFIXES and
 BIN_PREFIXES.
 """
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from sympy.core.expr import Expr
 from sympy.core.sympify import sympify
 from sympy.core.singleton import S
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 class Prefix(Expr):
     """
@@ -30,7 +35,7 @@ class Prefix(Expr):
     _op_priority = 13.0
     is_commutative = True
 
-    def __new__(cls, name, abbrev, exponent, base=sympify(10), latex_repr=None):
+    def __new__(cls, name, abbrev, exponent, base=sympify(10), latex_repr=None) -> Self:
 
         name = sympify(name)
         abbrev = sympify(abbrev)
@@ -78,7 +83,7 @@ class Prefix(Expr):
             return "Prefix(%r, %r, %r, %r)" % (
                 str(self.name), str(self.abbrev), self._exponent, self.base)
 
-    def __mul__(self, other):
+    def __mul__(self, other) -> Prefix | int:
         from sympy.physics.units import Quantity
         if not isinstance(other, (Quantity, Prefix)):
             return super().__mul__(other)
@@ -96,7 +101,7 @@ class Prefix(Expr):
 
         return self.scale_factor * other
 
-    def __truediv__(self, other):
+    def __truediv__(self, other) -> Prefix | int:
         if not hasattr(other, "scale_factor"):
             return super().__truediv__(other)
 
@@ -112,7 +117,7 @@ class Prefix(Expr):
 
         return self.scale_factor / other
 
-    def __rtruediv__(self, other):
+    def __rtruediv__(self, other) -> Prefix:
         if other == 1:
             for p in PREFIXES:
                 if PREFIXES[p].scale_factor == 1 / self.scale_factor:
@@ -120,7 +125,7 @@ class Prefix(Expr):
         return other / self.scale_factor
 
 
-def prefix_unit(unit, prefixes):
+def prefix_unit(unit, prefixes) -> list:
     """
     Return a list of all units formed by unit and the given prefixes.
 

@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core.basic import Basic
 from sympy.core.expr import Expr, ExprBuilder
 from sympy.core.singleton import S
@@ -6,6 +9,9 @@ from sympy.core.symbol import uniquely_named_symbol
 from sympy.core.sympify import sympify
 from sympy.matrices.matrixbase import MatrixBase
 from sympy.matrices.exceptions import NonSquareMatrixError
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Trace(Expr):
@@ -31,7 +37,7 @@ class Trace(Expr):
     is_Trace = True
     is_commutative = True
 
-    def __new__(cls, mat):
+    def __new__(cls, mat) -> Self:
         mat = sympify(mat)
 
         if not mat.is_Matrix:
@@ -99,10 +105,10 @@ class Trace(Expr):
         return r
 
     @property
-    def arg(self):
+    def arg(self) -> Basic:
         return self.args[0]
 
-    def doit(self, **hints):
+    def doit(self, **hints) -> Trace:
         if hints.get('deep', True):
             arg = self.arg.doit(**hints)
             result = arg._eval_trace()
@@ -117,7 +123,7 @@ class Trace(Expr):
             else:
                 return Trace(self.arg)
 
-    def as_explicit(self):
+    def as_explicit(self) -> Trace:
         return Trace(self.arg.as_explicit()).doit()
 
     def _normalize(self):

@@ -1,7 +1,10 @@
+from __future__ import annotations
 from sympy.utilities.misc import as_int
+from collections.abc import Generator
+from typing import Any
 
 
-def binomial_coefficients(n):
+def binomial_coefficients(n) -> dict[tuple[int, int], int]:
     """Return a dictionary containing pairs :math:`{(k1,k2) : C_kn}` where
     :math:`C_kn` are binomial coefficients and :math:`n=k1+k2`.
 
@@ -27,7 +30,7 @@ def binomial_coefficients(n):
     return d
 
 
-def binomial_coefficients_list(n):
+def binomial_coefficients_list(n) -> list[int]:
     """ Return a list of binomial coefficients as rows of the Pascal's
     triangle.
 
@@ -52,7 +55,13 @@ def binomial_coefficients_list(n):
     return d
 
 
-def multinomial_coefficients(m, n):
+def multinomial_coefficients(m, n) -> (
+    dict
+    | dict[tuple[()], int]
+    | dict[tuple[int, int], int]
+    | dict[tuple, Any]
+    | dict[tuple[int, ...], int]
+):
     r"""Return a dictionary containing pairs ``{(k1,k2,..,km) : C_kn}``
     where ``C_kn`` are multinomial coefficients such that
     ``n=k1+k2+..+km``.
@@ -126,7 +135,7 @@ def multinomial_coefficients(m, n):
     return r
 
 
-def multinomial_coefficients_iterator(m, n, _tuple=tuple):
+def multinomial_coefficients_iterator(m, n, _tuple=tuple) -> Generator[Any | tuple[tuple, Any]]:
     """multinomial coefficient iterator
 
     This routine has been optimized for `m` large with respect to `n` by taking

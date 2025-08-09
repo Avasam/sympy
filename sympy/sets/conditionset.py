@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sympy.core.singleton import S
 from sympy.core.basic import Basic
 from sympy.core.containers import Tuple
@@ -10,7 +12,11 @@ from sympy.logic.boolalg import And, as_Boolean
 from sympy.utilities.iterables import sift, flatten, has_dups
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from .contains import Contains
-from .sets import Set, Union, FiniteSet, SetKind
+from .sets import Set, Union, FiniteSet, SetKind, Complement, Intersection
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 adummy = Dummy('conditionset')
@@ -85,7 +91,7 @@ class ConditionSet(Set):
     ConditionSet(x, (x < y) & (x + y < 2), Integers)
 
     """
-    def __new__(cls, sym, condition, base_set=S.UniversalSet):
+    def __new__(cls, sym, condition, base_set=S.UniversalSet) -> Set | FiniteSet | Intersection | Union | Complement | Self:
         sym = _sympify(sym)
         flat = flatten([sym])
         if has_dups(flat):
@@ -184,7 +190,7 @@ with
         return cond_syms | self.base_set.free_symbols
 
     @property
-    def bound_symbols(self):
+    def bound_symbols(self) -> list:
         return flatten([self.sym])
 
     def _contains(self, other):
@@ -216,7 +222,7 @@ with
         else:
             return And(base_cond, lambda_cond)
 
-    def as_relational(self, other):
+    def as_relational(self, other) -> And:
         f = Lambda(self.sym, self.condition)
         if isinstance(self.sym, Tuple):
             f = f(*other)

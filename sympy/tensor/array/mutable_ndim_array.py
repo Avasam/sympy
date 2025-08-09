@@ -1,4 +1,10 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.tensor.array.ndim_array import NDimArray
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class MutableNDimArray(NDimArray):
@@ -6,7 +12,7 @@ class MutableNDimArray(NDimArray):
     def as_immutable(self):
         raise NotImplementedError("abstract method")
 
-    def as_mutable(self):
+    def as_mutable(self) -> Self:
         return self
 
     def _sympy_(self):

@@ -1,8 +1,14 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core.sympify import _sympify
 from sympy.core import S, Basic
 
 from sympy.matrices.exceptions import NonSquareMatrixError
 from sympy.matrices.expressions.matpow import MatPow
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Inverse(MatPow):
@@ -32,7 +38,7 @@ class Inverse(MatPow):
     is_Inverse = True
     exp = S.NegativeOne
 
-    def __new__(cls, mat, exp=S.NegativeOne):
+    def __new__(cls, mat, exp=S.NegativeOne) -> Self:
         # exp is there to make it consistent with
         # inverse.func(*inverse.args) == inverse
         mat = _sympify(mat)
@@ -44,7 +50,7 @@ class Inverse(MatPow):
         return Basic.__new__(cls, mat, exp)
 
     @property
-    def arg(self):
+    def arg(self) -> Basic:
         return self.args[0]
 
     @property
@@ -67,7 +73,7 @@ class Inverse(MatPow):
         from sympy.matrices.expressions.determinant import det
         return 1/det(self.arg)
 
-    def doit(self, **hints):
+    def doit(self, **hints) -> Self:
         if 'inv_expand' in hints and hints['inv_expand'] == False:
             return self
 

@@ -1,4 +1,5 @@
 """Polynomial factorization routines in characteristic zero. """
+from __future__ import annotations
 
 from sympy.external.gmpy import GROUND_TYPES
 
@@ -77,6 +78,7 @@ from sympy.polys.polyerrors import (
 from sympy.utilities import subsets
 
 from math import ceil as _ceil, log as _log, log2 as _log2
+from typing import Any
 
 
 if GROUND_TYPES == 'flint':
@@ -85,7 +87,7 @@ else:
     fmpz_poly = None
 
 
-def dup_trial_division(f, factors, K):
+def dup_trial_division(f, factors, K) -> list:
     """
     Determine multiplicities of factors for a univariate polynomial
     using trial division.
@@ -113,7 +115,7 @@ def dup_trial_division(f, factors, K):
     return _sort_factors(result)
 
 
-def dmp_trial_division(f, factors, u, K):
+def dmp_trial_division(f, factors, u, K) -> list:
     """
     Determine multiplicities of factors for a multivariate polynomial
     using trial division.
@@ -210,7 +212,7 @@ def dmp_zz_mignotte_bound(f, u, K):
     return K.sqrt(K(n + 1))*2**n*a*b
 
 
-def dup_zz_hensel_step(m, f, g, h, s, t, K):
+def dup_zz_hensel_step(m, f, g, h, s, t, K) -> tuple[Any, Any, Any, Any]:
     """
     One step in Hensel lifting in `Z[x]`.
 
@@ -267,7 +269,7 @@ def dup_zz_hensel_step(m, f, g, h, s, t, K):
     return G, H, S, T
 
 
-def dup_zz_hensel_lift(p, f, f_list, l, K):
+def dup_zz_hensel_lift(p, f, f_list, l, K) -> list:
     r"""
     Multifactor Hensel lifting in `Z[x]`.
 
@@ -331,7 +333,7 @@ def _test_pl(fc, q, pl):
         return True
     return fc % q == 0
 
-def dup_zz_zassenhaus(f, K):
+def dup_zz_zassenhaus(f, K) -> list:
     """Factor primitive square-free polynomials in `Z[x]`. """
     n = dup_degree(f)
 
@@ -436,7 +438,7 @@ def dup_zz_zassenhaus(f, K):
     return factors + [f]
 
 
-def dup_zz_irreducible_p(f, K):
+def dup_zz_irreducible_p(f, K) -> bool | None:
     """Test irreducibility using Eisenstein's criterion. """
     lc = dup_LC(f, K)
     tc = dup_TC(f, K)
@@ -452,7 +454,7 @@ def dup_zz_irreducible_p(f, K):
                 return True
 
 
-def dup_cyclotomic_p(f, K, irreducible=False):
+def dup_cyclotomic_p(f, K, irreducible=False) -> bool:
     """
     Efficiently test if ``f`` is a cyclotomic polynomial.
 
@@ -535,7 +537,7 @@ def dup_cyclotomic_p(f, K, irreducible=False):
     return False
 
 
-def dup_zz_cyclotomic_poly(n, K):
+def dup_zz_cyclotomic_poly(n, K) -> list:
     """Efficiently generate n-th cyclotomic polynomial. """
     from sympy.ntheory import factorint
     h = [K.one, -K.one]
@@ -563,7 +565,7 @@ def _dup_cyclotomic_decompose(n, K):
     return H
 
 
-def dup_zz_cyclotomic_factor(f, K):
+def dup_zz_cyclotomic_factor(f, K) -> list[list] | list | None:
     """
     Efficiently factor polynomials `x**n - 1` and `x**n + 1` in `Z[x]`.
 
@@ -607,7 +609,7 @@ def dup_zz_cyclotomic_factor(f, K):
         return H
 
 
-def dup_zz_factor_sqf(f, K):
+def dup_zz_factor_sqf(f, K) -> tuple[Any, list] | tuple[Any, list[list | Any]]:
     """Factor square-free (non-primitive) polynomials in `Z[x]`. """
     cont, g = dup_primitive(f, K)
 
@@ -636,7 +638,7 @@ def dup_zz_factor_sqf(f, K):
     return cont, _sort_factors(factors, multiple=False)
 
 
-def dup_zz_factor(f, K):
+def dup_zz_factor(f, K) -> tuple[Any, list] | tuple[Any, list[tuple[list | Any, int]]]:
     """
     Factor (non square-free) polynomials in `Z[x]`.
 
@@ -720,7 +722,7 @@ def dup_zz_factor(f, K):
     return cont, factors
 
 
-def dmp_zz_wang_non_divisors(E, cs, ct, K):
+def dmp_zz_wang_non_divisors(E, cs, ct, K) -> list | None:
     """Wang/EEZ: Compute a set of valid divisors.  """
     result = [ cs*ct ]
 
@@ -740,7 +742,9 @@ def dmp_zz_wang_non_divisors(E, cs, ct, K):
     return result[1:]
 
 
-def dmp_zz_wang_test_points(f, T, ct, A, u, K):
+def dmp_zz_wang_test_points(
+    f, T, ct, A, u, K
+) -> tuple[Any, list | Any, list[Any | list[list] | list]]:
     """Wang/EEZ: Test evaluation points for suitability. """
     if not dmp_eval_tail(dmp_LC(f, K), A, u - 1, K):
         raise EvaluationFailed('no luck')
@@ -766,7 +770,9 @@ def dmp_zz_wang_test_points(f, T, ct, A, u, K):
         raise EvaluationFailed('no luck')
 
 
-def dmp_zz_wang_lead_coeffs(f, T, cs, E, H, A, u, K):
+def dmp_zz_wang_lead_coeffs(
+    f, T, cs, E, H, A, u, K
+) -> tuple[Any, list, list] | tuple[list, list, list]:
     """Wang/EEZ: Compute correct leading coefficients. """
     C, J, v = [], [0]*len(E), u - 1
 
@@ -820,7 +826,7 @@ def dmp_zz_wang_lead_coeffs(f, T, cs, E, H, A, u, K):
     return f, HHH, CCC
 
 
-def dup_zz_diophantine(F, m, p, K):
+def dup_zz_diophantine(F, m, p, K) -> list[list | Any]:
     """Wang/EEZ: Solve univariate Diophantine equations. """
     if len(F) == 2:
         a, b = F
@@ -868,7 +874,7 @@ def dup_zz_diophantine(F, m, p, K):
     return result
 
 
-def dmp_zz_diophantine(F, c, A, d, p, u, K):
+def dmp_zz_diophantine(F, c, A, d, p, u, K) -> list[list] | list[Any | list[list]]:
     """Wang/EEZ: Solve multivariate Diophantine equations. """
     if not A:
         S = [ [] for _ in F ]
@@ -936,7 +942,7 @@ def dmp_zz_diophantine(F, c, A, d, p, u, K):
     return S
 
 
-def dmp_zz_wang_hensel_lifting(f, H, LC, A, p, u, K):
+def dmp_zz_wang_hensel_lifting(f, H, LC, A, p, u, K) -> list:
     """Wang/EEZ: Parallel Hensel lifting algorithm. """
     S, n, v = [f], len(A), u - 1
 
@@ -988,7 +994,7 @@ def dmp_zz_wang_hensel_lifting(f, H, LC, A, p, u, K):
         return H
 
 
-def dmp_zz_wang(f, u, K, mod=None, seed=None):
+def dmp_zz_wang(f, u, K, mod=None, seed=None) -> list:
     r"""
     Factor primitive square-free polynomials in `Z[X]`.
 
@@ -1128,7 +1134,9 @@ def dmp_zz_wang(f, u, K, mod=None, seed=None):
     return result
 
 
-def dmp_zz_factor(f, u, K):
+def dmp_zz_factor(
+    f, u, K
+) -> tuple[Any, list] | tuple[Any, list[tuple[list | Any, int]]]:
     r"""
     Factor (non square-free) polynomials in `Z[X]`.
 
@@ -1195,7 +1203,7 @@ def dmp_zz_factor(f, u, K):
     return cont, _sort_factors(factors)
 
 
-def dup_qq_i_factor(f, K0):
+def dup_qq_i_factor(f, K0) -> tuple[Any, list[tuple[Any, Any]]]:
     """Factor univariate polynomials into irreducibles in `QQ_I[x]`. """
     # Factor in QQ<I>
     K1 = K0.as_AlgebraicField()
@@ -1206,7 +1214,7 @@ def dup_qq_i_factor(f, K0):
     return coeff, factors
 
 
-def dup_zz_i_factor(f, K0):
+def dup_zz_i_factor(f, K0) -> tuple[Any, list]:
     """Factor univariate polynomials into irreducibles in `ZZ_I[x]`. """
     # First factor in QQ_I
     K1 = K0.get_field()
@@ -1228,7 +1236,7 @@ def dup_zz_i_factor(f, K0):
     return coeff, factors
 
 
-def dmp_qq_i_factor(f, u, K0):
+def dmp_qq_i_factor(f, u, K0) -> tuple[Any, list[tuple[Any | list[list], Any]]]:
     """Factor multivariate polynomials into irreducibles in `QQ_I[X]`. """
     # Factor in QQ<I>
     K1 = K0.as_AlgebraicField()
@@ -1239,7 +1247,7 @@ def dmp_qq_i_factor(f, u, K0):
     return coeff, factors
 
 
-def dmp_zz_i_factor(f, u, K0):
+def dmp_zz_i_factor(f, u, K0) -> tuple[Any, list]:
     """Factor multivariate polynomials into irreducibles in `ZZ_I[X]`. """
     # First factor in QQ_I
     K1 = K0.get_field()
@@ -1261,7 +1269,13 @@ def dmp_zz_i_factor(f, u, K0):
     return coeff, factors
 
 
-def dup_ext_factor(f, K):
+def dup_ext_factor(
+    f, K
+) -> (
+    tuple[Any, list]
+    | tuple[Any, list[tuple[Any | list, int]]]
+    | tuple[Any, list[tuple[Any | list, Any | int]]]
+):
     r"""Factor univariate polynomials over algebraic number fields.
 
     The domain `K` must be an algebraic number field `k(a)` (see :ref:`QQ(a)`).
@@ -1359,7 +1373,13 @@ def dup_ext_factor(f, K):
     return lc, factors
 
 
-def dmp_ext_factor(f, u, K):
+def dmp_ext_factor(
+    f, u, K
+) -> (
+    tuple[Any, list]
+    | tuple[Any, list[tuple[Any | list, int]]]
+    | tuple[Any, list[tuple[Any | list, Any | int]]]
+):
     r"""Factor multivariate polynomials over algebraic number fields.
 
     The domain `K` must be an algebraic number field `k(a)` (see :ref:`QQ(a)`).
@@ -1437,7 +1457,7 @@ def dmp_ext_factor(f, u, K):
     return lc, result
 
 
-def dup_gf_factor(f, K):
+def dup_gf_factor(f, K) -> tuple[Any, list]:
     """Factor univariate polynomials over finite fields. """
     f = dup_convert(f, K, K.dom)
 
@@ -1454,7 +1474,7 @@ def dmp_gf_factor(f, u, K):
     raise NotImplementedError('multivariate polynomials over finite fields')
 
 
-def dup_factor_list(f, K0):
+def dup_factor_list(f, K0) -> tuple[Any, list]:
     """Factor univariate polynomials into irreducibles in `K[x]`. """
     j, f = dup_terms_gcd(f, K0)
     cont, f = dup_primitive(f, K0)
@@ -1520,7 +1540,7 @@ def dup_factor_list(f, K0):
     return coeff*cont, _sort_factors(factors)
 
 
-def dup_factor_list_include(f, K):
+def dup_factor_list_include(f, K) -> list[tuple[Any, int]]:
     """Factor univariate polynomials into irreducibles in `K[x]`. """
     coeff, factors = dup_factor_list(f, K)
 
@@ -1531,7 +1551,7 @@ def dup_factor_list_include(f, K):
         return [(g, factors[0][1])] + factors[1:]
 
 
-def dmp_factor_list(f, u, K0):
+def dmp_factor_list(f, u, K0) -> tuple[Any, list]:
     """Factor multivariate polynomials into irreducibles in `K[X]`. """
     if not u:
         return dup_factor_list(f, K0)
@@ -1608,7 +1628,9 @@ def dmp_factor_list(f, u, K0):
     return coeff*cont, _sort_factors(factors)
 
 
-def dmp_factor_list_include(f, u, K):
+def dmp_factor_list_include(
+    f, u, K
+) -> list[tuple[Any, int]] | list[tuple[list[list] | Any | list, int]]:
     """Factor multivariate polynomials into irreducibles in `K[X]`. """
     if not u:
         return dup_factor_list_include(f, K)
@@ -1622,7 +1644,7 @@ def dmp_factor_list_include(f, u, K):
         return [(g, factors[0][1])] + factors[1:]
 
 
-def dup_irreducible_p(f, K):
+def dup_irreducible_p(f, K) -> bool:
     """
     Returns ``True`` if a univariate polynomial ``f`` has no factors
     over its domain.
@@ -1630,7 +1652,7 @@ def dup_irreducible_p(f, K):
     return dmp_irreducible_p(f, 0, K)
 
 
-def dmp_irreducible_p(f, u, K):
+def dmp_irreducible_p(f, u, K) -> bool:
     """
     Returns ``True`` if a multivariate polynomial ``f`` has no factors
     over its domain.

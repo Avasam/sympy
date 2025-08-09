@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Iterable
 from functools import singledispatch
 
@@ -7,6 +9,11 @@ from sympy.core.singleton import S
 from sympy.core.sympify import sympify
 from sympy.core.parameters import global_parameters
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
+
 
 class TensorProduct(Expr):
     """
@@ -14,7 +21,7 @@ class TensorProduct(Expr):
     """
     is_number = False
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args, **kwargs) -> Self:
         from sympy.tensor.array import NDimArray, tensorproduct, Array
         from sympy.matrices.expressions.matexpr import MatrixExpr
         from sympy.matrices.matrixbase import MatrixBase
@@ -48,7 +55,7 @@ class TensorProduct(Expr):
         obj = Expr.__new__(cls, *newargs, **kwargs)
         return flatten(obj)
 
-    def rank(self):
+    def rank(self) -> int:
         return len(self.shape)
 
     def _get_args_shapes(self):
@@ -56,11 +63,11 @@ class TensorProduct(Expr):
         return [i.shape if hasattr(i, "shape") else Array(i).shape for i in self.args]
 
     @property
-    def shape(self):
+    def shape(self) -> tuple[()]:
         shape_list = self._get_args_shapes()
         return sum(shape_list, ())
 
-    def __getitem__(self, index):
+    def __getitem__(self, index) -> Mul:
         index = iter(index)
         return Mul.fromiter(
             arg.__getitem__(tuple(next(index) for i in shp))

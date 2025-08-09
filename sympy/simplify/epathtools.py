@@ -1,6 +1,12 @@
 """Tools for manipulation of expressions using paths. """
+from __future__ import annotations
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.core import Basic
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class EPath:
@@ -26,7 +32,7 @@ class EPath:
 
     __slots__ = ("_path", "_epath")
 
-    def __new__(cls, path):
+    def __new__(cls, path) -> EPath | Self:
         """Construct new EPath. """
         if isinstance(path, EPath):
             return path
@@ -147,7 +153,7 @@ class EPath:
 
         return False
 
-    def apply(self, expr, func, args=None, kwargs=None):
+    def apply(self, expr, func, args=None, kwargs=None) -> Basic:
         """
         Modify parts of an expression selected by a path.
 
@@ -217,7 +223,7 @@ class EPath:
 
         return _apply(self._epath, expr, _func)
 
-    def select(self, expr):
+    def select(self, expr) -> list:
         """
         Retrieve parts of an expression selected by a path.
 
@@ -274,7 +280,9 @@ class EPath:
         return result
 
 
-def epath(path, expr=None, func=None, args=None, kwargs=None):
+def epath(
+    path, expr=None, func=None, args=None, kwargs=None
+) -> EPath | list | Basic:
     r"""
     Manipulate parts of an expression selected by a path.
 

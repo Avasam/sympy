@@ -1,4 +1,5 @@
 """Low-level linear systems solver. """
+from __future__ import annotations
 
 
 from sympy.utilities.exceptions import sympy_deprecation_warning
@@ -13,6 +14,7 @@ from sympy.polys.domains import EX
 from sympy.polys.rings import sring
 from sympy.polys.polyerrors import NotInvertible
 from sympy.polys.domainmatrix import DomainMatrix
+from typing import Any
 
 
 class PolyNonlinearError(Exception):
@@ -33,7 +35,7 @@ class RawMatrix(MutableDenseMatrix):
     """
     _sympify = staticmethod(lambda x, *args, **kwargs: x) # type: ignore
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         sympy_deprecation_warning(
             """
             The RawMatrix class is deprecated. Use either DomainMatrix or
@@ -71,7 +73,7 @@ class RawMatrix(MutableDenseMatrix):
         self.ring = domain
 
 
-def eqs_to_matrix(eqs_coeffs, eqs_rhs, gens, domain):
+def eqs_to_matrix(eqs_coeffs, eqs_rhs, gens, domain) -> DomainMatrix:
     """Get matrix from linear equations in dict format.
 
     Explanation
@@ -129,7 +131,7 @@ def eqs_to_matrix(eqs_coeffs, eqs_rhs, gens, domain):
     return DomainMatrix(rows, (nrows, ncols), domain)
 
 
-def sympy_eqs_to_ring(eqs, symbols):
+def sympy_eqs_to_ring(eqs, symbols) -> tuple[Any, Any]:
     """Convert a system of equations from Expr to a PolyRing
 
     Explanation
@@ -184,7 +186,7 @@ def sympy_eqs_to_ring(eqs, symbols):
     return eqs_K, K.to_domain()
 
 
-def solve_lin_sys(eqs, ring, _raw=True):
+def solve_lin_sys(eqs, ring, _raw=True) -> dict | None:
     """Solve a system of linear equations from a PolynomialRing
 
     Explanation

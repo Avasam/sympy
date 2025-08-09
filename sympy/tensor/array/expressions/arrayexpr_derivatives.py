@@ -182,7 +182,7 @@ def _(expr: PermuteDims, x: Expr):
 
 
 @array_derive.register(Reshape)
-def _(expr: Reshape, x: Expr):
+def _(expr: Reshape, x: Expr) -> Reshape:
     de = array_derive(expr.expr, x)
     return Reshape(de, get_shape(x) + expr.shape)
 
