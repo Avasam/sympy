@@ -102,7 +102,7 @@ def _process_limits(func, limits):
     return sympify((x, start, stop))
 
 
-def finite_check(f, x, L) -> tuple[bool, Any] | tuple[bool, Any]:
+def finite_check(f, x, L) -> tuple[bool, Any]:
 
     def check_fx(exprs, x):
         return x not in exprs.free_symbols

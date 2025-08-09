@@ -4,7 +4,7 @@ from collections.abc import Generator
 from typing import Any
 
 
-def binomial_coefficients(n) -> dict[tuple[int, int] | tuple[int, int], int]:
+def binomial_coefficients(n) -> dict[tuple[int, int], int]:
     """Return a dictionary containing pairs :math:`{(k1,k2) : C_kn}` where
     :math:`C_kn` are binomial coefficients and :math:`n=k1+k2`.
 
@@ -58,7 +58,7 @@ def binomial_coefficients_list(n) -> list[int]:
 def multinomial_coefficients(m, n) -> (
     dict
     | dict[tuple[()], int]
-    | dict[tuple[int, int] | tuple[int, int], int]
+    | dict[tuple[int, int], int]
     | dict[tuple, Any]
     | dict[tuple[int, ...], int]
 ):

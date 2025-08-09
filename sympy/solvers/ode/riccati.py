@@ -276,7 +276,7 @@ def linsolve_dict(eq, syms) -> dict:
     return dict(zip(syms, list(sol)[0]))
 
 
-def match_riccati(eq, f, x) -> tuple[bool, list] | tuple[bool, list]:
+def match_riccati(eq, f, x) -> tuple[bool, list]:
     """
     A function that matches and returns the coefficients
     if an equation is a Riccati ODE

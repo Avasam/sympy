@@ -242,7 +242,7 @@ def find_pure_symbol(symbols, unknown_clauses) -> tuple[Any, bool] | tuple[None,
     return None, None
 
 
-def find_pure_symbol_int_repr(symbols, unknown_clauses) -> tuple[Any, bool] | tuple[Any, bool] | tuple[None, None]:
+def find_pure_symbol_int_repr(symbols, unknown_clauses) -> tuple[Any, bool] | tuple[None, None]:
     """
     Same as find_pure_symbol, but arguments are expected
     to be in integer representation
@@ -287,7 +287,7 @@ def find_unit_clause(clauses, model) -> tuple[Any | bool, Any | bool] | tuple[No
     return None, None
 
 
-def find_unit_clause_int_repr(clauses, model) -> tuple[Any, bool] | tuple[Any, bool] | tuple[None, None]:
+def find_unit_clause_int_repr(clauses, model) -> tuple[Any, bool] | tuple[None, None]:
     """
     Same as find_unit_clause, but arguments are expected to be in
     integer representation.

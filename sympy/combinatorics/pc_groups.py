@@ -178,7 +178,7 @@ class Collector(DefaultPrinting):
                 conjugate_relators[key] = value
         return power_relators, conjugate_relators
 
-    def subword_index(self, word, w) -> tuple[int, int] | tuple[int, int]:
+    def subword_index(self, word, w) -> tuple[int, int]:
         """
         Returns the start and ending index of a given
         subword in a word.

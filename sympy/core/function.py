@@ -3339,9 +3339,7 @@ def count_ops(expr, visual=False):
     return sum(int((a.args or [1])[0]) for a in Add.make_args(ops))
 
 
-def nfloat(
-    expr, n=15, exponent=False, dkeys=False
-) -> dict | dict | Basic | Any | Float:
+def nfloat(expr, n=15, exponent=False, dkeys=False) -> dict | Basic | Any | Float:
     """Make all Rationals in expr Floats except those in exponents
     (unless the exponents flag is set to True) and those in undefined
     functions. When processing dictionaries, do not modify the keys

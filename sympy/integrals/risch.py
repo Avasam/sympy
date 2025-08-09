@@ -1259,9 +1259,7 @@ def recognize_log_derivative(a, d, DE, z=None) -> bool:
             return False
     return True
 
-def residue_reduce(
-    a, d, DE, z=None, invert=True
-) -> tuple[list, bool] | tuple[list, bool]:
+def residue_reduce(a, d, DE, z=None, invert=True) -> tuple[list, bool]:
     """
     Lazard-Rioboo-Rothstein-Trager resultant reduction.
 
@@ -1374,7 +1372,7 @@ def residue_reduce_derivation(H, DE, z):
         DE).as_expr().subs(z, i)/a[1].as_expr().subs(z, i))) for a in H))
 
 
-def integrate_primitive_polynomial(p, DE) -> tuple[Any, Any, bool] | tuple[Any, Any, bool]:
+def integrate_primitive_polynomial(p, DE) -> tuple[Any, Any, bool]:
     """
     Integration of primitive polynomials.
 
@@ -1472,7 +1470,7 @@ def integrate_primitive(a, d, DE, z=None) -> (
     return (ret, i, b)
 
 
-def integrate_hyperexponential_polynomial(p, DE, z) -> tuple[Any, Any, bool] | tuple[Any, Any, bool]:
+def integrate_hyperexponential_polynomial(p, DE, z) -> tuple[Any, Any, bool]:
     """
     Integration of hyperexponential polynomials.
 
@@ -1611,7 +1609,7 @@ def integrate_hypertangent_polynomial(p, DE) -> tuple[Any, Any]:
     return (q, c)
 
 
-def integrate_nonlinear_no_specials(a, d, DE, z=None) -> tuple[Any, bool] | tuple[Any, bool]:
+def integrate_nonlinear_no_specials(a, d, DE, z=None) -> tuple[Any, bool]:
     """
     Integration of nonlinear monomials with no specials.
 

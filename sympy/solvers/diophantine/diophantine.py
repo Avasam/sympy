@@ -3081,9 +3081,7 @@ def reconstruct(A, B, z):
     return z
 
 
-def ldescent(
-    A, B
-) -> tuple[Any, Any, Any] | tuple[int, int, int] | tuple[int, int, int] | tuple | None:
+def ldescent(A, B) -> tuple[Any, Any, Any] | tuple[int, int, int] | tuple | None:
     """
     Return a non-trivial solution to `w^2 = Ax^2 + By^2` using
     Lagrange's method; return None if there is no such solution.

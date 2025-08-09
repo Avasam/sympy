@@ -224,10 +224,7 @@ class IntegerRing(Ring[MPZ], CharacteristicZero, SimpleDomain):
         if a.is_Integer:
             return K1.from_sympy(a)
 
-    def gcdex(self, a, b) -> (
-        tuple[Any | int, Any | int, Any | int]
-        | tuple[Any | int, Any | int, Any | int]
-    ):
+    def gcdex(self, a, b) -> tuple[Any | int, Any | int, Any | int]:
         """Compute extended GCD of ``a`` and ``b``. """
         h, s, t = gcdex(a, b)
         # XXX: This conditional logic should be handled somewhere else.

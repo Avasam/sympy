@@ -2060,7 +2060,7 @@ def uniq(seq, result=None) -> Generator:
             yield from uniq(seq, result)
 
 
-def generate_bell(n) -> Generator[tuple[int] | tuple[int, int] | tuple[int, int] | Any | tuple[int, ...]]:
+def generate_bell(n) -> Generator[tuple[int] | tuple[int, int] | Any | tuple[int, ...]]:
     """Return permutations of [0, 1, ..., n - 1] such that each permutation
     differs from the last by the exchange of a single pair of neighbors.
     The ``n!`` permutations are returned as an iterator. In order to obtain

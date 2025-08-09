@@ -289,7 +289,7 @@ def checkodesol(ode, sol, func=None, order='auto', solve_for_func=True):
         return (False, s)
 
 
-def checksysodesol(eqs, sols, func=None) -> tuple[bool, list] | tuple[bool, list]:
+def checksysodesol(eqs, sols, func=None) -> tuple[bool, list]:
     r"""
     Substitutes corresponding ``sols`` for each functions into each ``eqs`` and
     checks that the result of substitutions for each equation is ``0``. The
