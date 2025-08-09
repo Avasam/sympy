@@ -1,4 +1,6 @@
+from typing import cast
 from sympy.core import S
+from sympy.core.basic import Basic
 from sympy.core.sympify import sympify
 from sympy.core.relational import Eq, Ne
 from sympy.core.parameters import global_parameters
@@ -53,8 +55,8 @@ class Contains(Boolean):
         return super().__new__(cls, x, s)
 
     @property
-    def binary_symbols(self):
-        return set().union(*[i.binary_symbols
+    def binary_symbols(self) -> set[Basic]:
+        return set().union(*[cast("Boolean", i).binary_symbols
             for i in self.args[1].args
             if i.is_Boolean or i.is_Symbol or
             isinstance(i, (Eq, Ne))])

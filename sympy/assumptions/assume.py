@@ -1,7 +1,9 @@
 """A module which implements predicates and assumption context."""
 
 from contextlib import contextmanager
+from typing import cast
 import inspect
+from sympy.core.basic import Basic
 from sympy.core.symbol import Str
 from sympy.core.sympify import _sympify
 from sympy.logic.boolalg import Boolean, false, true
@@ -156,12 +158,12 @@ class AppliedPredicate(Boolean):
         return self.function.eval(self.arguments, assumptions)
 
     @property
-    def binary_symbols(self):
+    def binary_symbols(self) -> set[Basic]:
         from .ask import Q
         if self.function == Q.is_true:
             i = self.arguments[0]
             if i.is_Boolean or i.is_Symbol:
-                return i.binary_symbols
+                return cast("Boolean", i).binary_symbols
         if self.function in (Q.eq, Q.ne):
             if true in self.arguments or false in self.arguments:
                 if self.arguments[0].is_Symbol:

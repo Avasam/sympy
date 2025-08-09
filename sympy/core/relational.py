@@ -546,7 +546,7 @@ class Relational(Boolean, EvalfMixin):
         return xset
 
     @property
-    def binary_symbols(self):
+    def binary_symbols(self) -> set[Basic]:
         # override where necessary
         return set()
 
@@ -700,7 +700,7 @@ class Equality(Relational):
         return Add._from_args(args)
 
     @property
-    def binary_symbols(self):
+    def binary_symbols(self) -> set[Basic]:
         if S.true in self.args or S.false in self.args:
             if self.lhs.is_Symbol:
                 return {self.lhs}
@@ -812,7 +812,7 @@ class Unequality(Relational):
         return _sympify(lhs != rhs)
 
     @property
-    def binary_symbols(self):
+    def binary_symbols(self) -> set[Basic]:
         if S.true in self.args or S.false in self.args:
             if self.lhs.is_Symbol:
                 return {self.lhs}

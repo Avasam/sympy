@@ -3,7 +3,7 @@ Boolean algebra module for SymPy
 """
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, overload, Any
+from typing import TYPE_CHECKING, overload, Any, cast
 from collections.abc import Iterable, Mapping
 
 from collections import defaultdict
@@ -208,9 +208,10 @@ class Boolean(Basic):
                                       " expressions")
 
     @property
-    def binary_symbols(self):
+    def binary_symbols(self) -> set[Basic]:
         from sympy.core.relational import Eq, Ne
-        return set().union(*[i.binary_symbols for i in self.args
+        return set().union(*[cast("Boolean", i).binary_symbols
+                           for i in self.args
                            if i.is_Boolean or i.is_Symbol
                            or isinstance(i, (Eq, Ne))])
 
