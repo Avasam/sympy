@@ -3,11 +3,15 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, overload, TypeVar
 from collections.abc import Callable
 
-from sympy.core import S, Add, Expr, Basic, Mul, Pow, Rational
+from sympy.core import S, Add, Expr, Mul, Pow, Rational
+from sympy.core.basic import Basic, Tbasic
 from sympy.core.logic import fuzzy_not
 from sympy.logic.boolalg import Boolean
 
 from sympy.assumptions import ask, Q  # type: ignore
+
+if TYPE_CHECKING:
+    from sympy.matrices.expressions.matexpr import MatrixElement
 
 _T = TypeVar("_T")
 
@@ -207,7 +211,7 @@ def refine_Pow(expr, assumptions):
                     return expr
 
 
-def refine_atan2(expr, assumptions):
+def refine_atan2(expr: Tbasic, assumptions) -> Expr | Pi | NaN | Tbasic:
     """
     Handler for the atan2 function.
 
@@ -252,7 +256,7 @@ def refine_atan2(expr, assumptions):
         return expr
 
 
-def refine_re(expr, assumptions):
+def refine_re(expr: Expr, assumptions):
     """
     Handler for real part.
 
@@ -275,7 +279,7 @@ def refine_re(expr, assumptions):
     return _refine_reim(expr, assumptions)
 
 
-def refine_im(expr, assumptions):
+def refine_im(expr: Expr, assumptions):
     """
     Handler for imaginary part.
 
@@ -320,7 +324,7 @@ def refine_arg(expr, assumptions):
     return None
 
 
-def _refine_reim(expr, assumptions):
+def _refine_reim(expr: Expr, assumptions):
     # Helper function for refine_re & refine_im
     expanded = expr.expand(complex = True)
     if expanded != expr:
@@ -372,7 +376,7 @@ def refine_sign(expr, assumptions):
     return expr
 
 
-def refine_matrixelement(expr, assumptions):
+def refine_matrixelement(expr: Tbasic, assumptions) -> Tbasic | Expr | MatrixElement | None:
     """
     Handler for symmetric part.
 
@@ -394,7 +398,7 @@ def refine_matrixelement(expr, assumptions):
             return expr
         return MatrixElement(matrix, j, i)
 
-handlers_dict: dict[str, Callable[[Basic, Boolean | bool], Expr]] = {
+handlers_dict: dict[str, Callable[[Basic, Boolean | bool], Expr | None]] = {
     'Abs': refine_abs,
     'Pow': refine_Pow,
     'atan2': refine_atan2,

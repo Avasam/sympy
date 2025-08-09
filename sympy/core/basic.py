@@ -5,7 +5,7 @@ from collections import Counter
 from collections.abc import Mapping, Iterable
 from itertools import zip_longest
 from functools import cmp_to_key
-from typing import TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, overload, ClassVar, TypeVar, Any, Hashable
 
 from .assumptions import _prepare_class_assumptions
 from .cache import cacheit
@@ -21,12 +21,11 @@ from sympy.utilities.misc import filldedent, func_name
 
 
 if TYPE_CHECKING:
-    from typing import ClassVar, TypeVar, Any, Hashable
     from typing_extensions import Self
     from .assumptions import StdFactKB
     from .symbol import Symbol
 
-    Tbasic = TypeVar("Tbasic", bound='Basic')
+Tbasic = TypeVar("Tbasic", bound='Basic')
 
 
 def as_Basic(expr):

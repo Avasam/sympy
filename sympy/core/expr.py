@@ -3668,7 +3668,7 @@ class Expr(Basic, EvalfMixin):
 
     @cacheit
     def expand(self, deep=True, modulus=None, power_base=True, power_exp=True,
-            mul=True, log=True, multinomial=True, basic=True, **hints):
+            mul=True, log=True, multinomial=True, basic=True, **hints) -> Expr:
         """
         Expand an expression using hints.
 
