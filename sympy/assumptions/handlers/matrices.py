@@ -33,7 +33,7 @@ def _Factorization(predicate, expr, assumptions):
 # SquarePredicate
 
 @SquarePredicate.register(MatrixExpr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     return expr.shape[0] == expr.shape[1]
 
 
@@ -147,7 +147,7 @@ def _(expr, assumptions):
     return False
 
 @InvertiblePredicate.register(OneMatrix)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     return expr.shape[0] == 1 and expr.shape[1] == 1
 
 @InvertiblePredicate.register(Transpose)
@@ -162,7 +162,7 @@ def _(expr, assumptions):
         return ask(Q.invertible(expr.parent), assumptions)
 
 @InvertiblePredicate.register(MatrixBase)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     if not expr.is_square:
         return False
     return expr.rank() == expr.rows
@@ -344,7 +344,7 @@ def _(expr, assumptions):
     return False
 
 @FullRankPredicate.register(OneMatrix)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     return expr.shape[0] == 1 and expr.shape[1] == 1
 
 @FullRankPredicate.register_many(Inverse, Transpose)
@@ -399,7 +399,7 @@ def _(expr, assumptions):
     return False
 
 @PositiveDefinitePredicate.register(OneMatrix)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     return expr.shape[0] == 1 and expr.shape[1] == 1
 
 @PositiveDefinitePredicate.register_many(Inverse, Transpose)
@@ -450,7 +450,7 @@ def _(expr, assumptions):
     return True
 
 @UpperTriangularPredicate.register(OneMatrix)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     return expr.shape[0] == 1 and expr.shape[1] == 1
 
 @UpperTriangularPredicate.register(Transpose)
@@ -508,7 +508,7 @@ def _(expr, assumptions):
     return True
 
 @LowerTriangularPredicate.register(OneMatrix)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     return expr.shape[0] == 1 and expr.shape[1] == 1
 
 @LowerTriangularPredicate.register(Transpose)
@@ -570,7 +570,7 @@ def _(expr, assumptions):
         return True
 
 @DiagonalPredicate.register(OneMatrix)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     return expr.shape[0] == 1 and expr.shape[1] == 1
 
 @DiagonalPredicate.register_many(Inverse, Transpose)

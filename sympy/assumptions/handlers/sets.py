@@ -47,7 +47,7 @@ def _(expr, assumptions):
     return False
 
 @IntegerPredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_integer
     if ret is None:
         raise MDNotImplementedError
@@ -128,7 +128,7 @@ def _(expr, assumptions):
     return False
 
 @RationalPredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_rational
     if ret is None:
         raise MDNotImplementedError
@@ -209,7 +209,7 @@ def _(expr, assumptions):
 # IrrationalPredicate
 
 @IrrationalPredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_irrational
     if ret is None:
         raise MDNotImplementedError
@@ -248,7 +248,7 @@ def _(expr, assumptions):
     return False
 
 @RealPredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_real
     if ret is None:
         raise MDNotImplementedError
@@ -490,7 +490,7 @@ def _(expr, assumptions):
     return False
 
 @ComplexPredicate.register(Expr) # type:ignore
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_complex
     if ret is None:
         raise MDNotImplementedError
@@ -531,7 +531,7 @@ def _(expr, assumptions):
     return True
 
 @ImaginaryPredicate.register(Expr) # type:ignore
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_imaginary
     if ret is None:
         raise MDNotImplementedError
@@ -797,7 +797,7 @@ def _(expr, assumptions):
             return False
 
 @AlgebraicPredicate.register(Rational) # type:ignore
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     return expr.q != 0
 
 @AlgebraicPredicate.register_many(asin, atan, cos, sin, tan) # type:ignore
@@ -828,7 +828,7 @@ def _(expr, assumptions):
 # TranscendentalPredicate
 
 @TranscendentalPredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool | None:
     ret = expr.is_transcendental
     if ret is not None:
         return ret

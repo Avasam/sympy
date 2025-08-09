@@ -32,7 +32,7 @@ def _PrimePredicate_number(expr, assumptions):
     # since the number represents an approximate value
 
 @PrimePredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_prime
     if ret is None:
         raise MDNotImplementedError
@@ -96,7 +96,7 @@ def _(expr, assumptions):
 # CompositePredicate
 
 @CompositePredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_composite
     if ret is None:
         raise MDNotImplementedError
@@ -142,7 +142,7 @@ def _EvenPredicate_number(expr, assumptions):
     return i % 2 == 0
 
 @EvenPredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_even
     if ret is None:
         raise MDNotImplementedError
@@ -262,7 +262,7 @@ def _(expr, assumptions):
 # OddPredicate
 
 @OddPredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_odd
     if ret is None:
         raise MDNotImplementedError

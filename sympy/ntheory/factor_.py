@@ -6,6 +6,7 @@ from __future__ import annotations
 from bisect import bisect_left
 from collections import defaultdict, OrderedDict
 from collections.abc import MutableMapping
+from typing import TypeVar, overload
 import math
 
 from sympy.core.containers import Dict
@@ -25,6 +26,7 @@ from sympy.utilities.iterables import flatten
 from sympy.utilities.misc import as_int, filldedent
 from .ecm import _ecm_one_factor
 
+_T = TypeVar("_T")
 
 def smoothness(n):
     """
@@ -746,7 +748,11 @@ class FactorCache(MutableMapping):
             while len(self._cache) > value:
                 self._cache.popitem(False)
 
-    def get(self, n: int, default=None):
+    @overload
+    def get(self, n: int, default: _T) -> int | _T:
+    @overload
+    def get(self, n: int, default = None) -> int | None:
+    def get(self, n: int, default: _T | None = None) -> int | _T | None:
         """ Return the prime factor of ``n``.
         If it does not exist in the cache, return the value of ``default``.
         """

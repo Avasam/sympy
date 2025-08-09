@@ -1,7 +1,8 @@
 """
 Handlers related to order relations: positive, negative, etc.
 """
-
+from __future__ import annotations
+from typing import Literal
 from sympy.assumptions import Q, ask
 from sympy.core import Add, Basic, Expr, Mul, Pow, S
 from sympy.core.logic import fuzzy_not, fuzzy_and, fuzzy_or
@@ -9,7 +10,7 @@ from sympy.core.numbers import E, ImaginaryUnit, NaN, I, pi
 from sympy.functions import Abs, acos, acot, asin, atan, exp, factorial, log
 from sympy.matrices import Determinant, Trace
 from sympy.matrices.expressions.matexpr import MatrixElement
-
+from sympy.logic.boolalg import Boolean
 from sympy.multipledispatch import MDNotImplementedError
 
 from ..predicates.order import (NegativePredicate, NonNegativePredicate,
@@ -21,7 +22,7 @@ from ..predicates.order import (NegativePredicate, NonNegativePredicate,
 
 # NegativePredicate
 
-def _NegativePredicate_number(expr, assumptions):
+def _NegativePredicate_number(expr, assumptions) -> Boolean | Literal[False] | None:
     r, i = expr.as_real_imag()
 
     if r == S.NaN or i == S.NaN:
@@ -50,7 +51,7 @@ def _(expr, assumptions):
         return _NegativePredicate_number(expr, assumptions)
 
 @NegativePredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_negative
     if ret is None:
         raise MDNotImplementedError
@@ -143,7 +144,7 @@ def _(expr, assumptions):
             return notnegative
 
 @NonNegativePredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_nonnegative
     if ret is None:
         raise MDNotImplementedError
@@ -153,7 +154,7 @@ def _(expr, assumptions):
 # NonZeroPredicate
 
 @NonZeroPredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_nonzero
     if ret is None:
         raise MDNotImplementedError
@@ -202,7 +203,7 @@ def _(expr, assumptions):
 # ZeroPredicate
 
 @ZeroPredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_zero
     if ret is None:
         raise MDNotImplementedError
@@ -222,7 +223,7 @@ def _(expr, assumptions):
 # NonPositivePredicate
 
 @NonPositivePredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_nonpositive
     if ret is None:
         raise MDNotImplementedError
@@ -240,7 +241,7 @@ def _(expr, assumptions):
 
 # PositivePredicate
 
-def _PositivePredicate_number(expr, assumptions):
+def _PositivePredicate_number(expr, assumptions) -> Boolean | Literal[False] | None:
     r, i = expr.as_real_imag()
     # If the imaginary part can symbolically be shown to be zero then
     # we just evaluate the real part; otherwise we evaluate the imaginary
@@ -260,7 +261,7 @@ def _PositivePredicate_number(expr, assumptions):
                 return r > 0
 
 @PositivePredicate.register(Expr)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool:
     ret = expr.is_positive
     if ret is None:
         raise MDNotImplementedError

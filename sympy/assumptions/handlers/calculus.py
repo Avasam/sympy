@@ -19,7 +19,7 @@ from ..predicates.calculus import (FinitePredicate, InfinitePredicate,
 
 
 @FinitePredicate.register(Symbol)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool | None:
     """
     Handles Symbol.
     """

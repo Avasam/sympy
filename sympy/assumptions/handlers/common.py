@@ -2,7 +2,7 @@
 This module defines base class for handlers and some core handlers:
 ``Q.commutative`` and ``Q.is_true``.
 """
-
+from typing import TypeVar
 from sympy.assumptions import Q, ask, AppliedPredicate
 from sympy.core import Basic, Symbol
 from sympy.core.logic import _fuzzy_group, fuzzy_and, fuzzy_or
@@ -13,6 +13,7 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 
 from ..predicates.common import CommutativePredicate, IsTruePredicate
 
+_T = TypeVar("_T")
 
 class AskHandler:
     """Base class that all Ask Handlers must inherit."""
@@ -50,7 +51,7 @@ class CommonHandler(AskHandler):
 # CommutativePredicate
 
 @CommutativePredicate.register(Symbol)
-def _(expr, assumptions):
+def _(expr, assumptions) -> bool | None:
     """Objects are expected to be commutative unless otherwise stated"""
     assumps = conjuncts(assumptions)
     if expr.is_commutative is not None:
@@ -80,7 +81,7 @@ def _(expr, assumptions):
 # IsTruePredicate
 
 @IsTruePredicate.register(bool)
-def _(expr, assumptions):
+def _(expr: _T, assumptions) -> _T:
     return expr
 
 @IsTruePredicate.register(BooleanTrue)
