@@ -2820,7 +2820,7 @@ class PermutationGroup(Basic):
         elif hasattr(other, 'array_form'):
             return self.normal_closure(PermutationGroup([other]))
 
-    def orbit(self, alpha, action="tuples") -> set | set[tuple] | None:
+    def orbit(self, alpha, action='tuples') -> set | set[tuple] | None:
         r"""Compute the orbit of alpha `\{g(\alpha) | g \in G\}` as a set.
 
         Explanation
@@ -2898,9 +2898,7 @@ class PermutationGroup(Basic):
         else:
             return _af_new(list(range(self._degree)))
 
-    def orbit_transversal(
-        self, alpha, pairs=False
-    ) -> (
+    def orbit_transversal(self, alpha, pairs=False) -> (
         list[tuple[Any, Permutation]]
         | list[tuple[Any, list[int]]]
         | tuple[
@@ -3444,9 +3442,7 @@ class PermutationGroup(Basic):
             result = rmul(result, p)
         return result
 
-    def random(
-        self, af=False
-    ) -> list | Permutation | None:
+    def random(self, af=False) -> list | Permutation | None:
         """Return a random group element
         """
         rank = randrange(self.order())
@@ -3577,9 +3573,7 @@ class PermutationGroup(Basic):
         self._basic_orbits = [sorted(x) for x in basic_orbits]
         self._transversal_slp = slps
 
-    def schreier_sims_incremental(
-        self, base=None, gens=None, slp_dict=False
-    ) -> (
+    def schreier_sims_incremental(self, base=None, gens=None, slp_dict=False) -> (
         tuple[Any | list, list[Basic] | Any, dict[Basic | Any, list[Basic | Any]]]
         | tuple[Any | list, list[Basic] | Any]
         | tuple[Any | list, list[Basic | Any], dict]
@@ -3769,9 +3763,7 @@ class PermutationGroup(Basic):
         strong_gens.extend([k for k, _ in strong_gens_slp])
         return _base, strong_gens
 
-    def schreier_sims_random(
-        self, base=None, gens=None, consec_succ=10, _random_prec=None
-    ) -> tuple[Any | list, list]:
+    def schreier_sims_random(self, base=None, gens=None, consec_succ=10, _random_prec=None) -> tuple[Any | list, list]:
         r"""Randomized Schreier-Sims algorithm.
 
         Explanation
@@ -4788,9 +4780,7 @@ class PermutationGroup(Basic):
 
         return True, rels
 
-    def strong_presentation(
-        self,
-    ) -> FpGroup | tuple[Any, Any] | tuple[Any | list, Any | list]:
+    def strong_presentation(self) -> FpGroup | tuple[Any, Any] | tuple[Any | list, Any | list]:
         '''
         Return a strong finite presentation of group. The generators
         of the returned group are in the same order as the strong
@@ -4912,9 +4902,7 @@ class PermutationGroup(Basic):
         group = FpGroup(F, rels)
         return simplify_presentation(group)
 
-    def presentation(
-        self, eliminate_gens=True
-    ) -> FpGroup | tuple[Any, Any] | tuple[Any | list, Any | list] | Any:
+    def presentation(self, eliminate_gens=True) -> FpGroup | tuple[Any, Any] | tuple[Any | list, Any | list] | Any:
         '''
         Return an `FpGroup` presentation of the group.
 

@@ -3,7 +3,6 @@ import random
 from collections import defaultdict
 from collections.abc import Iterator, Iterable
 from functools import reduce
-from typing import List
 
 from sympy.core.parameters import global_parameters
 from sympy.core.basic import Atom
@@ -19,7 +18,7 @@ from sympy.utilities.iterables import (flatten, has_variety, minlex,
 from sympy.utilities.misc import as_int
 from mpmath.libmp.libintmath import ifac
 from sympy.multipledispatch import dispatch
-from typing import Any, TYPE_CHECKING
+from typing import Any, TYPE_CHECKING, List
 
 if TYPE_CHECKING:
     from sympy.combinatorics.perm_groups import Coset
