@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sympy.core import Basic
 from sympy.core.containers import Tuple
 from sympy.tensor.array import Array
@@ -6,7 +8,7 @@ from sympy.utilities.iterables import flatten, iterable
 from sympy.utilities.misc import as_int
 
 from collections import defaultdict
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

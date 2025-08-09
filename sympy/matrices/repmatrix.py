@@ -24,13 +24,6 @@ from sympy.utilities.misc import filldedent, as_int
 from .exceptions import ShapeError, NonSquareMatrixError, NonInvertibleMatrixError
 from .matrixbase import classof, MatrixBase
 from .kind import MatrixKind
-from sympy import MatrixBase
-from sympy.matrices.kind import MatrixKind
-
-if TYPE_CHECKING:
-    from typing_extensions import Self
-
-
 
 if TYPE_CHECKING:
     from typing_extensions import Self

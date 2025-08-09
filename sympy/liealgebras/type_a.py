@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.liealgebras.cartan_type import Standard_Cartan
 from sympy.core.backend import eye
 

@@ -38,8 +38,7 @@ from sympy.solvers.solvers import solve
 from .recurrence import HolonomicSequence, RecurrenceOperator, RecurrenceOperators
 from .holonomicerrors import (NotPowerSeriesError, NotHyperSeriesError,
     SingularityError, NotHolonomicError)
-from sympy.holonomic.recurrence import HolonomicSequence
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

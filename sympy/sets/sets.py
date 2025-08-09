@@ -14,7 +14,7 @@ from sympy.core.evalf import EvalfMixin
 from sympy.core.expr import Expr
 from sympy.core.function import Lambda
 from sympy.core.logic import (FuzzyBool, fuzzy_bool, fuzzy_or, fuzzy_and,
-    fuzzy_not, And, Or, Not)
+    fuzzy_not)
 from sympy.core.numbers import Float, Integer
 from sympy.core.operations import LatticeOp
 from sympy.core.parameters import global_parameters

@@ -19,15 +19,14 @@ from sympy.ntheory import primefactors, sieve
 from sympy.ntheory.factor_ import (factorint, multiplicity)
 from sympy.ntheory.primetest import isprime
 from sympy.utilities.iterables import has_variety, is_sequence, uniq
-import sympy.combinatorics.permutations
 from collections.abc import Generator
-from sympy.combinatorics.fp_groups import FpGroup
-from sympy.combinatorics.pc_groups import PolycyclicGroup
 from sympy.core.function import UndefinedFunction
 from typing import Any, TYPE_CHECKING
 
 
 if TYPE_CHECKING:
+    from sympy.combinatorics.pc_groups import PolycyclicGroup
+    from sympy.combinatorics.fp_groups import FpGroup
     from typing_extensions import Self
 
 rmul = Permutation.rmul_with_af
@@ -92,7 +91,7 @@ class PermutationGroup(Basic):
     ========
 
     sympy.combinatorics.polyhedron.Polyhedron,
-    sympy.combinatorics.permutations.Permutation
+    Permutation
 
     References
     ==========
@@ -809,8 +808,8 @@ class PermutationGroup(Basic):
     def coset_transversal(
         self, H
     ) -> (
-        list[Any | Basic | list | sympy.combinatorics.permutations.Permutation]
-        | list[sympy.combinatorics.permutations.Permutation]
+        list[Any | Basic | list | Permutation]
+        | list[Permutation]
     ):
         """Return a transversal of the right cosets of self by its subgroup H
         using the second method described in [1], Subsection 4.6.7
@@ -1330,7 +1329,7 @@ class PermutationGroup(Basic):
 
     def coset_unrank(
         self, rank, af=False
-    ) -> list | sympy.combinatorics.permutations.Permutation | None:
+    ) -> list | Permutation | None:
         """unrank using Schreier-Sims representation
 
         coset_unrank is the inverse operation of coset_rank
@@ -1388,7 +1387,7 @@ class PermutationGroup(Basic):
         return self._degree
 
     @property
-    def identity(self) ->     sympy.combinatorics.permutations.Permutation:
+    def identity(self) ->     Permutation:
         '''
         Return the identity element of the permutation group.
 
@@ -1398,7 +1397,7 @@ class PermutationGroup(Basic):
     @property
     def elements(
         self,
-    ) -> set[Any | Basic | list | sympy.combinatorics.permutations.Permutation]:
+    ) -> set[Any | Basic | list | Permutation]:
         """Returns all the elements of the permutation group as a list
 
         Examples
@@ -1515,10 +1514,10 @@ class PermutationGroup(Basic):
         self, method="coset", af=False
     ) -> (
         Generator[
-            Any | Basic | list | sympy.combinatorics.permutations.Permutation, Any, None
+            Any | Basic | list | Permutation, Any, None
         ]
         | Generator[
-            list[int] | sympy.combinatorics.permutations.Permutation | list, Any, None
+            list[int] | Permutation | list, Any, None
         ]
     ):
         """Return iterator to generate the elements of the group.
@@ -1573,7 +1572,7 @@ class PermutationGroup(Basic):
         else:
             raise NotImplementedError('No generation defined for %s' % method)
 
-    def generate_dimino(self, af=False) -> Generator[list[int] | sympy.combinatorics.permutations.Permutation | list]:
+    def generate_dimino(self, af=False) -> Generator[list[int] | Permutation | list]:
         """Yield group elements using Dimino's algorithm.
 
         If ``af == True`` it yields the array form of the permutations.
@@ -1631,7 +1630,7 @@ class PermutationGroup(Basic):
                                 N.append(ap)
         self._order = len(element_list)
 
-    def generate_schreier_sims(self, af=False) -> Generator[Any | Basic | list | sympy.combinatorics.permutations.Permutation]:
+    def generate_schreier_sims(self, af=False) -> Generator[Any | Basic | list | Permutation]:
         """Yield group elements using the Schreier-Sims representation
         in coset_rank order
 
@@ -2704,7 +2703,7 @@ class PermutationGroup(Basic):
         return new_class
 
 
-    def conjugacy_classes(self) -> list[set[    sympy.combinatorics.permutations.Permutation]]:
+    def conjugacy_classes(self) -> list[set[    Permutation]]:
         r"""Return the conjugacy classes of the group.
 
         Explanation
@@ -2874,7 +2873,7 @@ class PermutationGroup(Basic):
         """
         return _orbit(self.degree, self.generators, alpha, action)
 
-    def orbit_rep(self, alpha, beta, schreier_vector=None) ->     sympy.combinatorics.permutations.Permutation | bool:
+    def orbit_rep(self, alpha, beta, schreier_vector=None) ->     Permutation | bool:
         """Return a group element which sends ``alpha`` to ``beta``.
 
         Explanation
@@ -2917,17 +2916,17 @@ class PermutationGroup(Basic):
     def orbit_transversal(
         self, alpha, pairs=False
     ) -> (
-        list[tuple[Any, sympy.combinatorics.permutations.Permutation]]
+        list[tuple[Any, Permutation]]
         | list[tuple[Any, list[int]]]
         | tuple[
-            list[tuple[Any, sympy.combinatorics.permutations.Permutation]]
+            list[tuple[Any, Permutation]]
             | list[tuple[Any, list[int]]],
             dict[Any, list],
         ]
         | list[list[int]]
         | tuple[list[list[int]], dict[Any, list]]
-        | list[sympy.combinatorics.permutations.Permutation]
-        | tuple[list[sympy.combinatorics.permutations.Permutation], dict[Any, list]]
+        | list[Permutation]
+        | tuple[list[Permutation], dict[Any, list]]
     ):
         r"""Computes a transversal for the orbit of ``alpha`` as a set.
 
@@ -3409,7 +3408,7 @@ class PermutationGroup(Basic):
                 gens = _stabilizer(degree, gens, x)
         return PermutationGroup(gens)
 
-    def make_perm(self, n, seed=None) ->     sympy.combinatorics.permutations.Permutation:
+    def make_perm(self, n, seed=None) ->     Permutation:
         """
         Multiply ``n`` randomly selected permutations from
         pgroup together, starting with the identity
@@ -3462,13 +3461,13 @@ class PermutationGroup(Basic):
 
     def random(
         self, af=False
-    ) -> list | sympy.combinatorics.permutations.Permutation | None:
+    ) -> list | Permutation | None:
         """Return a random group element
         """
         rank = randrange(self.order())
         return self.coset_unrank(rank, af)
 
-    def random_pr(self, gen_count=11, iterations=50, _random_prec=None) ->     sympy.combinatorics.permutations.Permutation:
+    def random_pr(self, gen_count=11, iterations=50, _random_prec=None) ->     Permutation:
         """Return a random group element using product replacement.
 
         Explanation
@@ -3514,7 +3513,7 @@ class PermutationGroup(Basic):
             random_gens[r] = _af_rmul(random_gens[s], random_gens[r])
         return _af_new(random_gens[r])
 
-    def random_stab(self, alpha, schreier_vector=None, _random_prec=None) ->     sympy.combinatorics.permutations.Permutation:
+    def random_stab(self, alpha, schreier_vector=None, _random_prec=None) ->     Permutation:
         """Random element from the stabilizer of ``alpha``.
 
         The schreier vector for ``alpha`` is an optional argument used
@@ -5380,7 +5379,7 @@ class SymmetricPermutationGroup(Basic):
         return self._deg
 
     @property
-    def identity(self) ->     sympy.combinatorics.permutations.Permutation:
+    def identity(self) ->     Permutation:
         '''
         Return the identity element of the SymmetricPermutationGroup.
 

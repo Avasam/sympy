@@ -14,7 +14,7 @@ from sympy.polys import total_degree
 from sympy.geometry import Point
 from sympy.ntheory.factor_ import core
 import sympy
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

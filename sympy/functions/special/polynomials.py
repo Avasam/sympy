@@ -8,7 +8,7 @@ combinatorial polynomials.
 from __future__ import annotations
 
 from sympy.core import Rational
-from sympy.core.function import Function, UndefinedFunction, DefinedFunction, ArgumentIndexError
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError
 from sympy.core.singleton import S
 from sympy.core.symbol import Dummy
 from sympy.functions.combinatorial.factorials import binomial, factorial, RisingFactorial
@@ -22,10 +22,12 @@ from sympy.functions.special.hyper import hyper
 from sympy.polys.orthopolys import (chebyshevt_poly, chebyshevu_poly,
                                     gegenbauer_poly, hermite_poly, hermite_prob_poly,
                                     jacobi_poly, laguerre_poly, legendre_poly)
-from sympy.concrete.summations import Sum
-from sympy.core.mul import Mul
-from sympy.core.relational import Equality, Ne, Relational
-from typing import Any
+from typing import Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from sympy.concrete.summations import Sum
+    from sympy.core.mul import Mul
+    from sympy.core.relational import Equality, Ne, Relational
 
 _x = Dummy('x')
 

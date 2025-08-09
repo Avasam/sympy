@@ -14,7 +14,6 @@ from sympy.core.add import Add
 from mpmath.libmp import repr_dps, to_str as mlib_to_str
 
 from .printer import Printer, print_function
-from sympy.printing.printer import Printer
 
 
 class ReprPrinter(Printer):

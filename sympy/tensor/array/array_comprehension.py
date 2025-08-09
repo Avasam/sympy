@@ -7,10 +7,10 @@ from sympy.tensor.array import ImmutableDenseNDimArray
 from sympy.core.symbol import Symbol
 from sympy.core.numbers import Integer
 import sympy
-from sympy.matrices import Matrix
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from sympy.matrices import Matrix
     from typing_extensions import Self
 
 

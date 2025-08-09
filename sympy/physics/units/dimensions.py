@@ -27,7 +27,7 @@ from sympy.matrices.dense import Matrix
 from sympy.functions.elementary.trigonometric import TrigonometricFunction
 from sympy.core.expr import Expr
 from sympy.core.power import Pow
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

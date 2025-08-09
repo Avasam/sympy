@@ -10,7 +10,6 @@ from .c import C89CodePrinter, C99CodePrinter
 # These are defined in the other file so we can avoid importing sympy.codegen
 # from the top-level 'import sympy'. Export them here as well.
 from sympy.printing.codeprinter import cxxcode # noqa:F401
-from sympy.printing.c import C89CodePrinter, C99CodePrinter
 
 # from https://en.cppreference.com/w/cpp/keyword
 reserved = {

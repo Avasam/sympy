@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from sympy.core.assumptions import check_assumptions
 from sympy.core.logic import fuzzy_and
 from sympy.core.sympify import _sympify

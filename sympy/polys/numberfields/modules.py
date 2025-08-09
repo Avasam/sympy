@@ -196,7 +196,7 @@ from sympy.polys.polyutils import IntegerPowerable
 from .exceptions import ClosureFailure, MissingUnityError, StructureError
 from .utilities import AlgIntPowers, is_rat, get_num_denom
 from types import NotImplementedType
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

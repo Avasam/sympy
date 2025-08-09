@@ -9,8 +9,6 @@ from sympy.utilities import public
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-if TYPE_CHECKING:
     from sympy.polys.agca.ideals import ModuleImplementedIdeal
     from sympy.polys.domains.quotientring import QuotientRing
 

@@ -29,8 +29,6 @@ from sympy.utilities.misc import as_int
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-if TYPE_CHECKING:
     from sympy.core.expr import Expr
     from sympy.core.add import Add
     from sympy.core.mul import Mul

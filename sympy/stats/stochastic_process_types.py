@@ -1,7 +1,8 @@
 from __future__ import annotations
+
 import random
 import itertools
-from typing import Any, Sequence as tSequence
+from typing import Any, Sequence as tSequence, TYPE_CHECKING
 from sympy.concrete.summations import Sum
 from sympy.core.add import Add
 from sympy.core.basic import Basic

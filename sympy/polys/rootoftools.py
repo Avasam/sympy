@@ -30,9 +30,8 @@ from mpmath import mpf, mpc, findroot, workprec
 from mpmath.libmp.libmpf import dps_to_prec, prec_to_dps
 from sympy.multipledispatch import dispatch
 from itertools import chain
-import sympy.core.numbers
 from sympy.series.order import Order
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -392,7 +391,7 @@ class ComplexRootOf(RootOf):
         return self.poly.as_expr()
 
     @property
-    def args(self) -> tuple[Any, Any |     sympy.core.numbers.Integer]:
+    def args(self) -> tuple[Any, Any |     Integer]:
         return (self.expr, Integer(self.index))
 
     @property

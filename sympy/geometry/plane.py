@@ -13,7 +13,7 @@ from sympy.functions.elementary.trigonometric import cos, sin, acos, asin, sqrt
 from .entity import GeometryEntity
 from .line import (Line, Ray, Segment, Line3D, LinearEntity, LinearEntity3D,
                    Ray3D, Segment3D)
-from .point import Point, Point3D
+from .point import Point, Point2D, Point3D
 from sympy.matrices import Matrix
 from sympy.polys.polytools import cancel
 from sympy.solvers import solve, linsolve
@@ -26,10 +26,7 @@ import random
 from sympy.core.basic import Basic
 from sympy.core.expr import Expr
 from sympy.core.function import UndefinedFunction
-from sympy.geometry.entity import GeometryEntity
-from sympy.geometry.line import Line3D, Ray3D, Segment3D
-from sympy.geometry.point import Point, Point2D, Point3D
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

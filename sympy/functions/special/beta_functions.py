@@ -1,6 +1,8 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core import S
-from sympy.core.function import Function, UndefinedFunction, DefinedFunction, ArgumentIndexError
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError
 from sympy.core.symbol import Dummy, uniquely_named_symbol
 from sympy.functions.special.gamma_functions import gamma, digamma
 from sympy.functions.combinatorial.numbers import catalan

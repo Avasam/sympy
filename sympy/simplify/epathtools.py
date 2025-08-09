@@ -1,8 +1,9 @@
 """Tools for manipulation of expressions using paths. """
 from __future__ import annotations
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.core import Basic
-import sympy.core.basic
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -152,7 +153,7 @@ class EPath:
 
         return False
 
-    def apply(self, expr, func, args=None, kwargs=None) ->     sympy.core.basic.Basic:
+    def apply(self, expr, func, args=None, kwargs=None) ->     Basic:
         """
         Modify parts of an expression selected by a path.
 
@@ -281,7 +282,7 @@ class EPath:
 
 def epath(
     path, expr=None, func=None, args=None, kwargs=None
-) -> EPath | list | sympy.core.basic.Basic:
+) -> EPath | list | Basic:
     r"""
     Manipulate parts of an expression selected by a path.
 

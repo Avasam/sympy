@@ -8,7 +8,7 @@ from .cache import cacheit
 from .containers import Tuple
 from .expr import Expr, AtomicExpr
 from .function import AppliedUndef, FunctionClass
-from .kind import NumberKind, UndefinedKind
+from .kind import NumberKind, UndefinedKind, _NumberKind, _UndefinedKind
 from .logic import fuzzy_bool
 from .singleton import S
 from .sorting import ordered
@@ -21,14 +21,6 @@ import string
 import re as _re
 import random
 from itertools import product
-from sympy.core.basic import Atom, Basic
-from sympy.core.expr import AtomicExpr
-from sympy.core.function import FunctionClass
-from sympy.core.kind import _NumberKind, _UndefinedKind
-
-if TYPE_CHECKING:
-    from typing_extensions import Self
-
 
 if TYPE_CHECKING:
     from typing import Any, Iterable, Callable

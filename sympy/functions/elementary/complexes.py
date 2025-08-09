@@ -1404,7 +1404,7 @@ def polarify(eq, subs=True, lift=False) -> (
     | Relational
     | Ne
     | Integral
-    | tuple[Any | Symbol | sympy.core.basic.Basic | Equality | Relational | Ne | Integral, dict[Dummy, Any | Symbol | sympy.core.basic.Basic]]
+    | tuple[Any | Symbol | Basic | Equality | Relational | Ne | Integral, dict[Dummy, Any | Symbol | Basic]]
 ):
     """
     Turn all numbers in eq into their polar equivalents (under the standard
@@ -1488,7 +1488,7 @@ def _unpolarify(eq, exponents_only, pause=False):
     return eq.func(*[_unpolarify(x, exponents_only, True) for x in eq.args])
 
 
-def unpolarify(eq, subs=None, exponents_only=False) -> bool | sympy.core.basic.Basic:
+def unpolarify(eq, subs=None, exponents_only=False) -> bool | Basic:
     """
     If `p` denotes the projection from the Riemann surface of the logarithm to
     the complex line, return a simplified version `eq'` of `eq` such that

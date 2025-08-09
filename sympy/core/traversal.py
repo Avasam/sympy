@@ -1,16 +1,12 @@
 from __future__ import annotations
 
-from typing import Any, Iterator, TYPE_CHECKING
+from typing import Any, Iterator
 
 from .basic import Basic
 from .sorting import ordered
 from .sympify import sympify
 from sympy.utilities.iterables import iterable
 from collections.abc import Generator
-from sympy.core.basic import Basic
-
-if TYPE_CHECKING:
-    from typing_extensions import Self
 
 
 

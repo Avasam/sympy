@@ -10,7 +10,7 @@ sympy.stats.drv
 """
 from __future__ import annotations
 from math import prod
-from collections.abc import AbstractSet as Set
+from typing import AbstractSet as Set
 
 from sympy.core.basic import Basic
 from sympy.core.function import Lambda
@@ -36,7 +36,7 @@ import sympy
 from sympy.core.expr import Expr
 from sympy.core.relational import Relational
 from sympy.stats.frv import ProductFiniteDomain
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

@@ -18,7 +18,7 @@ from sympy.vector.kind import VectorKind
 import sympy
 import sympy.core.add
 from sympy.series.order import Order
-from typing import Any, Callable
+from typing import Any, Callable, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

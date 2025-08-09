@@ -33,7 +33,7 @@ from sympy.solvers.inequalities import reduce_rational_inequalities
 from sympy.stats.rv import (RandomSymbol, RandomDomain, SingleDomain, ConditionalDomain, is_random,
         ProductDomain, PSpace, SinglePSpace, random_symbols, NamedArgsMixin, Distribution)
 import sympy
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

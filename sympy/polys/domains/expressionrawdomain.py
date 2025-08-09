@@ -11,8 +11,6 @@ from sympy.utilities import public
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-if TYPE_CHECKING:
     from sympy.series.order import Order
 
 @public

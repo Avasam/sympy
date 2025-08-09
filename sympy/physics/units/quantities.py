@@ -2,6 +2,7 @@
 Physical quantities.
 """
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.core.expr import Expr, AtomicExpr
 from sympy.core.symbol import Symbol

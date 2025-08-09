@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from sympy.core.add import Add
 from sympy.core.cache import cacheit
-from sympy.core.function import Function, UndefinedFunction, ArgumentIndexError, expand_mul, DefinedFunction
+from sympy.core.function import UndefinedFunction, ArgumentIndexError, expand_mul, DefinedFunction
 from sympy.core.logic import fuzzy_not
 from sympy.core.numbers import pi, I, Integer
 from sympy.core.relational import Eq

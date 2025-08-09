@@ -1,4 +1,6 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.combinatorics import Permutation as Perm
 from sympy.combinatorics.perm_groups import PermutationGroup
 from sympy.core import Basic, Tuple, default_sort_key

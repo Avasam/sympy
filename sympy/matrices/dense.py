@@ -19,13 +19,10 @@ from .matrixbase import MatrixBase
 from .repmatrix import MutableRepMatrix, RepMatrix
 from .solvers import _lower_triangular_solve, _upper_triangular_solve
 from numpy import ndarray as NDArray
-from sympy.matrices.immutable import ImmutableDenseMatrix
-from sympy.matrices.repmatrix import MutableRepMatrix, RepMatrix
-from sympy.series.order import Order
-
-
 
 if TYPE_CHECKING:
+    from .immutable import ImmutableDenseMatrix
+    from sympy.series.order import Order
     from typing_extensions import Self
 
 

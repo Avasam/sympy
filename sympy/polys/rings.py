@@ -45,13 +45,10 @@ from sympy.utilities import public, subsets
 from sympy.utilities.iterables import is_sequence
 from sympy.utilities.magic import pollute
 from collections.abc import Iterator
-from sympy.series.order import Order
 
 if TYPE_CHECKING:
+    from sympy.series.order import Order
     from typing_extensions import Self
-
-
-if TYPE_CHECKING:
     from typing import TypeIs
     from sympy.polys.fields import FracField
 

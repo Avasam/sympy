@@ -20,12 +20,11 @@ from sympy.matrices.expressions.slice import MatrixSlice
 from sympy.matrices.expressions.special import GenericIdentity, GenericZeroMatrix, ZeroMatrix, Identity
 from sympy.matrices.expressions.trace import trace
 from sympy.matrices.expressions.transpose import Transpose, transpose
-import sympy.core.basic
-from sympy.matrices.immutable import ImmutableDenseMatrix
 from sympy.series.order import Order
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from sympy.matrices.immutable import ImmutableDenseMatrix
     from typing_extensions import Self
 
 
@@ -152,7 +151,7 @@ class BlockMatrix(MatrixExpr):
         return self.blocks.shape
 
     @property
-    def blocks(self) ->     sympy.core.basic.Basic:
+    def blocks(self) ->     Basic:
         return self.args[0]
 
     @property
@@ -601,7 +600,7 @@ class BlockDiagMatrix(BlockMatrix):
         return Basic.__new__(BlockDiagMatrix, *mats)
 
     @property
-    def diag(self) -> tuple[    sympy.core.basic.Basic, ...]:
+    def diag(self) -> tuple[    Basic, ...]:
         return self.args
 
     @property
@@ -667,7 +666,7 @@ class BlockDiagMatrix(BlockMatrix):
         else:
             return BlockMatrix._blockadd(self, other)
 
-    def get_diag_blocks(self) -> tuple[    sympy.core.basic.Basic, ...]:
+    def get_diag_blocks(self) -> tuple[    Basic, ...]:
         """Return the list of diagonal blocks of the matrix.
 
         Examples

@@ -10,7 +10,7 @@ from itertools import combinations, product, zip_longest
 from sympy.assumptions.assume import AppliedPredicate, Predicate
 from sympy.core.relational import Eq, Ne, Gt, Lt, Ge, Le
 from sympy.core.singleton import S
-from sympy.logic.boolalg import Or, And, Not, Xnor, Equivalent, ITE, Implies, Nand, Nor, Xor, And
+from sympy.logic.boolalg import Or, Not, Xnor, Equivalent, ITE, Implies, Nand, Nor, Xor, And
 from typing import Any, TYPE_CHECKING
 
 

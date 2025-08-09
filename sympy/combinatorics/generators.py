@@ -3,7 +3,6 @@ from sympy.core.symbol import symbols
 from sympy.matrices import Matrix
 from sympy.utilities.iterables import variations, rotate_left
 from collections.abc import Generator
-from typing import Any
 
 
 def symmetric(n) -> Generator[Permutation]:

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any, Callable, Type
+from typing import Any, Callable, Type, TYPE_CHECKING
 from sympy import Interval, numer, Rational, solveset
 from sympy.core.add import Add
 from sympy.core.basic import Basic

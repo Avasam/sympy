@@ -1,7 +1,8 @@
+from __future__ import annotations
 from itertools import combinations
 
 from sympy.combinatorics.graycode import GrayCode
-from typing import Any
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

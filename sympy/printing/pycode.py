@@ -10,7 +10,6 @@ from sympy.core import S
 from sympy.core.mod import Mod
 from .precedence import precedence
 from .codeprinter import CodePrinter
-from sympy.printing.codeprinter import CodePrinter
 from typing import Any
 
 _kw = {

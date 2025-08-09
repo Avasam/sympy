@@ -6,9 +6,7 @@ from sympy.functions import KroneckerDelta
 from .matexpr import MatrixExpr
 from .special import ZeroMatrix, Identity, OneMatrix
 from sympy.core.basic import Basic
-from sympy.matrices.expressions.matexpr import MatrixExpr
-from sympy.matrices.expressions.special import Identity, OneMatrix, ZeroMatrix
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

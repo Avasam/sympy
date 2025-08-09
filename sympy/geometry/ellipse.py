@@ -23,7 +23,6 @@ from sympy.functions.elementary.trigonometric import cos, sin
 from sympy.functions.special.elliptic_integrals import elliptic_e
 from .entity import GeometryEntity, GeometrySet
 from .exceptions import GeometryError
-from .line import Line, Segment, Ray2D, Segment2D, Line2D, LinearEntity3D
 from .point import Point, Point2D, Point3D
 from .util import idiff, find
 from sympy.polys import DomainError, Poly, PolynomialError
@@ -37,13 +36,11 @@ from mpmath.libmp.libmpf import prec_to_dps
 import random
 from sympy.core.basic import Basic
 from sympy.core.power import Pow
-from sympy.geometry.entity import GeometrySet
-from sympy.geometry.line import Line, Line2D, Line3D, Segment, Segment2D, Segment3D
-from sympy.geometry.point import Point, Point2D, Point3D
 from types import NotImplementedType
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from .line import Line, Line3D, Segment, Segment3D, Ray2D, Segment2D, Line2D, LinearEntity3D
     from typing_extensions import Self
 
 x, y = [Dummy('ellipse_dummy', real=True) for i in range(2)]

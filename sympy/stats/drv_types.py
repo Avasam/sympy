@@ -14,6 +14,8 @@ Zeta
 """
 
 
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.concrete.summations import Sum
 from sympy.core.basic import Basic

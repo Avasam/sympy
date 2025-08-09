@@ -25,7 +25,6 @@ from sympy.strategies.core import identity
 from sympy.strategies.tree import greedy
 from sympy.utilities.iterables import iterable
 from sympy.utilities.misc import debug
-import sympy.core.basic
 from sympy.series.order import Order
 from typing import Any
 
@@ -1128,7 +1127,7 @@ def __trigsimp(expr, deep=False):
 #------------------- end of old trigsimp routines --------------------
 
 
-def futrig(e, *, hyper=True, **kwargs) -> sympy.core.basic.Basic | Order:
+def futrig(e, *, hyper=True, **kwargs) -> Basic | Order:
     """Return simplified ``e`` using Fu-like transformations.
     This is not the "Fu" algorithm. This is called by default
     from ``trigsimp``. By default, hyperbolics subexpressions

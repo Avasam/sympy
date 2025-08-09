@@ -70,8 +70,7 @@ from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-if TYPE_CHECKING:
+    from sympy.sets.sets import FiniteSet
     from sympy.tensor.array.array_derivatives import ArrayDerivative
 
 def _coeff_isneg(a):

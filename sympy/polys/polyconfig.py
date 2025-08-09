@@ -3,7 +3,6 @@
 
 from contextlib import contextmanager
 from collections.abc import Generator
-from typing import Any
 
 _default_config = {
     'USE_COLLINS_RESULTANT':      False,

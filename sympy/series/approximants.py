@@ -9,7 +9,6 @@ from sympy.polys.polytools import lcm
 from sympy.utilities import public
 from sympy import Poly
 from sympy.polys.polytools import gcdex_steps
-from typing import Any
 
 @public
 def approximants(l, X=Symbol('x'), simplify=False) -> Generator:

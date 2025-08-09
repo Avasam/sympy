@@ -49,7 +49,6 @@ from sympy.polys.polytools import (real_roots, cancel, Poly, gcd,
     reduced)
 from sympy.polys.rootoftools import RootSum
 from sympy.utilities.iterables import numbered_symbols
-from sympy.integrals.integrals import Integral
 from typing import Any
 
 

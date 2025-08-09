@@ -17,7 +17,7 @@ non-implemented methods. They may also supply new implementations of the
 convenience methods, for example if there are faster algorithms available.
 """
 from __future__ import annotations
-
+from typing import TYPE_CHECKING
 
 from copy import copy
 from functools import reduce
@@ -29,10 +29,10 @@ from sympy.polys.polyclasses import DMP
 from sympy.polys.polyerrors import CoercionFailed
 from sympy.core.basic import _aresame
 from sympy.utilities.iterables import iterable
-from sympy.polys.agca.homomorphisms import FreeModuleHomomorphism
 from types import NotImplementedType
 
 if TYPE_CHECKING:
+    from sympy.polys.agca.homomorphisms import FreeModuleHomomorphism
     from typing_extensions import Self
 
 # TODO

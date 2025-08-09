@@ -1,10 +1,10 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 import itertools
 
 from .cartan_type import Standard_Cartan
 from sympy.core.backend import eye, Rational
 from sympy.core.singleton import S
-from sympy.liealgebras.cartan_type import Standard_Cartan
 
 if TYPE_CHECKING:
     from typing_extensions import Self

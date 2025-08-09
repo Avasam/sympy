@@ -1,4 +1,6 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
+
 import collections
 from sympy.core.expr import Expr
 from sympy.core import sympify, S, preorder_traversal

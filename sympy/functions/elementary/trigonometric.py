@@ -2,7 +2,7 @@ from __future__ import annotations
 from sympy.core.add import Add
 from sympy.core.cache import cacheit
 from sympy.core.expr import Expr
-from sympy.core.function import Function, UndefinedFunction, DefinedFunction, ArgumentIndexError, PoleError, expand_mul
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError, PoleError, expand_mul
 from sympy.core.logic import fuzzy_not, fuzzy_or, FuzzyBool, fuzzy_and
 from sympy.core.mod import Mod
 from sympy.core.numbers import Rational, pi, Integer, Float, equal_valued
@@ -28,8 +28,6 @@ from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-if TYPE_CHECKING:
     from sympy.calculus.accumulationbounds import AccumBounds
 
 

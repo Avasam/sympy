@@ -3,10 +3,9 @@ from sympy.core.sympify import sympify
 from sympy.functions.elementary.miscellaneous import Min, Max
 from sympy.sets.sets import (EmptySet, FiniteSet, Intersection,
     Interval, ProductSet, Set, Union, UniversalSet)
-from sympy.sets.fancysets import (CartesianComplexRegion, PolarComplexRegion, ComplexRegion, Naturals, Naturals0,
+from sympy.sets.fancysets import (ComplexRegion, Naturals, Naturals0,
     Integers, Rationals, Reals)
 from sympy.multipledispatch import Dispatcher
-from typing import Any
 
 
 union_sets = Dispatcher('union_sets')

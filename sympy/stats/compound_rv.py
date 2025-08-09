@@ -16,7 +16,7 @@ import sympy
 from sympy.core.relational import Relational
 from sympy.series.order import Order
 from sympy.stats.symbolic_probability import Probability
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

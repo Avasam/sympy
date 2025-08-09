@@ -32,6 +32,7 @@ The module uses numpy for speed which cannot be achieved with mpmath.
 # module based suffers the same problems as that of floating point
 # arithmetic.
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.core.numbers import int_valued
 from sympy.core.logic import fuzzy_and

@@ -26,8 +26,6 @@ from sympy.utilities.misc import filldedent
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-if TYPE_CHECKING:
     from sympy.core.relational import Eq, Ne
     from sympy.core.symbol import Symbol
 

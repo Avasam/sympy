@@ -12,11 +12,10 @@ from sympy.functions.combinatorial.factorials import RisingFactorial
 from sympy.functions.elementary.exponential import exp, log
 from sympy.functions.special.tensor_functions import KroneckerDelta
 from sympy.polys import quo, roots
-from sympy.concrete.expr_with_intlimits import ExprWithIntLimits
 from sympy.core.basic import Basic
 from sympy.core.relational import Equality, Ne, Relational
 from sympy.series.order import Order
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

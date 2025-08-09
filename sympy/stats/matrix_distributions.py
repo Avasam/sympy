@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from math import prod
 
 from sympy.core.basic import Basic
@@ -12,7 +14,7 @@ from sympy.matrices import (ImmutableMatrix, Inverse, Trace, Determinant,
 from sympy.stats.rv import (_value_check, RandomMatrixSymbol, NamedArgsMixin, PSpace,
                             _symbol_converter, MatrixDomain, Distribution)
 from sympy.external import import_module
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -343,7 +345,7 @@ class WishartDistribution(MatrixDistribution):
         _value_check(n.is_positive, "Shape parameter should be positive.")
 
     @property
-    def set(self) ->     sympy.matrices.expressions.sets.MatrixSet:
+    def set(self) ->     MatrixSet:
         k = self.scale_matrix.shape[0]
         return MatrixSet(k, k, S.Reals)
 
@@ -436,7 +438,7 @@ class MatrixNormalDistribution(MatrixDistribution):
         " of shape %s x %s"% (str(p), str(p)))
 
     @property
-    def set(self) ->     sympy.matrices.expressions.sets.MatrixSet:
+    def set(self) ->     MatrixSet:
         n, p = self.location_matrix.shape
         return MatrixSet(n, p, S.Reals)
 
@@ -535,7 +537,7 @@ class MatrixStudentTDistribution(MatrixDistribution):
         _value_check(nu.is_positive != False, "Degrees of freedom must be positive")
 
     @property
-    def set(self) ->     sympy.matrices.expressions.sets.MatrixSet:
+    def set(self) ->     MatrixSet:
         n, p = self.location_matrix.shape
         return MatrixSet(n, p, S.Reals)
 

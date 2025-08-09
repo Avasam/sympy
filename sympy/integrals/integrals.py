@@ -35,9 +35,6 @@ from sympy.utilities.misc import filldedent
 
 if TYPE_CHECKING:
     from typing_extensions import Self, Unpack
-
-
-if TYPE_CHECKING:
     SymbolLimits = Expr | tuple[Expr, Expr] | tuple[Expr, Expr, Expr]
 
 

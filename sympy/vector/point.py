@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core.basic import Basic
 from sympy.core.symbol import Str
 from sympy.vector.vector import VectorZero, Vector

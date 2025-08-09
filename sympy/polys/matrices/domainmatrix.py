@@ -37,7 +37,7 @@ from .exceptions import (
 
 from .domainscalar import DomainScalar
 
-from sympy.polys.domains import Domain, ZZ, EXRAW, QQ
+from sympy.polys.domains import ZZ, EXRAW, QQ
 
 from sympy.polys.densearith import dup_mul
 from sympy.polys.densebasic import dup_convert

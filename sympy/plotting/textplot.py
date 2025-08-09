@@ -4,7 +4,6 @@ from sympy.utilities.lambdify import lambdify
 
 import math
 from collections.abc import Generator
-from typing import Any
 
 
 def is_valid(x) -> bool:

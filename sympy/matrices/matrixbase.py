@@ -88,7 +88,6 @@ from .decompositions import (
 from .graph import (
     _connected_components, _connected_components_decomposition,
     _strongly_connected_components, _strongly_connected_components_decomposition)
-from sympy.matrices.kind import MatrixKind
 
 
 if TYPE_CHECKING:

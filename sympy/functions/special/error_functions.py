@@ -5,7 +5,7 @@ from __future__ import annotations
 from sympy.core import EulerGamma # Must be imported from core, not core.numbers
 from sympy.core.add import Add
 from sympy.core.cache import cacheit
-from sympy.core.function import Function, UndefinedFunction, DefinedFunction, ArgumentIndexError, expand_mul
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError, expand_mul
 from sympy.core.logic import fuzzy_or
 from sympy.core.numbers import I, pi, Rational, Integer
 from sympy.core.relational import is_eq

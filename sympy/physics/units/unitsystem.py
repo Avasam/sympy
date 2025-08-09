@@ -8,11 +8,10 @@ from sympy.core.function import (UndefinedFunction, Derivative, Function)
 from sympy.core.mul import Mul
 from sympy.core.power import Pow
 from sympy.core.singleton import S
-from sympy.physics.units.dimensions import Dimension, _QuantityMapper
+from sympy.physics.units.dimensions import _QuantityMapper
 from sympy.physics.units.quantities import Quantity
 
 from .dimensions import Dimension
-import sympy.physics.units.quantities
 from sympy.core.expr import Expr
 from sympy.series.order import Order
 

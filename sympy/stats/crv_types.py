@@ -91,10 +91,10 @@ from sympy.matrices import MatrixBase
 from sympy.stats.crv import SingleContinuousPSpace, SingleContinuousDistribution
 from sympy.stats.rv import RandomSymbol, _value_check, is_random
 import sympy
-from sympy.stats.joint_rv import JointRandomSymbol
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from sympy.stats.joint_rv import JointRandomSymbol
     from typing_extensions import Self
 
 oo = S.Infinity

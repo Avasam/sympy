@@ -16,17 +16,11 @@ from sympy.logic.boolalg import Boolean, BooleanAtom
 from sympy.utilities.iterables import sift
 from sympy.utilities.misc import filldedent
 from sympy.utilities.exceptions import sympy_deprecation_warning
-from sympy.core.basic import Basic
-from sympy.core.evalf import EvalfMixin
 from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-
-if TYPE_CHECKING:
     from typing import ClassVar
-    from typing_extensions import Self
     from sympy.logic.boolalg import BooleanTrue, BooleanFalse
 
 

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from .plot_interval import PlotInterval
 from .plot_object import PlotObject
 from .util import parse_option_string
@@ -6,6 +7,7 @@ from sympy.core.sympify import sympify
 from sympy.geometry.entity import GeometryEntity
 from sympy.utilities.iterables import is_sequence
 from sympy.plotting.pygletplot.plot_object import PlotObject
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

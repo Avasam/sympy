@@ -23,8 +23,7 @@ from .numbers import Number
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-if TYPE_CHECKING:
+    from sympy.functions.elementary.exponential import log
     from sympy.series.order import Order
 
 
@@ -1853,5 +1852,5 @@ power.add((object, object), Pow)
 
 from .add import Add
 from .numbers import Integer, Rational
-from .mul import Mul, _keep_coeff
+from .mul import _keep_coeff
 from .symbol import Symbol, Dummy, symbols

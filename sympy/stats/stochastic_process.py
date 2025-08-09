@@ -6,6 +6,7 @@ import sympy
 from sympy.stats.crv import ProductContinuousDomain
 from sympy.stats.drv import ProductDiscreteDomain
 from sympy.stats.frv import ProductFiniteDomain
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

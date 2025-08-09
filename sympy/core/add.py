@@ -18,9 +18,6 @@ from .mul import Mul
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-
-if TYPE_CHECKING:
     from .numbers import Integer, Rational, Number
     from sympy.series.order import Order
 
@@ -1276,5 +1273,5 @@ class Add(Expr, AssocOp):
 
 add = AssocOpDispatcher('add')
 
-from .mul import Mul, _keep_coeff, _unevaluated_Mul
+from .mul import _keep_coeff, _unevaluated_Mul
 from .numbers import Rational

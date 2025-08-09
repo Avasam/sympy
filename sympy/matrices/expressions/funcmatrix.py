@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from .matexpr import MatrixExpr
 from sympy.core.function import FunctionClass, Lambda
 from sympy.core.symbol import Dummy
@@ -5,7 +8,6 @@ from sympy.core.sympify import _sympify, sympify
 from sympy.matrices import Matrix
 from sympy.functions.elementary.complexes import re, im
 from sympy.core.basic import Basic
-from sympy.matrices.expressions.matexpr import MatrixExpr
 
 if TYPE_CHECKING:
     from typing_extensions import Self

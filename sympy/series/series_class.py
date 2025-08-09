@@ -9,7 +9,6 @@ from sympy.core.singleton import S
 from sympy.core.cache import cacheit
 from collections.abc import Iterator
 from sympy.core.basic import Basic
-from typing import Any
 
 
 class SeriesBase(Expr):

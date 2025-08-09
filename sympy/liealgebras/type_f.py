@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 from .cartan_type import Standard_Cartan
-from sympy.core.backend import Matrix, Rational
-import sympy.core.numbers
-from sympy.liealgebras.cartan_type import Standard_Cartan
+from sympy.core.backend import Matrix, Rational, Integer
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -43,7 +41,7 @@ class TypeF(Standard_Cartan):
         root[j] = -1
         return root
 
-    def simple_root(self, i) -> list[int] | list[    sympy.core.numbers.Rational | Any |     sympy.core.numbers.Integer] | None:
+    def simple_root(self, i) -> list[int] | list[    Rational | Any |     Integer] | None:
         """The ith simple root of F_4
 
         Every lie algebra has a unique root system.

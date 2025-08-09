@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core.basic import Basic
 from sympy.core.sympify import sympify
 from sympy.functions.elementary.trigonometric import (cos, sin)

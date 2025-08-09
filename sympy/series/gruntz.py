@@ -131,7 +131,6 @@ from sympy.functions import log, exp, sign as _sign
 from sympy.series.order import Order
 from sympy.utilities.misc import debug_decorator as debug
 from sympy.utilities.timeutils import timethis
-import sympy.core.basic
 from typing import Any
 
 
@@ -250,9 +249,9 @@ class SubsSet(dict):
 
 @debug
 def mrv(e, x) -> (
-    tuple[SubsSet, sympy.core.basic.Basic]
+    tuple[SubsSet, Basic]
     | tuple[SubsSet, Any]
-    | tuple[Any, sympy.core.basic.Basic]
+    | tuple[Any, Basic]
     | tuple[Any, Any]
     | tuple[SubsSet, Any | int]
     | tuple[Any, type[UndefinedFunction] | Any]
@@ -496,7 +495,7 @@ def moveup(l, x) -> list:
 @debug
 @timeit
 @cacheit
-def mrv_leadterm(e, x) -> tuple[Any, Any] | tuple[sympy.core.basic.Basic | Any | type[UndefinedFunction] | int, Any]:
+def mrv_leadterm(e, x) -> tuple[Any, Any] | tuple[Basic | Any | type[UndefinedFunction] | int, Any]:
     """Returns (c0, e0) for e."""
     Omega = SubsSet()
     if not e.has(x):

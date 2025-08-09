@@ -5,6 +5,7 @@ Constant dict for SI and binary prefixes are defined as PREFIXES and
 BIN_PREFIXES.
 """
 from __future__ import annotations
+from typing import TYPE_CHECKING
 from sympy.core.expr import Expr
 from sympy.core.sympify import sympify
 from sympy.core.singleton import S

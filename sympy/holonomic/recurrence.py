@@ -1,5 +1,6 @@
 """Recurrence Operators"""
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.core.singleton import S
 from sympy.core.symbol import (Symbol, symbols)

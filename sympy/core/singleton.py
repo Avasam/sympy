@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING, overload
 
 from .core import Registry
 from .sympify import sympify
-from sympy.core.core import Registry
 
 
 if TYPE_CHECKING:

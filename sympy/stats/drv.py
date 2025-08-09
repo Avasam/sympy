@@ -28,7 +28,7 @@ from sympy.sets.contains import Contains
 from sympy.utilities import filldedent
 from sympy.core.sympify import _sympify
 import sympy
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

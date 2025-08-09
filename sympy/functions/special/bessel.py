@@ -6,7 +6,7 @@ from sympy.core import S
 from sympy.core.add import Add
 from sympy.core.cache import cacheit
 from sympy.core.expr import Expr
-from sympy.core.function import Function, UndefinedFunction, DefinedFunction, ArgumentIndexError, _mexpand
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError, _mexpand
 from sympy.core.logic import fuzzy_or, fuzzy_not
 from sympy.core.numbers import Float, Rational, pi, I
 from sympy.core.power import Pow

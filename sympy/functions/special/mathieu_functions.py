@@ -1,8 +1,9 @@
 """ This module contains the Mathieu functions.
 """
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
-from sympy.core.function import Function, UndefinedFunction, DefinedFunction, ArgumentIndexError
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError
 from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.functions.elementary.trigonometric import sin, cos
 from sympy.core.mul import Mul

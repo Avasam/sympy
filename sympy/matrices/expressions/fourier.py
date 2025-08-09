@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core.sympify import _sympify
 from sympy.matrices.expressions import MatrixExpr
 from sympy.core.numbers import I

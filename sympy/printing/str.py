@@ -15,7 +15,6 @@ from .precedence import precedence, PRECEDENCE
 from .printer import Printer, print_function
 
 from mpmath.libmp import prec_to_dps, to_str as mlib_to_str
-from sympy.printing.printer import Printer
 
 
 class StrPrinter(Printer):

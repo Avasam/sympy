@@ -18,8 +18,6 @@ from sympy.utilities.decorator import deprecated
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.utilities.iterables import iterable, numbered_symbols
 from sympy.utilities.misc import filldedent, func_name
-from sympy.core._print_helpers import Printable
-from sympy.core.kind import Kind
 
 if TYPE_CHECKING:
     from typing import ClassVar, TypeVar, Any, Hashable

@@ -7,7 +7,7 @@ from sympy.core.mul import Mul
 from sympy.functions.special.tensor_functions import KroneckerDelta
 import sympy
 from sympy.core.expr import Expr
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

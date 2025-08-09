@@ -6,9 +6,10 @@ from sympy.logic.boolalg import And
 from sympy.sets.sets import Interval
 
 from functools import lru_cache
-from sympy.series.order import Order
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
+if TYPE_CHECKING:
+    from sympy.series.order import Order
 
 def _ivl(cond, x):
     """return the interval corresponding to the condition

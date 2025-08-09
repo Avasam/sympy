@@ -8,7 +8,6 @@ if TYPE_CHECKING:
     from sympy.core.expr import Expr
 
 from contextlib import contextmanager
-from threading import local
 
 from sympy.core.function import expand_mul
 

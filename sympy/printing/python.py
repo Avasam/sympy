@@ -2,8 +2,6 @@ import keyword as kw
 import sympy
 from .repr import ReprPrinter
 from .str import StrPrinter
-from sympy.printing.repr import ReprPrinter
-from sympy.printing.str import StrPrinter
 
 # A list of classes that should be printed using StrPrinter
 STRPRINT = ("Add", "Infinity", "Integer", "Mul", "NegativeInfinity", "Pow")

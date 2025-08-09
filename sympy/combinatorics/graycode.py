@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sympy.core import Basic, Integer
 
 import random

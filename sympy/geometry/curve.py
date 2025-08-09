@@ -20,7 +20,7 @@ from sympy.utilities.iterables import is_sequence
 from mpmath.libmp.libmpf import prec_to_dps
 from sympy.core.basic import Basic
 from sympy.core.relational import Equality, Ne, Relational
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

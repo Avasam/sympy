@@ -3,7 +3,7 @@ from sympy.core import S
 from sympy.core.sympify import sympify
 from sympy.core.relational import Eq, Ne
 from sympy.core.parameters import global_parameters
-from sympy.logic.boolalg import BooleanFunction, Boolean
+from sympy.logic.boolalg import Boolean
 from sympy.utilities.misc import func_name
 from .sets import Set
 from sympy.core.basic import Basic

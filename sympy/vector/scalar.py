@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core import AtomicExpr, Symbol, S
 from sympy.core.sympify import _sympify
 from sympy.printing.pretty.stringpict import prettyForm

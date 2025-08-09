@@ -1,4 +1,6 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core.expr import ExprBuilder
 from sympy.core.function import (Function, FunctionClass, Lambda)
 from sympy.core.symbol import Dummy

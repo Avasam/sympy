@@ -34,11 +34,12 @@ from mpmath.libmp.libmpf import prec_to_dps
 from ast import Add
 from sympy.core.basic import Basic
 from sympy.core.mul import Mul
-from sympy.geometry.line import Segment, Segment2D, Segment3D
-from sympy.geometry.point import Point, Point2D, Point3D
-from sympy.geometry.polygon import Polygon, RegularPolygon, Triangle
 from sympy.series.order import Order
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from .polygon import Polygon, RegularPolygon, Triangle
+    from .line import Segment, Segment2D, Segment3D
 
 
 def find(x, equation):

@@ -1,12 +1,12 @@
 from __future__ import annotations
+from typing import Any, Iterator, Iterable, Union, TYPE_CHECKING
+
 import collections.abc
 import operator
 from collections import defaultdict, Counter
 from functools import reduce
 import itertools
 from itertools import accumulate
-
-import typing
 
 from sympy.core.numbers import Integer
 from sympy.core.relational import Equality
@@ -61,7 +61,7 @@ class ArraySymbol(_ArrayExpr):
 
     _iterable = False
 
-    def __new__(cls, symbol, shape: typing.Iterable) -> "ArraySymbol":
+    def __new__(cls, symbol, shape: Iterable) -> "ArraySymbol":
         if isinstance(symbol, str):
             symbol = Symbol(symbol)
         # symbol = _sympify(symbol)
@@ -945,7 +945,7 @@ class ArrayDiagonal(_CodegenArrayAbstract):
         return positions, shape
 
     def as_explicit(self) -> (
-        ZeroArray | ArrayTensorProduct | ArrayContraction | Basic | PermuteDims | ArrayDiagonal | ImmutableDenseNDimArray |     typing.Any
+        ZeroArray | ArrayTensorProduct | ArrayContraction | Basic | PermuteDims | ArrayDiagonal | ImmutableDenseNDimArray |     Any
     ):
         expr = self.expr
         if hasattr(expr, "as_explicit"):
@@ -1421,7 +1421,7 @@ class ArrayContraction(_CodegenArrayAbstract):
         return self._free_indices[:]
 
     @property
-    def free_indices_to_position(self) -> dict[    typing.Any,     typing.Any]:
+    def free_indices_to_position(self) -> dict[    Any,     Any]:
         return dict(self._free_indices_to_position)
 
     @property
@@ -1526,7 +1526,7 @@ class ArrayContraction(_CodegenArrayAbstract):
         args, dlinks = _get_contraction_links([self], self.subranks, *self.contraction_indices)
         return dlinks
 
-    def as_explicit(self) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray |     typing.Any:
+    def as_explicit(self) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray |     Any:
         expr = self.expr
         if hasattr(expr, "as_explicit"):
             expr = expr.as_explicit()
@@ -1643,7 +1643,7 @@ class _IndPos:
 
     __repr__ = __str__
 
-    def __iter__(self) -> typing.Iterator[int]:
+    def __iter__(self) -> Iterator[int]:
         yield from [self.arg, self.rel]
 
 
@@ -1662,7 +1662,7 @@ class _EditArrayContraction:
     by calling the ``.to_array_contraction()`` method.
     """
 
-    def __init__(self, base_array: typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct]):
+    def __init__(self, base_array: Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct]):
 
         expr: Basic
         diagonalized: tuple[tuple[int, ...], ...]
@@ -1896,7 +1896,7 @@ class _EditArrayContraction:
         self._track_permutation[index_destination].extend(self._track_permutation[index_element]) # type: ignore
         self._track_permutation.pop(index_element) # type: ignore
 
-    def get_absolute_free_range(self, arg: _ArgE) -> typing.Tuple[int, int]:
+    def get_absolute_free_range(self, arg: _ArgE) -> tuple[int, int]:
         """
         Return the range of the free indices of the arg as absolute positions
         among all free indices.
@@ -1909,7 +1909,7 @@ class _EditArrayContraction:
             counter += number_free_indices
         raise IndexError("argument not found")
 
-    def get_absolute_range(self, arg: _ArgE) -> typing.Tuple[int, int]:
+    def get_absolute_range(self, arg: _ArgE) -> tuple[int, int]:
         """
         Return the absolute range of indices for arg, disregarding dummy
         indices.

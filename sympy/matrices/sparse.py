@@ -17,11 +17,11 @@ from .decompositions import (
 
 from .solvers import (
     _lower_triangular_solve_sparse, _upper_triangular_solve_sparse)
-from sympy.matrices.immutable import ImmutableSparseMatrix
-from sympy.matrices.repmatrix import MutableRepMatrix, RepMatrix
 from types import NotImplementedType
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
+if TYPE_CHECKING:
+    from .immutable import ImmutableSparseMatrix
 
 class SparseRepMatrix(RepMatrix):
     """

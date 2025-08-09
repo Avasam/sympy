@@ -4,7 +4,7 @@ from sympy.core.basic import Basic
 from sympy.core.containers import Tuple
 from sympy.functions.elementary.integers import floor
 from sympy.core.function import UndefinedFunction
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

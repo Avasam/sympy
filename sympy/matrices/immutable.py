@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from mpmath.matrices.matrices import _matrix
 
 from sympy.core import Basic, Dict, Tuple
@@ -10,7 +12,7 @@ from sympy.matrices.matrixbase import MatrixBase
 from sympy.matrices.repmatrix import RepMatrix
 from sympy.matrices.sparse import SparseRepMatrix
 from sympy.multipledispatch import dispatch
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

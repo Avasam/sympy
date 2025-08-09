@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from functools import wraps, reduce
 from operator import mul
-from typing import Optional, overload, Literal, Any, cast
+from typing import Optional, overload, Any, cast
 from collections import Counter, defaultdict
 from collections.abc import Iterator
 
@@ -72,14 +72,10 @@ from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-
-if TYPE_CHECKING:
     from sympy.combinatorics.galois import S1TransitiveSubgroups, S2TransitiveSubgroups, S3TransitiveSubgroups
     from sympy.combinatorics.perm_groups import PermutationGroup
     from sympy.series.order import Order
     from functools import _Wrapped
-    from typing_extensions import Self
 
 
 def _polifyit(func) -> _Wrapped[..., Any, ..., Any]:

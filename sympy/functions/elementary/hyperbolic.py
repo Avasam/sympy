@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from sympy.core import S, sympify, cacheit
 from sympy.core.add import Add
-from sympy.core.function import Function, UndefinedFunction, DefinedFunction, ArgumentIndexError
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError
 from sympy.core.logic import fuzzy_or, fuzzy_and, fuzzy_not, FuzzyBool
 from sympy.core.numbers import I, pi, Rational
 from sympy.core.symbol import Dummy
@@ -24,8 +24,6 @@ from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-if TYPE_CHECKING:
     from sympy.series.order import Order
 
 def _rewrite_hyperbolics_as_exp(expr):

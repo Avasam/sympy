@@ -16,7 +16,7 @@ from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from sympy.tensor.array.array_derivatives import ArrayDerivative
-    from sympy.tensor.array.expressions.array_expressions import ZeroArray, ArrayTensorProduct, ArrayContraction, PermuteDims
+    from sympy.tensor.array.expressions.array_expressions import ArrayDiagonal, ZeroArray, ArrayTensorProduct, ArrayContraction, PermuteDims
     from typing_extensions import Self
 
 

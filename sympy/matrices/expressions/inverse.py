@@ -1,9 +1,11 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core.sympify import _sympify
 from sympy.core import S, Basic
 
 from sympy.matrices.exceptions import NonSquareMatrixError
 from sympy.matrices.expressions.matpow import MatPow
-import sympy.core.basic
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -48,7 +50,7 @@ class Inverse(MatPow):
         return Basic.__new__(cls, mat, exp)
 
     @property
-    def arg(self) ->     sympy.core.basic.Basic:
+    def arg(self) ->     Basic:
         return self.args[0]
 
     @property

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from .cartan_type import Standard_Cartan
 from sympy.core.backend import Matrix
-from sympy.liealgebras.cartan_type import Standard_Cartan
 
 if TYPE_CHECKING:
     from typing_extensions import Self

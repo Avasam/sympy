@@ -18,13 +18,12 @@ from sympy.utilities import sift
 from .matadd import MatAdd
 from .matmul import MatMul
 from .matpow import MatPow
-from sympy.matrices.expressions.matadd import MatAdd
-from sympy.matrices.immutable import ImmutableDenseMatrix
 from sympy.series.order import Order
 from types import NotImplementedType
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from sympy.matrices.immutable import ImmutableDenseMatrix
     from typing_extensions import Self
 
 

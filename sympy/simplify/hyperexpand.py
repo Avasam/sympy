@@ -82,7 +82,7 @@ from sympy.series import residue
 from sympy.simplify.powsimp import powdenest
 from sympy.utilities.iterables import sift
 from sympy.core.function import UndefinedFunction
-from typing import Any, Callable
+from typing import Any, Callable, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

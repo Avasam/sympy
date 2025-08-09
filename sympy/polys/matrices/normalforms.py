@@ -7,8 +7,7 @@ from .domainmatrix import DomainMatrix
 from .exceptions import DMDomainError, DMShapeError
 from sympy.ntheory.modular import symmetric_residue
 from sympy.polys.domains import QQ, ZZ
-from sympy.polys.matrices.domainmatrix import DomainMatrix
-from sympy.polys.matrices.domainscalar import DomainScalar
+from .domainscalar import DomainScalar
 
 
 # TODO (future work):

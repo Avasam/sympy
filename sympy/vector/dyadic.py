@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.vector.basisdependent import (BasisDependent, BasisDependentAdd,
                                          BasisDependentMul, BasisDependentZero)
@@ -7,9 +8,9 @@ from sympy.core.expr import AtomicExpr
 from sympy.matrices.immutable import ImmutableDenseMatrix as Matrix
 import sympy.vector
 from sympy.series.order import Order
-from sympy.vector.vector import VectorZero
 
 if TYPE_CHECKING:
+    from sympy.vector.vector import VectorZero
     from typing_extensions import Self
 
 

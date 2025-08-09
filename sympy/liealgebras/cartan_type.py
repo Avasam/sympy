@@ -1,15 +1,15 @@
 from __future__ import annotations
 from sympy.core import Atom, Basic
-from sympy.liealgebras.type_a import TypeA
-from sympy.liealgebras.type_b import TypeB
-from sympy.liealgebras.type_c import TypeC
-from sympy.liealgebras.type_d import TypeD
-from sympy.liealgebras.type_e import TypeE
-from sympy.liealgebras.type_f import TypeF
-from sympy.liealgebras.type_g import TypeG
-from typing import Any, Callable
+from typing import Any, Callable, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from sympy.liealgebras.type_a import TypeA
+    from sympy.liealgebras.type_b import TypeB
+    from sympy.liealgebras.type_c import TypeC
+    from sympy.liealgebras.type_d import TypeD
+    from sympy.liealgebras.type_e import TypeE
+    from sympy.liealgebras.type_f import TypeF
+    from sympy.liealgebras.type_g import TypeG
     from typing_extensions import Self
 
 

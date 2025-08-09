@@ -7,7 +7,6 @@ from sympy.functions.special.tensor_functions import KroneckerDelta
 from sympy.matrices.exceptions import NonInvertibleMatrixError
 from .matexpr import MatrixExpr
 from sympy.core.basic import Basic
-from sympy.matrices.expressions.matexpr import MatrixExpr
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:

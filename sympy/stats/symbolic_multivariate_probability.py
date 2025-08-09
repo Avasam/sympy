@@ -15,6 +15,8 @@ from sympy.core.sympify import _sympify
 from sympy.stats.symbolic_probability import Variance, Covariance, Expectation
 from sympy import Basic
 
+from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from typing_extensions import Self
 

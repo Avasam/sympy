@@ -17,7 +17,6 @@ from sympy.functions import KroneckerDelta, Piecewise, piecewise_fold
 from sympy.polys.polytools import factor
 from sympy.sets.sets import Interval
 from sympy.solvers.solvers import solve
-from sympy.concrete.summations import Sum
 from sympy.core.basic import Basic
 from sympy.core.relational import Equality, Ne, Relational
 from typing import Any

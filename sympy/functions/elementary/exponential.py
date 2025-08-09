@@ -23,8 +23,6 @@ from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-if TYPE_CHECKING:
     from sympy.core.basic import Basic
     from sympy.core.kind import Kind
     from sympy.series.order import Order

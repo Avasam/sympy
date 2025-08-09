@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 from sympy.core.singleton import S
 from sympy.core.sympify import _sympify
 from sympy.polys.polytools import Poly
 
 from .matexpr import MatrixExpr
-from sympy.matrices.expressions.matexpr import MatrixExpr
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

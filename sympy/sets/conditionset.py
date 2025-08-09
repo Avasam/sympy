@@ -12,8 +12,7 @@ from sympy.logic.boolalg import And, as_Boolean
 from sympy.utilities.iterables import sift, flatten, has_dups
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from .contains import Contains
-from .sets import Set, Union, FiniteSet, SetKind
-from sympy.sets.sets import Complement, FiniteSet, Intersection, Set, Union
+from .sets import Set, Union, FiniteSet, SetKind, Complement, Intersection
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:

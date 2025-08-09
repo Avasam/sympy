@@ -1,8 +1,11 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.calculus.accumulationbounds import AccumBounds
 from sympy.core import S, Symbol, Add, sympify, Expr, PoleError, Mul
 from sympy.core.exprtools import factor_terms
 from sympy.core.numbers import Float, _illegal
-from sympy.core.function import UndefinedFunction, AppliedUndef
+from sympy.core.function import AppliedUndef
 from sympy.core.symbol import Dummy
 from sympy.functions.combinatorial.factorials import factorial
 from sympy.functions.elementary.complexes import (Abs, sign, arg, re)

@@ -41,9 +41,8 @@ from mpmath.libmp.libmpf import prec_to_dps
 from collections.abc import Iterator
 from sympy.core.basic import Basic
 from sympy.core.power import Pow
-from sympy.geometry.entity import GeometryEntity
 from sympy.series.order import Order
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

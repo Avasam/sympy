@@ -1,7 +1,7 @@
 """ Elliptic Integrals. """
 
 from sympy.core import S, pi, I, Rational
-from sympy.core.function import Function, DefinedFunction, ArgumentIndexError
+from sympy.core.function import DefinedFunction, ArgumentIndexError
 from sympy.core.symbol import Dummy,uniquely_named_symbol
 from sympy.functions.elementary.complexes import sign
 from sympy.functions.elementary.hyperbolic import atanh

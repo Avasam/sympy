@@ -10,7 +10,7 @@ from sympy.polys.domains import QQ
 from sympy.polys.matrices import DomainMatrix
 from sympy.polys.matrices.domainscalar import DomainScalar
 from types import NotImplementedType
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

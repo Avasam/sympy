@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, overload, TYPE_CHECKING
+from typing import overload, TYPE_CHECKING
 
 from operator import attrgetter
 from collections import defaultdict
@@ -17,13 +17,9 @@ from sympy.utilities.iterables import sift
 from sympy.multipledispatch.dispatcher import (Dispatcher,
     ambiguity_register_error_ignore_dup,
     str_signature, RaiseNotImplementedError)
-from sympy.core.basic import Basic
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
-
-if TYPE_CHECKING:
     from sympy.series.order import Order
     from sympy.core.expr import Expr
     from sympy.core.add import Add

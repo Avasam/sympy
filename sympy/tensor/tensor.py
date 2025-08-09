@@ -30,7 +30,7 @@ lowered when the tensor is put in canonical form.
 """
 
 from __future__ import annotations
-from typing import Any
+from typing import Any, TYPE_CHECKING
 from functools import reduce
 from math import prod
 

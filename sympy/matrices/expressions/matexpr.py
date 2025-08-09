@@ -16,23 +16,15 @@ from sympy.matrices.kind import MatrixKind
 from sympy.matrices.matrixbase import MatrixBase
 from sympy.multipledispatch import dispatch
 from sympy.utilities.misc import filldedent
-import sympy.core.basic
 from sympy.core.function import UndefinedFunction
 from sympy.matrices import Matrix
-from sympy.matrices.expressions.applyfunc import ElementwiseApplyFunction
-from sympy.matrices.expressions.determinant import Determinant
-from sympy.matrices.expressions.inverse import Inverse
-from sympy.matrices.expressions.matadd import MatAdd
-from sympy.matrices.expressions.matmul import MatMul
-from sympy.matrices.expressions.matpow import MatPow
-from sympy.matrices.expressions.slice import MatrixSlice
-from sympy.matrices.expressions.special import GenericIdentity, GenericZeroMatrix, Identity
-from sympy.matrices.expressions.transpose import Transpose
-from sympy.matrices.immutable import ImmutableDenseMatrix
 from sympy.series.order import Order
-from typing import Any, Callable
+from typing import Any, Callable, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from sympy.matrices.immutable import ImmutableDenseMatrix
+    from sympy.matrices.expressions.slice import MatrixSlice
+    from sympy.matrices.expressions.applyfunc import ElementwiseApplyFunction
     from typing_extensions import Self
 
 
@@ -162,7 +154,7 @@ class MatrixExpr(Expr):
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rpow__')
-    def __pow__(self, other) -> Inverse |     sympy.core.basic.Basic | Identity | Any | MatPow:
+    def __pow__(self, other) -> Inverse |     Basic | Identity | Any | MatPow:
         return MatPow(self, other).doit()
 
     @_sympifyit('other', NotImplemented)
@@ -639,7 +631,7 @@ class MatrixElement(Expr):
         return obj
 
     @property
-    def symbol(self) ->     sympy.core.basic.Basic:
+    def symbol(self) ->     Basic:
         return self.args[0]
 
     def doit(self, **hints):
@@ -651,7 +643,7 @@ class MatrixElement(Expr):
         return args[0][args[1], args[2]]
 
     @property
-    def indices(self) -> tuple[    sympy.core.basic.Basic, ...]:
+    def indices(self) -> tuple[    Basic, ...]:
         return self.args[1:]
 
     def _eval_derivative(self, v):
@@ -714,7 +706,7 @@ class MatrixSymbol(MatrixExpr):
         return obj
 
     @property
-    def shape(self) -> tuple[    sympy.core.basic.Basic,     sympy.core.basic.Basic]:
+    def shape(self) -> tuple[    Basic,     Basic]:
         return self.args[1], self.args[2]
 
     @property
@@ -902,5 +894,5 @@ from .matadd import MatAdd
 from .matpow import MatPow
 from .transpose import Transpose
 from .inverse import Inverse
-from .special import ZeroMatrix, Identity
+from .special import ZeroMatrix, Identity, GenericIdentity, GenericZeroMatrix
 from .determinant import Determinant

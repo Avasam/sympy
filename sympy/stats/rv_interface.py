@@ -21,9 +21,11 @@ from sympy.core.function import UndefinedFunction
 from sympy.core.mul import Mul
 from sympy.core.power import Pow
 from sympy.series.order import Order
-from sympy.stats.symbolic_multivariate_probability import CrossCovarianceMatrix, ExpectationMatrix, VarianceMatrix
-from sympy.stats.symbolic_probability import CentralMoment, Covariance, Expectation, Moment, Variance
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from sympy.stats.symbolic_multivariate_probability import CrossCovarianceMatrix, ExpectationMatrix, VarianceMatrix
+    from sympy.stats.symbolic_probability import CentralMoment, Covariance, Expectation, Moment, Variance
 
 
 __all__ = ['P', 'E', 'H', 'density', 'where', 'given', 'sample', 'cdf',

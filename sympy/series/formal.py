@@ -27,7 +27,7 @@ from sympy.series.series_class import SeriesBase
 from sympy.utilities.iterables import iterable
 from collections.abc import Generator
 from sympy.core.basic import Basic
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

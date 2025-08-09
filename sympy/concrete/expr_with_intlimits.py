@@ -1,4 +1,6 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.concrete.expr_with_limits import ExprWithLimits
 from sympy.core.singleton import S
 from sympy.core.relational import Eq

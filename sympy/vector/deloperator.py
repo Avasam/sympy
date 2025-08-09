@@ -1,4 +1,6 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sympy.core import Basic
 from sympy.vector.operators import Curl, Divergence, Gradient, gradient, divergence, curl
 from sympy.core.add import Add

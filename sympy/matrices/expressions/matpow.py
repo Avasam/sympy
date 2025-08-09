@@ -9,13 +9,7 @@ from sympy.core.sympify import _sympify
 from sympy.matrices import MatrixBase
 from sympy.matrices.exceptions import NonSquareMatrixError
 from sympy.core.basic import Basic
-from sympy.matrices.expressions.matexpr import MatrixExpr
-from sympy.matrices.expressions.special import Identity
 from typing import Any
-
-if TYPE_CHECKING:
-    from sympy.matrices.expressions import Inverse
-    from typing_extensions import Self
 
 
 class MatPow(MatrixExpr):

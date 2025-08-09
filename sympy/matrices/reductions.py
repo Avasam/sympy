@@ -1,13 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, overload
-
-if TYPE_CHECKING:
-    from typing import Callable, TypeVar
-    from sympy.core.expr import Expr
-    from sympy.matrices.matrixbase import MatrixBase
-    Tmat = TypeVar('Tmat', bound=MatrixBase)
-
+from typing import TYPE_CHECKING, overload, Any, Callable, TypeVar
 from types import FunctionType
 
 from sympy.polys.polyerrors import CoercionFailed
@@ -16,9 +9,10 @@ from sympy.polys.domains import ZZ, QQ
 from .utilities import _get_intermediate_simp, _iszero, _dotprodsimp, _simplify
 from .determinant import _find_reasonable_pivot
 
-
 if TYPE_CHECKING:
-    from typing import Any
+    from sympy.core.expr import Expr
+    from sympy.matrices.matrixbase import MatrixBase
+    Tmat = TypeVar('Tmat', bound=MatrixBase)
 
 
 def _row_reduce_list(mat, rows, cols, one, iszerofunc, simpfunc,

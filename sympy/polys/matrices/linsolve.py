@@ -43,7 +43,6 @@ from .sdm import (
 )
 
 from sympy.utilities.misc import filldedent
-from sympy.polys.matrices.sdm import SDM
 
 
 def _linsolve(eqs, syms):

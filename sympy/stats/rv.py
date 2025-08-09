@@ -45,18 +45,18 @@ from sympy.utilities.iterables import iterable
 import sympy
 from collections.abc import Generator
 from sympy.series.order import Order
-from sympy.stats.compound_rv import CompoundPSpace
-from sympy.stats.crv import ContinuousPSpace, ProductContinuousDomain
-from sympy.stats.drv import DiscretePSpace, ProductDiscreteDomain
-from sympy.stats.frv import ConditionalFiniteDomain, FiniteDensity, FinitePSpace, ProductFiniteDomain, ProductFinitePSpace
-from sympy.stats.frv_types import BernoulliDistribution
-from sympy.stats.joint_rv import JointRandomSymbol
-from sympy.stats.stochastic_process import StochasticPSpace
-from sympy.stats.symbolic_multivariate_probability import ExpectationMatrix
-from sympy.stats.symbolic_probability import Expectation, Probability
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from sympy.stats.frv import ConditionalFiniteDomain, FiniteDensity, FinitePSpace, ProductFiniteDomain, ProductFinitePSpace
+    from sympy.stats.frv_types import BernoulliDistribution
+    from sympy.stats.joint_rv import JointRandomSymbol
+    from sympy.stats.stochastic_process import StochasticPSpace
+    from sympy.stats.symbolic_multivariate_probability import ExpectationMatrix
+    from sympy.stats.symbolic_probability import Expectation, Probability
+    from sympy.stats.drv import DiscretePSpace, ProductDiscreteDomain
+    from sympy.stats.crv import ContinuousPSpace, ProductContinuousDomain
+    from sympy.stats.compound_rv import CompoundPSpace
     from typing_extensions import Self
 
 

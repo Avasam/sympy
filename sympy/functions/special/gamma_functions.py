@@ -3,7 +3,7 @@ from math import prod
 
 from sympy.core import Add, S, Dummy, expand_func
 from sympy.core.expr import Expr
-from sympy.core.function import Function, UndefinedFunction, DefinedFunction, ArgumentIndexError, PoleError
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError, PoleError
 from sympy.core.logic import fuzzy_and, fuzzy_not
 from sympy.core.numbers import Rational, pi, oo, I
 from sympy.core.power import Pow

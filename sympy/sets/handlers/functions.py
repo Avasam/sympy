@@ -14,9 +14,6 @@ from sympy.sets import (imageset, Interval, FiniteSet, Union, ImageSet,
 from sympy.sets.sets import EmptySet, is_function_invertible_in_set
 from sympy.sets.fancysets import Integers, Naturals, Reals
 from sympy.functions.elementary.exponential import match_real_imag
-import sympy.sets.fancysets
-import sympy.sets.sets
-from sympy.core.basic import Basic
 
 
 _x, _y = symbols("x y")

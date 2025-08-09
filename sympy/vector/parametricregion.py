@@ -1,3 +1,4 @@
+from __future__ import annotations
 from functools import singledispatch
 from sympy.core.numbers import pi
 from sympy.functions.elementary.trigonometric import tan
@@ -7,7 +8,7 @@ from sympy.core.symbol import _symbol
 from sympy.solvers import solve
 from sympy.geometry import Point, Segment, Curve, Ellipse, Polygon
 from sympy.vector import ImplicitRegion
-from typing import Any
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

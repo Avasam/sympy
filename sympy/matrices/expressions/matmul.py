@@ -18,13 +18,11 @@ from .matexpr import MatrixExpr
 from .matpow import MatPow
 from .transpose import transpose
 from .permutation import PermutationMatrix
-from .special import ZeroMatrix, Identity, GenericIdentity, OneMatrix
+from .special import ZeroMatrix, Identity, GenericIdentity, OneMatrix, GenericZeroMatrix
 from sympy.core.expr import Expr
-from sympy.matrices.expressions.matadd import MatAdd
-from sympy.matrices.expressions.matexpr import MatrixExpr
-from sympy.matrices.expressions.special import GenericIdentity, GenericZeroMatrix, ZeroMatrix
+from .matadd import MatAdd
 from sympy.series.order import Order
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

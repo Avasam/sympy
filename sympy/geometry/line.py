@@ -31,7 +31,7 @@ from sympy.functions.elementary.piecewise import Piecewise
 from sympy.functions.elementary.trigonometric import (_pi_coeff, acos, tan, atan2)
 from .entity import GeometryEntity, GeometrySet
 from .exceptions import GeometryError
-from .point import Point, Point3D
+from .point import Point, Point2D, Point3D
 from .util import find, intersection
 from sympy.logic.boolalg import And
 from sympy.matrices import Matrix
@@ -46,10 +46,8 @@ import random
 from sympy.core.basic import Basic
 from sympy.core.function import UndefinedFunction
 from sympy.core.power import Pow
-from sympy.geometry.entity import GeometrySet
-from sympy.geometry.point import Point, Point2D, Point3D
 from types import NotImplementedType
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

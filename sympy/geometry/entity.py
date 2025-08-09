@@ -20,6 +20,7 @@ R3 are currently the only ambient spaces implemented.
 
 """
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from sympy.core.basic import Basic
 from sympy.core.containers import Tuple

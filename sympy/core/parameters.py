@@ -4,7 +4,6 @@ from .cache import clear_cache
 from contextlib import contextmanager
 from threading import local
 from collections.abc import Generator
-from typing import Any
 
 class _global_parameters(local):
     """

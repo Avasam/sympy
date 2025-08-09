@@ -9,7 +9,6 @@ from sympy.core.sympify import _sympify
 from .sets import Set, FiniteSet, SetKind
 from collections.abc import Iterator
 from sympy.core.basic import Basic
-from sympy.sets.sets import Set, SetKind
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:

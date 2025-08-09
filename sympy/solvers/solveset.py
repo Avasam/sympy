@@ -64,7 +64,6 @@ from sympy.calculus.util import periodicity, continuous_domain, function_range
 
 
 from types import GeneratorType
-import sympy.core.basic
 import sympy.sets.conditionset
 import sympy.sets.sets
 from typing import Any
@@ -2580,7 +2579,7 @@ def _solveset_multi(eqs, syms, domains):
             return Union(*sols)
 
 
-def solvify(f, symbol, domain) -> list[sympy.core.basic.Basic] | None:
+def solvify(f, symbol, domain) -> list[Basic] | None:
     """Solves an equation using solveset and returns the solution in accordance
     with the `solve` output API.
 
@@ -2898,7 +2897,7 @@ def linear_eq_to_matrix(equations, *symbols) -> tuple[Any, Matrix]:
     return A, b
 
 
-def linsolve(system, *symbols) -> sympy.sets.sets.FiniteSet | sympy.core.basic.Basic:
+def linsolve(system, *symbols) -> sympy.sets.sets.FiniteSet | Basic:
     r"""
     Solve system of $N$ linear equations with $M$ variables; both
     underdetermined and overdetermined systems are supported.

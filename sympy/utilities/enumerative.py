@@ -90,7 +90,6 @@ time that would be spent skipping over zeros.
 """
 from __future__ import annotations
 from collections.abc import Generator
-from typing import Any
 
 class PartComponent:
     """Internal class used in support of the multiset partitions

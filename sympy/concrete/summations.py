@@ -37,10 +37,8 @@ from sympy.sets.contains import Contains
 from sympy.sets.sets import FiniteSet, Interval
 from sympy.utilities.iterables import sift
 import itertools
-from sympy.concrete.expr_with_intlimits import ExprWithIntLimits
-from sympy.concrete.expr_with_limits import AddWithLimits
 from sympy.core.basic import Basic
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

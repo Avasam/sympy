@@ -1,6 +1,6 @@
 from __future__ import annotations
 from sympy.core.expr import Expr
-from sympy.core.function import Function, UndefinedFunction, DefinedFunction, ArgumentIndexError
+from sympy.core.function import UndefinedFunction, DefinedFunction, ArgumentIndexError
 from sympy.core.numbers import I, pi
 from sympy.core.singleton import S
 from sympy.core.symbol import Dummy

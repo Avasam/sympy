@@ -19,10 +19,10 @@ from sympy.utilities.iterables import (flatten, has_variety, minlex,
 from sympy.utilities.misc import as_int
 from mpmath.libmp.libintmath import ifac
 from sympy.multipledispatch import dispatch
-from sympy.combinatorics.perm_groups import Coset
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from sympy.combinatorics.perm_groups import Coset
     from typing_extensions import Self
 
 def _af_rmul(a, b):

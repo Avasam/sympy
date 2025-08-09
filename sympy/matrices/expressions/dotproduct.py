@@ -3,7 +3,7 @@ from sympy.core import Basic, Expr
 from sympy.core.sympify import _sympify
 from sympy.matrices.expressions.transpose import transpose
 from sympy.matrices.expressions.slice import MatrixSlice
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self

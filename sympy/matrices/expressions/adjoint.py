@@ -1,7 +1,6 @@
 from sympy.core import Basic
 from sympy.functions import adjoint, conjugate
 from sympy.matrices.expressions.matexpr import MatrixExpr
-import sympy.core.basic
 from sympy.core.function import UndefinedFunction
 
 
@@ -38,7 +37,7 @@ class Adjoint(MatrixExpr):
             return adjoint(self.arg)
 
     @property
-    def arg(self) ->     sympy.core.basic.Basic:
+    def arg(self) ->     Basic:
         return self.args[0]
 
     @property

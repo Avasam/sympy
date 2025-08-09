@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, overload, TYPE_CHECKING
+from typing import Any, overload
 
 from collections import defaultdict
 
@@ -51,17 +51,12 @@ from sympy.utilities.misc import as_int
 
 import mpmath
 import sympy.core.add
-import sympy.core.basic
 import sympy.core.expr
 import sympy.core.mul
 import sympy.core.power
 import sympy.core.relational
 import sympy.core.symbol
 from sympy.series.order import Order
-
-
-if TYPE_CHECKING:
-    pass
 
 
 def separatevars(
@@ -859,7 +854,7 @@ def sum_combine(s_t) -> Order:
 
     return result
 
-def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, sign=True) -> sympy.core.basic.Basic | Any | sympy.core.add.Add | Order | sympy.core.mul.Mul:
+def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, sign=True) -> Basic | Any | sympy.core.add.Add | Order | sympy.core.mul.Mul:
     """Return Sum with constant factors extracted.
 
     If ``limits`` is specified then ``self`` is the summand; the other
@@ -885,7 +880,7 @@ def factor_sum(self, limits=None, radical=False, clear=False, fraction=False, si
     return factor_terms(expr, **kwargs)
 
 
-def sum_add(self, other, method=0) -> sympy.core.basic.Basic | Any | sympy.core.add.Add | Order | sympy.core.mul.Mul:
+def sum_add(self, other, method=0) -> Basic | Any | sympy.core.add.Add | Order | sympy.core.mul.Mul:
     """Helper function for Sum simplification"""
     #we know this is something in terms of a constant * a sum
     #so we temporarily put the constants inside for simplification

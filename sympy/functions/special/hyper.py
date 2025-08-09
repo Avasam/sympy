@@ -6,7 +6,7 @@ from collections import Counter
 from sympy.core import S, Mod
 from sympy.core.add import Add
 from sympy.core.expr import Expr
-from sympy.core.function import Function, UndefinedFunction, DefinedFunction, Derivative, ArgumentIndexError
+from sympy.core.function import UndefinedFunction, DefinedFunction, Derivative, ArgumentIndexError
 
 from sympy.core.containers import Tuple
 from sympy.core.mul import Mul

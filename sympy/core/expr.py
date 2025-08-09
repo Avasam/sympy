@@ -23,10 +23,11 @@ from mpmath.libmp import mpf_log, prec_to_dps
 from mpmath.libmp.libintmath import giant_steps
 
 if TYPE_CHECKING:
+    from sympy.series.order import Order
     from typing import Any, Hashable
     from typing_extensions import Self
     from .function import UndefinedFunction
-    from .relational import Ne, Relational
+    from .relational import Ne, Relational, Equality
     from .numbers import Float, Number, Rational
     from sympy.series.formal import FormalPowerSeries
     from sympy.series.fourier import FiniteFourierSeries, FourierSeries
@@ -441,7 +442,7 @@ class Expr(Basic, EvalfMixin):
         from .relational import StrictLessThan
         return StrictLessThan(self, other)
 
-    def __trunc__(self) ->     sympy.Integer:
+    def __trunc__(self) ->     Integer:
         if not self.is_number:
             raise TypeError("Cannot truncate symbols and expressions")
         else:
@@ -2266,7 +2267,7 @@ class Expr(Basic, EvalfMixin):
         """
         return self, S.One
 
-    def normal(self) -> Self |     sympy.Mul:
+    def normal(self) -> Self |     Mul:
         """Return the expression as a fraction.
 
         expression -> a/b
@@ -2427,7 +2428,7 @@ class Expr(Basic, EvalfMixin):
 
         return None
 
-    def extract_additively(self, c) -> Self |     sympy.Order | None:
+    def extract_additively(self, c) -> Self |     Order | None:
         """Return self - c if it's possible to subtract c from self and
         make all matching coefficients move towards zero, else return None.
 
@@ -3690,7 +3691,7 @@ class Expr(Basic, EvalfMixin):
 
     @cacheit
     def expand(self, deep=True, modulus=None, power_base=True, power_exp=True,
-            mul=True, log=True, multinomial=True, basic=True, **hints) ->     sympy.Order | Any | Self:
+            mul=True, log=True, multinomial=True, basic=True, **hints) ->     Order | Any | Self:
         """
         Expand an expression using hints.
 
@@ -3784,7 +3785,7 @@ class Expr(Basic, EvalfMixin):
     ################### GLOBAL ACTION VERB WRAPPER METHODS ####################
     ###########################################################################
 
-    def integrate(self, *args, **kwargs) ->     sympy.Equality | Relational | Ne:
+    def integrate(self, *args, **kwargs) ->     Equality | Relational | Ne:
         """See the integrate function in sympy.integrals"""
         from sympy.integrals.integrals import integrate
         return integrate(self, *args, **kwargs)
@@ -3867,7 +3868,7 @@ class Expr(Basic, EvalfMixin):
         from sympy.polys.polytools import invert
         return invert(self, g, *gens, **args)
 
-    def round(self, n=None) -> Self |     sympy.Integer | Rational | Float:
+    def round(self, n=None) -> Self |     Integer | Rational | Float:
         """Return x rounded to the given decimal place.
 
         If a complex number would result, apply round to the real

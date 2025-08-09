@@ -15,12 +15,9 @@ from .intfunc import integer_nthroot, trailing
 from .logic import fuzzy_not, _fuzzy_group
 from .expr import Expr
 from .parameters import global_parameters
-from .kind import KindDispatcher
+from .kind import KindDispatcher, Kind, _UndefinedKind
 from .traversal import bottom_up
 from sympy.utilities.iterables import sift
-from sympy.core.expr import Expr
-from sympy.core.kind import Kind, _UndefinedKind
-from sympy.core.operations import AssocOp
 
 if TYPE_CHECKING:
     from typing_extensions import Self
