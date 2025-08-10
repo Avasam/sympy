@@ -10,6 +10,7 @@ from sympy.polys.domains.field import Field
 from sympy.polys.domains.simpledomain import SimpleDomain
 from sympy.polys.polyerrors import CoercionFailed
 from sympy.utilities import public
+from sympy.polys.domains.domain import RingElement
 
 @public
 class RationalField(Field[MPQ], CharacteristicZero, SimpleDomain):
@@ -103,7 +104,8 @@ class RationalField(Field[MPQ], CharacteristicZero, SimpleDomain):
         QQ<sqrt(2)>
         """
         from sympy.polys.domains import AlgebraicField
-        return AlgebraicField(self, *extension, alias=alias)
+        # TODO: Just to help during implicit type checking. Remove when opening PR
+        return AlgebraicField[RingElement, MPQ](self, *extension, alias=alias)
 
     def from_AlgebraicField(K1, a, K0):
         """Convert a :py:class:`~.ANP` object to :ref:`QQ`.

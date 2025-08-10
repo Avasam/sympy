@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from .plot_interval import PlotInterval
 from .plot_object import PlotObject
 from .util import parse_option_string
@@ -6,6 +8,8 @@ from sympy.core.sympify import sympify
 from sympy.geometry.entity import GeometryEntity
 from sympy.utilities.iterables import is_sequence
 
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 class PlotMode(PlotObject):
     """
@@ -45,18 +49,19 @@ class PlotMode(PlotObject):
 
     ## Plot mode registry data structures
     _mode_alias_list = []
-    _mode_map = {
+    _mode_map: dict[int, dict[int, dict[int, type[Self]]]] = {
         1: {1: {}, 2: {}},
         2: {1: {}, 2: {}},
         3: {1: {}, 2: {}},
     }  # [d][i][alias_str]: class
-    _mode_default_map = {
+    _mode_default_map: dict[int, dict[int, type[Self]]] = {
         1: {},
         2: {},
         3: {},
     }  # [d][i]: class
     _i_var_max, _d_var_max = 2, 3
 
+    options: dict
     def __new__(cls, *args, **kwargs):
         """
         This is the function which interprets
@@ -162,7 +167,7 @@ class PlotMode(PlotObject):
                              "a class or a string")
 
     @staticmethod
-    def _get_default_mode(i, d, i_vars=-1):
+    def _get_default_mode(i, d, i_vars=-1) -> type[PlotMode]:
         if i_vars == -1:
             i_vars = i
         try:
@@ -179,7 +184,7 @@ class PlotMode(PlotObject):
                                   "dependent variables.") % (i_vars, d))
 
     @staticmethod
-    def _get_aliased_mode(alias, i, d, i_vars=-1):
+    def _get_aliased_mode(alias, i, d, i_vars=-1) -> type[PlotMode]:
         if i_vars == -1:
             i_vars = i
         if alias not in PlotMode._mode_alias_list:

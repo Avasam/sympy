@@ -1,5 +1,6 @@
 from sympy.core import S, diff, Tuple, Dummy, Mul
 from sympy.core.basic import Basic, as_Basic
+from sympy.core.expr import Expr
 from sympy.core.function import DefinedFunction
 from sympy.core.numbers import Rational, NumberSymbol, _illegal
 from sympy.core.parameters import global_parameters
@@ -132,7 +133,7 @@ class Piecewise(DefinedFunction):
         if len(args) == 0:
             raise TypeError("At least one (expr, cond) pair expected.")
         # (Try to) sympify args first
-        newargs = []
+        newargs: list[ExprCondPair] = []
         for ec in args:
             # ec could be a ExprCondPair or a tuple
             pair = ExprCondPair(*getattr(ec, 'args', ec))
@@ -154,7 +155,7 @@ class Piecewise(DefinedFunction):
         return Basic.__new__(cls, *newargs, **options)
 
     @classmethod
-    def eval(cls, *_args):
+    def eval(cls, *_args: tuple[Expr, bool]):
         """Either return a modified version of the args or, if no
         modifications were made, return None.
 

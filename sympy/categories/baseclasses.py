@@ -1,8 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, NoReturn, TypeVar
 from sympy.core import S, Basic, Dict, Symbol, Tuple, sympify
 from sympy.core.symbol import Str
 from sympy.sets import Set, FiniteSet, EmptySet
 from sympy.utilities.iterables import iterable
 
+if TYPE_CHECKING:
+    from typing_extensions import Self
+
+_T = TypeVar("_T")
 
 class Class(Set):
     r"""
@@ -60,7 +67,7 @@ class Morphism(Basic):
 
     IdentityMorphism, NamedMorphism, CompositeMorphism
     """
-    def __new__(cls, domain, codomain):
+    def __new__(cls, domain, codomain) -> NoReturn:
         raise(NotImplementedError(
             "Cannot instantiate Morphism.  Use derived classes instead."))
 
@@ -292,7 +299,7 @@ class CompositeMorphism(Morphism):
         else:
             return t + Tuple(morphism)
 
-    def __new__(cls, *components):
+    def __new__(cls, *components: _T) -> _T | Self: # type: ignore
         if components and not isinstance(components[0], Morphism):
             # Maybe the user has explicitly supplied a list of
             # morphisms.

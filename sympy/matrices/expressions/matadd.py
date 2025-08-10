@@ -1,7 +1,11 @@
+from __future__ import annotations
+
 from functools import reduce
 import operator
+from typing import TYPE_CHECKING
 
 from sympy.core import Basic, sympify
+from sympy.core.expr import Expr
 from sympy.core.add import add, Add, _could_extract_minus_sign
 from sympy.core.sorting import default_sort_key
 from sympy.functions import adjoint
@@ -14,6 +18,9 @@ from sympy.matrices.expressions.special import ZeroMatrix, GenericZeroMatrix
 from sympy.matrices.expressions._shape import validate_matadd_integer as validate
 from sympy.utilities.iterables import sift
 from sympy.utilities.exceptions import sympy_deprecation_warning
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 # XXX: MatAdd should perhaps not subclass directly from Add
 class MatAdd(MatrixExpr, Add):
@@ -35,7 +42,7 @@ class MatAdd(MatrixExpr, Add):
 
     identity = GenericZeroMatrix()
 
-    def __new__(cls, *args, evaluate=False, check=None, _sympify=True):
+    def __new__(cls, *args, evaluate=False, check=None, _sympify=True) -> Expr | Self:
         if not args:
             return cls.identity
 

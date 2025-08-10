@@ -2,9 +2,12 @@
 
 This file assumes knowledge of Basic and little else.
 """
+from typing import TypeVar, overload
+from collections.abc import Callable
 from sympy.utilities.iterables import sift
 from .util import new
 
+_T = TypeVar("_T")
 
 # Functions that create rules
 def rm_id(isid, new=new):
@@ -147,8 +150,11 @@ def unpack(expr):
     else:
         return expr
 
-
-def flatten(expr, new=new):
+@overload
+def flatten(expr: _T) -> _T: ...
+@overload
+def flatten(expr, new: Callable[..., _T]) -> _T: ...
+def flatten(expr, new: Callable[..., _T] = new) -> _T:
     """ Flatten T(a, b, T(c, d), T2(e)) to T(a, b, c, d, T2(e)) """
     cls = expr.__class__
     args = []

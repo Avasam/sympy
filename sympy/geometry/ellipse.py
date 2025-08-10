@@ -5,7 +5,9 @@ Contains
 * Circle
 
 """
+from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from sympy.core.expr import Expr
 from sympy.core.relational import Eq
 from sympy.core import S, pi, sympify
@@ -22,7 +24,7 @@ from sympy.functions.elementary.trigonometric import cos, sin
 from sympy.functions.special.elliptic_integrals import elliptic_e
 from .entity import GeometryEntity, GeometrySet
 from .exceptions import GeometryError
-from .line import Line, Segment, Ray2D, Segment2D, Line2D, LinearEntity3D
+from .line import Line, Segment, Ray2D, Segment2D, Segment3D, Line2D, LinearEntity3D
 from .point import Point, Point2D, Point3D
 from .util import idiff, find
 from sympy.polys import DomainError, Poly, PolynomialError
@@ -34,6 +36,9 @@ from sympy.utilities.misc import filldedent, func_name
 from mpmath.libmp.libmpf import prec_to_dps
 
 import random
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 x, y = [Dummy('ellipse_dummy', real=True) for i in range(2)]
 
@@ -1538,7 +1543,7 @@ class Circle(Ellipse):
     Circle(Point2D(0, 0), 5)
     """
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args, **kwargs) -> Circle | Point | Point2D | Point3D | Segment2D | Segment3D | Segment | Self | None:
         evaluate = kwargs.get('evaluate', global_parameters.evaluate)
         if len(args) == 1 and isinstance(args[0], (Expr, Eq)):
             x = kwargs.get('x', 'x')

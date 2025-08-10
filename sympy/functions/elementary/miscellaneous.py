@@ -1,3 +1,4 @@
+from typing import ClassVar, cast
 from sympy.core import S, sympify, NumberKind
 from sympy.utilities.iterables import sift
 from sympy.core.add import Add
@@ -9,7 +10,7 @@ from sympy.core.expr import Expr
 from sympy.core.exprtools import factor_terms
 from sympy.core.mod import Mod
 from sympy.core.mul import Mul
-from sympy.core.numbers import Rational
+from sympy.core.numbers import Rational, Infinity, NegativeInfinity
 from sympy.core.power import Pow
 from sympy.core.relational import Eq, Relational
 from sympy.core.singleton import Singleton
@@ -377,10 +378,13 @@ def real_root(arg, n=None, evaluate=None):
 
 
 class MinMaxBase(Expr, LatticeOp):
+    zero: ClassVar[Infinity | NegativeInfinity]
+    identity: ClassVar[Infinity | NegativeInfinity]
+
     def __new__(cls, *args, **assumptions):
         from sympy.core.parameters import global_parameters
         evaluate = assumptions.pop('evaluate', global_parameters.evaluate)
-        args = (sympify(arg) for arg in args)
+        args = (cast('Expr', sympify(arg)) for arg in args)
 
         # first standard filter, for cls.zero and cls.identity
         # also reshape Max(a, Max(b, c)) to Max(a, b, c)

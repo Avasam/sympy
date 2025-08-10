@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, overload, Any, Literal, TypeVar
+from collections.abc import Iterable, Callable
 
 from .assumptions import StdFactKB, _assume_defined
 from .basic import Basic, Atom
@@ -22,11 +23,10 @@ import re as _re
 import random
 from itertools import product
 
-
 if TYPE_CHECKING:
-    from typing import Any, Literal, Iterable, Callable
     from typing_extensions import Self
 
+_SymbolT = TypeVar("_SymbolT", bound='Symbol')
 
 class Str(Atom):
     """
@@ -374,7 +374,7 @@ class Symbol(AtomicExpr, Boolean): # type: ignore
         return assumptions_kb, assumptions_orig, assumptions0
 
     @staticmethod
-    def __xnew__(cls, name, **assumptions):  # never cached (e.g. dummy)
+    def __xnew__(cls: type[_SymbolT], name: str, **assumptions) -> _SymbolT:  # never cached (e.g. dummy)
         if not isinstance(name, str):
             raise TypeError("name should be a string, not %s" % repr(type(name)))
 

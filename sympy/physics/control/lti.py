@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Type
 from sympy import Interval, numer, Rational, solveset
 from sympy.core.add import Add
@@ -1728,7 +1730,7 @@ class Series(SISOLinearTimeInvariant):
         """
         return self.args[0].var
 
-    def doit(self, **hints):
+    def doit(self, **hints) -> StateSpace | TransferFunction:
         """
         Returns the resultant transfer function or StateSpace obtained after evaluating
         the series interconnection.
@@ -2113,7 +2115,7 @@ class MIMOSeries(MIMOLinearTimeInvariant):
     def is_StateSpace_object(self):
         return self._is_series_StateSpace
 
-    def doit(self, cancel=False, **kwargs):
+    def doit(self, cancel=False, **kwargs) ->  StateSpace | TransferFunctionMatrix:
         """
         Returns the resultant obtained after evaluating the MIMO systems arranged
         in a series configuration. For TransferFunction systems it returns a TransferFunctionMatrix
@@ -2340,7 +2342,7 @@ class Parallel(SISOLinearTimeInvariant):
         """
         return self.args[0].var
 
-    def doit(self, **hints):
+    def doit(self, **hints) -> StateSpace | TransferFunction:
         """
         Returns the resultant transfer function or state space obtained by
         parallel connection of transfer functions or state space objects.
@@ -2686,7 +2688,7 @@ class MIMOParallel(MIMOLinearTimeInvariant):
     def is_StateSpace_object(self):
         return self._is_parallel_StateSpace
 
-    def doit(self, **hints):
+    def doit(self, **hints) -> StateSpace | TransferFunctionMatrix:
         """
         Returns the resultant transfer function matrix or StateSpace obtained after evaluating
         the MIMO systems arranged in a parallel configuration.

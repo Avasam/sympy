@@ -24,6 +24,9 @@ from sympy.core.sympify import _sympy_converter, _sympify, sympify
 from sympy.utilities.iterables import sift, ibin
 from sympy.utilities.misc import filldedent
 
+if TYPE_CHECKING:
+    from sympy.core.relational import Eq, Ne
+    from typing_extensions import Self
 
 def as_Boolean(e):
     """Like ``bool``, return the Boolean value of an expression, e,
@@ -1021,7 +1024,7 @@ class Xor(BooleanFunction):
         if not evaluate:
             return super().__new__(cls, *args, evaluate=evaluate, **kwargs)
 
-        argset = set()
+        argset = set[BooleanAtom]()
         for arg in map(_sympify, args):
             if isinstance(arg, Number) or arg in (True, False):
                 if arg:
@@ -1437,7 +1440,7 @@ class ITE(BooleanFunction):
         return rv
 
     @classmethod
-    def eval(cls, *args):
+    def eval(cls, *args) -> Not | Basic | Ne | Eq | Self | None:
         from sympy.core.relational import Eq, Ne
         # do the args give a singular result?
         a, b, c = args

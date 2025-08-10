@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TypeVar
+from collections.abc import Collection, Container, Iterable, MutableSequence
 from sympy.core.basic import Basic
 from sympy.core.cache import cacheit
 from sympy.core.containers import Tuple
@@ -13,10 +16,14 @@ from sympy.core.symbol import Dummy, Symbol, Wild
 from sympy.core.sympify import sympify
 from sympy.matrices import Matrix
 from sympy.polys import lcm, factor
+from sympy.polys.polyclasses import DMP
+from sympy.polys.puiseux import PuiseuxPoly
+from sympy.polys.rings import PolyElement
 from sympy.sets.sets import Interval, Intersection
 from sympy.tensor.indexed import Idx
 from sympy.utilities.iterables import flatten, is_sequence, iterable
 
+_SeqBaseT = TypeVar("_SeqBaseT", bound="SeqBase")
 
 ###############################################################################
 #                            SEQUENCES                                        #
@@ -1053,7 +1060,7 @@ class SeqAdd(SeqExprOp):
         args = list(args)
 
         # adapted from sympy.sets.sets.Union
-        def _flatten(arg):
+        def _flatten(arg) -> list[SeqBase]:
             if isinstance(arg, SeqBase):
                 if isinstance(arg, SeqAdd):
                     return sum(map(_flatten, arg.args), [])
@@ -1083,7 +1090,7 @@ class SeqAdd(SeqExprOp):
         return Basic.__new__(cls, *args)
 
     @staticmethod
-    def reduce(args):
+    def reduce(args: MutableSequence[_SeqBaseT]) -> _SeqBaseT | EmptySequence | SeqAdd:
         """Simplify :class:`SeqAdd` using known rules.
 
         Iterates through all pairs and ask the constituent
@@ -1095,7 +1102,7 @@ class SeqAdd(SeqExprOp):
         adapted from ``Union.reduce``
 
         """
-        new_args = True
+        new_args: list[_SeqBaseT] | bool = True
         while new_args:
             for id1, s in enumerate(args):
                 new_args = False
@@ -1193,7 +1200,7 @@ class SeqMul(SeqExprOp):
         return Basic.__new__(cls, *args)
 
     @staticmethod
-    def reduce(args):
+    def reduce(args: MutableSequence[_SeqBaseT]) -> _SeqBaseT | EmptySequence | SeqMul:
         """Simplify a :class:`SeqMul` using known rules.
 
         Explanation
@@ -1208,7 +1215,7 @@ class SeqMul(SeqExprOp):
         adapted from ``Union.reduce``
 
         """
-        new_args = True
+        new_args: list[_SeqBaseT] | bool = True
         while new_args:
             for id1, s in enumerate(args):
                 new_args = False

@@ -749,9 +749,9 @@ class FactorCache(MutableMapping):
                 self._cache.popitem(False)
 
     @overload
-    def get(self, n: int, default: _T) -> int | _T:
+    def get(self, n: int, default: _T) -> int | _T: ...
     @overload
-    def get(self, n: int, default = None) -> int | None:
+    def get(self, n: int, default = None) -> int | None: ...
     def get(self, n: int, default: _T | None = None) -> int | _T | None:
         """ Return the prime factor of ``n``.
         If it does not exist in the cache, return the value of ``default``.

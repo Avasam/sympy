@@ -6871,7 +6871,7 @@ def factor_list(f, *gens, **args):
 
 
 @public
-def factor(f, *gens, deep=False, **args):
+def factor(f, *gens, deep=False, **args) -> Expr:
     """
     Compute the factorization of expression, ``f``, into irreducibles. (To
     factor an integer into primes, use ``factorint``.)

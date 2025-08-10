@@ -1,7 +1,11 @@
 """Hermitian conjugation."""
 
+from typing import TYPE_CHECKING, overload, Literal
 from sympy.core import Expr, sympify
 from sympy.functions.elementary.complexes import adjoint
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = [
     'Dagger'
@@ -84,6 +88,10 @@ class Dagger(adjoint):
         """Find the kind of a dagger of something (just the kind of the something)."""
         return self.args[0].kind
 
+    @overload
+    def __new__(cls, arg, evaluate: Literal[False]) -> Self: ...
+    @overload
+    def __new__(cls, arg, evaluate=True): ...
     def __new__(cls, arg, evaluate=True):
         if hasattr(arg, 'adjoint') and evaluate:
             return arg.adjoint()

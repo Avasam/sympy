@@ -1,5 +1,5 @@
 import itertools
-
+from typing import cast
 from sympy.core.add import Add
 from sympy.core.expr import Expr
 from sympy.core.function import expand as _expand
@@ -54,7 +54,7 @@ class ExpectationMatrix(Expectation, MatrixExpr):
 
     """
     def __new__(cls, expr, condition=None):
-        expr = _sympify(expr)
+        expr = cast('MatrixExpr', _sympify(expr))
         if condition is None:
             if not is_random(expr):
                 return expr

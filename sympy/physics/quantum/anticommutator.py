@@ -1,14 +1,18 @@
 """The anti-commutator: ``{A,B} = A*B + B*A``."""
-
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from sympy.core.expr import Expr
 from sympy.core.kind import KindDispatcher
 from sympy.core.mul import Mul
-from sympy.core.numbers import Integer
+from sympy.core.numbers import Integer, Zero
 from sympy.core.singleton import S
 from sympy.printing.pretty.stringpict import prettyForm
 
 from sympy.physics.quantum.dagger import Dagger
 from sympy.physics.quantum.kind import _OperatorKind, OperatorKind
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = [
     'AntiCommutator'
@@ -96,7 +100,7 @@ class AntiCommutator(Expr):
         return obj
 
     @classmethod
-    def eval(cls, a, b):
+    def eval(cls, a, b) -> Zero | Expr | Self | None:
         if not (a and b):
             return S.Zero
         if a == b:

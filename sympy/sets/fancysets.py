@@ -1,3 +1,4 @@
+from typing import cast
 from functools import reduce
 from itertools import product
 
@@ -353,7 +354,7 @@ class ImageSet(Set):
         if len(signature) != len(sets):
             raise ValueError('Incompatible signature')
 
-        sets = [_sympify(s) for s in sets]
+        sets = cast(tuple[Set, ...], [_sympify(s) for s in sets])
 
         if not all(isinstance(s, Set) for s in sets):
             raise TypeError("Set arguments to ImageSet should of type Set")

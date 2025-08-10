@@ -1,4 +1,6 @@
+from __future__ import annotations
 from sympy.core import S, sympify, Expr, Dummy, Add, Mul
+from sympy.core.basic import Basic
 from sympy.core.cache import cacheit
 from sympy.core.containers import Tuple
 from sympy.core.function import Function, PoleError, expand_power_base, expand_log
@@ -128,7 +130,7 @@ class Order(Expr):
     __slots__ = ()
 
     @cacheit
-    def __new__(cls, expr, *args, **kwargs):
+    def __new__(cls, expr, *args, **kwargs) -> Order:
         expr = sympify(expr)
 
         if not args:

@@ -1,5 +1,7 @@
+from __future__ import annotations
 import itertools
 from collections.abc import Iterable
+from typing import TYPE_CHECKING, TypeVar, overload
 
 from sympy.core._print_helpers import Printable
 from sympy.core.containers import Tuple
@@ -11,7 +13,19 @@ from sympy.tensor.array.ndim_array import NDimArray
 from sympy.tensor.array.dense_ndim_array import DenseNDimArray, ImmutableDenseNDimArray
 from sympy.tensor.array.sparse_ndim_array import SparseNDimArray
 
+if TYPE_CHECKING:
+    from sympy.core.basic import Basic
+    from sympy.core.numbers import Zero, One
+    from sympy.matrices import MatrixBase
+    from sympy.tensor.array.expressions.array_expressions import ArrayTensorProduct, PermuteDims, ArrayContraction, ZeroArray
+    from sympy.tensor.array import SparseNDimArray, ImmutableSparseNDimArray
 
+_T = TypeVar("_T")
+
+@overload
+def _arrayfy(a: MatrixBase | list | tuple | Tuple) -> ImmutableDenseNDimArray: ...
+@overload
+def _arrayfy(a: _T) ->  _T: ...
 def _arrayfy(a):
     from sympy.matrices import MatrixBase
 
@@ -22,7 +36,7 @@ def _arrayfy(a):
     return a
 
 
-def tensorproduct(*args):
+def tensorproduct(*args: _T) -> One | ImmutableDenseNDimArray | PermuteDims | Basic | _T | Zero | ZeroArray | ArrayContraction | ArrayTensorProduct | ImmutableSparseNDimArray | ImmutableDenseNDimArray:
     """
     Tensor product among scalars or array-like objects.
 
@@ -57,7 +71,7 @@ def tensorproduct(*args):
     sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct
 
     """
-    from sympy.tensor.array import SparseNDimArray, ImmutableSparseNDimArray
+    from sympy.tensor.array import ImmutableSparseNDimArray
 
     if len(args) == 0:
         return S.One

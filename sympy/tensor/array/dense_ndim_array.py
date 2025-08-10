@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import functools
-from typing import List
+from typing import TYPE_CHECKING, List
 
 from sympy.core.basic import Basic
 from sympy.core.containers import Tuple
@@ -9,6 +11,8 @@ from sympy.tensor.array.mutable_ndim_array import MutableNDimArray
 from sympy.tensor.array.ndim_array import NDimArray, ImmutableNDimArray, ArrayKind
 from sympy.utilities.iterables import flatten
 
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 class DenseNDimArray(NDimArray):
 
@@ -130,7 +134,7 @@ class DenseNDimArray(NDimArray):
 
 
 class ImmutableDenseNDimArray(DenseNDimArray, ImmutableNDimArray): # type: ignore
-    def __new__(cls, iterable, shape=None, **kwargs):
+    def __new__(cls, iterable, shape=None, **kwargs) -> Self:
         return cls._new(iterable, shape, **kwargs)
 
     @classmethod

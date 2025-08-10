@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING, overload
+from typing import Any, TYPE_CHECKING, overload, cast
 from functools import reduce
 from collections import defaultdict
-from collections.abc import Mapping, Iterable
+from collections.abc import Mapping, Iterable, MutableSequence
 import inspect
 
 from sympy.core.kind import Kind, UndefinedKind, NumberKind
@@ -35,7 +35,6 @@ from sympy.utilities.misc import func_name, filldedent
 from mpmath import mpi, mpf
 
 from mpmath.libmp.libmpf import prec_to_dps
-
 
 tfn: dict[bool | Boolean | None, Boolean | None] = defaultdict(lambda: None, {
     True: S.true,
@@ -1758,7 +1757,7 @@ class Complement(Set):
         return Basic.__new__(cls, a, b)
 
     @staticmethod
-    def reduce(A, B):
+    def reduce(A, B: Set) -> UniversalSet | EmptySet | FiniteSet | Intersection | Union | ProductSet | Complement | None:
         """
         Simplify a :class:`Complement`.
 
@@ -2227,7 +2226,7 @@ class SymmetricDifference(Set):
         return Basic.__new__(cls, a, b)
 
     @staticmethod
-    def reduce(A, B):
+    def reduce(A, B: Set) -> EmptySet | Set | Union | SymmetricDifference:
         result = B._symmetric_difference(A)
         if result is not None:
             return result
@@ -2566,7 +2565,7 @@ def is_function_invertible_in_set(func, setv):
     return None
 
 
-def simplify_union(args):
+def simplify_union(args: Iterable[Set]):
     """
     Simplify a :class:`Union` using known rules.
 
@@ -2590,16 +2589,16 @@ def simplify_union(args):
             raise TypeError("Input args to Union must be Sets")
 
     # Merge all finite sets
-    finite_sets = [x for x in args if x.is_FiniteSet]
+    finite_sets = [cast('FiniteSet', x) for x in args if x.is_FiniteSet]
     if len(finite_sets) > 1:
-        a = (x for set in finite_sets for x in set)
+        a = (x for finite_set in finite_sets for x in finite_set)
         finite_set = FiniteSet(*a)
         args = [finite_set] + [x for x in args if not x.is_FiniteSet]
 
     # ===== Pair-wise Rules =====
     # Here we depend on rules built into the constituent sets
     args = set(args)
-    new_args = True
+    new_args: set[Set] | bool = True
     while new_args:
         for s in args:
             new_args = False
@@ -2622,7 +2621,7 @@ def simplify_union(args):
         return Union(*args, evaluate=False)
 
 
-def simplify_intersection(args):
+def simplify_intersection(args: MutableSequence[Set]):
     """
     Simplify an intersection using known rules.
 
@@ -2678,7 +2677,7 @@ def simplify_intersection(args):
     # ===== Pair-wise Rules =====
     # Here we depend on rules built into the constituent sets
     args = set(args)
-    new_args = True
+    new_args: set[Set] | bool = True
     while new_args:
         for s in args:
             new_args = False

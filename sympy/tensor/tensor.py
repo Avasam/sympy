@@ -30,12 +30,13 @@ lowered when the tensor is put in canonical form.
 """
 
 from __future__ import annotations
-from typing import Any
+from typing import Any, overload, Literal, TypeVar
 from functools import reduce
 from math import prod
 
 from abc import abstractmethod, ABC
 from collections import defaultdict
+from collections.abc import Iterable
 import operator
 import itertools
 
@@ -59,6 +60,7 @@ from sympy.utilities.exceptions import (sympy_deprecation_warning,
 from sympy.utilities.decorator import memoize_property, deprecated
 from sympy.utilities.iterables import sift
 
+_T = TypeVar("_T")
 
 def deprecate_data():
     sympy_deprecation_warning(
@@ -3540,6 +3542,12 @@ class TensMul(TensExpr, AssocOp):
         return [(p2a, p2b) for (i, p1a, p1b, p2a, p2b) in dummy_data]
 
     @staticmethod
+    @overload
+    def _tensMul_contract_indices(args: _T, replace_indices: Literal[False]) -> _T:...
+    @staticmethod
+    @overload
+    def _tensMul_contract_indices(args: Iterable[_T], replace_indices: Literal[True] = True) -> list[_T]: ...
+    @staticmethod
     def _tensMul_contract_indices(args, replace_indices=True):
         replacements = [{} for _ in args]
 
@@ -4699,7 +4707,7 @@ class WildTensor(Tensor):
     ``Tensor``
 
     """
-    def __new__(cls, tensor_head, indices, **kw_args):
+    def __new__(cls, tensor_head: TensorHead, indices, **kw_args):
         is_canon_bp = kw_args.pop("is_canon_bp", False)
 
         if tensor_head.func == TensorHead:

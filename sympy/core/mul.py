@@ -7,7 +7,7 @@ from itertools import product
 import operator
 
 from .sympify import sympify
-from .basic import Basic, _args_sortkey
+from .basic import Basic, _args_sortkey, Tbasic
 from .singleton import S
 from .operations import AssocOp, AssocOpDispatcher
 from .cache import cacheit
@@ -2196,7 +2196,7 @@ def _keep_coeff(coeff, factors, clear=True, sign=False):
             m = Mul._from_args((coeff, factors))
         return m
 
-def expand_2arg(e):
+def expand_2arg(e: Tbasic) -> Tbasic:
     def do(e):
         if e.is_Mul:
             c, r = e.as_coeff_Mul()

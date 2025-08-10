@@ -8,7 +8,9 @@ sympy.stats.frv
 sympy.stats.crv
 sympy.stats.drv
 """
+from __future__ import annotations
 from math import prod
+from typing import TYPE_CHECKING, TypeVar, overload
 
 from sympy.core.basic import Basic
 from sympy.core.function import Lambda
@@ -30,6 +32,12 @@ from sympy.stats.rv import (ProductPSpace, NamedArgsMixin, Distribution,
 from sympy.utilities.iterables import iterable
 from sympy.utilities.misc import filldedent
 from sympy.external import import_module
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
+    from typing_extensions import Self
+
+_T = TypeVar("_T")
 
 # __all__ = ['marginal_distribution']
 
@@ -152,7 +160,7 @@ class SampleJointScipy:
         return cls._sample_scipy(dist, size, seed)
 
     @classmethod
-    def _sample_scipy(cls, dist, size, seed):
+    def _sample_scipy(cls, dist, size, seed)  -> NDArray | None:
         """Sample from SciPy."""
 
         import numpy
@@ -192,7 +200,7 @@ class SampleJointNumpy:
         return cls._sample_numpy(dist, size, seed)
 
     @classmethod
-    def _sample_numpy(cls, dist, size, seed):
+    def _sample_numpy(cls, dist, size, seed) -> NDArray | None:
         """Sample from NumPy."""
 
         import numpy
@@ -231,7 +239,7 @@ class SampleJointPymc:
         return cls._sample_pymc(dist, size, seed)
 
     @classmethod
-    def _sample_pymc(cls, dist, size, seed):
+    def _sample_pymc(cls, dist, size, seed) -> NDArray | None:
         """Sample from PyMC."""
 
         try:
@@ -358,6 +366,10 @@ class MarginalDistribution(Distribution):
     distribution.
     """
 
+    @overload
+    def __new__(cls, dist: JointDistribution, *rvs) -> Self: ...
+    @overload
+    def __new__(cls, dist: _T, *rvs) -> _T | Self: ... # type: ignore
     def __new__(cls, dist, *rvs):
         if len(rvs) == 1 and iterable(rvs[0]):
             rvs = tuple(rvs[0])

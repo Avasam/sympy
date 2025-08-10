@@ -5,7 +5,7 @@ from collections import Counter
 from collections.abc import Mapping, Iterable
 from itertools import zip_longest
 from functools import cmp_to_key
-from typing import TYPE_CHECKING, overload, ClassVar, TypeVar, Any, Hashable
+from typing import TYPE_CHECKING, overload, ClassVar, TypeVar, Any, Hashable, Literal
 
 from .assumptions import _prepare_class_assumptions
 from .cache import cacheit
@@ -21,11 +21,13 @@ from sympy.utilities.misc import filldedent, func_name
 
 
 if TYPE_CHECKING:
+    from _typeshed import SupportsGetItem
     from typing_extensions import Self
     from .assumptions import StdFactKB
     from .symbol import Symbol
 
 Tbasic = TypeVar("Tbasic", bound='Basic')
+_T = TypeVar("_T")
 
 
 def as_Basic(expr):
@@ -811,6 +813,10 @@ class Basic(Printable):
             reps[b] = d
         return reps
 
+    @overload
+    def rcall(self: Callable, *args) -> Basic: ...
+    @overload
+    def rcall(self, *args) -> Self: ...
     def rcall(self, *args):
         """Apply on the argument recursively through the expression tree.
 
@@ -1293,7 +1299,7 @@ class Basic(Printable):
         """
         return None
 
-    def xreplace(self, rule):
+    def xreplace(self, rule: SupportsGetItem[Self, _T]) -> Self | _T:
         """
         Replace occurrences of objects within the expression.
 
@@ -1358,7 +1364,7 @@ class Basic(Printable):
         value, _ = self._xreplace(rule)
         return value
 
-    def _xreplace(self, rule):
+    def _xreplace(self, rule: SupportsGetItem[Self, _T]) -> tuple[Self, bool] | tuple[_T, Literal[True]]:
         """
         Helper for xreplace. Tracks whether a replacement actually occurred.
         """
@@ -1955,6 +1961,9 @@ class Basic(Printable):
         from sympy.assumptions.refine import refine
         return refine(self, assumption)
 
+    def _eval_derivative(self, s) -> Basic:
+        raise NotImplementedError
+
     def _eval_derivative_n_times(self, s, n):
         # This is the default evaluator for derivatives (as called by `diff`
         # and `Derivative`), it will attempt a loop to derive the expression
@@ -1976,7 +1985,11 @@ class Basic(Printable):
         else:
             return None
 
-    def rewrite(self, *args, deep=True, **hints):
+    @overload
+    def rewrite(self, *, deep=True, **hints) -> Self: ...
+    @overload
+    def rewrite(self, *args, deep=True, **hints) -> Basic | Self: ...
+    def rewrite(self, *args, deep=True, **hints) -> Basic | Self:
         """
         Rewrite *self* using a defined rule.
 
@@ -2085,7 +2098,7 @@ class Basic(Printable):
 
         return self._rewrite(pattern, rule, method, **hints)
 
-    def _rewrite(self, pattern, rule, method, **hints):
+    def _rewrite(self, pattern, rule, method, **hints) -> Basic | Self:
         deep = hints.pop('deep', True)
         if deep:
             args = [a._rewrite(pattern, rule, method, **hints)

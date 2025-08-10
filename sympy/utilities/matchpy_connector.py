@@ -17,7 +17,7 @@ from sympy.core.expr import Expr
 from sympy.core.mul import Mul
 from sympy.core.power import Pow
 from sympy.core.relational import (Equality, Unequality)
-from sympy.core.symbol import Symbol
+from sympy.core.symbol import Symbol, _SymbolT
 from sympy.functions.elementary.exponential import exp
 from sympy.integrals.integrals import Integral
 from sympy.printing.repr import srepr
@@ -149,7 +149,7 @@ class _WildAbstract(Wildcard, Symbol):
         return self.variable_name, self.optional
 
     @staticmethod
-    def __xnew__(cls, variable_name=None, optional=None, **assumptions):
+    def __xnew__(cls: type[_SymbolT], variable_name=None, optional=None, **assumptions) -> _SymbolT: # type: ignore
         obj = Symbol.__xnew__(cls, variable_name, **assumptions)
         return obj
 

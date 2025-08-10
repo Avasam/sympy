@@ -1,4 +1,5 @@
 """Abstract tensor product."""
+from collections.abc import Iterable
 
 from sympy.core.add import Add
 from sympy.core.expr import Expr
@@ -132,7 +133,7 @@ class TensorProduct(Expr):
         arg_kinds = (a.kind for a in self.args)
         return self._kind_dispatcher(*arg_kinds)
 
-    def __new__(cls, *args):
+    def __new__(cls, *args) -> Expr: # type: ignore
         if isinstance(args[0], (Matrix, ImmutableMatrix, numpy_ndarray,
                                                     scipy_sparse_matrix)):
             return matrix_tensor_product(*args)
@@ -147,10 +148,10 @@ class TensorProduct(Expr):
             return c_part * tp
 
     @classmethod
-    def flatten(cls, args):
+    def flatten(cls, args: Iterable[Expr]):
         # TODO: disallow nested TensorProducts.
-        c_part = []
-        nc_parts = []
+        c_part: list[Expr] = []
+        nc_parts: list[Expr | Mul] = []
         for arg in args:
             cp, ncp = arg.args_cnc()
             c_part.extend(list(cp))

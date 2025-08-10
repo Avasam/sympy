@@ -1,14 +1,12 @@
 from __future__ import annotations
-import collections.abc
 import operator
 from collections import defaultdict, Counter
 from functools import reduce
 import itertools
 from itertools import accumulate
+from collections.abc import Iterable
 
-import typing
-
-from sympy.core.numbers import Integer
+from sympy.core.numbers import Integer, Zero
 from sympy.core.relational import Equality
 from sympy.functions.special.tensor_functions import KroneckerDelta
 from sympy.core.basic import Basic
@@ -40,7 +38,7 @@ class _ArrayExpr(Expr):
     shape: tuple[Expr, ...]
 
     def __getitem__(self, item):
-        if not isinstance(item, collections.abc.Iterable):
+        if not isinstance(item, Iterable):
             item = (item,)
         ArrayElement._check_shape(self, item)
         return self._get(item)
@@ -56,7 +54,7 @@ class ArraySymbol(_ArrayExpr):
 
     _iterable = False
 
-    def __new__(cls, symbol, shape: typing.Iterable) -> "ArraySymbol":
+    def __new__(cls, symbol, shape: Iterable) -> ArraySymbol:
         if isinstance(symbol, str):
             symbol = Symbol(symbol)
         # symbol = _sympify(symbol)
@@ -92,7 +90,7 @@ class ArrayElement(Expr):
         if isinstance(name, str):
             name = Symbol(name)
         name = _sympify(name)
-        if not isinstance(indices, collections.abc.Iterable):
+        if not isinstance(indices, Iterable):
             indices = (indices,)
         indices = _sympify(tuple(indices))
         cls._check_shape(name, indices)
@@ -311,7 +309,7 @@ class ArrayTensorProduct(_CodegenArrayAbstract):
         return self.func(*args, canonicalize=False)
 
     @classmethod
-    def _flatten(cls, args):
+    def _flatten(cls, args) -> list[Basic]:
         args = [i for arg in args for i in (arg.args if isinstance(arg, cls) else [arg])]
         return args
 
@@ -1638,7 +1636,7 @@ class _EditArrayContraction:
     by calling the ``.to_array_contraction()`` method.
     """
 
-    def __init__(self, base_array: typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct]):
+    def __init__(self, base_array: ArrayContraction | ArrayDiagonal | ArrayTensorProduct):
 
         expr: Basic
         diagonalized: tuple[tuple[int, ...], ...]
@@ -1872,7 +1870,7 @@ class _EditArrayContraction:
         self._track_permutation[index_destination].extend(self._track_permutation[index_element]) # type: ignore
         self._track_permutation.pop(index_element) # type: ignore
 
-    def get_absolute_free_range(self, arg: _ArgE) -> typing.Tuple[int, int]:
+    def get_absolute_free_range(self, arg: _ArgE) -> tuple[int, int]:
         """
         Return the range of the free indices of the arg as absolute positions
         among all free indices.
@@ -1885,7 +1883,7 @@ class _EditArrayContraction:
             counter += number_free_indices
         raise IndexError("argument not found")
 
-    def get_absolute_range(self, arg: _ArgE) -> typing.Tuple[int, int]:
+    def get_absolute_range(self, arg: _ArgE) -> tuple[int, int]:
         """
         Return the absolute range of indices for arg, disregarding dummy
         indices.

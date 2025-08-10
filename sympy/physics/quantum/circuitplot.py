@@ -353,10 +353,10 @@ class Mx(OneQubitGate):
     gate_name_latex='M_x'
 
 class CreateOneQubitGate(type):
-    def __new__(mcl, name, latexname=None):
+    def __new__(mcl, name, latexname=None) -> OneQubitGate: # type: ignore # Dynamically generated, but at least expose the superclass' attrs
         if not latexname:
             latexname = name
-        return type(name + "Gate", (OneQubitGate,),
+        return type(name + "Gate", (OneQubitGate,), # type: ignore
             {'gate_name': name, 'gate_name_latex': latexname})
 
 def CreateCGate(name, latexname=None):

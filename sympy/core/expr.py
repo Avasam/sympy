@@ -25,7 +25,7 @@ from mpmath.libmp.libintmath import giant_steps
 if TYPE_CHECKING:
     from typing import Any, Hashable
     from typing_extensions import Self
-    from .numbers import Number
+    from .numbers import Number, Zero, One
 
 from collections import defaultdict
 
@@ -1338,7 +1338,7 @@ class Expr(Basic, EvalfMixin):
         from .function import count_ops
         return count_ops(self, visual)
 
-    def args_cnc(self, cset=False, warn=True, split_1=True):
+    def args_cnc(self, cset=False, warn=True, split_1=True) -> list[set[Expr] | list[Expr]]:
         """Return [commutative factors, non-commutative factors] of self.
 
         Explanation
@@ -1401,7 +1401,7 @@ class Expr(Basic, EvalfMixin):
                                  [ci for ci in c if list(self.args).count(ci) > 1])
         return [c, nc]
 
-    def coeff(self, x: Expr | complex, n=1, right=False, _first=True):
+    def coeff(self, x: Expr | complex, n=1, right=False, _first=True) -> Zero | One | Expr:
         """
         Returns the coefficient from the term(s) containing ``x**n``. If ``n``
         is zero then all terms independent of ``x`` will be returned.
@@ -1684,6 +1684,7 @@ class Expr(Basic, EvalfMixin):
                         return Mul(*n[ii + len(nx):])
 
             return S.Zero
+        raise TypeError(f"Could not return a coefficient for {self=} {x=} {n=} {right=} {_first=}")
 
     def as_expr(self, *gens):
         """

@@ -171,8 +171,8 @@ with
             if isinstance(condition.args[1], Set):
                 return condition.args[1].intersect(base_set)
 
-        rv = Basic.__new__(cls, sym, condition, base_set)
-        return rv if know is None else Union(know, rv)
+        # rv = Basic.__new__(cls, sym, condition, base_set)
+        # return rv if know is None else Union(know, rv)
 
     sym = property(lambda self: self.args[0])
     condition = property(lambda self: self.args[1])

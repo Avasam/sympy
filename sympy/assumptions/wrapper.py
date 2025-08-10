@@ -42,11 +42,14 @@ None
 False
 
 """
-
+from __future__ import annotations
+from typing import TYPE_CHECKING, overload
 from sympy.assumptions import ask, Q
-from sympy.core.basic import Basic
+from sympy.core.basic import Basic, Tbasic
 from sympy.core.sympify import _sympify
 
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 def make_eval_method(fact):
     def getit(self):
@@ -103,6 +106,10 @@ class AssumptionsWrapper(Basic):
     -y
 
     """
+    @overload
+    def __new__(cls, expr: Tbasic, assumptions: None = None) -> Tbasic: ... # type: ignore
+    @overload
+    def __new__(cls, expr: Basic, assumptions) -> Self: ...
     def __new__(cls, expr, assumptions=None):
         if assumptions is None:
             return expr

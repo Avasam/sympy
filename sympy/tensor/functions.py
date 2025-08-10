@@ -1,3 +1,4 @@
+from typing import cast
 from collections.abc import Iterable
 from functools import singledispatch
 
@@ -20,14 +21,14 @@ class TensorProduct(Expr):
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.strategies import flatten
 
-        args = [sympify(arg) for arg in args]
+        args = [cast('Expr', sympify(arg)) for arg in args]
         evaluate = kwargs.get("evaluate", global_parameters.evaluate)
 
         if not evaluate:
             obj = Expr.__new__(cls, *args)
             return obj
 
-        arrays = []
+        arrays: list[Array] = []
         other = []
         scalar = S.One
         for arg in args:

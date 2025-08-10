@@ -1,4 +1,5 @@
 import itertools
+from typing import cast
 from sympy.concrete.summations import Sum
 from sympy.core.add import Add
 from sympy.core.expr import Expr
@@ -204,7 +205,7 @@ class Expectation(Expr):
     """
 
     def __new__(cls, expr, condition=None, **kwargs):
-        expr = _sympify(expr)
+        expr = cast('Expectation', _sympify(expr))
         if expr.is_Matrix:
             from sympy.stats.symbolic_multivariate_probability import ExpectationMatrix
             return ExpectationMatrix(expr, condition)

@@ -1,6 +1,7 @@
 from collections import Counter
+from typing import cast
 
-from sympy.core import Mul, sympify
+from sympy.core import Mul, sympify, Expr
 from sympy.core.add import Add
 from sympy.core.expr import ExprBuilder
 from sympy.core.sorting import default_sort_key
@@ -12,7 +13,6 @@ from sympy.strategies import (
     unpack, flatten, condition, exhaust, rm_id, sort
 )
 from sympy.utilities.exceptions import sympy_deprecation_warning
-
 
 def hadamard_product(*matrices):
     """
@@ -164,7 +164,7 @@ class HadamardProduct(MatrixExpr):
 
 # TODO Implement algorithm for rewriting Hadamard product as diagonal matrix
 # if matmul identy matrix is multiplied.
-def canonicalize(x):
+def canonicalize(x) -> MatrixExpr:
     """Canonicalize the Hadamard product ``x`` with mathematical properties.
 
     Examples
@@ -372,7 +372,7 @@ class HadamardPower(MatrixExpr):
         exp = sympify(exp)
 
         if base.is_scalar and exp.is_scalar:
-            return base ** exp
+            return cast('Expr', base) ** cast('Expr', exp)
 
         if isinstance(base, MatrixExpr) and isinstance(exp, MatrixExpr):
             validate(base, exp)

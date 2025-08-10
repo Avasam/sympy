@@ -1,4 +1,6 @@
+from __future__ import annotations
 from math import prod
+from typing import TYPE_CHECKING
 
 from sympy.core.basic import Basic
 from sympy.core.numbers import pi
@@ -13,6 +15,9 @@ from sympy.stats.rv import (_value_check, RandomMatrixSymbol, NamedArgsMixin, PS
                             _symbol_converter, MatrixDomain, Distribution)
 from sympy.external import import_module
 
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
+    from typing_extensions import Self
 
 ################################################################################
 #------------------------Matrix Probability Space------------------------------#
@@ -76,7 +81,7 @@ class SampleMatrixScipy:
         return cls._sample_scipy(dist, size, seed)
 
     @classmethod
-    def _sample_scipy(cls, dist, size, seed):
+    def _sample_scipy(cls, dist, size, seed) -> NDArray | None:
         """Sample from SciPy."""
 
         from scipy import stats as scipy_stats
@@ -116,7 +121,7 @@ class SampleMatrixNumpy:
         return cls._sample_numpy(dist, size, seed)
 
     @classmethod
-    def _sample_numpy(cls, dist, size, seed):
+    def _sample_numpy(cls, dist, size, seed) -> NDArray | None:
         """Sample from NumPy."""
 
         numpy_rv_map = {
@@ -146,7 +151,7 @@ class SampleMatrixPymc:
         return cls._sample_pymc(dist, size, seed)
 
     @classmethod
-    def _sample_pymc(cls, dist, size, seed):
+    def _sample_pymc(cls, dist, size, seed) -> NDArray | None:
         """Sample from PyMC."""
 
         try:

@@ -861,7 +861,7 @@ class WignerD(Expr):
         hints['evaluate'] = True
         return WignerD(*self.args, **hints)
 
-    def _eval_wignerd(self):
+    def _eval_wignerd(self) -> Expr:
         j = self.j
         m = self.m
         mp = self.mp

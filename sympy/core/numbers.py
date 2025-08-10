@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import overload
+from typing import overload, TYPE_CHECKING
 
 import numbers
 import decimal
@@ -35,6 +35,9 @@ from mpmath.libmp.libmpf import (
 from sympy.utilities.misc import debug
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from .parameters import global_parameters
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 _LOG2 = math.log(2)
 
@@ -777,7 +780,7 @@ class Float(Number):
 
     _remove_non_digits = str.maketrans(dict.fromkeys("-+_."))
 
-    def __new__(cls, num, dps=None, precision=None):
+    def __new__(cls, num, dps=None, precision=None) -> Infinity | NegativeInfinity | NaN | Float | Zero | Self: # type: ignore
         if dps is not None and precision is not None:
             raise ValueError('Both decimal and binary precision supplied. '
                              'Supply only one. ')
@@ -1482,6 +1485,12 @@ class Rational(Number):
             else:
                 return Number.__rsub__(self, other)
         return Number.__rsub__(self, other)
+    @overload
+    def __mul__(self, other: Rational) -> NaN | Infinity | NegativeInfinity | Expr  | ComplexInfinity | Rational: ...
+    @overload
+    def __mul__(self, other: Float) -> NaN | Infinity | NegativeInfinity | Expr | Zero | Float: ...
+    @overload
+    def __mul__(self, other) -> NaN | Infinity | NegativeInfinity | Expr: ...
     @_sympifyit('other', NotImplemented)
     def __mul__(self, other):
         if global_parameters.evaluate:
@@ -1918,6 +1927,10 @@ class Integer(Rational):
             return Rational.__rsub__(self, other)
         return Rational.__rsub__(self, other)
 
+    @overload
+    def __mul__(self, other: int | Integer) -> NaN | Infinity | NegativeInfinity | Expr | ComplexInfinity | Rational | One | NegativeOne | Zero | Integer: ...
+    @overload
+    def __mul__(self, other) -> NaN | Infinity | NegativeInfinity | Expr | ComplexInfinity | Rational: ...
     def __mul__(self, other):
         if global_parameters.evaluate:
             if isinstance(other, int):
@@ -1926,16 +1939,18 @@ class Integer(Rational):
                 return Integer(self.p*other.p)
             elif isinstance(other, Rational):
                 return Rational._new(self.p*other.p, other.q, igcd(self.p, other.q))
-            return Rational.__mul__(self, other)
         return Rational.__mul__(self, other)
 
+    @overload
+    def __rmul__(self, other: int | Integer) -> Expr | One | NegativeOne | Zero | Integer: ...
+    @overload
+    def __rmul__(self, other) -> Expr | NaN | ComplexInfinity | Rational: ...
     def __rmul__(self, other):
         if global_parameters.evaluate:
             if isinstance(other, int):
                 return Integer(other*self.p)
             elif isinstance(other, Rational):
                 return Rational._new(other.p*self.p, other.q, igcd(self.p, other.q))
-            return Rational.__rmul__(self, other)
         return Rational.__rmul__(self, other)
 
     def __mod__(self, other):
@@ -3064,6 +3079,10 @@ class Infinity(Number, metaclass=Singleton):
     def __rsub__(self, other):
         return (-self).__add__(other)
 
+    @overload
+    def __mul__(self, other: Number) -> NaN | Infinity | NegativeInfinity | Expr | Self: ...
+    @overload
+    def __mul__(self, other) -> NaN | Infinity | NegativeInfinity | Expr: ...
     @_sympifyit('other', NotImplemented)
     def __mul__(self, other):
         if isinstance(other, Number) and global_parameters.evaluate:
@@ -3225,6 +3244,10 @@ class NegativeInfinity(Number, metaclass=Singleton):
     def __rsub__(self, other):
         return (-self).__add__(other)
 
+    @overload
+    def __mul__(self, other: Number) -> NaN | Infinity | NegativeInfinity | Expr | Self: ...
+    @overload
+    def __mul__(self, other) -> NaN | Infinity | NegativeInfinity | Expr: ...
     @_sympifyit('other', NotImplemented)
     def __mul__(self, other):
         if isinstance(other, Number) and global_parameters.evaluate:
@@ -3415,7 +3438,7 @@ class NaN(Number, metaclass=Singleton):
         return self
 
     @_sympifyit('other', NotImplemented)
-    def __mul__(self, other):
+    def __mul__(self, other) -> Self:
         return self
 
     @_sympifyit('other', NotImplemented)

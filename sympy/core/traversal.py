@@ -1,13 +1,11 @@
 from __future__ import annotations
 
-from typing import Iterator
+from typing import Iterator, TypeVar
 
-from .basic import Basic
+from .basic import Basic, Tbasic
 from .sorting import ordered
 from .sympify import sympify
 from sympy.utilities.iterables import iterable
-
-
 
 def iterargs(expr):
     """Yield the args of a Basic object in a breadth-first traversal.
@@ -223,7 +221,7 @@ def walk(e, *target):
             yield from walk(i, *target)
 
 
-def bottom_up(rv, F, atoms=False, nonbasic=False):
+def bottom_up(rv: Tbasic, F, atoms=False, nonbasic=False) -> Tbasic:
     """Apply ``F`` to all expressions in an expression tree from the
     bottom up. If ``atoms`` is True, apply ``F`` even if there are no args;
     if ``nonbasic`` is True, try to apply ``F`` to non-Basic objects.

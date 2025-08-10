@@ -7,7 +7,9 @@ sympy.stats.frv_types
 sympy.stats.rv
 sympy.stats.crv
 """
+from __future__ import annotations
 from itertools import product
+from typing import TYPE_CHECKING, overload, TypeVar, Literal
 
 from sympy.concrete.summations import Sum
 from sympy.core.basic import Basic
@@ -32,6 +34,10 @@ from sympy.stats.rv import (RandomDomain, ProductDomain, ConditionalDomain,
                             PSpace, IndependentProductPSpace, SinglePSpace, random_symbols,
                             sumsets, rv_subs, NamedArgsMixin, Density, Distribution)
 
+if TYPE_CHECKING:
+    from typing_extensions import Self
+
+_T = TypeVar("_T")
 
 class FiniteDensity(dict):
     """
@@ -149,6 +155,10 @@ class ConditionalFiniteDomain(ConditionalDomain, ProductFiniteDomain):
     roll is even.
     """
 
+    @overload
+    def __new__(cls, domain: _T, condition: Literal[True]) -> _T: ... # type: ignore
+    @overload
+    def __new__(cls, domain, condition: Literal[False]) -> Self: ...
     def __new__(cls, domain, condition):
         """
         Create a new instance of ConditionalFiniteDomain class

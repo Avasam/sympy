@@ -24,9 +24,10 @@ from sympy.polys.domains import EX
 from sympy.polys.polyerrors import (PolynomialError, GeneratorsNeeded,
     DomainError, UnsolvableFactorError)
 from sympy.polys.polyquinticconst import PolyQuintic
-from sympy.polys.polytools import Poly, cancel, factor, gcd_list, discriminant
+from sympy.polys.polytools import Poly, cancel, factor, gcd_list, discriminant, PurePoly
 from sympy.polys.rationaltools import together
 from sympy.polys.specialpolys import cyclotomic_poly
+from sympy.core.basic import Basic
 from sympy.utilities import public
 from sympy.utilities.misc import filldedent
 
@@ -35,7 +36,7 @@ from sympy.utilities.misc import filldedent
 z = Symbol('z')  # importing from abc cause O to be lost as clashing symbol
 
 
-def roots_linear(f):
+def roots_linear(f: Poly):
     """Returns a list of roots of a linear polynomial."""
     r = -f.nth(0)/f.nth(1)
     dom = f.get_domain()
@@ -50,7 +51,7 @@ def roots_linear(f):
     return [r]
 
 
-def roots_quadratic(f):
+def roots_quadratic(f: Poly):
     """Returns a list of roots of a quadratic polynomial. If the domain is ZZ
     then the roots will be sorted with negatives coming before positives.
     The ordering will be the same for any numerical coefficients as long as
@@ -78,7 +79,7 @@ def roots_quadratic(f):
             return co*sqrt(d)
         return sqrt(d)
 
-    def _simplify(expr):
+    def _simplify(expr) -> Expr:
         if dom.is_Composite:
             return factor(expr)
         else:
@@ -726,7 +727,7 @@ def _integer_basis(poly):
     >>> _integer_basis(p)
     4
     """
-    monoms, coeffs = list(zip(*poly.terms()))
+    monoms, coeffs = list[tuple[int, ...]](zip(*poly.terms()))
 
     monoms, = list(zip(*monoms))
     coeffs = list(map(abs, coeffs))
@@ -768,11 +769,9 @@ def _integer_basis(poly):
         else:
             return div
 
-
-def preprocess_roots(poly):
+def preprocess_roots(poly: Poly):
     """Try to get rid of symbolic coefficients from ``poly``. """
     coeff = S.One
-
     poly_func = poly.func
     try:
         _, poly = poly.clear_denoms(convert=True)
@@ -786,7 +785,7 @@ def preprocess_roots(poly):
     if poly.get_domain().is_Poly and all(c.is_term for c in poly.rep.coeffs()):
         poly = poly.inject()
 
-        strips = list(zip(*poly.monoms()))
+        strips = list[tuple[int, ...]](zip(*poly.monoms()))
         gens = list(poly.gens[1:])
 
         base, strips = strips[0], strips[1:]
@@ -795,7 +794,7 @@ def preprocess_roots(poly):
             reverse = False
 
             if strip[0] < strip[-1]:
-                strip = reversed(strip)
+                strip = reversed(strip) # type: ignore # Re-assignment of a different type
                 reverse = True
 
             ratio = None
@@ -812,6 +811,7 @@ def preprocess_roots(poly):
                 elif ratio != _ratio:
                     break
             else:
+                assert ratio is not None
                 if reverse:
                     ratio = -ratio
 

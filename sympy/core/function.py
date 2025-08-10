@@ -32,7 +32,7 @@ There are three types of functions implemented in SymPy:
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from collections.abc import Iterable
 import copyreg
 
@@ -45,7 +45,7 @@ from .evalf import pure_complex
 from .expr import Expr, AtomicExpr
 from .logic import fuzzy_and, fuzzy_or, fuzzy_not, FuzzyBool
 from .mul import Mul
-from .numbers import Rational, Float, Integer
+from .numbers import Rational, Float, Integer, Zero, One
 from .operations import LatticeOp
 from .parameters import global_parameters
 from .rules import Transform
@@ -65,6 +65,10 @@ from mpmath.libmp.libmpf import prec_to_dps
 
 import inspect
 from collections import Counter
+
+if TYPE_CHECKING:
+    from sympy.tensor.array.ndim_array import NDimArray
+    from typing_extensions import Self
 
 def _coeff_isneg(a):
     """Return True if the leading Number is negative.
@@ -1257,7 +1261,7 @@ class Derivative(Expr):
         """
         return self.expr._diff_wrt and isinstance(self.doit(), Derivative)
 
-    def __new__(cls, expr, *variables, **kwargs):
+    def __new__(cls, expr, *variables, **kwargs) -> Basic | Zero | One | Self:
         expr = sympify(expr)
         if not isinstance(expr, Basic):
             raise TypeError(f"Cannot represent derivative of {type(expr)}")
@@ -1919,7 +1923,7 @@ class Derivative(Expr):
         return S.Zero
 
     @classmethod
-    def _dispatch_eval_derivative_n_times(cls, expr, v, count):
+    def _dispatch_eval_derivative_n_times(cls, expr: Basic | NDimArray, v, count):
         # Evaluate the derivative `n` times.  If
         # `_eval_derivative_n_times` is not overridden by the current
         # object, the default in `Basic` will call a loop over
@@ -2183,7 +2187,7 @@ class Subs(Expr):
     >>> s, ss
     (Subs(x, x, 0), Subs(y, y, 0))
     """
-    def __new__(cls, expr, variables, point, **assumptions):
+    def __new__(cls, expr, variables, point, **assumptions) -> Basic | Self:
         if not is_sequence(variables, Tuple):
             variables = [variables]
         variables = Tuple(*variables)
@@ -2203,7 +2207,6 @@ class Subs(Expr):
 
         if not point:
             return sympify(expr)
-
         # denest
         if isinstance(expr, Subs):
             variables = expr.variables + variables

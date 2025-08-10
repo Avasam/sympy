@@ -569,7 +569,7 @@ class Cross(Vector):
 
     """
 
-    def __new__(cls, expr1, expr2):
+    def __new__(cls, expr1, expr2) -> Cross:
         expr1 = sympify(expr1)
         expr2 = sympify(expr2)
         if default_sort_key(expr1) > default_sort_key(expr2):

@@ -24,13 +24,17 @@ This module defines basic kinds for core objects. Other kinds such as
        This approach is experimental, and can be replaced or deleted in the future.
        See https://github.com/sympy/sympy/pull/20549.
 """
-
+from __future__ import annotations
 from collections import defaultdict
+from typing import TYPE_CHECKING
 
 from .cache import cacheit
 from sympy.multipledispatch.dispatcher import (Dispatcher,
     ambiguity_warn, ambiguity_register_error_ignore_dup,
     str_signature, RaiseNotImplementedError)
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class KindMeta(type):
@@ -72,7 +76,7 @@ class Kind(object, metaclass=KindMeta):
     return the same object.
 
     """
-    def __new__(cls, *args):
+    def __new__(cls, *args) -> Self:
         if args in cls._inst:
             inst = cls._inst[args]
         else:

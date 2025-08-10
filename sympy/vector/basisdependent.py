@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from sympy.simplify import simplify as simp, trigsimp as tsimp  # type: ignore
 from sympy.core.decorators import call_highest_priority, _sympifyit
@@ -11,6 +11,7 @@ from sympy.core import S, Add, Mul
 from sympy.core.expr import Expr
 
 if TYPE_CHECKING:
+    from sympy.vector.vector import VectorAdd
     from sympy.vector.vector import BaseVector
 
 
@@ -219,7 +220,7 @@ class BasisDependentAdd(BasisDependent, Add):
         newargs = [x * components[x] for x in components]
         obj = super().__new__(cls, *newargs, **options)
         if isinstance(obj, Mul):
-            return cls._mul_func(*obj.args)
+            return cast('type[Mul]', cls._mul_func)(*obj.args)
         assumptions = {'commutative': True}
         obj._assumptions = StdFactKB(assumptions)
         obj._components = components
@@ -285,14 +286,14 @@ class BasisDependentMul(BasisDependent, Mul):
         if isinstance(expr, cls._add_func):
             newargs = [cls._mul_func(measure_number, x) for
                        x in expr.args]
-            return cls._add_func(*newargs)
+            return cast('type[VectorAdd]', cls._add_func)(*newargs)
 
         obj = super().__new__(cls, measure_number,
                               expr._base_instance,
                               *extra_args,
                               **options)
         if isinstance(obj, Add):
-            return cls._add_func(*obj.args)
+            return cast('type[Add]', cls._add_func)(*obj.args)
         obj._base_instance = expr._base_instance
         obj._measure_number = measure_number
         assumptions = {'commutative': True}

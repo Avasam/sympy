@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any
+from typing import TYPE_CHECKING, Any, Literal
 
 from functools import reduce
 from itertools import permutations
@@ -14,8 +14,10 @@ from sympy.core.cache import cacheit
 from sympy.core.symbol import Symbol, Dummy
 from sympy.core.symbol import Str
 from sympy.core.sympify import _sympify
+from sympy.core.numbers import One, NegativeOne, Zero, Integer, NaN, ComplexInfinity, Rational, Expr
 from sympy.functions import factorial
 from sympy.matrices import ImmutableDenseMatrix as Matrix
+from sympy.matrices.matrixbase import MatrixBase
 from sympy.solvers import solve
 
 from sympy.utilities.exceptions import (sympy_deprecation_warning,
@@ -28,6 +30,9 @@ from sympy.utilities.exceptions import (sympy_deprecation_warning,
 # TODO too often one needs to call doit or simplify on the output, check the
 # tests and find out why
 from sympy.tensor.array import ImmutableDenseNDimArray
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class Manifold(Basic):
@@ -1082,7 +1087,7 @@ class BaseVectorField(Expr):
     def dim(self):
         return self.manifold.dim
 
-    def __call__(self, scalar_field):
+    def __call__(self, scalar_field: Expr):
         """Apply on a scalar field.
         The action of a vector field on a scalar field is a directional
         differentiation.
@@ -1160,7 +1165,7 @@ class Commutator(Expr):
     -2*cos(theta)*y**2/(x**2 + y**2)
 
     """
-    def __new__(cls, v1, v2):
+    def __new__(cls, v1: Expr, v2: Expr):
         if (covariant_order(v1) or contravariant_order(v1) != 1
                 or covariant_order(v2) or contravariant_order(v2) != 1):
             raise ValueError(
@@ -1367,7 +1372,7 @@ class TensorProduct(Expr):
     3*dy
 
     """
-    def __new__(cls, *args):
+    def __new__(cls, *args: Expr):
         scalar = Mul(*[m for m in args if covariant_order(m) + contravariant_order(m) == 0])
         multifields = [m for m in args if covariant_order(m) + contravariant_order(m)]
         if multifields:
@@ -1492,7 +1497,7 @@ class LieDerivative(Expr):
     LieDerivative(e_x, TensorProduct(dx, dy))
 
     """
-    def __new__(cls, v_field, expr):
+    def __new__(cls, v_field: BaseVectorField, expr):
         expr_form_ord = covariant_order(expr)
         if contravariant_order(v_field) != 1 or covariant_order(v_field):
             raise ValueError('Lie derivatives are defined only with respect to'

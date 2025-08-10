@@ -7,7 +7,9 @@ Many-Particle Systems."
 This module is a predecessor of the sympy.physics.quantum package, and it will
 be superseded by it in the future versions.
 """
+from __future__ import annotations
 from collections import defaultdict
+from typing import TYPE_CHECKING
 
 from sympy.core.add import Add
 from sympy.core.basic import Basic
@@ -16,7 +18,7 @@ from sympy.core.containers import Tuple
 from sympy.core.expr import Expr
 from sympy.core.function import Function
 from sympy.core.mul import Mul
-from sympy.core.numbers import I
+from sympy.core.numbers import I, One, NegativeOne, Zero, Integer, NaN, ComplexInfinity, Rational, Infinity, NegativeInfinity, Float
 from sympy.core.power import Pow
 from sympy.core.singleton import S
 from sympy.core.sorting import default_sort_key
@@ -28,6 +30,9 @@ from sympy.functions.special.tensor_functions import KroneckerDelta
 from sympy.matrices.dense import zeros
 from sympy.printing.str import StrPrinter
 from sympy.utilities.iterables import has_dups
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = [
     'Dagger',
@@ -1836,7 +1841,7 @@ class NO(Expr):
     """
     is_commutative = False
 
-    def __new__(cls, arg):
+    def __new__(cls, arg) -> Expr | One | NegativeOne | Zero | Integer | NaN | ComplexInfinity | Rational | Infinity | NegativeInfinity | Float | Self | NO:
         """
         Use anticommutation to get canonical form of operators.
 
