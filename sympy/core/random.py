@@ -22,10 +22,16 @@ Examples
 >>> assert a != b  # remote possibility this will fail
 
 """
+from collections.abc import Iterable, MutableSequence
+from typing import TYPE_CHECKING
 from sympy.utilities.iterables import is_sequence
 from sympy.utilities.misc import as_int
 
 import random as _random
+
+if TYPE_CHECKING:
+    from _typeshed import ConvertibleToInt
+
 rng = _random.Random()
 
 choice = rng.choice
@@ -176,7 +182,7 @@ def _randrange(seed=None):
         raise ValueError('_randrange got an unexpected seed')
 
 
-def _randint(seed=None):
+def _randint(seed: Iterable[int] | int | None = None):
     """Return a randint generator.
 
     ``seed`` can be
@@ -209,7 +215,7 @@ def _randint(seed=None):
         seed = list(seed)  # make a copy
         seed.reverse()
 
-        def give(a, b, seq=seed):
+        def give(a: ConvertibleToInt, b: ConvertibleToInt, seq: MutableSequence[int]=seed) -> int:
             a, b = as_int(a), as_int(b)
             w = b - a
             if w < 0:

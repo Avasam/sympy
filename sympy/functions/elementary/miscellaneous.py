@@ -381,10 +381,10 @@ class MinMaxBase(Expr, LatticeOp):
     zero: ClassVar[Infinity | NegativeInfinity]
     identity: ClassVar[Infinity | NegativeInfinity]
 
-    def __new__(cls, *args, **assumptions):
+    def __new__(cls, *args: Expr | complex, **assumptions):
         from sympy.core.parameters import global_parameters
         evaluate = assumptions.pop('evaluate', global_parameters.evaluate)
-        args = (cast('Expr', sympify(arg)) for arg in args)
+        args = (sympify(arg) for arg in args)
 
         # first standard filter, for cls.zero and cls.identity
         # also reshape Max(a, Max(b, c)) to Max(a, b, c)

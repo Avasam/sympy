@@ -335,7 +335,7 @@ class Subset():
         43
         """
         if self._rank_lex is None:
-            def _ranklex(self, subset_index, i, n):
+            def _ranklex(self, subset_index, i, n) -> int:
                 if subset_index == [] or i > n:
                     return 0
                 if i in subset_index:

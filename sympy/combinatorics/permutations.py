@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import random
 from collections import defaultdict
 from collections.abc import Iterable
@@ -17,8 +19,16 @@ from sympy.utilities.iterables import (flatten, has_variety, minlex,
 from sympy.utilities.misc import as_int
 from mpmath.libmp.libintmath import ifac
 from sympy.multipledispatch import dispatch
+from typing import TypeVar, TYPE_CHECKING
 
-def _af_rmul(a, b):
+if TYPE_CHECKING:
+    from _typeshed import SupportsGetItem
+
+_T1 = TypeVar("_T1")
+_T2 = TypeVar("_T2")
+
+
+def _af_rmul(a: SupportsGetItem[_T1, _T2], b: Iterable[_T1]) -> list[_T2]:
     """
     Return the product b*a; input and output are array forms. The ith value
     is a[b[i]].
@@ -51,7 +61,7 @@ def _af_rmul(a, b):
     return [a[i] for i in b]
 
 
-def _af_rmuln(*abc):
+def _af_rmuln(*abc) -> list[int]:
     """
     Given [a, b, c, ...] return the product of ...*c*b*a using array forms.
     The ith value is a[b[c[i]]].
@@ -241,7 +251,7 @@ def _af_commutes_with(a, b):
     return not any(a[b[i]] != b[a[i]] for i in range(len(a) - 1))
 
 
-class Cycle(dict):
+class Cycle(dict[_T1, _T2]):
     """
     Wrapper around dict which provides the functionality of a disjoint cycle.
 
@@ -324,7 +334,7 @@ class Cycle(dict):
     def __iter__(self):
         yield from self.list()
 
-    def __call__(self, *other):
+    def __call__(self, *other: tuple[_T1, _T2]):
         """Return product of cycles processed from R to L.
 
         Examples
@@ -346,7 +356,7 @@ class Cycle(dict):
         (1 3 2)(4 5)
 
         """
-        rv = Cycle(*other)
+        rv = Cycle[_T1, _T2](*other)
         for k, v in zip(list(self.keys()), [rv[self[k]] for k in self.keys()]):
             rv[k] = v
         return rv
@@ -467,7 +477,7 @@ class Cycle(dict):
         return max(self.keys()) + 1
 
     def copy(self):
-        return Cycle(self)
+        return Cycle[_T1, _T2](self)
 
 
 class Permutation(Atom):
@@ -893,10 +903,10 @@ class Permutation(Atom):
 
     is_Permutation = True
 
-    _array_form = None
+    _array_form: list[int] = None # type: ignore # Should always be set in __new__ > _af_new
+    _size: int = None # type: ignore # Should always be set in __new__ > _af_new
     _cyclic_form = None
     _cycle_structure = None
-    _size = None
     _rank = None
 
     def __new__(cls, *args, size=None, **kwargs):
@@ -1026,7 +1036,7 @@ class Permutation(Atom):
         return cls._af_new(aform)
 
     @classmethod
-    def _af_new(cls, perm):
+    def _af_new(cls, perm: list[int]):
         """A method to produce a Permutation object from a list;
         the list is bound to the _array_form attribute, so it must
         not be modified; this method is meant for internal use only;
@@ -1681,7 +1691,7 @@ class Permutation(Atom):
         """
         return set(self.array_form)
 
-    def apply(self, i):
+    def apply(self, i) -> Integer | AppliedPermutation:
         r"""Apply the permutation to an expression.
 
         Parameters
@@ -1806,7 +1816,7 @@ class Permutation(Atom):
         _unrank1(n, r, id_perm)
         return self._af_new(id_perm)
 
-    def rank_nonlex(self, inv_perm=None):
+    def rank_nonlex(self, inv_perm: SupportsGetItem[int, int] | None = None):
         """
         This is a linear time ranking algorithm that does not
         enforce lexicographic order [3].
@@ -1825,7 +1835,7 @@ class Permutation(Atom):
 
         next_nonlex, unrank_nonlex
         """
-        def _rank1(n, perm, inv_perm):
+        def _rank1(n: int, perm: SupportsGetItem[int, int], inv_perm: SupportsGetItem[int, int]) -> int:
             if n == 1:
                 return 0
             s = perm[n - 1]

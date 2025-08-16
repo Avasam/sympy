@@ -1,4 +1,7 @@
+from typing import Literal, cast
+from collections.abc import Sequence
 from sympy.core import Basic, Dict, sympify, Tuple
+from sympy.core.expr import Expr
 from sympy.core.numbers import Integer
 from sympy.core.sorting import default_sort_key
 from sympy.core.sympify import _sympify
@@ -10,7 +13,6 @@ from sympy.utilities.misc import as_int
 
 
 from collections import defaultdict
-
 
 class Partition(FiniteSet):
     """
@@ -25,7 +27,7 @@ class Partition(FiniteSet):
     sympy.utilities.iterables.multiset_partitions
     """
 
-    _rank = None
+    _rank: Integer | Literal[0] | None = None
     _partition = None
 
     def __new__(cls, *partition):
@@ -176,7 +178,7 @@ class Partition(FiniteSet):
         """
         return self.__add__(-other)
 
-    def __le__(self, other):
+    def __le__(self, other: object):
         """
         Checks if a partition is less than or equal to
         the other based on rank.
@@ -196,7 +198,7 @@ class Partition(FiniteSet):
         """
         return self.sort_key() <= sympify(other).sort_key()
 
-    def __lt__(self, other):
+    def __lt__(self, other: object):
         """
         Checks if a partition is less than the other.
 
@@ -258,7 +260,7 @@ class Partition(FiniteSet):
         >>> _.RGS
         (0, 0, 1, 2, 3)
         """
-        rgs = {}
+        rgs: dict[object, int] = {}
         partition = self.partition
         for i, part in enumerate(partition):
             for j in part:
@@ -720,7 +722,7 @@ def RGS_unrank(rank, m):
     return [x - 1 for x in L[1:]]
 
 
-def RGS_rank(rgs):
+def RGS_rank(rgs: Sequence[int]) -> Integer | Literal[0]:
     """
     Computes the rank of a restricted growth string.
 

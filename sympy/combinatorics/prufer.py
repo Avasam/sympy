@@ -5,8 +5,12 @@ from sympy.core.sympify import _sympify
 from sympy.utilities.iterables import flatten, iterable
 from sympy.utilities.misc import as_int
 
+from typing import TYPE_CHECKING
 from collections import defaultdict
+from collections.abc import Iterable
 
+if TYPE_CHECKING:
+    from _typeshed import SupportsGetItem
 
 class Prufer(Basic):
     """
@@ -141,7 +145,7 @@ class Prufer(Basic):
         return self.prev(self.rank).prev().rank + 1
 
     @staticmethod
-    def to_prufer(tree, n):
+    def to_prufer(tree: Iterable[SupportsGetItem[int, int]], n):
         """Return the Prufer sequence for a tree given as a list of edges where
         ``n`` is the number of nodes in the tree.
 
@@ -161,7 +165,7 @@ class Prufer(Basic):
 
         """
         d = defaultdict(int)
-        L = []
+        L: list[int | None] = []
         for edge in tree:
             # Increment the value of the corresponding
             # node in the degree list as we encounter an

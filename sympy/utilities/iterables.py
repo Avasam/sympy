@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
+from typing import TypeVar
 from collections import Counter, defaultdict, OrderedDict
+from collections.abc import Iterable, Callable
 from itertools import (
     chain, combinations, combinations_with_replacement, cycle, islice,
     permutations, product, groupby
@@ -19,10 +19,8 @@ from sympy.utilities.enumerative import (
 from sympy.utilities.misc import as_int
 from sympy.utilities.decorator import deprecated
 
-
-if TYPE_CHECKING:
-    from typing import TypeVar, Iterable, Callable
-    T = TypeVar('T')
+from sympy.core.basic import Tbasic
+_T = TypeVar('_T')
 
 
 def is_palindromic(s, i=0, j=None):
@@ -61,8 +59,9 @@ def is_palindromic(s, i=0, j=None):
     # if length is odd, middle element will be ignored
     return all(s[i + k] == s[j - 1 - k] for k in range(m))
 
+_RecursiveFlatten = list[Tbasic | _RecursiveFlatten]
 
-def flatten(iterable, levels=None, cls=None):  # noqa: F811
+def flatten(iterable: _RecursiveFlatten[Tbasic], levels=None, cls=None) -> list[Tbasic]:  # noqa: F811
     """
     Recursively denest iterable containers.
 
@@ -677,10 +676,10 @@ def sift(seq, keyfunc, binary=False):
     return T, F
 
 
-def _sift_true_false(seq: Iterable[T], keyfunc: Callable[[T], bool]) -> tuple[list[T], list[T]]:
+def _sift_true_false(seq: Iterable[_T], keyfunc: Callable[[_T], bool]) -> tuple[list[_T], list[_T]]:
     """Sift iterable for items with keyfunc(item) = True/False."""
-    true: list[T] = []
-    false: list[T] = []
+    true: list[_T] = []
+    false: list[_T] = []
     for i in seq:
         if keyfunc(i):
             true.append(i)
@@ -805,11 +804,11 @@ def topological_sort(graph, key=None):
     Parameters
     ==========
 
-    graph : tuple[list, list[tuple[T, T]]
+    graph : tuple[list, list[tuple[_T, _T]]
         A tuple consisting of a list of vertices and a list of edges of
         a graph to be sorted topologically.
 
-    key : callable[T] (optional)
+    key : callable[_T] (optional)
         Ordering key for vertices on the same level. By default the natural
         (e.g. lexicographic) ordering is used (in this case the base type
         must implement ordering relations).
@@ -921,7 +920,7 @@ def strongly_connected_components(G):
     Parameters
     ==========
 
-    G : tuple[list, list[tuple[T, T]]
+    G : tuple[list, list[tuple[_T, _T]]
         A tuple consisting of a list of vertices and a list of edges of
         a graph whose strongly connected components are to be found.
 
@@ -1075,7 +1074,7 @@ def connected_components(G):
     Parameters
     ==========
 
-    G : tuple[list, list[tuple[T, T]]
+    G : tuple[list, list[tuple[_T, _T]]
         A tuple consisting of a list of vertices and a list of edges of
         a graph whose connected components are to be found.
 
@@ -2737,7 +2736,7 @@ def sequence_partitions(l, n, /):
     Parameters
     ==========
 
-    l : Sequence[T]
+    l : Sequence[_T]
         A nonempty sequence of any Python objects
 
     n : int
@@ -2746,7 +2745,7 @@ def sequence_partitions(l, n, /):
     Yields
     ======
 
-    out : list[Sequence[T]]
+    out : list[Sequence[_T]]
         A list of sequences with concatenation equals $l$.
         This should conform with the type of $l$.
 
@@ -2803,7 +2802,7 @@ def sequence_partitions_empty(l, n, /):
     Parameters
     ==========
 
-    l : Sequence[T]
+    l : Sequence[_T]
         A sequence of any Python objects (can be possibly empty)
 
     n : int
@@ -2812,7 +2811,7 @@ def sequence_partitions_empty(l, n, /):
     Yields
     ======
 
-    out : list[Sequence[T]]
+    out : list[Sequence[_T]]
         A list of sequences with concatenation equals $l$.
         This should conform with the type of $l$.
 

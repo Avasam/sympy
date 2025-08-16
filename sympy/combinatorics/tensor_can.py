@@ -1,10 +1,3 @@
-from sympy.combinatorics.permutations import Permutation, _af_rmul, \
-    _af_invert, _af_new
-from sympy.combinatorics.perm_groups import PermutationGroup, _orbit, \
-    _orbit_transversal
-from sympy.combinatorics.util import _distribute_gens_by_base, \
-    _orbits_transversals_from_bsgs
-
 """
     References for tensor canonicalization:
 
@@ -22,7 +15,16 @@ from sympy.combinatorics.util import _distribute_gens_by_base, \
     [4] xperm.c part of XPerm written by J. M. Martin-Garcia
         http://www.xact.es/index.html
 """
+from typing import TypeVar
+from sympy.combinatorics.free_groups import FreeGroupElement
+from sympy.combinatorics.permutations import Permutation, _af_rmul, \
+    _af_invert, _af_new
+from sympy.combinatorics.perm_groups import PermutationGroup, _orbit, \
+    _orbit_transversal
+from sympy.combinatorics.util import _distribute_gens_by_base, \
+    _orbits_transversals_from_bsgs
 
+_T = TypeVar("_T")
 
 def dummy_sgs(dummies, sym, n):
     """
@@ -156,7 +158,7 @@ def transversal2coset(size, base, transversal):
     return a[:j + 1]
 
 
-def double_coset_can_rep(dummies, sym, b_S, sgens, S_transversals, g):
+def double_coset_can_rep(dummies, sym, b_S, sgens, S_transversals, g: Permutation):
     r"""
     Butler-Portugal algorithm for tensor canonicalization with dummy indices.
 
@@ -395,7 +397,7 @@ def double_coset_can_rep(dummies, sym, b_S, sgens, S_transversals, g):
     0
     """
     size = g.size
-    g = g.array_form
+    g: list[int] = g.array_form
     num_dummies = size - 2
     indices = list(range(num_dummies))
     all_metrics_with_sym = not any(_ is None for _ in sym)
@@ -530,7 +532,7 @@ def double_coset_can_rep(dummies, sym, b_S, sgens, S_transversals, g):
     return TAB[0][-1]
 
 
-def canonical_free(base, gens, g, num_free):
+def canonical_free(base, gens, g: Permutation, num_free):
     """
     Canonicalization of a tensor with respect to free indices
     choosing the minimum with respect to lexicographical ordering
@@ -578,7 +580,7 @@ def canonical_free(base, gens, g, num_free):
     >>> canonical_free(sbase, [Permutation(h) for h in sgens], g, 2)
     [0, 3, 4, 6, 1, 2, 7, 5, 9, 8]
     """
-    g = g.array_form
+    g: list[int] = g.array_form
     size = len(g)
     if not base:
         return g[:]
@@ -592,7 +594,7 @@ def canonical_free(base, gens, g, num_free):
         h_i = [size]*num_free
         # find the element s in transversals[i] such that
         # _af_rmul(h, s) has its free elements with the lowest position in h
-        s = None
+        s: list[int] | None = None
         for sk in transv.values():
             h1 = _af_rmul(h, sk)
             hi = [h1.index(ix) for ix in range(num_free)]
@@ -963,7 +965,7 @@ riemann_bsgs = [0, 2], [Permutation(0, 1)(4, 5), Permutation(2, 3)(4, 5),
                         Permutation(5)(0, 2)(1, 3)]
 
 
-def get_transversals(base, gens):
+def get_transversals(base, gens) -> list[dict]:
     """
     Return transversals for the group with BSGS base, gens
     """

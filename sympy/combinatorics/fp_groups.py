@@ -1,5 +1,6 @@
 """Finitely Presented Groups and its algorithms. """
-
+from __future__ import annotations
+from typing import overload
 from sympy.core.singleton import S
 from sympy.core.symbol import symbols
 from sympy.combinatorics.free_groups import (FreeGroup, FreeGroupElement,
@@ -15,8 +16,10 @@ from sympy.polys.polytools import gcd
 from sympy.printing.defaults import DefaultPrinting
 from sympy.utilities import public
 from sympy.utilities.magic import pollute
+from sympy.core.numbers import Infinity, Integer
 
 from itertools import product
+from collections.abc import Iterable
 
 
 @public
@@ -58,7 +61,7 @@ class FpGroup(DefaultPrinting):
     is_FpGroup = True
     is_PermutationGroup = False
 
-    def __init__(self, fr_grp, relators):
+    def __init__(self, fr_grp: FreeGroup, relators):
         relators = _parse_relators(relators)
         self.free_group = fr_grp
         self.relators = relators
@@ -71,7 +74,7 @@ class FpGroup(DefaultPrinting):
         # has been standardized
         self._is_standardized = False
 
-        self._order = None
+        self._order: int | Infinity | Integer | None = None
         self._center = None
 
         self._rewriting_system = RewritingSystem(self)
@@ -217,7 +220,7 @@ class FpGroup(DefaultPrinting):
             C.standardize()
             return C.table
 
-    def order(self, strategy="relator_based"):
+    def order(self, strategy="relator_based") -> int | Infinity | Integer:
         """
         Returns the order of the finitely presented group ``self``. It uses
         the coset enumeration with identity group as subgroup, i.e ``H=[]``.
@@ -556,7 +559,7 @@ class FpSubgroup(DefaultPrinting):
     group belongs to the subgroup
 
     '''
-    def __init__(self, G: FpGroup, gens, normal=False):
+    def __init__(self, G: FpGroup | FreeGroup, gens: Iterable[FreeGroupElement], normal=False):
         super().__init__()
         self.parent = G
         self.generators = list({g for g in gens if g != G.identity})
@@ -944,6 +947,10 @@ def first_in_class(C, Y=()):
 #                    Simplifying Presentation
 #========================================================================
 
+@overload
+def simplify_presentation(__fpgroup: FpGroup, *, change_gens=False) -> FpGroup: ...
+@overload
+def simplify_presentation(__generators, __relators, *, change_gens=False) -> tuple: ...
 def simplify_presentation(*args, change_gens=False):
     '''
     For an instance of `FpGroup`, return a simplified isomorphic copy of

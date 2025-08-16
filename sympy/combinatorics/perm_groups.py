@@ -1,6 +1,8 @@
+from __future__ import annotations
 from collections.abc import Sequence
 from math import factorial as _factorial, log, prod
 from itertools import chain, product
+from typing import TypeVar, overload, Never, Literal
 
 
 from sympy.combinatorics import Permutation
@@ -26,7 +28,7 @@ rmul = Permutation.rmul_with_af
 _af_new = Permutation._af_new
 
 _FreeGroupElementOrPermutationT = TypeVar("_FreeGroupElementOrPermutationT", bound=FreeGroupElement | Permutation)
-
+_T = TypeVar("_T")
 
 class PermutationGroup(Basic):
     r"""The class defining a Permutation group.
@@ -166,7 +168,7 @@ class PermutationGroup(Basic):
         self._is_solvable = None
         self._is_trivial = None
         self._transitivity_degree = None
-        self._max_div = None
+        self._max_div: int | None = None
         self._is_perfect = None
         self._is_cyclic = None
         self._is_dihedral = None
@@ -178,7 +180,7 @@ class PermutationGroup(Basic):
         self._strong_gens = []
         self._strong_gens_slp = []
         self._basic_orbits = []
-        self._transversals = []
+        self._transversals: list[dict[int, Permutation]] = []
         self._transversal_slp = []
 
         # these attributes are assigned after running _random_pr_init
@@ -187,7 +189,7 @@ class PermutationGroup(Basic):
         # finite presentation of the group as an instance of `FpGroup`
         self._fp_presentation = None
 
-    def __getitem__(self, i):
+    def __getitem__(self, i) -> Permutation:
         return self._generators[i]
 
     def __contains__(self, i):
@@ -646,7 +648,7 @@ class PermutationGroup(Basic):
         return self._basic_orbits
 
     @property
-    def basic_stabilizers(self):
+    def basic_stabilizers(self) -> list[PermutationGroup]:
         r"""
         Return a chain of stabilizers relative to a base and strong generating
         set.
@@ -973,7 +975,7 @@ class PermutationGroup(Basic):
             self._center = self.centralizer(self)
         return self._center
 
-    def centralizer(self, other):
+    def centralizer(self, other) -> PermutationGroup | None:
         r"""
         Return the centralizer of a group/set/element.
 
@@ -1318,6 +1320,10 @@ class PermutationGroup(Basic):
             b = b*len(transversals[i])
         return rank
 
+    @overload
+    def coset_unrank(self, rank, af: Literal[True]) -> list[int] | None: ...
+    @overload
+    def coset_unrank(self, rank, af: Literal[False] = False) -> Permutation | None: ...
     def coset_unrank(self, rank, af=False):
         """unrank using Schreier-Sims representation
 
@@ -1497,6 +1503,10 @@ class PermutationGroup(Basic):
         G2 = self.normal_closure(cms)
         return G2
 
+    @overload
+    def generate(self, method: str = "coset", af: Literal[True]) -> list[int]: ...
+    @overload
+    def generate(self, method: str = "coset", af: Literal[False] = False) -> Permutation: ...
     def generate(self, method="coset", af=False):
         """Return iterator to generate the elements of the group.
 
@@ -1550,6 +1560,10 @@ class PermutationGroup(Basic):
         else:
             raise NotImplementedError('No generation defined for %s' % method)
 
+    @overload
+    def generate_dimino(self, af: Literal[True]) -> list[int]: ...
+    @overload
+    def generate_dimino(self, af: Literal[False] = False) -> Permutation: ...
     def generate_dimino(self, af=False):
         """Yield group elements using Dimino's algorithm.
 
@@ -1608,6 +1622,10 @@ class PermutationGroup(Basic):
                                 N.append(ap)
         self._order = len(element_list)
 
+    @overload
+    def generate_schreier_sims(self, af: Literal[True]) -> list[int]: ...
+    @overload
+    def generate_schreier_sims(self, af: Literal[False] = False) -> Permutation: ...
     def generate_schreier_sims(self, af=False):
         """Yield group elements using the Schreier-Sims representation
         in coset_rank order
@@ -1931,7 +1949,7 @@ class PermutationGroup(Basic):
 
         return False
 
-    def _eval_is_alt_sym_monte_carlo(self, eps=0.05, perms=None):
+    def _eval_is_alt_sym_monte_carlo(self, eps=0.05, perms=None) -> bool:
         """A test using monte-carlo algorithm.
 
         Parameters
@@ -2495,7 +2513,7 @@ class PermutationGroup(Basic):
         return res
 
     @property
-    def max_div(self):
+    def max_div(self) -> int | None:
         """Maximum proper divisor of the degree of a permutation group.
 
         Explanation
@@ -2618,7 +2636,7 @@ class PermutationGroup(Basic):
             self._union_find_rep(i, parents)
 
         # rewrite result so that block representatives are minimal
-        new_reps = {}
+        new_reps: dict[int, int] = {}
         return [new_reps.setdefault(r, i) for i, r in enumerate(parents)]
 
     def conjugacy_class(self, x):
@@ -2712,7 +2730,7 @@ class PermutationGroup(Basic):
 
         return classes
 
-    def normal_closure(self, other, k=10):
+    def normal_closure(self, other: PermutationGroup | Permutation | Cycle | Sequence[Permutation | Cycle], k=10) -> PermutationGroup | None:
         r"""Return the normal closure of a subgroup/set of permutations.
 
         Explanation
@@ -3293,7 +3311,8 @@ class PermutationGroup(Basic):
 
         # Proceed with algorithm of [Di1]
         # Find elements of orders 2 and n
-        order_2, order_n = [], []
+        order_2: list[int] = []
+        order_n: list[int] = []
         for p in self.elements:
             k = p.order()
             if k == 2:
@@ -3423,6 +3442,10 @@ class PermutationGroup(Basic):
             result = rmul(result, p)
         return result
 
+    @overload
+    def random(self, af: Literal[True]) -> list[int] | None: ...
+    @overload
+    def random(self, af: Literal[False] = False) -> Permutation | None: ...
     def random(self, af=False):
         """Return a random group element
         """
@@ -3554,7 +3577,11 @@ class PermutationGroup(Basic):
         self._basic_orbits = [sorted(x) for x in basic_orbits]
         self._transversal_slp = slps
 
-    def schreier_sims_incremental(self, base=None, gens=None, slp_dict=False):
+    @overload
+    def schreier_sims_incremental(self, base: list[int] | None = None, gens: list[Permutation] | None = None, slp_dict: Literal[True]) -> tuple[list[int], list[Permutation], dict[Permutation, list[Permutation]]]: ...
+    @overload
+    def schreier_sims_incremental(self, base: list[int] | None = None, gens: list[Permutation] | None = None, slp_dict: Literal[False] = False) -> tuple[list[int], list[Permutation]]: ...
+    def schreier_sims_incremental(self, base: list[int] | None = None, gens: list[Permutation] | None = None, slp_dict: bool = False):
         """Extend a sequence of points and generating set to a base and strong
         generating set.
 
@@ -3640,7 +3667,7 @@ class PermutationGroup(Basic):
                 _base.append(new)
         # distribute generators according to basic stabilizers
         strong_gens_distr = _distribute_gens_by_base(_base, _gens)
-        strong_gens_slp = []
+        strong_gens_slp: list[Permutation, list[Permutation]] = []
         # initialize the basic stabilizers, basic orbits and basic transversals
         orbs = {}
         transversals = {}
@@ -3739,7 +3766,7 @@ class PermutationGroup(Basic):
         strong_gens.extend([k for k, _ in strong_gens_slp])
         return _base, strong_gens
 
-    def schreier_sims_random(self, base=None, gens=None, consec_succ=10,
+    def schreier_sims_random(self, base=None, gens: list[Permutation] | None = None, consec_succ=10,
                              _random_prec=None):
         r"""Randomized Schreier-Sims algorithm.
 
@@ -4443,7 +4470,7 @@ class PermutationGroup(Basic):
 
         return gens
 
-    def sylow_subgroup(self, p):
+    def sylow_subgroup(self, p) -> PermutationGroup:
         '''
         Return a p-Sylow subgroup of the group.
 

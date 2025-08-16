@@ -18,7 +18,7 @@ class RewritingSystem:
     def __init__(self, group):
         self.group = group
         self.alphabet = group.generators
-        self._is_confluent = None
+        self._is_confluent: bool | None = None
 
         # these values are taken from [2]
         self.maxeqns = 32767 # max rules

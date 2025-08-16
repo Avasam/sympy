@@ -15,13 +15,13 @@ class TensorProduct(Expr):
     """
     is_number = False
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Expr | complex, **kwargs):
         from sympy.tensor.array import NDimArray, tensorproduct, Array
         from sympy.matrices.expressions.matexpr import MatrixExpr
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.strategies import flatten
 
-        args = [cast('Expr', sympify(arg)) for arg in args]
+        args = [sympify(arg) for arg in args]
         evaluate = kwargs.get("evaluate", global_parameters.evaluate)
 
         if not evaluate:
