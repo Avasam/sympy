@@ -14,12 +14,14 @@ and the Diffie-Hellman key exchange.
 
 from string import whitespace, ascii_uppercase as uppercase, printable
 from functools import reduce
+from typing import Literal, overload
+from collections.abc import Iterable
 import string
 import warnings
 
 from itertools import cycle
 
-from sympy.external.gmpy import GROUND_TYPES
+from sympy.external.gmpy import GROUND_TYPES, MPZ
 from sympy.core import Symbol
 from sympy.core.numbers import Rational
 from sympy.core.random import _randrange, _randint
@@ -52,8 +54,11 @@ class NonInvertibleCipherWarning(RuntimeWarning):
     def warn(self, stacklevel=3):
         warnings.warn(self, stacklevel=stacklevel)
 
-
-def AZ(s=None):
+@overload
+def AZ(s: str | None = None) -> str: ...
+@overload
+def AZ(s: Iterable[str]) -> list[str]: ...
+def AZ(s: Iterable[str] | str | None = None):
     """Return the letters of ``s`` in uppercase. In case more than
     one string is passed, each of them will be processed and a list
     of upper case strings will be returned.
@@ -2693,7 +2698,7 @@ def encipher_elgamal(i, key, seed=None):
     return pow(r, a, p), i*pow(e, a, p) % p
 
 
-def decipher_elgamal(msg, key):
+def decipher_elgamal(msg: tuple[int, int], key: tuple[int, object, int]):
     r"""
     Decrypt message with private key.
 
@@ -3314,7 +3319,7 @@ def encipher_bg(i, key, seed=None):
 
     return (encrypt_msg, x_L)
 
-def decipher_bg(message, key):
+def decipher_bg(message: tuple[Iterable[int], int], key) -> MPZ | Literal[0]:
     """
     Decrypts the message using private keys.
 
@@ -3359,7 +3364,7 @@ def decipher_bg(message, key):
 
     x = (q * invert(q, p) * r_p + p * invert(p, q) * r_q) % public_key
 
-    orig_bits = []
+    orig_bits: list[MPZ] = []
     for _ in range(L):
         orig_bits.append(x % 2)
         x = x**2 % public_key

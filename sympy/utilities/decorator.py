@@ -1,6 +1,7 @@
 """Useful utility decorators. """
 
 from typing import TypeVar
+from collections.abc import Callable
 import sys
 import types
 import inspect
@@ -8,7 +9,7 @@ from functools import wraps, update_wrapper
 
 from sympy.utilities.exceptions import sympy_deprecation_warning
 
-
+_CallableT = TypeVar("_CallableT", bound=Callable)
 T = TypeVar('T')
 """A generic type"""
 
@@ -130,7 +131,7 @@ class no_attrs_in_subclass:
 
 
 def doctest_depends_on(exe=None, modules=None, disable_viewers=None,
-                       python_version=None, ground_types=None):
+                       python_version=None, ground_types=None) -> Callable[[_CallableT], _CallableT]:
     """
     Adds metadata about the dependencies which need to be met for doctesting
     the docstrings of the decorated objects.

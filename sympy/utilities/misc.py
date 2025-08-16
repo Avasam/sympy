@@ -8,7 +8,8 @@ import os
 import re as _re
 import struct
 from textwrap import fill, dedent
-from typing import TypeVar, Callable
+from typing import TypeVar
+from collections.abc import Mapping, Callable
 
 _CallableT = TypeVar("_CallableT", bound=Callable)
 
@@ -343,7 +344,7 @@ def func_name(x, short=False):
     return rv
 
 
-def _replace(reps):
+def _replace(reps: Mapping[str | None, str] | None) -> Callable[[str], str]:
     """Return a function that can make the replacements, given in
     ``reps``, on a string. The replacements should be given as mapping.
 
@@ -366,7 +367,7 @@ def _replace(reps):
     return lambda string: pattern.sub(D, string)
 
 
-def replace(string, *reps):
+def replace(string: str, *reps):
     """Return ``string`` with all keys in ``reps`` replaced with
     their corresponding values, longer strings first, irrespective
     of the order they are given.  ``reps`` may be passed as tuples
@@ -408,7 +409,7 @@ def replace(string, *reps):
     return _replace(reps)(string)
 
 
-def translate(s, a, b=None, c=None):
+def translate(s: str, a, b=None, c=None) -> str:
     """Return ``s`` where characters have been replaced or deleted.
 
     SYNTAX
