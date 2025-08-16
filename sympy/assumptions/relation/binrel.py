@@ -2,7 +2,7 @@
 General binary relations.
 """
 from __future__ import annotations
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from sympy.core.singleton import S
 from sympy.assumptions import AppliedPredicate, ask, Predicate, Q  # type: ignore

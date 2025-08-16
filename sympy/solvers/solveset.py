@@ -42,7 +42,8 @@ from sympy.functions.elementary.trigonometric import TrigonometricFunction
 from sympy.logic.boolalg import And, BooleanTrue
 from sympy.sets import (FiniteSet, imageset, Interval, Intersection,
                         Union, ConditionSet, ImageSet, Complement, Contains)
-from sympy.sets.sets import Set, ProductSet
+from sympy.sets.sets import Set, ProductSet, EmptySet
+from sympy.sets.fancysets import Complexes
 from sympy.matrices import zeros, Matrix, MatrixBase
 from sympy.ntheory.factor_ import divisors
 from sympy.ntheory.residue_ntheory import discrete_log, nthroot_mod
@@ -2334,7 +2335,7 @@ def _transolve(f, symbol, domain):
     return result
 
 
-def solveset(f, symbol=None, domain=S.Complexes):
+def solveset(f, symbol=None, domain=S.Complexes) -> Complexes | EmptySet:
     r"""Solves a given inequality or equation with set as output
 
     Parameters

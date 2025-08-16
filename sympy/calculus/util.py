@@ -1,3 +1,4 @@
+from typing import overload
 from .accumulationbounds import AccumBounds, AccumulationBounds # noqa: F401
 from .singularities import singularities
 from sympy.core import Pow, S
@@ -18,7 +19,7 @@ from sympy.functions.elementary.trigonometric import (
 from sympy.functions.elementary.hyperbolic import (sinh, cosh, tanh, coth,
     sech, csch, asinh, acosh, atanh, acoth, asech, acsch)
 from sympy.polys.polytools import degree, lcm_list
-from sympy.sets.sets import (Interval, Intersection, FiniteSet, Union,
+from sympy.sets.sets import (EmptySet, Interval, Intersection, FiniteSet, Set, Union,
                              Complement)
 from sympy.sets.fancysets import ImageSet
 from sympy.sets.conditionset import ConditionSet
@@ -284,7 +285,12 @@ def function_range(f, symbol, domain):
 
     return range_int
 
-
+@overload
+def not_empty_in(finset_intersection: EmptySet, *syms) -> EmptySet: ...
+@overload
+def not_empty_in(finset_intersection: Union, *syms) -> Union: ...
+@overload
+def not_empty_in(finset_intersection, *syms) -> Set | Union | None: ...
 def not_empty_in(finset_intersection, *syms):
     """
     Finds the domain of the functions in ``finset_intersection`` in which the

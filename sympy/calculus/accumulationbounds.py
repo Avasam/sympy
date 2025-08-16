@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import TypeVar, overload
+from types import NotImplementedType
 from sympy.core import Add, Mul, Pow, S
 from sympy.core.basic import Basic
 from sympy.core.expr import Expr
@@ -10,6 +14,7 @@ from sympy.multipledispatch import dispatch
 from sympy.series.order import Order
 from sympy.sets.sets import FiniteSet
 
+_ExprT = TypeVar("_ExprT", bound=Expr)
 
 class AccumulationBounds(Expr):
     r"""An accumulation bounds.
@@ -184,7 +189,11 @@ class AccumulationBounds(Expr):
     is_extended_real = True
     is_number = False
 
-    def __new__(cls, min, max) -> Expr: # type: ignore
+    @overload
+    def __new__(cls, min, max: _ExprT) -> _ExprT | AccumulationBounds: ... # type: ignore
+    @overload
+    def __new__(cls, min, max: object) -> Expr: ... # type: ignore
+    def __new__(cls, min, max):
 
         min = _sympify(min)
         max = _sympify(max)

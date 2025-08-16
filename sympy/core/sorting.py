@@ -1,8 +1,11 @@
 from collections import defaultdict
+from collections.abc import Iterable, Generator
+from typing import TypeVar
 
 from .sympify import sympify, SympifyError
 from sympy.utilities.iterables import iterable, uniq
 
+_T = TypeVar("_T")
 
 __all__ = ['default_sort_key', 'ordered']
 
@@ -199,7 +202,7 @@ def _nodes(e):
         return 1
 
 
-def ordered(seq, keys=None, default=True, warn=False):
+def ordered(seq: Iterable[_T], keys=None, default=True, warn=False) -> Generator[_T]:
     """Return an iterator of the seq where keys are used to break ties
     in a conservative fashion: if, after applying a key, there are no
     ties then no other keys will be computed.

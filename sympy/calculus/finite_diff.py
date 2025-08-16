@@ -16,7 +16,7 @@ for:
     (``differentiate_finite``).
 
 """
-
+from typing import TYPE_CHECKING, SupportsIndex
 from sympy.core.function import Derivative
 from sympy.core.singleton import S
 from sympy.core.function import Subs
@@ -24,7 +24,9 @@ from sympy.core.traversal import preorder_traversal
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.utilities.iterables import iterable
 
-
+if TYPE_CHECKING:
+    from _typeshed import SupportsLenAndGetItem
+    from sympy.core.expr import Expr
 
 def finite_diff_weights(order, x_list, x0=S.One):
     """
@@ -193,7 +195,7 @@ def finite_diff_weights(order, x_list, x0=S.One):
     return delta
 
 
-def apply_finite_diff(order, x_list, y_list, x0=S.Zero):
+def apply_finite_diff(order: SupportsIndex, x_list, y_list: SupportsLenAndGetItem[int | Expr], x0=S.Zero):
     """
     Calculates the finite difference approximation of
     the derivative of requested order at ``x0`` from points

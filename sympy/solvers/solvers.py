@@ -12,6 +12,7 @@ This module contain solvers for all kinds of equations:
 
 """
 from __future__ import annotations
+from typing import TYPE_CHECKING, TypeVar
 
 from sympy.core import (S, Add, Symbol, Dummy, Expr, Mul)
 from sympy.core.assumptions import check_assumptions
@@ -62,12 +63,18 @@ from sympy.solvers.polysys import solve_poly_system
 
 from types import GeneratorType
 from collections import defaultdict
+from collections.abc import Iterable
 from itertools import combinations, product
 
 import warnings
 
+if TYPE_CHECKING:
+    from sympy.core.basic import Basic
 
-def recast_to_symbols(eqs, symbols):
+_T = TypeVar("_T")
+
+
+def recast_to_symbols(eqs, symbols: Iterable[_T]) -> tuple[list[int | Basic], list[Dummy | _T], dict[Dummy, _T]]:
     """
     Return (e, s, d) where e and s are versions of *eqs* and
     *symbols* in which any non-Symbol objects in *symbols* have
@@ -95,13 +102,13 @@ def recast_to_symbols(eqs, symbols):
         raise ValueError('Both eqs and symbols must be iterable')
     orig = list(symbols)
     symbols = list(ordered(symbols))
-    swap_sym = {}
+    swap_sym: dict[_T, Dummy] = {}
     i = 0
     for s in symbols:
         if not isinstance(s, Symbol) and s not in swap_sym:
             swap_sym[s] = Dummy('X%d' % i)
             i += 1
-    new_f = []
+    new_f: list[int | Basic] = []
     for i in eqs:
         isubs = getattr(i, 'subs', None)
         if isubs is not None:
