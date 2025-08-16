@@ -6,7 +6,7 @@ from __future__ import annotations
 from bisect import bisect_left
 from collections import defaultdict, OrderedDict
 from collections.abc import MutableMapping
-from typing import TypeVar, overload
+from typing import TYPE_CHECKING, TypeVar, overload
 import math
 
 from sympy.core.containers import Dict
@@ -25,6 +25,9 @@ from sympy.utilities.decorator import deprecated
 from sympy.utilities.iterables import flatten
 from sympy.utilities.misc import as_int, filldedent
 from .ecm import _ecm_one_factor
+
+if TYPE_CHECKING:
+    from sympy.external.gmpy import MPZ
 
 _T = TypeVar("_T")
 
@@ -160,7 +163,7 @@ def smoothness_p(n, m=-1, power=0, visual=None):
     return '\n'.join(lines)
 
 
-def multiplicity(p, n):
+def multiplicity(p, n) -> MPZ | int:
     """
     Find the greatest integer m such that p**m divides n.
 
@@ -279,7 +282,7 @@ def multiplicity_in_factorial(p, n):
     # keep only the largest of a given multiplicity since those
     # of a given multiplicity will be goverened by the behavior
     # of the largest factor
-    f = defaultdict(int)
+    f = defaultdict[int, int](int)
     for k, v in factorint(p).items():
         f[v] = max(k, f[v])
     # multiplicity of p in n! depends on multiplicity
@@ -1223,7 +1226,12 @@ def _factorint_small(factors, n, limit, fail_max, next_p=2):
             return done(n, next_p)
     return done(n, next_p)
 
-
+@overload
+def factorint(n: int, limit=None, use_trial=True, use_rho=True, use_pm1=True,
+              use_ecm=True, verbose=False, visual=None, multiple=False) -> dict[int, int]: ...
+@overload
+def factorint(n, limit=None, use_trial=True, use_rho=True, use_pm1=True,
+              use_ecm=True, verbose=False, visual=None, multiple=False): ...
 def factorint(n, limit=None, use_trial=True, use_rho=True, use_pm1=True,
               use_ecm=True, verbose=False, visual=None, multiple=False):
     r"""

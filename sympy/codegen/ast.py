@@ -514,8 +514,8 @@ class AugmentedAssignment(AssignmentBase):
     binop: str | None
 
     @property
-    def op(self):
-        return self.binop + '='
+    def op(self) -> str:
+        return self.binop + '=' # type: ignore # Raise an error when binop isn't defined
 
 
 class AddAugmentedAssignment(AugmentedAssignment):

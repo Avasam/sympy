@@ -55,7 +55,8 @@ def digits(n, b=10, digits=None):
     if b < 2:
         raise ValueError("b must be greater than 1")
     else:
-        x, y = abs(n), []
+        x = abs(n)
+        y: list[int] = []
         while x >= b:
             x, r = divmod(x, b)
             y.append(r)

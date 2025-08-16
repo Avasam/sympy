@@ -16,6 +16,7 @@ for:
     (``differentiate_finite``).
 
 """
+from __future__ import annotations
 from typing import TYPE_CHECKING, SupportsIndex
 from sympy.core.function import Derivative
 from sympy.core.singleton import S

@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING, overload, TypeVar, Generic
 import itertools
 from sympy.combinatorics.fp_groups import FpGroup, FpSubgroup, simplify_presentation
 from sympy.combinatorics.free_groups import FreeGroup
@@ -6,7 +8,13 @@ from sympy.core.intfunc import igcd
 from sympy.functions.combinatorial.numbers import totient
 from sympy.core.singleton import S
 
-class GroupHomomorphism:
+if TYPE_CHECKING:
+    from sympy.combinatorics import Permutation
+    from sympy.combinatorics.free_groups import FreeGroupElement
+
+_CodomainT = TypeVar("_CodomainT", PermutationGroup, FpGroup, FreeGroup)
+
+class GroupHomomorphism(Generic[_CodomainT]):
     '''
     A class representing group homomorphisms. Instantiate using `homomorphism()`.
 
@@ -17,7 +25,7 @@ class GroupHomomorphism:
 
     '''
 
-    def __init__(self, domain, codomain, images):
+    def __init__(self, domain, codomain: _CodomainT, images):
         self.domain = domain
         self.codomain = codomain
         self.images = images
@@ -60,6 +68,12 @@ class GroupHomomorphism:
 
         return inverses
 
+    @overload
+    def invert(self, g: Permutation | FreeGroupElement): ...
+    @overload
+    def invert(self, g: list) -> list: ... # type: ignore
+    @overload
+    def invert(self, g: object) -> None: ...
     def invert(self, g):
         '''
         Return an element of the preimage of ``g`` or of each element
@@ -138,6 +152,10 @@ class GroupHomomorphism:
                     K = FpSubgroup(G, gens, normal=True)
         return K
 
+    @overload
+    def image(self: GroupHomomorphism[PermutationGroup]) -> PermutationGroup: ...
+    @overload
+    def image(self) -> FpSubgroup: ...
     def image(self):
         '''
         Compute the image of `self`.

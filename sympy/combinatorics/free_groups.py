@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING, SupportsIndex, TypeVar, overload, Literal
 
 from sympy.core import S
 from sympy.core.expr import Expr
@@ -10,6 +11,10 @@ from sympy.utilities.iterables import flatten, is_sequence
 from sympy.utilities.magic import pollute
 from sympy.utilities.misc import as_int
 
+if TYPE_CHECKING:
+    from typing_extensions import Self
+
+_T = TypeVar("_T")
 
 @public
 def free_group(symbols):
@@ -136,6 +141,14 @@ class FreeGroup(DefaultPrinting):
     is_PermutationGroup = False
     relators: list[Expr] = []
 
+    # Set in __new__
+    _hash: int
+    _rank: int
+    dtype: type[FreeGroupElement]
+    symbols: tuple[Expr | FreeGroupElement, ...]
+    generators: tuple[FreeGroupElement, ...]
+    _gens_set: set
+
     def __new__(cls, symbols):
         symbols = tuple(_parse_symbols(symbols))
         rank = len(symbols)
@@ -181,7 +194,7 @@ class FreeGroup(DefaultPrinting):
         (x, y, z)
 
         """
-        gens = []
+        gens: list[FreeGroupElement] = []
         for sym in group.symbols:
             elm = ((sym, 1),)
             gens.append(group.dtype(elm))
@@ -341,8 +354,7 @@ class FreeGroup(DefaultPrinting):
 #                          FreeGroupElement                                #
 ############################################################################
 
-
-class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
+class FreeGroupElement(CantSympify, DefaultPrinting, tuple[tuple[Symbol, int], ...]):
     """Used to create elements of FreeGroup. It cannot be used directly to
     create a free group element. It is called by the `dtype` method of the
     `FreeGroup` class.
@@ -351,10 +363,12 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
     __slots__ = ()
     is_assoc_word = True
 
+    group: FreeGroup
+
     def new(self, init):
         return self.__class__(init)
 
-    _hash = None
+    _hash: int | None = None
 
     def __hash__(self):
         _hash = self._hash
@@ -624,6 +638,10 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
                         again = True
         return new
 
+    @overload
+    def eliminate_word(self, gen, by: None = None, _all=False, inverse=True) -> FreeGroupElement | Self: ...
+    @overload
+    def eliminate_word(self, gen, by: _T, _all=False, inverse=True) -> _T | Self: ...
     def eliminate_word(self, gen, by=None, _all=False, inverse=True):
         """
         For an associative word `self`, a subword `gen`, and an associative
@@ -786,7 +804,7 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
                 return False
         return False
 
-    def __le__(self, other):
+    def __le__(self, other: type[FreeGroupElement]):
         return (self == other or self < other)
 
     def __gt__(self, other):
@@ -1076,7 +1094,7 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         """
         return len(self.array_form)
 
-    def exponent_syllable(self, i):
+    def exponent_syllable(self, i: SupportsIndex):
         """
         Returns the exponent of the `i`-th syllable of the associative word
         `self`.
@@ -1170,7 +1188,7 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         else:              # finally
             return self.subword(0, from_i)*by*self.subword(to_j, lw)
 
-    def is_cyclically_reduced(self):
+    def is_cyclically_reduced(self) -> bool:
         r"""Returns whether the word is cyclically reduced or not.
         A word is cyclically reduced if by forming the cycle of the
         word, the word is not reduced, i.e a word w = `a_1 ... a_n`
@@ -1189,6 +1207,7 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         """
         if not self:
             return True
+
         return self[0] != self[-1]**-1
 
     def identity_cyclic_reduction(self):
@@ -1224,6 +1243,10 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
             word = group.dtype(rep)
         return word
 
+    @overload
+    def cyclic_reduction(self, removed: Literal[True]) -> tuple[Self, FreeGroupElement]: ...
+    @overload
+    def cyclic_reduction(self, removed: Literal[False]=False) -> Self: ...
     def cyclic_reduction(self, removed=False):
         """Return a cyclically reduced version of the word. Unlike
         `identity_cyclic_reduction`, this will not cyclically permute
@@ -1262,7 +1285,7 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
             return word, g
         return word
 
-    def power_of(self, other):
+    def power_of(self, other) -> bool:
         '''
         Check if `self == other**n` for some integer n.
 

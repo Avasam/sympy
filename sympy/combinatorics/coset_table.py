@@ -66,7 +66,7 @@ class CosetTable(DefaultPrinting):
         #P[alpha, x] Only defined when alpha^x is defined.
         self.P = [[None]*len(self.A)]
         # the mathematical coset table which is a list of lists
-        self.table = [[None]*len(self.A)]
+        self.table: list[list[None | int]] = [[None]*len(self.A)]
         self.A_dict = {x: self.A.index(x) for x in self.A}
         self.A_dict_inv = {}
         for x, index in self.A_dict.items():
@@ -378,7 +378,7 @@ class CosetTable(DefaultPrinting):
             # otherwise scan is incomplete and yields no information
 
     # used in the low-index subgroups algorithm
-    def scan_check(self, alpha, word):
+    def scan_check(self, alpha, word) -> bool:
         r"""
         Another version of ``scan`` routine, described on, it checks whether
         `\alpha` scans correctly under `word`, it is a straightforward

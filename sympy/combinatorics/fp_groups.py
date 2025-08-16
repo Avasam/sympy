@@ -410,7 +410,7 @@ class FpGroup(DefaultPrinting):
         single = False
         if isinstance(perm_result, PermutationGroup):
             perm_result, single = [perm_result], True
-        result = []
+        result: list[list] = []
         for group in perm_result:
             gens = group.generators
             result.append(T.invert(gens))
@@ -556,7 +556,7 @@ class FpSubgroup(DefaultPrinting):
     group belongs to the subgroup
 
     '''
-    def __init__(self, G, gens, normal=False):
+    def __init__(self, G: FpGroup, gens, normal=False):
         super().__init__()
         self.parent = G
         self.generators = list({g for g in gens if g != G.identity})
@@ -564,7 +564,7 @@ class FpSubgroup(DefaultPrinting):
         self.C = None
         self.normal = normal
 
-    def __contains__(self, g):
+    def __contains__(self, g) -> bool:
 
         if isinstance(self.parent, FreeGroup):
             if self._min_words is None:
@@ -1288,7 +1288,7 @@ def elimination_technique_2(C):
     C._schreier_generators = gens
     return C._schreier_generators, C._reidemeister_relators
 
-def reidemeister_presentation(fp_grp, H, C=None, homomorphism=False):
+def reidemeister_presentation(fp_grp, H, C=None, homomorphism=False) -> tuple[tuple, tuple] | tuple[tuple, tuple, list]:
     """
     Parameters
     ==========
