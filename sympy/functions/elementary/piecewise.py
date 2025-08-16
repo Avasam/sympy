@@ -13,6 +13,7 @@ from sympy.logic.boolalg import (And, Boolean, distribute_and_over_or, Not,
 from sympy.utilities.iterables import uniq, sift, common_prefix
 from sympy.utilities.misc import filldedent, func_name
 
+from typing import Unpack
 from itertools import product
 
 Undefined = S.NaN  # Piecewise()
@@ -20,7 +21,8 @@ Undefined = S.NaN  # Piecewise()
 class ExprCondPair(Tuple):
     """Represents an expression, condition pair."""
 
-    def __new__(cls, expr, cond):
+    args: tuple[Expr, Boolean]
+    def __new__(cls, expr, cond: bool | Basic):
         expr = as_Basic(expr)
         if cond == True:
             return Tuple.__new__(cls, expr, true)

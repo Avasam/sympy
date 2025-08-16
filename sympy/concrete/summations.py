@@ -5,12 +5,13 @@ from sympy.calculus.accumulationbounds import AccumulationBounds
 from .expr_with_intlimits import ExprWithIntLimits
 from .expr_with_limits import AddWithLimits
 from .gosper import gosper_sum
+from sympy.core.basic import Basic
 from sympy.core.expr import Expr
 from sympy.core.add import Add
 from sympy.core.containers import Tuple
 from sympy.core.function import Derivative, expand, expand_mul
 from sympy.core.mul import Mul
-from sympy.core.numbers import Float, _illegal
+from sympy.core.numbers import Float, NaN, _illegal
 from sympy.core.relational import Eq
 from sympy.core.singleton import S
 from sympy.core.sorting import ordered
@@ -209,7 +210,7 @@ class Sum(AddWithLimits, ExprWithIntLimits):
         if self.has_finite_limits and self.function.is_finite:
             return True
 
-    def doit(self, **hints):
+    def doit(self, **hints) -> tuple[Sum | Expr | Add | Zero | NaN | Piecewise | Basic | None, ...] | Sum | Expr | Add | Zero | NaN | Piecewise | Basic | None:
         if hints.get('deep', True):
             f = self.function.doit(**hints)
         else:
@@ -270,7 +271,7 @@ class Sum(AddWithLimits, ExprWithIntLimits):
 
         return f
 
-    def eval_zeta_function(self, f, limits):
+    def eval_zeta_function(self, f, limits) -> NaN | Expr | Piecewise | None:
         """
         Check whether the function matches with the zeta function.
 

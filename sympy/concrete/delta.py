@@ -7,6 +7,7 @@ References
 .. [1] https://mathworld.wolfram.com/KroneckerDelta.html
 
 """
+from typing import TypeVar, cast
 from .products import product
 from .summations import Sum, summation
 from sympy.core import Add, Mul, S, Dummy
@@ -16,7 +17,10 @@ from sympy.functions import KroneckerDelta, Piecewise, piecewise_fold
 from sympy.polys.polytools import factor
 from sympy.sets.sets import Interval
 from sympy.solvers.solvers import solve
-
+from sympy.core.expr import Expr
+from sympy.core.add import Add
+from sympy.core.basic import Basic
+_ExprT = TypeVar("_ExprT", bound=Expr)
 
 @cacheit
 def _expand_delta(expr, index):
@@ -118,12 +122,12 @@ def _is_simple_delta(delta, index):
 
 
 @cacheit
-def _remove_multiple_delta(expr):
+def _remove_multiple_delta(expr: _ExprT) -> _ExprT:
     """
     Evaluate products of KroneckerDelta's.
     """
     if expr.is_Add:
-        return expr.func(*list(map(_remove_multiple_delta, expr.args)))
+        return cast('Add', expr).func(*list(map(_remove_multiple_delta, expr.args)))
     if not expr.is_Mul:
         return expr
     eqs = []
