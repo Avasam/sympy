@@ -1,9 +1,10 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, overload, TypeVar, Generic
+from collections.abc import Mapping, Iterable
+from typing import TYPE_CHECKING, Any, overload, TypeVar, Generic, cast, Literal
 import itertools
 from sympy.combinatorics.fp_groups import FpGroup, FpSubgroup, simplify_presentation
 from sympy.combinatorics.free_groups import FreeGroup
-from sympy.combinatorics.perm_groups import PermutationGroup
+from sympy.combinatorics.perm_groups import PermutationGroup, Coset
 from sympy.core.intfunc import igcd
 from sympy.functions.combinatorial.numbers import totient
 from sympy.core.singleton import S
@@ -12,9 +13,11 @@ if TYPE_CHECKING:
     from sympy.combinatorics import Permutation
     from sympy.combinatorics.free_groups import FreeGroupElement
 
-_CodomainT = TypeVar("_CodomainT", PermutationGroup, FpGroup, FreeGroup)
+_DomainT = TypeVar("_DomainT", bound=PermutationGroup | FpGroup | FreeGroup, contravariant=True)
+_OtherDomainT = TypeVar("_OtherDomainT", bound=PermutationGroup | FpGroup | FreeGroup)
+_CodomainT = TypeVar("_CodomainT", bound=PermutationGroup | FpGroup | FreeGroup, contravariant=True)
 
-class GroupHomomorphism(Generic[_CodomainT]):
+class GroupHomomorphism(Generic[_DomainT, _CodomainT]):
     '''
     A class representing group homomorphisms. Instantiate using `homomorphism()`.
 
@@ -25,12 +28,12 @@ class GroupHomomorphism(Generic[_CodomainT]):
 
     '''
 
-    def __init__(self, domain, codomain: _CodomainT, images):
+    def __init__(self, domain: _DomainT, codomain: _CodomainT, images: Mapping[Permutation | FreeGroupElement, Permutation | FreeGroupElement]):
         self.domain = domain
         self.codomain = codomain
         self.images = images
         self._inverses = None
-        self._kernel = None
+        self._kernel: FpSubgroup | PermutationGroup | None = None
         self._image = None
 
     def _invs(self):
@@ -41,14 +44,14 @@ class GroupHomomorphism(Generic[_CodomainT]):
 
         '''
         image = self.image()
-        inverses = {}
+        inverses: dict[Permutation | FreeGroupElement, Coset | Permutation | FreeGroupElement] = {}
         for k in list(self.images.keys()):
             v = self.images[k]
             if not (v in inverses
                     or v.is_identity):
                 inverses[v] = k
         if isinstance(self.codomain, PermutationGroup):
-            gens = image.strong_gens
+            gens = cast('PermutationGroup', image).strong_gens
         else:
             gens = image.generators
         for g in gens:
@@ -69,9 +72,9 @@ class GroupHomomorphism(Generic[_CodomainT]):
         return inverses
 
     @overload
-    def invert(self, g: Permutation | FreeGroupElement): ...
+    def invert(self, g: Permutation | FreeGroupElement) -> Coset | FreeGroupElement | Permutation: ...  # type: ignore
     @overload
-    def invert(self, g: list) -> list: ... # type: ignore
+    def invert(self, g: list[Permutation | FreeGroupElement]) -> list[Coset | FreeGroupElement | Permutation]: ... # type: ignore
     @overload
     def invert(self, g: object) -> None: ...
     def invert(self, g):
@@ -99,7 +102,7 @@ class GroupHomomorphism(Generic[_CodomainT]):
             image = self.image()
             w = self.domain.identity
             if isinstance(self.codomain, PermutationGroup):
-                gens = image.generator_product(g)[::-1]
+                gens = cast('PermutationGroup', image).generator_product(g)[::-1]
             else:
                 gens = g
             # the following can't be "for s in gens:"
@@ -153,9 +156,11 @@ class GroupHomomorphism(Generic[_CodomainT]):
         return K
 
     @overload
-    def image(self: GroupHomomorphism[PermutationGroup]) -> PermutationGroup: ...
+    def image(self: GroupHomomorphism[_DomainT, PermutationGroup]) -> PermutationGroup: ... # type: ignore
     @overload
-    def image(self) -> FpSubgroup: ...
+    def image(self: GroupHomomorphism[_DomainT, FpGroup | FreeGroup]) -> FpSubgroup: ...
+    @overload
+    def image(self) -> PermutationGroup | FpSubgroup: ...
     def image(self):
         '''
         Compute the image of `self`.
@@ -238,7 +243,7 @@ class GroupHomomorphism(Generic[_CodomainT]):
         '''
         return self.image().order() == 1
 
-    def compose(self, other):
+    def compose(self, other: GroupHomomorphism[_OtherDomainT, Any]) -> GroupHomomorphism[_OtherDomainT, _CodomainT]:
         '''
         Return the composition of `self` and `other`, i.e.
         the homomorphism phi such that for all g in the domain
@@ -284,7 +289,7 @@ class GroupHomomorphism(Generic[_CodomainT]):
                     P = PermutationGroup(gens)
         return P
 
-def homomorphism(domain, codomain, gens, images=(), check=True):
+def homomorphism(domain: _DomainT, codomain: _CodomainT, gens: Iterable[Permutation | FreeGroupElement], images: Iterable[Permutation | FreeGroupElement]=(), check: bool = True) -> GroupHomomorphism[_DomainT, _CodomainT]:
     '''
     Create (if possible) a group homomorphism from the group ``domain``
     to the group ``codomain`` defined by the images of the domain's
@@ -374,7 +379,7 @@ def _check_homomorphism(domain, codomain, images):
             return False
     return True
 
-def orbit_homomorphism(group, omega):
+def orbit_homomorphism(group: PermutationGroup, omega):
     '''
     Return the homomorphism induced by the action of the permutation
     group ``group`` on the set ``omega`` that is closed under the action.
@@ -394,7 +399,7 @@ def orbit_homomorphism(group, omega):
         H._kernel = PermutationGroup([group.identity])
     return H
 
-def block_homomorphism(group, blocks):
+def block_homomorphism(group: _DomainT, blocks) -> GroupHomomorphism[_DomainT, PermutationGroup]:
     '''
     Return the homomorphism induced by the action of the permutation
     group ``group`` on the block system ``blocks``. The latter should be
@@ -429,7 +434,10 @@ def block_homomorphism(group, blocks):
     images = {g: Permutation([b[p[i]^g] for i in identity]) for g in group.generators}
     H = GroupHomomorphism(group, codomain, images)
     return H
-
+@overload
+def group_isomorphism(G: PermutationGroup | FpGroup | FreeGroup, H: PermutationGroup | FpGroup | FreeGroup, isomorphism: Literal[False]) -> bool: ...
+@overload
+def group_isomorphism(G: _DomainT, H: _CodomainT, isomorphism: Literal[True]=True) -> tuple[bool, GroupHomomorphism[_DomainT, _CodomainT] | None]: ...
 def group_isomorphism(G, H, isomorphism=True):
     '''
     Compute an isomorphism between 2 given groups.
@@ -535,7 +543,7 @@ def group_isomorphism(G, H, isomorphism=True):
         if _check_homomorphism(G, _H, _images):
             if isinstance(H, FpGroup):
                 images = h_isomorphism.invert(images)
-            T =  homomorphism(G, H, G.generators, images, check=False)
+            T = homomorphism(G, H, G.generators, images, check=False)
             if T.is_isomorphism():
                 # It is a valid isomorphism
                 if not isomorphism:

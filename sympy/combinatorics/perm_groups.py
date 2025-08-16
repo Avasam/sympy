@@ -1,8 +1,10 @@
+from collections.abc import Sequence
 from math import factorial as _factorial, log, prod
 from itertools import chain, product
 
 
 from sympy.combinatorics import Permutation
+from sympy.combinatorics.free_groups import FreeGroupElement
 from sympy.combinatorics.permutations import (_af_commutes_with, _af_invert,
     _af_rmul, _af_rmuln, _af_pow, Cycle)
 from sympy.combinatorics.util import (_check_cycles_alt_sym,
@@ -10,6 +12,7 @@ from sympy.combinatorics.util import (_check_cycles_alt_sym,
     _handle_precomputed_bsgs, _base_ordering, _strong_gens_from_distr,
     _strip, _strip_af)
 from sympy.core import Basic
+from sympy.core.function import Lambda
 from sympy.core.random import _randrange, randrange, choice
 from sympy.core.symbol import Symbol
 from sympy.core.sympify import _sympify
@@ -21,6 +24,8 @@ from sympy.utilities.iterables import has_variety, is_sequence, uniq
 
 rmul = Permutation.rmul_with_af
 _af_new = Permutation._af_new
+
+_FreeGroupElementOrPermutationT = TypeVar("_FreeGroupElementOrPermutationT", bound=FreeGroupElement | Permutation)
 
 
 class PermutationGroup(Basic):
@@ -121,7 +126,7 @@ class PermutationGroup(Basic):
     """
     is_group = True
 
-    def __new__(cls, *args, dups=True, **kwargs):
+    def __new__(cls, *args: Permutation | Cycle | Sequence[Permutation | Cycle], dups=True, **kwargs):
         """The default constructor. Accepts Cycle and Permutation forms.
         Removes duplicates unless ``dups`` keyword is ``False``.
         """
@@ -146,6 +151,7 @@ class PermutationGroup(Basic):
             args = [g for g in args if not g.is_identity]
         return Basic.__new__(cls, *args, **kwargs)
 
+    args: tuple[Permutation, ...]
     def __init__(self, *args, **kwargs):
         self._generators = list(self.args)
         self._order = None
@@ -1224,14 +1230,14 @@ class PermutationGroup(Basic):
         factors = [tr[i][factors[i]] for i in range(len(base))]
         return factors
 
-    def generator_product(self, g, original=False):
+    def generator_product(self, g: _FreeGroupElementOrPermutationT, original=False) -> _FreeGroupElementOrPermutationT:
         r'''
         Return a list of strong generators `[s1, \dots, sn]`
         s.t `g = sn \times \dots \times s1`. If ``original=True``, make the
         list contain only the original group generators
 
         '''
-        product = []
+        product: list[_FreeGroupElementOrPermutationT] = []
         if g.is_identity:
             return []
         if g in self.strong_gens:
