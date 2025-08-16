@@ -4,13 +4,20 @@ only and should not be used anywhere else as these do not possess the
 signatures common to SymPy objects. For general use of logic constructs
 please refer to sympy.logic classes And, Or, Not, etc.
 """
+from __future__ import annotations
+
+from collections.abc import Sequence
 from itertools import combinations, product, zip_longest
 from sympy.assumptions.assume import AppliedPredicate, Predicate
+from sympy.core.basic import Basic
 from sympy.core.relational import Eq, Ne, Gt, Lt, Ge, Le
 from sympy.core.singleton import S
 from sympy.logic.boolalg import Or, And, Not, Xnor
 from sympy.logic.boolalg import (Equivalent, ITE, Implies, Nand, Nor, Xor)
+from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from _typeshed import Incomplete
 
 class Literal:
     """
@@ -34,6 +41,9 @@ class Literal:
     >>> Literal(~Q.even(x))
     Literal(Q.even(x), True)
     """
+
+    lit: Incomplete
+    is_Not: bool
 
     def __new__(cls, lit, is_Not=False):
         if isinstance(lit, Not):
@@ -138,7 +148,7 @@ class AND:
     __repr__ = __str__
 
 
-def to_NNF(expr, composite_map=None):
+def to_NNF(expr, composite_map=None) -> AND | OR | Literal:
     """
     Generates the Negation Normal Form of any boolean expression in terms
     of AND, OR, and Literal objects.
@@ -359,14 +369,14 @@ class CNF:
         return distribute_AND_over_OR(expr)
 
     @classmethod
-    def all_or(cls, *cnfs):
+    def all_or(cls, *cnfs: CNF):
         b = cnfs[0].copy()
         for rest in cnfs[1:]:
             b = b._or(rest)
         return b
 
     @classmethod
-    def all_and(cls, *cnfs):
+    def all_and(cls, *cnfs: CNF):
         b = cnfs[0].copy()
         for rest in cnfs[1:]:
             b = b._and(rest)
@@ -395,9 +405,10 @@ class EncodedCNF:
     """
     Class for encoding the CNF expression.
     """
-    def __init__(self, data=None, encoding=None):
-        if not data and not encoding:
+    def __init__(self, data=None, encoding: dict[Incomplete, int] | None = None):
+        if not data:
             data = []
+        if not encoding:
             encoding = {}
         self.data = data
         self.encoding = encoding

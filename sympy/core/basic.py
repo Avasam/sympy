@@ -2,10 +2,11 @@
 from __future__ import annotations
 
 from collections import Counter
-from collections.abc import Mapping, Iterable
+from collections.abc import Callable, Mapping, Iterable
 from itertools import zip_longest
 from functools import cmp_to_key
 from typing import TYPE_CHECKING, overload, ClassVar, TypeVar, Any, Hashable, Literal
+from types import NotImplementedType
 
 from .assumptions import _prepare_class_assumptions
 from .cache import cacheit
@@ -474,7 +475,7 @@ class Basic(Printable):
         args = len(args), tuple([inner_key(arg) for arg in args])
         return self.class_key(), args, S.One.sort_key(), S.One
 
-    def _do_eq_sympify(self, other):
+    def _do_eq_sympify(self, other) -> bool | NotImplementedType:
         """Returns a boolean indicating whether a == b when either a
         or b is not a Basic. This is only done for types that were either
         added to `converter` by a 3rd party or when the object has `_sympy_`

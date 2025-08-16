@@ -1,6 +1,10 @@
 """ Caching facility for SymPy """
+from typing import TypeVar
 from importlib import import_module
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
+from collections.abc import Callable
+
+_CallableT = TypeVar("_CallableT", bound=Callable)
 
 class _cache(list):
     """ List of cached functions """
@@ -141,7 +145,9 @@ else:
             'SYMPY_CACHE_SIZE must be a valid integer or None. ' + \
             'Got: %s' % SYMPY_CACHE_SIZE)
 
-if USE_CACHE == 'no':
+if TYPE_CHECKING:
+    def cacheit(func: _CallableT) -> _CallableT: ...
+elif USE_CACHE == 'no':
     cacheit = __cacheit_nocache
 elif USE_CACHE == 'yes':
     cacheit = __cacheit(SYMPY_CACHE_SIZE)

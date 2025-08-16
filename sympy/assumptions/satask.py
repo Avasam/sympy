@@ -9,6 +9,7 @@ from sympy.assumptions.ask_generated import get_all_known_matrix_facts, get_all_
 from sympy.assumptions.assume import global_assumptions, AppliedPredicate
 from sympy.assumptions.sathandlers import class_fact_registry
 from sympy.core import oo
+from sympy.core.expr import Expr
 from sympy.logic.inference import satisfiable
 from sympy.assumptions.cnf import CNF, EncodedCNF
 from sympy.matrices.kind import MatrixKind
@@ -163,7 +164,7 @@ def extract_predargs(proposition, assumptions=None, context=None):
             exprs.add(key)
     return exprs
 
-def find_symbols(pred):
+def find_symbols(pred: CNF | Expr):
     """
     Find every :obj:`~.Symbol` in *pred*.
 
@@ -174,7 +175,7 @@ def find_symbols(pred):
 
     """
     if isinstance(pred, CNF):
-        symbols = set()
+        symbols = set[Symbol]()
         for a in pred.all_predicates():
             symbols |= find_symbols(a)
         return symbols

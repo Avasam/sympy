@@ -1,6 +1,7 @@
 """
 General binary relations.
 """
+from __future__ import annotations
 from typing import Optional
 
 from sympy.core.singleton import S
@@ -8,6 +9,9 @@ from sympy.assumptions import AppliedPredicate, ask, Predicate, Q  # type: ignor
 from sympy.core.kind import BooleanKind
 from sympy.core.relational import Eq, Ne, Gt, Lt, Ge, Le
 from sympy.logic.boolalg import conjuncts, Not
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = ["BinaryRelation", "AppliedBinaryRelation"]
 
@@ -110,7 +114,7 @@ class BinaryRelation(Predicate):
             return False
         return None
 
-    def eval(self, args, assumptions=True):
+    def eval(self, args, assumptions=True) -> bool | None:
         # quick exit for structurally same arguments
         ret = self._compare_reflexive(*args)
         if ret is not None:
@@ -150,7 +154,7 @@ class AppliedBinaryRelation(AppliedPredicate):
         return self.arguments[1]
 
     @property
-    def reversed(self):
+    def reversed(self) -> Self:
         """
         Try to return the relationship with sides reversed.
         """
@@ -160,7 +164,7 @@ class AppliedBinaryRelation(AppliedPredicate):
         return revfunc(self.rhs, self.lhs)
 
     @property
-    def reversedsign(self):
+    def reversedsign(self) -> Self:
         """
         Try to return the relationship with signs reversed.
         """
@@ -172,7 +176,7 @@ class AppliedBinaryRelation(AppliedPredicate):
         return self
 
     @property
-    def negated(self):
+    def negated(self) -> Not:
         neg_rel = self.function.negated
         if neg_rel is None:
             return Not(self, evaluate=False)

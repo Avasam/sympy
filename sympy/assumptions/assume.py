@@ -1,8 +1,9 @@
 """A module which implements predicates and assumption context."""
+from __future__ import annotations
 
 from collections.abc import Callable
 from contextlib import contextmanager
-from typing import cast
+from typing import cast, TYPE_CHECKING
 import inspect
 from sympy.core.basic import Basic
 from sympy.core.symbol import Str
@@ -12,7 +13,6 @@ from sympy.multipledispatch.dispatcher import Dispatcher, str_signature
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.utilities.iterables import is_sequence
 from sympy.utilities.source import get_class
-
 
 class AssumptionsContext(set):
     """

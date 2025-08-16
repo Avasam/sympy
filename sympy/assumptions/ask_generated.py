@@ -4,6 +4,7 @@ Instead, run ./bin/ask_update.py.
 """
 
 from sympy.assumptions.ask import Q
+from sympy.assumptions.assume import Predicate
 from sympy.assumptions.cnf import Literal
 from sympy.core.cache import cacheit
 
@@ -174,7 +175,7 @@ def get_all_known_number_facts():
     }
 
 @cacheit
-def get_known_facts_dict():
+def get_known_facts_dict() -> dict[Predicate, tuple[set[Predicate], set[Predicate]]]:
     """
     Logical relations between unary predicates as dictionary.
 

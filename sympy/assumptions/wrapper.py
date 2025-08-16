@@ -153,19 +153,19 @@ class AssumptionsWrapper(Basic):
 
 # one shot functions which are faster than AssumptionsWrapper
 
-def is_infinite(obj, assumptions=None):
+def is_infinite(obj: Basic, assumptions=None):
     if assumptions is None:
         return obj.is_infinite
     return ask(Q.infinite(obj), assumptions)
 
 
-def is_extended_real(obj, assumptions=None):
+def is_extended_real(obj: Basic, assumptions=None):
     if assumptions is None:
         return obj.is_extended_real
     return ask(Q.extended_real(obj), assumptions)
 
 
-def is_extended_nonnegative(obj, assumptions=None):
+def is_extended_nonnegative(obj: Basic, assumptions=None):
     if assumptions is None:
         return obj.is_extended_nonnegative
     return ask(Q.extended_nonnegative(obj), assumptions)
