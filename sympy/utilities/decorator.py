@@ -233,7 +233,7 @@ def public(obj: T) -> T:
     return obj
 
 
-def memoize_property(propfunc) -> property:
+def memoize_property(propfunc):
     """Property decorator that caches the value of potentially expensive
     ``propfunc`` after the first evaluation. The cached value is stored in
     the corresponding property name with an attached underscore."""

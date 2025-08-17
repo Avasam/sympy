@@ -490,7 +490,7 @@ def as_property(fact):
     return 'is_%s' % fact
 
 
-def make_property(fact) -> property:
+def make_property(fact):
     """Create the automagic property corresponding to a fact."""
 
     def getit(self):

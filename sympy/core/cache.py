@@ -153,7 +153,7 @@ else:
         'unrecognized value for SYMPY_USE_CACHE: %s' % USE_CACHE)
 
 
-def cached_property(func) -> property:
+def cached_property(func):
     '''Decorator to cache property method'''
     attrname = '__' + func.__name__
     _cached_property_sentinel = object()
