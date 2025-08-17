@@ -42,7 +42,6 @@ clear_cache = CACHE.clear_cache
 
 from functools import lru_cache, wraps
 
-
 def __cacheit(maxsize):
     """caching decorator.
 
