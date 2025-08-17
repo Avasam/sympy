@@ -6,7 +6,8 @@ from collections import defaultdict
 
 from sympy.concrete.products import Product
 from sympy.concrete.summations import Sum
-from sympy.core import (Basic, S, Add, Mul, Pow, Symbol, sympify,
+from sympy.core.basic import Basic, Tbasic
+from sympy.core import (S, Add, Mul, Pow, Symbol, sympify,
                         expand_func, Function, Dummy, Expr, factor_terms,
                         expand_power_exp, Eq)
 from sympy.core.exprtools import factor_nc
@@ -427,16 +428,7 @@ def signsimp(expr, evaluate=None):
     return e
 
 
-@overload
-def simplify(expr: Expr, **kwargs) -> Expr: ...
-@overload
-def simplify(expr: Boolean, **kwargs) -> Boolean: ...
-@overload
-def simplify(expr: Set, **kwargs) -> Set: ...
-@overload
-def simplify(expr: Basic, **kwargs) -> Basic: ...
-
-def simplify(expr, ratio=1.7, measure=count_ops, rational=False, inverse=False, doit=True, **kwargs):
+def simplify(expr: Tbasic, ratio=1.7, measure=count_ops, rational=False, inverse=False, doit=True, **kwargs) -> Tbasic:
     """Simplifies the given expression.
 
     Explanation

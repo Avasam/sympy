@@ -32,7 +32,7 @@ There are three types of functions implemented in SymPy:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypeVar
 from collections.abc import Iterable
 import copyreg
 
@@ -69,6 +69,9 @@ from collections import Counter
 if TYPE_CHECKING:
     from sympy.tensor.array.ndim_array import NDimArray
     from typing_extensions import Self
+
+_T1 = TypeVar("_T1")
+_T2 = TypeVar("_T2")
 
 def _coeff_isneg(a):
     """Return True if the leading Number is negative.
@@ -2055,7 +2058,7 @@ class Lambda(Expr):
     def free_symbols(self):
         return self.expr.free_symbols - set(self.variables)
 
-    def __call__(self, *args):
+    def __call__(self, *args: _T1) -> Basic | _T1:
         n = len(args)
         if n not in self.nargs:  # Lambda only ever has 1 value in nargs
             # XXX: exception message must be in exactly this format to
@@ -2076,11 +2079,11 @@ class Lambda(Expr):
 
         return self.expr.xreplace(d)
 
-    def _match_signature(self, sig, args):
+    def _match_signature(self, sig: Iterable[_T1], args: Iterable[_T2]) -> dict[_T1, _T2]:
 
         symargmap = {}
 
-        def rmatch(pars, args):
+        def rmatch(pars: list[Expr], args: list[str]):
             for par, arg in zip(pars, args):
                 if par.is_symbol:
                     symargmap[par] = arg

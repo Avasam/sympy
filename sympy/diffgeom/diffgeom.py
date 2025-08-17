@@ -1,6 +1,6 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Literal
-
+from typing import TYPE_CHECKING, Any, Literal, overload, cast
+from collections.abc import Iterable
 from functools import reduce
 from itertools import permutations
 
@@ -275,6 +275,12 @@ class CoordSystem(Basic):
     .. [1] https://en.wikipedia.org/wiki/Coordinate_system
 
     """
+
+    # Set in __new__
+    transforms: dict[CoordSystem, tuple[Matrix, Matrix]]
+    _names: list[str]
+    _dummies: list[Dummy]
+    _dummy: Dummy
     def __new__(cls, name, patch, symbols=None, relations={}, **kwargs):
         if not isinstance(name, Str):
             name = Str(name)
@@ -562,7 +568,7 @@ That is, replace {s} with Symbol({s!r}, real=True).
     # Coordinate transformations
     ##########################################################################
 
-    def transform(self, sys, coordinates=None):
+    def transform(self, sys, coordinates: Iterable[CoordinateSymbol] | None = None):
         """
         Return the result of coordinate transformation from *self* to *sys*.
         If coordinates are not given, coordinate symbols of *self* are used.
@@ -597,10 +603,9 @@ That is, replace {s} with Symbol({s!r}, real=True).
             coordinates = self.symbols
         if self != sys:
             transf = self.transformation(sys)
-            coordinates = transf(*coordinates)
+            return transf(*coordinates)
         else:
-            coordinates = Matrix(coordinates)
-        return coordinates
+            return Matrix(coordinates)
 
     def coord_tuple_transform_to(self, to_sys, coords):
         """Transform ``coords`` to coord system ``to_sys``."""
@@ -864,7 +869,11 @@ class Point(Basic):
 
     """
 
-    def __new__(cls, coord_sys, coords, **kwargs):
+    # Set in __new__
+    _coord_sys: CoordSystem
+    _coords: Matrix
+    args: tuple[CoordSystem, Matrix]
+    def __new__(cls, coord_sys: CoordSystem, coords, **kwargs):
         coords = Matrix(coords)
         obj = super().__new__(cls, coord_sys, coords)
         obj._coord_sys = coord_sys
@@ -883,6 +892,10 @@ class Point(Basic):
     def dim(self):
         return self.manifold.dim
 
+    @overload
+    def coords(self, sys: None = None) -> Matrix: ...
+    @overload
+    def coords(self, sys: CoordSystem) -> Basic | CoordinateSymbol | Matrix: ...
     def coords(self, sys=None):
         """
         Coordinates of the point in given coordinate system. If coordinate system
@@ -954,7 +967,11 @@ class BaseScalarField(Expr):
 
     is_commutative = True
 
-    def __new__(cls, coord_sys, index, **kwargs):
+    # Set in __new__
+    _coord_sys: CoordSystem
+    _index: Integer
+    args: tuple[CoordSystem, Integer]
+    def __new__(cls, coord_sys: CoordSystem, index: int, **kwargs):
         index = _sympify(index)
         obj = super().__new__(cls, coord_sys, index)
         obj._coord_sys = coord_sys
@@ -981,7 +998,11 @@ class BaseScalarField(Expr):
     def dim(self):
         return self.manifold.dim
 
-    def __call__(self, *args):
+    @overload
+    def __call__(self, __point: Point) -> Expr: ...
+    @overload
+    def __call__(self, *args: object) -> Self: ...
+    def __call__(self, *args: Point):
         """Evaluating the field at a point or doing nothing.
         If the argument is a ``Point`` instance, the field is evaluated at that
         point. The field is returned itself if the argument is any other
@@ -991,7 +1012,7 @@ class BaseScalarField(Expr):
         point = args[0]
         if len(args) != 1 or not isinstance(point, Point):
             return self
-        coords = point.coords(self._coord_sys)
+        coords = cast('Matrix', point.coords(self._coord_sys))
         # XXX Calling doit  is necessary with all the Subs expressions
         # XXX Calling simplify is necessary with all the trig expressions
         return simplify(coords[self._index]).doit()
@@ -1267,7 +1288,7 @@ class Differential(Expr):
     def form_field(self):
         return self.args[0]
 
-    def __call__(self, *vector_fields):
+    def __call__(self, *vector_fields: Basic):
         """Apply on a list of vector_fields.
 
         Explanation
@@ -1903,7 +1924,7 @@ def dummyfy(args, exprs):
 ###############################################################################
 # Helpers
 ###############################################################################
-def contravariant_order(expr, _strict=False):
+def contravariant_order(expr, _strict=False) -> int:
     """Return the contravariant order of an expression.
 
     Examples

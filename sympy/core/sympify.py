@@ -510,7 +510,16 @@ def sympify(a, locals=None, convert_xor=True, strict=False, rational=False,
 
     return expr
 
-
+@overload
+def _sympify(a: int) -> Integer: ... # type: ignore
+@overload
+def _sympify(a: float) -> Float: ...
+@overload
+def _sympify(a: Expr | complex) -> Expr: ...
+@overload
+def _sympify(a: Tbasic) -> Tbasic: ...
+@overload
+def _sympify(a: object) -> Basic: ...
 def _sympify(a):
     """
     Short version of :func:`~.sympify` for internal usage for ``__add__`` and
