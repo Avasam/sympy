@@ -1,4 +1,3 @@
-from __future__ import annotations
 from sympy.core.relational import Eq
 from sympy.core.expr import Expr
 from sympy.core.numbers import Integer
