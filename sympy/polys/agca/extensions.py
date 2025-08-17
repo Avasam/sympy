@@ -8,7 +8,6 @@ from sympy.polys.polyerrors import (CoercionFailed, NotInvertible,
         GeneratorsError)
 from sympy.polys.polytools import Poly
 from sympy.printing.defaults import DefaultPrinting
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -59,7 +58,7 @@ class ExtensionElement(DomainElement, DefaultPrinting):
             except CoercionFailed:
                 return None
 
-    def __add__(f, g) -> ExtElem | NotImplementedType:
+    def __add__(f, g) -> ExtElem:
         rep = f._get_rep(g)
         if rep is not None:
             return ExtElem(f.rep + rep, f.ext)
@@ -68,21 +67,21 @@ class ExtensionElement(DomainElement, DefaultPrinting):
 
     __radd__ = __add__
 
-    def __sub__(f, g) -> ExtElem | NotImplementedType:
+    def __sub__(f, g) -> ExtElem:
         rep = f._get_rep(g)
         if rep is not None:
             return ExtElem(f.rep - rep, f.ext)
         else:
             return NotImplemented
 
-    def __rsub__(f, g) -> ExtElem | NotImplementedType:
+    def __rsub__(f, g) -> ExtElem:
         rep = f._get_rep(g)
         if rep is not None:
             return ExtElem(rep - f.rep, f.ext)
         else:
             return NotImplemented
 
-    def __mul__(f, g) -> ExtElem | NotImplementedType:
+    def __mul__(f, g) -> ExtElem:
         rep = f._get_rep(g)
         if rep is not None:
             return ExtElem((f.rep * rep) % f.ext.mod, f.ext)
@@ -128,7 +127,7 @@ class ExtensionElement(DomainElement, DefaultPrinting):
 
         return ExtElem(invrep, f.ext)
 
-    def __truediv__(f, g) -> NotImplementedType | ExtElem:
+    def __truediv__(f, g) -> ExtElem:
         rep = f._get_rep(g)
         if rep is None:
             return NotImplemented
@@ -143,7 +142,7 @@ class ExtensionElement(DomainElement, DefaultPrinting):
 
     __floordiv__ = __truediv__
 
-    def __rtruediv__(f, g) -> NotImplementedType:
+    def __rtruediv__(f, g):
         try:
             g = f.ext.convert(g)
         except CoercionFailed:
@@ -152,7 +151,7 @@ class ExtensionElement(DomainElement, DefaultPrinting):
 
     __rfloordiv__ = __rtruediv__
 
-    def __mod__(f, g) -> NotImplementedType:
+    def __mod__(f, g):
         rep = f._get_rep(g)
         if rep is None:
             return NotImplemented
@@ -166,7 +165,7 @@ class ExtensionElement(DomainElement, DefaultPrinting):
         # Division where defined is always exact so there is no remainder
         return f.ext.zero
 
-    def __rmod__(f, g) -> NotImplementedType:
+    def __rmod__(f, g):
         try:
             g = f.ext.convert(g)
         except CoercionFailed:

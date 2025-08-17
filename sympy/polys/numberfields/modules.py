@@ -195,7 +195,6 @@ from sympy.polys.polyerrors import CoercionFailed, UnificationFailed
 from sympy.polys.polyutils import IntegerPowerable
 from .exceptions import ClosureFailure, MissingUnityError, StructureError
 from .utilities import AlgIntPowers, is_rat, get_num_denom
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -528,7 +527,7 @@ class Module:
         """
         return [self(j) for j in range(self.n)]
 
-    def zero(self) -> PowerBasisElement | NotImplementedType | ModuleElement:
+    def zero(self) -> PowerBasisElement | ModuleElement:
         """Return a :py:class:`~.ModuleElement` representing zero."""
         return self(0) * 0
 
@@ -781,7 +780,7 @@ class PowerBasis(Module):
     def element_from_rational(self, a):
         return self(0) * a
 
-    def element_from_poly(self, f) -> PowerBasisElement | NotImplementedType | ModuleElement:
+    def element_from_poly(self, f) -> PowerBasisElement | ModuleElement:
         """
         Produce an element of this module, representing *f* after reduction mod
         our defining minimal polynomial.
@@ -834,11 +833,11 @@ class PowerBasis(Module):
             raise UnificationFailed('Element does not appear to be in the same field.')
         return self.element_from_poly(Poly(rep, self.T.gen))
 
-    def element_from_ANP(self, a) -> PowerBasisElement | NotImplementedType | ModuleElement:
+    def element_from_ANP(self, a) -> PowerBasisElement | ModuleElement:
         """Convert an ANP into a PowerBasisElement. """
         return self._element_from_rep_and_mod(a.to_list(), a.mod_to_list())
 
-    def element_from_alg_num(self, a) -> PowerBasisElement | NotImplementedType | ModuleElement:
+    def element_from_alg_num(self, a) -> PowerBasisElement | ModuleElement:
         """Convert an AlgebraicNumber into a PowerBasisElement. """
         return self._element_from_rep_and_mod(a.rep.to_list(), a.minpoly.rep.to_list())
 
@@ -1097,14 +1096,14 @@ class Submodule(Module, IntegerPowerable):
             B = hermite_normal_form(B, D=hnf_modulus)
         return self.parent.submodule_from_matrix(B, denom=m)
 
-    def __add__(self, other) -> NotImplementedType:
+    def __add__(self, other):
         if self.is_compat_submodule(other):
             return self.add(other)
         return NotImplemented
 
     __radd__ = __add__
 
-    def mul(self, other, hnf=True, hnf_modulus=None) -> Self | Submodule | NotImplementedType:
+    def mul(self, other, hnf=True, hnf_modulus=None) -> Self | Submodule:
         """
         Multiply this :py:class:`~.Submodule` by a rational number, a
         :py:class:`~.ModuleElement`, or another :py:class:`~.Submodule`.
@@ -1159,7 +1158,7 @@ class Submodule(Module, IntegerPowerable):
             return self.parent.submodule_from_gens(gens, hnf=hnf, hnf_modulus=hnf_modulus)
         return NotImplemented
 
-    def __mul__(self, other) -> Self | Submodule | NotImplementedType:
+    def __mul__(self, other) -> Self | Submodule:
         return self.mul(other)
 
     __rmul__ = __mul__
@@ -1514,7 +1513,7 @@ class ModuleElement(IntegerPowerable):
                 return self.over_power_basis().equiv(other)
         return False
 
-    def __add__(self, other) -> Self | NotImplementedType:
+    def __add__(self, other) -> Self:
         """
         A :py:class:`~.ModuleElement` can be added to a rational number, or to
         another :py:class:`~.ModuleElement`.
@@ -1548,7 +1547,7 @@ class ModuleElement(IntegerPowerable):
 
     __radd__ = __add__
 
-    def __neg__(self) -> Self | NotImplementedType | PowerBasisElement | ModuleElement:
+    def __neg__(self) -> Self | PowerBasisElement | ModuleElement:
         return self * -1
 
     def __sub__(self, other):
@@ -1557,7 +1556,7 @@ class ModuleElement(IntegerPowerable):
     def __rsub__(self, other):
         return -self + other
 
-    def __mul__(self, other) -> Self | NotImplementedType | PowerBasisElement | ModuleElement:
+    def __mul__(self, other) -> Self | PowerBasisElement | ModuleElement:
         """
         A :py:class:`~.ModuleElement` can be multiplied by a rational number,
         or by another :py:class:`~.ModuleElement`.
@@ -1625,7 +1624,7 @@ class ModuleElement(IntegerPowerable):
     def __rfloordiv__(self, a):
         return a // self.over_power_basis()
 
-    def __mod__(self, m) -> NotImplementedType:
+    def __mod__(self, m):
         r"""
         Reduce this :py:class:`~.ModuleElement` mod a :py:class:`~.Submodule`.
 

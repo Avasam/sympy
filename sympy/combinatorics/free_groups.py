@@ -9,7 +9,6 @@ from sympy.utilities import public
 from sympy.utilities.iterables import flatten, is_sequence
 from sympy.utilities.magic import pollute
 from sympy.utilities.misc import as_int
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 
@@ -553,7 +552,7 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
                     "be multiplied")
         return other*(self.inverse())
 
-    def __add__(self, other) -> NotImplementedType:
+    def __add__(self, other):
         return NotImplemented
 
     def inverse(self):

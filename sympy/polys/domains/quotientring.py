@@ -5,7 +5,6 @@ from sympy.polys.agca.modules import FreeModuleQuotientRing
 from sympy.polys.domains.ring import Ring
 from sympy.polys.polyerrors import NotReversible, CoercionFailed
 from sympy.utilities import public
-from types import NotImplementedType
 
 # TODO
 # - successive quotients (when quotient ideals are implemented)
@@ -37,7 +36,7 @@ class QuotientRingElement:
     def __bool__(self) -> bool:
         return not self.ring.is_zero(self)
 
-    def __add__(self, om) -> NotImplementedType:
+    def __add__(self, om):
         if not isinstance(om, self.__class__) or om.ring != self.ring:
             try:
                 om = self.ring.convert(om)
@@ -50,13 +49,13 @@ class QuotientRingElement:
     def __neg__(self):
         return self.ring(self.data*self.ring.ring.convert(-1))
 
-    def __sub__(self, om) -> NotImplementedType:
+    def __sub__(self, om):
         return self.__add__(-om)
 
     def __rsub__(self, om):
         return (-self).__add__(om)
 
-    def __mul__(self, o) -> NotImplementedType:
+    def __mul__(self, o):
         if not isinstance(o, self.__class__):
             try:
                 o = self.ring.convert(o)
@@ -69,7 +68,7 @@ class QuotientRingElement:
     def __rtruediv__(self, o):
         return self.ring.revert(self)*o
 
-    def __truediv__(self, o) -> NotImplementedType:
+    def __truediv__(self, o):
         if not isinstance(o, self.__class__):
             try:
                 o = self.ring.convert(o)

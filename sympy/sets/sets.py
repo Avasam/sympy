@@ -35,7 +35,6 @@ from sympy.utilities.misc import func_name, filldedent
 from mpmath import mpi, mpf
 
 from mpmath.libmp.libmpf import prec_to_dps
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from sympy.sets.contains import Contains
@@ -1301,12 +1300,12 @@ class Interval(Set):
         return is_comparable
 
     @property
-    def is_left_unbounded(self) -> NotImplementedType | bool:
+    def is_left_unbounded(self) -> bool:
         """Return ``True`` if the left endpoint is negative infinity. """
         return self.left is S.NegativeInfinity or self.left == Float("-inf")
 
     @property
-    def is_right_unbounded(self) -> NotImplementedType | bool:
+    def is_right_unbounded(self) -> bool:
         """Return ``True`` if the right endpoint is positive infinity. """
         return self.right is S.Infinity or self.right == Float("+inf")
 

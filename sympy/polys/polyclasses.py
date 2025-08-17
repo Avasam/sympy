@@ -13,7 +13,6 @@ from typing import (
 import typing_extensions
 from sympy.core.sympify import CantSympify
 from sympy.polys.polyutils import PicklableWithSlots
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing import Self, TypeAlias
@@ -2932,7 +2931,7 @@ class DMF(PicklableWithSlots, CantSympify):
     def __neg__(f) -> typing_extensions.Self:
         return f.neg()
 
-    def __add__(f, g) -> typing_extensions.Self | NotImplementedType:
+    def __add__(f, g) -> typing_extensions.Self:
         if isinstance(g, (DMP, DMF)):
             return f.add(g)
         elif g in f.dom:
@@ -2943,10 +2942,10 @@ class DMF(PicklableWithSlots, CantSympify):
         except (TypeError, CoercionFailed, NotImplementedError):
             return NotImplemented
 
-    def __radd__(f, g) -> typing_extensions.Self | NotImplementedType:
+    def __radd__(f, g) -> typing_extensions.Self:
         return f.__add__(g)
 
-    def __sub__(f, g) -> typing_extensions.Self | NotImplementedType:
+    def __sub__(f, g) -> typing_extensions.Self:
         if isinstance(g, (DMP, DMF)):
             return f.sub(g)
 
@@ -2955,10 +2954,10 @@ class DMF(PicklableWithSlots, CantSympify):
         except (TypeError, CoercionFailed, NotImplementedError):
             return NotImplemented
 
-    def __rsub__(f, g) -> DMF | NotImplementedType:
+    def __rsub__(f, g) -> DMF:
         return (-f).__add__(g)
 
-    def __mul__(f, g) -> typing_extensions.Self | NotImplementedType:
+    def __mul__(f, g) -> typing_extensions.Self:
         if isinstance(g, (DMP, DMF)):
             return f.mul(g)
 
@@ -2967,13 +2966,13 @@ class DMF(PicklableWithSlots, CantSympify):
         except (TypeError, CoercionFailed, NotImplementedError):
             return NotImplemented
 
-    def __rmul__(f, g) -> typing_extensions.Self | NotImplementedType:
+    def __rmul__(f, g) -> typing_extensions.Self:
         return f.__mul__(g)
 
     def __pow__(f, n) -> typing_extensions.Self:
         return f.pow(n)
 
-    def __truediv__(f, g) -> typing_extensions.Self | NotImplementedType:
+    def __truediv__(f, g) -> typing_extensions.Self:
         if isinstance(g, (DMP, DMF)):
             return f.quo(g)
 
@@ -3310,7 +3309,7 @@ class ANP(CantSympify, Generic[Eg]):
     def __neg__(f) -> ANP:
         return f.neg()
 
-    def __add__(f, g) -> ANP | NotImplementedType:
+    def __add__(f, g) -> ANP:
         if isinstance(g, ANP):
             return f.add(g)
         try:
@@ -3320,10 +3319,10 @@ class ANP(CantSympify, Generic[Eg]):
         else:
             return f.add_ground(g)
 
-    def __radd__(f, g) -> ANP | NotImplementedType:
+    def __radd__(f, g) -> ANP:
         return f.__add__(g)
 
-    def __sub__(f, g) -> ANP | NotImplementedType:
+    def __sub__(f, g) -> ANP:
         if isinstance(g, ANP):
             return f.sub(g)
         try:
@@ -3333,10 +3332,10 @@ class ANP(CantSympify, Generic[Eg]):
         else:
             return f.sub_ground(g)
 
-    def __rsub__(f, g) -> ANP | NotImplementedType:
+    def __rsub__(f, g) -> ANP:
         return (-f).__add__(g)
 
-    def __mul__(f, g) -> ANP | NotImplementedType:
+    def __mul__(f, g) -> ANP:
         if isinstance(g, ANP):
             return f.mul(g)
         try:
@@ -3346,7 +3345,7 @@ class ANP(CantSympify, Generic[Eg]):
         else:
             return f.mul_ground(g)
 
-    def __rmul__(f, g) -> ANP | NotImplementedType:
+    def __rmul__(f, g) -> ANP:
         return f.__mul__(g)
 
     def __pow__(f, n) -> ANP:
@@ -3358,7 +3357,7 @@ class ANP(CantSympify, Generic[Eg]):
     def __mod__(f, g) -> ANP:
         return f.rem(g)
 
-    def __truediv__(f, g) -> ANP | NotImplementedType:
+    def __truediv__(f, g) -> ANP:
         if isinstance(g, ANP):
             return f.quo(g)
         try:

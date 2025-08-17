@@ -12,7 +12,6 @@ from sympy.polys.polyerrors import PolynomialError, GeneratorsError
 from sympy.polys.polyoptions import build_options
 
 import re
-from types import NotImplementedType
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -530,7 +529,7 @@ class IntegerPowerable:
     `_first_power`, `_zeroth_power`, `_negative_power`, below.
     """
 
-    def __pow__(self, e, modulo=None) -> NotImplementedType | Self:
+    def __pow__(self, e, modulo=None) -> Self:
         if e < 2:
             try:
                 if e == 1:

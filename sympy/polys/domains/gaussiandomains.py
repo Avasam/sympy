@@ -11,7 +11,6 @@ from sympy.polys.domains.domain import Domain
 from sympy.polys.domains.domainelement import DomainElement
 from sympy.polys.domains.field import Field
 from sympy.polys.domains.ring import Ring
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -76,7 +75,7 @@ class GaussianElement(DomainElement):
                 return None, None
         return other.x, other.y
 
-    def __add__(self, other) -> NotImplementedType:
+    def __add__(self, other):
         x, y = self._get_xy(other)
         if x is not None:
             return self.new(self.x + x, self.y + y)
@@ -85,21 +84,21 @@ class GaussianElement(DomainElement):
 
     __radd__ = __add__
 
-    def __sub__(self, other) -> NotImplementedType:
+    def __sub__(self, other):
         x, y = self._get_xy(other)
         if x is not None:
             return self.new(self.x - x, self.y - y)
         else:
             return NotImplemented
 
-    def __rsub__(self, other) -> NotImplementedType:
+    def __rsub__(self, other):
         x, y = self._get_xy(other)
         if x is not None:
             return self.new(x - self.x, y - self.y)
         else:
             return NotImplemented
 
-    def __mul__(self, other) -> NotImplementedType:
+    def __mul__(self, other):
         x, y = self._get_xy(other)
         if x is not None:
             return self.new(self.x*x - self.y*y, self.x*y + self.y*x)
@@ -140,7 +139,7 @@ class GaussianElement(DomainElement):
         else:
             return 0 if self.x >= 0 else 2
 
-    def __rdivmod__(self, other) -> NotImplementedType:
+    def __rdivmod__(self, other):
         try:
             other = self._parent.convert(other)
         except CoercionFailed:
@@ -148,7 +147,7 @@ class GaussianElement(DomainElement):
         else:
             return other.__divmod__(self)
 
-    def __rtruediv__(self, other) -> NotImplementedType:
+    def __rtruediv__(self, other):
         try:
             other = QQ_I.convert(other)
         except CoercionFailed:
@@ -160,7 +159,7 @@ class GaussianElement(DomainElement):
         qr = self.__divmod__(other)
         return qr if qr is NotImplemented else qr[0]
 
-    def __rfloordiv__(self, other) -> NotImplementedType:
+    def __rfloordiv__(self, other):
         qr = self.__rdivmod__(other)
         return qr if qr is NotImplemented else qr[0]
 
@@ -168,7 +167,7 @@ class GaussianElement(DomainElement):
         qr = self.__divmod__(other)
         return qr if qr is NotImplemented else qr[1]
 
-    def __rmod__(self, other) -> NotImplementedType:
+    def __rmod__(self, other):
         qr = self.__rdivmod__(other)
         return qr if qr is NotImplemented else qr[1]
 
@@ -189,7 +188,7 @@ class GaussianInteger(GaussianElement):
         """Return a Gaussian rational."""
         return QQ_I.convert(self)/other
 
-    def __divmod__(self, other) -> NotImplementedType | tuple[GaussianInteger, Any]:
+    def __divmod__(self, other) -> tuple[GaussianInteger, Any]:
         if not other:
             raise ZeroDivisionError('divmod({}, 0)'.format(self))
         x, y = self._get_xy(other)
@@ -225,7 +224,7 @@ class GaussianRational(GaussianElement):
     """
     base = QQ
 
-    def __truediv__(self, other) -> NotImplementedType | GaussianRational:
+    def __truediv__(self, other) -> GaussianRational:
         """Return a Gaussian rational."""
         if not other:
             raise ZeroDivisionError('{} / 0'.format(self))
@@ -237,7 +236,7 @@ class GaussianRational(GaussianElement):
         return GaussianRational((self.x*x + self.y*y)/c,
                                 (-self.x*y + self.y*x)/c)
 
-    def __divmod__(self, other) -> NotImplementedType | tuple[Any, Any]:
+    def __divmod__(self, other) -> tuple[Any, Any]:
         try:
             other = self._parent.convert(other)
         except CoercionFailed:

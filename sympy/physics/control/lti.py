@@ -30,7 +30,6 @@ from sympy.physics.control.routh_table import negative_real_part_conditions
 
 from mpmath.libmp.libmpf import prec_to_dps
 from sympy.series.order import Order
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -426,7 +425,7 @@ SISOLinearTimeInvariant._clstype = SISOLinearTimeInvariant
 MIMOLinearTimeInvariant._clstype = MIMOLinearTimeInvariant
 
 
-def _check_other_SISO(func) -> Callable[..., NotImplementedType | Any]:
+def _check_other_SISO(func) -> Callable[..., Any]:
     def wrapper(*args, **kwargs):
         if not isinstance(args[-1], SISOLinearTimeInvariant):
             return NotImplemented
@@ -435,7 +434,7 @@ def _check_other_SISO(func) -> Callable[..., NotImplementedType | Any]:
     return wrapper
 
 
-def _check_other_MIMO(func) -> Callable[..., NotImplementedType | Any]:
+def _check_other_MIMO(func) -> Callable[..., Any]:
     def wrapper(*args, **kwargs):
         if not isinstance(args[-1], MIMOLinearTimeInvariant):
             return NotImplemented

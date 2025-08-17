@@ -66,7 +66,6 @@ import sympy.polys
 
 import mpmath
 from mpmath.libmp.libhyper import NoConvergence
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -4493,7 +4492,7 @@ class Poly(Basic):
         return g.mul(f)
 
     @_sympifyit('n', NotImplemented)
-    def __pow__(f, n) -> Self | NotImplementedType:
+    def __pow__(f, n) -> Self:
         if n.is_Integer and n >= 0:
             return f.pow(n)
         else:

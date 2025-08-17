@@ -36,7 +36,6 @@ from decimal import Decimal
 from fractions import Fraction
 import sys
 from typing import Any, Type, TYPE_CHECKING
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -199,7 +198,7 @@ class PythonMPQ:
         """-q"""
         return self._new(-self.numerator, self.denominator)
 
-    def __add__(self, other) -> NotImplementedType | Self:
+    def __add__(self, other) -> Self:
         """q1 + q2"""
         if isinstance(other, PythonMPQ):
             #
@@ -232,7 +231,7 @@ class PythonMPQ:
 
         return self._new(p, q)
 
-    def __radd__(self, other) -> Self | NotImplementedType:
+    def __radd__(self, other) -> Self:
         """z1 + q2"""
         if isinstance(other, int):
             p = self.numerator + self.denominator * other
@@ -241,7 +240,7 @@ class PythonMPQ:
         else:
             return NotImplemented
 
-    def __sub__(self ,other) -> NotImplementedType | Self:
+    def __sub__(self ,other) -> Self:
         """q1 - q2"""
         if isinstance(other, PythonMPQ):
             ap, aq = self.numerator, self.denominator
@@ -263,7 +262,7 @@ class PythonMPQ:
 
         return self._new(p, q)
 
-    def __rsub__(self, other) -> Self | NotImplementedType:
+    def __rsub__(self, other) -> Self:
         """z1 - q2"""
         if isinstance(other, int):
             p = self.denominator * other - self.numerator
@@ -272,7 +271,7 @@ class PythonMPQ:
         else:
             return NotImplemented
 
-    def __mul__(self, other) -> NotImplementedType | Self:
+    def __mul__(self, other) -> Self:
         """q1 * q2"""
         if isinstance(other, PythonMPQ):
             ap, aq = self.numerator, self.denominator
@@ -289,7 +288,7 @@ class PythonMPQ:
 
         return self._new(p, q)
 
-    def __rmul__(self, other) -> Self | NotImplementedType:
+    def __rmul__(self, other) -> Self:
         """z1 * q2"""
         if isinstance(other, int):
             x = gcd(self.denominator, other)
@@ -308,7 +307,7 @@ class PythonMPQ:
 
         return self._new_check(p**exp, q**exp)
 
-    def __truediv__(self, other) -> NotImplementedType | Self:
+    def __truediv__(self, other) -> Self:
         """q1 / q2"""
         if isinstance(other, PythonMPQ):
             ap, aq = self.numerator, self.denominator
@@ -325,7 +324,7 @@ class PythonMPQ:
 
         return self._new_check(p, q)
 
-    def __rtruediv__(self, other) -> Self | NotImplementedType:
+    def __rtruediv__(self, other) -> Self:
         """z / q"""
         if isinstance(other, int):
             x = gcd(self.numerator, other)

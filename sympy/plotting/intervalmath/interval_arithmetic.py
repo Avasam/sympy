@@ -39,7 +39,6 @@ from sympy.core.logic import fuzzy_and
 from sympy.simplify.simplify import nsimplify
 
 from .interval_membership import intervalMembership
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -198,7 +197,7 @@ class interval:
         elif isinstance(other, interval):
             return other.__le__(self)
 
-    def __add__(self, other) -> interval | NotImplementedType:
+    def __add__(self, other) -> interval:
         if isinstance(other, (int, float)):
             if self.is_valid:
                 return interval(self.start + other, self.end + other)
@@ -217,7 +216,7 @@ class interval:
 
     __radd__ = __add__
 
-    def __sub__(self, other) -> interval | NotImplementedType:
+    def __sub__(self, other) -> interval:
         if isinstance(other, (int, float)):
             start = self.start - other
             end = self.end - other
@@ -231,7 +230,7 @@ class interval:
         else:
             return NotImplemented
 
-    def __rsub__(self, other) -> interval | NotImplementedType:
+    def __rsub__(self, other) -> interval:
         if isinstance(other, (int, float)):
             start = other - self.end
             end = other - self.start
@@ -247,7 +246,7 @@ class interval:
         else:
             return interval(-self.end, -self.start, is_valid=self.is_valid)
 
-    def __mul__(self, other) -> interval | NotImplementedType:
+    def __mul__(self, other) -> interval:
         if isinstance(other, interval):
             if self.is_valid is False or other.is_valid is False:
                 return interval(-float('inf'), float('inf'), is_valid=False)
@@ -275,7 +274,7 @@ class interval:
         else:
             return self.start <= other.start and other.end <= self.end
 
-    def __rtruediv__(self, other) -> interval | NotImplementedType:
+    def __rtruediv__(self, other) -> interval:
         if isinstance(other, (int, float)):
             other = interval(other)
             return other.__truediv__(self)
@@ -284,7 +283,7 @@ class interval:
         else:
             return NotImplemented
 
-    def __truediv__(self, other) -> interval | NotImplementedType:
+    def __truediv__(self, other) -> interval:
         # Both None and False are handled
         if not self.is_valid:
             # Don't divide as the value is not valid
@@ -325,7 +324,7 @@ class interval:
         else:
             return NotImplemented
 
-    def __pow__(self, other) -> Self | interval | NotImplementedType:
+    def __pow__(self, other) -> Self | interval:
         # Implements only power to an integer.
         from .lib_interval import exp, log
         if not self.is_valid:
@@ -343,7 +342,7 @@ class interval:
         else:
             return NotImplemented
 
-    def __rpow__(self, other) -> Self | interval | NotImplementedType:
+    def __rpow__(self, other) -> Self | interval:
         if isinstance(other, (float, int)):
             if not self.is_valid:
                 #Don't do anything

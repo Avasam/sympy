@@ -19,7 +19,6 @@ from .matadd import MatAdd
 from .matmul import MatMul
 from .matpow import MatPow
 from sympy.series.order import Order
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -27,7 +26,7 @@ if TYPE_CHECKING:
     from typing_extensions import Self
 
 
-def kronecker_product(*matrices) -> NotImplementedType | GenericIdentity | Order | object | Identity:
+def kronecker_product(*matrices) -> GenericIdentity | Order | object | Identity:
     """
     The Kronecker product of two or more arguments.
 
@@ -194,7 +193,7 @@ class KroneckerProduct(MatrixExpr):
                 and len(self.args) == len(other.args)
                 and all(a.shape == b.shape for (a, b) in zip(self.args, other.args)))
 
-    def has_matching_shape(self, other) -> bool | NotImplementedType:
+    def has_matching_shape(self, other) -> bool:
         '''Determine whether two matrices have the appropriate structure to bring matrix
         multiplication inside the KroneckerProdut
 
@@ -231,7 +230,7 @@ class KroneckerProduct(MatrixExpr):
         else:
             return self * other
 
-    def doit(self, **hints) -> NotImplementedType | GenericIdentity | Order | object:
+    def doit(self, **hints) -> GenericIdentity | Order | object:
         deep = hints.get('deep', True)
         if deep:
             args = [arg.doit(**hints) for arg in self.args]
@@ -247,7 +246,7 @@ def validate(*args):
 
 # rules
 
-def extract_commutative(kron) -> NotImplementedType | GenericIdentity | Order | object:
+def extract_commutative(kron) -> GenericIdentity | Order | object:
     c_part = []
     nc_part = []
     for arg in kron.args:

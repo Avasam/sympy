@@ -29,7 +29,6 @@ from sympy.polys.polyclasses import DMP
 from sympy.polys.polyerrors import CoercionFailed
 from sympy.core.basic import _aresame
 from sympy.utilities.iterables import iterable
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from sympy.polys.agca.homomorphisms import FreeModuleHomomorphism
@@ -148,7 +147,7 @@ class Module:
         """
         raise NotImplementedError
 
-    def __mul__(self, e) -> NotImplementedType:
+    def __mul__(self, e):
         if not isinstance(e, Ideal):
             try:
                 e = self.ring.ideal(e)
@@ -204,7 +203,7 @@ class ModuleElement:
         """Return true if d1 and d2 represent the same element."""
         return d1 == d2
 
-    def __add__(self, om) -> NotImplementedType | Self:
+    def __add__(self, om) -> Self:
         if not isinstance(om, self.__class__) or om.module != self.module:
             try:
                 om = self.module.convert(om)
@@ -218,7 +217,7 @@ class ModuleElement:
         return self.__class__(self.module, self.mul(self.data,
                        self.module.ring.convert(-1)))
 
-    def __sub__(self, om) -> NotImplementedType | Self:
+    def __sub__(self, om) -> Self:
         if not isinstance(om, self.__class__) or om.module != self.module:
             try:
                 om = self.module.convert(om)
@@ -226,10 +225,10 @@ class ModuleElement:
                 return NotImplemented
         return self.__add__(-om)
 
-    def __rsub__(self, om) -> NotImplementedType | ModuleElement:
+    def __rsub__(self, om) -> ModuleElement:
         return (-self).__add__(om)
 
-    def __mul__(self, o) -> NotImplementedType | Self:
+    def __mul__(self, o) -> Self:
         if not isinstance(o, self.module.ring.dtype):
             try:
                 o = self.module.ring.convert(o)
@@ -239,7 +238,7 @@ class ModuleElement:
 
     __rmul__ = __mul__
 
-    def __truediv__(self, o) -> NotImplementedType | Self:
+    def __truediv__(self, o) -> Self:
         if not isinstance(o, self.module.ring.dtype):
             try:
                 o = self.module.ring.convert(o)

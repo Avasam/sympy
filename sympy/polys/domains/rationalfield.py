@@ -12,7 +12,6 @@ from sympy.polys.polyerrors import CoercionFailed
 from sympy.utilities import public
 from sympy.core.numbers import Integer, Rational
 from sympy.external.pythonmpq import PythonMPQ
-from types import NotImplementedType
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -153,11 +152,11 @@ class RationalField(Field[MPQ], CharacteristicZero, SimpleDomain):
         """Convert a mpmath ``mpf`` object to ``dtype``. """
         return MPQ(*map(int, K0.to_rational(a)))
 
-    def exquo(self, a, b) -> NotImplementedType | Self:
+    def exquo(self, a, b) -> Self:
         """Exact quotient of ``a`` and ``b``, implies ``__truediv__``.  """
         return MPQ(a) / MPQ(b)
 
-    def quo(self, a, b) -> NotImplementedType | Self:
+    def quo(self, a, b) -> Self:
         """Quotient of ``a`` and ``b``, implies ``__truediv__``. """
         return MPQ(a) / MPQ(b)
 
@@ -165,7 +164,7 @@ class RationalField(Field[MPQ], CharacteristicZero, SimpleDomain):
         """Remainder of ``a`` and ``b``, implies nothing.  """
         return self.zero
 
-    def div(self, a, b) -> tuple[NotImplementedType | Self, PythonMPQ]:
+    def div(self, a, b) -> tuple[Self, PythonMPQ]:
         """Division of ``a`` and ``b``, implies ``__truediv__``. """
         return MPQ(a) / MPQ(b), self.zero
 

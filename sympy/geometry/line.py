@@ -45,7 +45,6 @@ from sympy.utilities.misc import Undecidable, filldedent
 import random
 from sympy.core.basic import Basic
 from sympy.core.function import UndefinedFunction
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -1522,7 +1521,7 @@ class Ray(LinearEntity):
         else:
             return abs(other - self.source)
 
-    def equals(self, other) -> bool | NotImplementedType:
+    def equals(self, other) -> bool:
         """Returns True if self and other are the same mathematical entities"""
         if not isinstance(other, Ray):
             return False

@@ -61,7 +61,6 @@ from sympy.utilities.iterables import sift
 from sympy.matrices.dense import Matrix
 from sympy.combinatorics.permutations import Perm
 from sympy.tensor.array.expressions.array_expressions import ArrayContraction, ArrayElement, ArrayTensorProduct, PermuteDims, ZeroArray
-from types import NotImplementedType
 from sympy.tensor.indexed import Indexed
 
 if TYPE_CHECKING:
@@ -2654,7 +2653,7 @@ class TensAdd(TensExpr, AssocOp):
         else:
             return canon_bp(expr)
 
-    def equals(self, other) -> bool | NotImplementedType:
+    def equals(self, other) -> bool:
         other = _sympify(other)
         if isinstance(other, TensMul) and other.coeff == 0:
             return all(x.coeff == 0 for x in self.args)

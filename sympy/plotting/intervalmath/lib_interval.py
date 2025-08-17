@@ -4,7 +4,6 @@ from functools import reduce
 
 from sympy.plotting.intervalmath import interval
 from sympy.external import import_module
-from types import NotImplementedType
 
 
 def Abs(x) -> interval:
@@ -149,7 +148,7 @@ def cos(x) -> interval:
         raise NotImplementedError
 
 
-def tan(x) -> interval | NotImplementedType:
+def tan(x) -> interval:
     """Evaluates the tan of an interval"""
     return sin(x) / cos(x)
 

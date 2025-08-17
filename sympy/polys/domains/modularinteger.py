@@ -11,7 +11,6 @@ from sympy.polys.domains.domainelement import DomainElement
 
 from sympy.utilities import public
 from sympy.utilities.exceptions import sympy_deprecation_warning
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -83,7 +82,7 @@ class ModularInteger(PicklableWithSlots, DomainElement):
             except CoercionFailed:
                 return None
 
-    def __add__(self, other) -> Self | NotImplementedType:
+    def __add__(self, other) -> Self:
         val = self._get_val(other)
 
         if val is not None:
@@ -91,10 +90,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return NotImplemented
 
-    def __radd__(self, other) -> Self | NotImplementedType:
+    def __radd__(self, other) -> Self:
         return self.__add__(other)
 
-    def __sub__(self, other) -> Self | NotImplementedType:
+    def __sub__(self, other) -> Self:
         val = self._get_val(other)
 
         if val is not None:
@@ -102,10 +101,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return NotImplemented
 
-    def __rsub__(self, other) -> Self | NotImplementedType:
+    def __rsub__(self, other) -> Self:
         return (-self).__add__(other)
 
-    def __mul__(self, other) -> Self | NotImplementedType:
+    def __mul__(self, other) -> Self:
         val = self._get_val(other)
 
         if val is not None:
@@ -113,10 +112,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return NotImplemented
 
-    def __rmul__(self, other) -> Self | NotImplementedType:
+    def __rmul__(self, other) -> Self:
         return self.__mul__(other)
 
-    def __truediv__(self, other) -> Self | NotImplementedType:
+    def __truediv__(self, other) -> Self:
         val = self._get_val(other)
 
         if val is not None:
@@ -124,10 +123,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return NotImplemented
 
-    def __rtruediv__(self, other) -> Self | NotImplementedType:
+    def __rtruediv__(self, other) -> Self:
         return self.invert().__mul__(other)
 
-    def __mod__(self, other) -> Self | NotImplementedType:
+    def __mod__(self, other) -> Self:
         val = self._get_val(other)
 
         if val is not None:
@@ -135,7 +134,7 @@ class ModularInteger(PicklableWithSlots, DomainElement):
         else:
             return NotImplemented
 
-    def __rmod__(self, other) -> Self | NotImplementedType:
+    def __rmod__(self, other) -> Self:
         val = self._get_val(other)
 
         if val is not None:

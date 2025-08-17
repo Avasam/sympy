@@ -12,7 +12,6 @@ from typing import TYPE_CHECKING
 from sympy.polys.agca.modules import (Module, FreeModule, QuotientModule,
     SubModule, SubQuotientModule)
 from sympy.polys.polyerrors import CoercionFailed
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -315,7 +314,7 @@ class ModuleHomomorphism:
             return False
         return oth.domain == self.domain and oth.codomain == self.codomain
 
-    def __mul__(self, oth) -> NotImplementedType:
+    def __mul__(self, oth):
         if isinstance(oth, ModuleHomomorphism) and self.domain == oth.codomain:
             return oth._compose(self)
         try:
@@ -326,18 +325,18 @@ class ModuleHomomorphism:
     # NOTE: _compose will never be called from rmul
     __rmul__ = __mul__
 
-    def __truediv__(self, oth) -> NotImplementedType:
+    def __truediv__(self, oth):
         try:
             return self._mul_scalar(1/self.ring.convert(oth))
         except CoercionFailed:
             return NotImplemented
 
-    def __add__(self, oth) -> NotImplementedType:
+    def __add__(self, oth):
         if self._check_hom(oth):
             return self._add(oth)
         return NotImplemented
 
-    def __sub__(self, oth) -> NotImplementedType:
+    def __sub__(self, oth):
         if self._check_hom(oth):
             return self._add(oth._mul_scalar(self.ring.convert(-1)))
         return NotImplemented

@@ -21,7 +21,6 @@ from sympy.utilities.iterables import (common_prefix, common_suffix,
         variations, iterable, is_sequence)
 
 from collections import defaultdict
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -894,19 +893,19 @@ class Term:
                     self.numer.lcm(other.numer),
                     self.denom.lcm(other.denom))
 
-    def __mul__(self, other) -> Term | NotImplementedType:  # Term
+    def __mul__(self, other) -> Term:  # Term
         if isinstance(other, Term):
             return self.mul(other)
         else:
             return NotImplemented
 
-    def __truediv__(self, other) -> Term | NotImplementedType:  # Term
+    def __truediv__(self, other) -> Term:  # Term
         if isinstance(other, Term):
             return self.quo(other)
         else:
             return NotImplemented
 
-    def __pow__(self, other) -> Term | NotImplementedType:  # Term
+    def __pow__(self, other) -> Term:  # Term
         if isinstance(other, SYMPY_INTS):
             return self.pow(other)
         else:

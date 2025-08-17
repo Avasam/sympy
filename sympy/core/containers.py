@@ -17,7 +17,6 @@ from .sympify import _sympify, sympify, _sympy_converter, SympifyError
 from sympy.core.kind import Kind
 from sympy.utilities.iterables import iterable
 from sympy.utilities.misc import as_int
-from types import NotImplementedType
 from typing import Callable, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -76,7 +75,7 @@ class Tuple(Basic):
     def __iter__(self) -> Iterator[Basic]:
         return iter(self.args)
 
-    def __add__(self, other) -> Tuple | NotImplementedType:
+    def __add__(self, other) -> Tuple:
         if isinstance(other, Tuple):
             return Tuple(*(self.args + other.args))
         elif isinstance(other, tuple):
@@ -84,7 +83,7 @@ class Tuple(Basic):
         else:
             return NotImplemented
 
-    def __radd__(self, other) -> Tuple | NotImplementedType:
+    def __radd__(self, other) -> Tuple:
         if isinstance(other, Tuple):
             return Tuple(*(other.args + self.args))
         elif isinstance(other, tuple):

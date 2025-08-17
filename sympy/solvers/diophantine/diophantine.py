@@ -33,7 +33,6 @@ from sympy.utilities.iterables import (is_sequence, subsets, permute_signs,
                                        signed_permutations, ordered_partitions)
 from collections.abc import Generator
 from sympy.series.order import Order
-from types import NotImplementedType
 from typing import Any, NoReturn
 
 
@@ -1920,7 +1919,7 @@ def diop_quadratic(eq, param=symbols("t", integer=True)) -> set | None:
         return set(BinaryQuadratic(eq).solve(parameters=parameters))
 
 
-def is_solution_quad(var, coeff, u, v) -> NotImplementedType | bool:
+def is_solution_quad(var, coeff, u, v) -> bool:
     """
     Check whether `(u, v)` is solution to the quadratic binary diophantine
     equation with the variable list ``var`` and coefficient dictionary

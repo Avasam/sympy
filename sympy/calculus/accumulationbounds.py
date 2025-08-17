@@ -11,7 +11,6 @@ from sympy.logic.boolalg import And
 from sympy.multipledispatch import dispatch
 from sympy.series.order import Order
 from sympy.sets.sets import FiniteSet
-from types import NotImplementedType
 from typing import TYPE_CHECKING
 
 
@@ -293,7 +292,7 @@ class AccumulationBounds(Expr):
         return self.__pow__(other)
 
     @_sympifyit('other', NotImplemented)
-    def __add__(self, other) -> AccumBounds | Order | NotImplementedType:
+    def __add__(self, other) -> AccumBounds | Order:
         if isinstance(other, Expr):
             if isinstance(other, AccumBounds):
                 return AccumBounds(
@@ -320,7 +319,7 @@ class AccumulationBounds(Expr):
         return AccumBounds(-self.max, -self.min)
 
     @_sympifyit('other', NotImplemented)
-    def __sub__(self, other) -> AccumBounds | Order | NotImplementedType:
+    def __sub__(self, other) -> AccumBounds | Order:
         if isinstance(other, Expr):
             if isinstance(other, AccumBounds):
                 return AccumBounds(
@@ -348,7 +347,7 @@ class AccumulationBounds(Expr):
         return self.__neg__() + other
 
     @_sympifyit('other', NotImplemented)
-    def __mul__(self, other) -> Self | AccumBounds | Order | NotImplementedType:
+    def __mul__(self, other) -> Self | AccumBounds | Order:
         if self.args == (-oo, oo):
             return self
         if isinstance(other, Expr):
@@ -453,7 +452,7 @@ class AccumulationBounds(Expr):
         return NotImplemented
 
     @_sympifyit('other', NotImplemented)
-    def __rtruediv__(self, other) -> AccumBounds | Order | NotImplementedType:
+    def __rtruediv__(self, other) -> AccumBounds | Order:
         if isinstance(other, Expr):
             if other.is_extended_real:
                 if other.is_zero:

@@ -17,7 +17,6 @@ from .decompositions import (
 
 from .solvers import (
     _lower_triangular_solve_sparse, _upper_triangular_solve_sparse)
-from types import NotImplementedType
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -421,7 +420,7 @@ class SparseRepMatrix(RepMatrix):
         t = self.T
         return (t*self).inv(method=method)*t*rhs
 
-    def solve(self, rhs, method='LDL') -> NotImplementedType | None:
+    def solve(self, rhs, method='LDL'):
         """Return solution to self*soln = rhs using given inversion method.
 
         For a list of possible inversion methods, see the .inv() docstring.

@@ -95,7 +95,6 @@ from .dense import (
         )
 
 from .lll import ddm_lll, ddm_lll_transform
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -632,12 +631,12 @@ class DDM(list):
             ddmT = [[]] * cols
         return DDM(ddmT, (cols, rows), self.domain)
 
-    def __add__(a, b) -> NotImplementedType | DDM:
+    def __add__(a, b) -> DDM:
         if not isinstance(b, DDM):
             return NotImplemented
         return a.add(b)
 
-    def __sub__(a, b) -> NotImplementedType | DDM:
+    def __sub__(a, b) -> DDM:
         if not isinstance(b, DDM):
             return NotImplemented
         return a.sub(b)
@@ -645,19 +644,19 @@ class DDM(list):
     def __neg__(a) -> DDM:
         return a.neg()
 
-    def __mul__(a, b) -> DDM | NotImplementedType:
+    def __mul__(a, b) -> DDM:
         if b in a.domain:
             return a.mul(b)
         else:
             return NotImplemented
 
-    def __rmul__(a, b) -> DDM | NotImplementedType:
+    def __rmul__(a, b) -> DDM:
         if b in a.domain:
             return a.mul(b)
         else:
             return NotImplemented
 
-    def __matmul__(a, b) -> DDM | NotImplementedType:
+    def __matmul__(a, b) -> DDM:
         if isinstance(b, DDM):
             return a.matmul(b)
         else:

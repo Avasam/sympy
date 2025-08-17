@@ -9,7 +9,6 @@ from sympy.polys.domains import QQ
 
 from sympy.polys.matrices import DomainMatrix
 from sympy.polys.matrices.domainscalar import DomainScalar
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -198,17 +197,17 @@ class MutablePolyDenseMatrix:
             return NotImplemented
         return self._dm == other._dm
 
-    def __add__(self, other) -> Self | NotImplementedType:
+    def __add__(self, other) -> Self:
         if isinstance(other, type(self)):
             return self.from_dm(self._dm + other._dm)
         return NotImplemented
 
-    def __sub__(self, other) -> Self | NotImplementedType:
+    def __sub__(self, other) -> Self:
         if isinstance(other, type(self)):
             return self.from_dm(self._dm - other._dm)
         return NotImplemented
 
-    def __mul__(self, other) -> Self | NotImplementedType:
+    def __mul__(self, other) -> Self:
         if isinstance(other, type(self)):
             return self.from_dm(self._dm * other._dm)
         elif isinstance(other, int):
@@ -222,7 +221,7 @@ class MutablePolyDenseMatrix:
             return self.from_dm(self._dm * other_ds)
         return NotImplemented
 
-    def __rmul__(self, other) -> Self | NotImplementedType:
+    def __rmul__(self, other) -> Self:
         if isinstance(other, int):
             other = _sympify(other)
         if isinstance(other, Expr):
@@ -230,7 +229,7 @@ class MutablePolyDenseMatrix:
             return self.from_dm(other_ds * self._dm)
         return NotImplemented
 
-    def __truediv__(self, other) -> NotImplementedType | Self:
+    def __truediv__(self, other) -> Self:
 
         if isinstance(other, Poly):
             other = other.as_expr()

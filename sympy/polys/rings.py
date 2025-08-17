@@ -6,7 +6,7 @@ from typing import Any, Generic, overload, Callable, Iterable, TYPE_CHECKING
 
 from operator import add, mul, lt, le, gt, ge
 from functools import reduce
-from types import NotImplementedType, GeneratorType
+from types import GeneratorType
 
 from sympy.core.cache import cacheit
 from sympy.core.expr import Expr
@@ -1027,7 +1027,7 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict[tuple[int, .
         else:
             return self._mod_ground(cp2)
 
-    def __rmod__(self, other) -> NotImplementedType:
+    def __rmod__(self, other):
         ring = self.ring
         try:
             other = ring.ground_new(other)
@@ -1070,7 +1070,7 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict[tuple[int, .
         else:
             return other._floordiv(self)
 
-    def __truediv__(self, other) -> list | NotImplementedType | Self:
+    def __truediv__(self, other) -> list | Self:
         ring = self.ring
 
         if not other:
@@ -1095,7 +1095,7 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict[tuple[int, .
         else:
             return self._floordiv_ground(other)
 
-    def __rtruediv__(self, other) -> NotImplementedType:
+    def __rtruediv__(self, other):
         ring = self.ring
         try:
             other = ring.ground_new(other)

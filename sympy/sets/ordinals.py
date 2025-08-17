@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from sympy.core import Basic, Integer
 import operator
-from types import NotImplementedType
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -186,7 +185,7 @@ class Ordinal(Basic):
 
     __repr__ = __str__
 
-    def __add__(self, other) -> NotImplementedType | Self | Ordinal:
+    def __add__(self, other) -> Self | Ordinal:
         if not isinstance(other, Ordinal):
             try:
                 other = Ordinal.convert(other)
@@ -209,7 +208,7 @@ class Ordinal(Basic):
             terms = a_terms[:r+1] + b_terms
         return Ordinal(*terms)
 
-    def __radd__(self, other) -> NotImplementedType | OrdinalZero | Ordinal:
+    def __radd__(self, other) -> OrdinalZero | Ordinal:
         if not isinstance(other, Ordinal):
             try:
                 other = Ordinal.convert(other)
@@ -217,7 +216,7 @@ class Ordinal(Basic):
                 return NotImplemented
         return other + self
 
-    def __mul__(self, other) -> NotImplementedType | OrdinalZero | Ordinal:
+    def __mul__(self, other) -> OrdinalZero | Ordinal:
         if not isinstance(other, Ordinal):
             try:
                 other = Ordinal.convert(other)
@@ -240,7 +239,7 @@ class Ordinal(Basic):
             summation += list(self.terms[1:])
         return Ordinal(*summation)
 
-    def __rmul__(self, other) -> NotImplementedType | OrdinalZero | Ordinal:
+    def __rmul__(self, other) -> OrdinalZero | Ordinal:
         if not isinstance(other, Ordinal):
             try:
                 other = Ordinal.convert(other)
@@ -248,7 +247,7 @@ class Ordinal(Basic):
                 return NotImplemented
         return other * self
 
-    def __pow__(self, other) -> NotImplementedType | Ordinal:
+    def __pow__(self, other) -> Ordinal:
         if not self == omega:
             return NotImplemented
         return Ordinal(OmegaPower(other, 1))

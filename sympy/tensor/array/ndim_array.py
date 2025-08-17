@@ -13,7 +13,6 @@ from sympy.printing.defaults import Printable
 import itertools
 from collections.abc import Iterator, Iterable
 from sympy.core.function import UndefinedFunction
-from types import NotImplementedType
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -404,7 +403,7 @@ class NDimArray(Printable):
 
         return f(self._loop_size, self.shape, 0, self._loop_size)
 
-    def __add__(self, other) -> NotImplementedType | Self:
+    def __add__(self, other) -> Self:
         from sympy.tensor.array.arrayop import Flatten
 
         if not isinstance(other, NDimArray):
@@ -416,7 +415,7 @@ class NDimArray(Printable):
 
         return type(self)(result_list, self.shape)
 
-    def __sub__(self, other) -> NotImplementedType | Self:
+    def __sub__(self, other) -> Self:
         from sympy.tensor.array.arrayop import Flatten
 
         if not isinstance(other, NDimArray):

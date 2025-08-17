@@ -30,7 +30,6 @@ from sympy.printing.defaults import DefaultPrinting
 from sympy.utilities import public
 from sympy.utilities.iterables import is_sequence
 from sympy.utilities.magic import pollute
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -442,7 +441,7 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify, Generic[Er]):
         else:
             return 1, element, None
 
-    def __add__(f, g) -> Self | FracElement | NotImplementedType | PolyElement:
+    def __add__(f, g) -> Self | FracElement | PolyElement:
         """Add rational functions ``f`` and ``g``. """
         field = f.field
 
@@ -473,7 +472,7 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify, Generic[Er]):
 
         return f.__radd__(g)
 
-    def __radd__(f, c) -> Self | NotImplementedType:
+    def __radd__(f, c) -> Self:
         if f.field.ring.is_element(c):
             return f.new(f.numer + f.denom*c, f.denom)
 
@@ -486,7 +485,7 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify, Generic[Er]):
         else:
             return f.new(f.numer*g_denom + f.denom*g_numer, f.denom*g_denom)
 
-    def __sub__(f, g) -> Self | FracElement | NotImplementedType:
+    def __sub__(f, g) -> Self | FracElement:
         """Subtract rational functions ``f`` and ``g``. """
         field = f.field
 
@@ -524,7 +523,7 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify, Generic[Er]):
         else:
             return f.new(f.numer*g_denom - f.denom*g_numer, f.denom*g_denom)
 
-    def __rsub__(f, c) -> Self | NotImplementedType:
+    def __rsub__(f, c) -> Self:
         if f.field.ring.is_element(c):
             return f.new(-f.numer + f.denom*c, f.denom)
 
@@ -537,7 +536,7 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify, Generic[Er]):
         else:
             return f.new(-f.numer*g_denom + f.denom*g_numer, f.denom*g_denom)
 
-    def __mul__(f, g) -> Self | FracElement | NotImplementedType:
+    def __mul__(f, g) -> Self | FracElement:
         """Multiply rational functions ``f`` and ``g``. """
         field = f.field
 
@@ -563,7 +562,7 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify, Generic[Er]):
 
         return f.__rmul__(g)
 
-    def __rmul__(f, c) -> Self | NotImplementedType:
+    def __rmul__(f, c) -> Self:
         if f.field.ring.is_element(c):
             return f.new(f.numer*c, f.denom)
 
@@ -576,7 +575,7 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify, Generic[Er]):
         else:
             return f.new(f.numer*g_numer, f.denom*g_denom)
 
-    def __truediv__(f, g) -> Self | FracElement | NotImplementedType:
+    def __truediv__(f, g) -> Self | FracElement:
         """Computes quotient of fractions ``f`` and ``g``. """
         field = f.field
 
@@ -609,7 +608,7 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify, Generic[Er]):
         else:
             return f.new(f.numer*g_denom, f.denom*g_numer)
 
-    def __rtruediv__(f, c) -> Self | NotImplementedType:
+    def __rtruediv__(f, c) -> Self:
         if not f:
             raise ZeroDivisionError
         elif f.field.ring.is_element(c):

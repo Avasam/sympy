@@ -14,7 +14,6 @@ from __future__ import annotations
 from ..constructor import construct_domain
 
 from sympy.polys.domains import Domain, ZZ
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -65,19 +64,19 @@ class DomainScalar:
     def __bool__(self):
         return bool(self.element)
 
-    def __add__(self, other) -> NotImplementedType | Self:
+    def __add__(self, other) -> Self:
         if not isinstance(other, DomainScalar):
             return NotImplemented
         self, other = self.unify(other)
         return self.new(self.element + other.element, self.domain)
 
-    def __sub__(self, other) -> NotImplementedType | Self:
+    def __sub__(self, other) -> Self:
         if not isinstance(other, DomainScalar):
             return NotImplemented
         self, other = self.unify(other)
         return self.new(self.element - other.element, self.domain)
 
-    def __mul__(self, other) -> NotImplementedType | Self:
+    def __mul__(self, other) -> Self:
         if not isinstance(other, DomainScalar):
             if isinstance(other, int):
                 other = DomainScalar(ZZ(other), ZZ)
@@ -87,26 +86,26 @@ class DomainScalar:
         self, other = self.unify(other)
         return self.new(self.element * other.element, self.domain)
 
-    def __floordiv__(self, other) -> NotImplementedType | Self:
+    def __floordiv__(self, other) -> Self:
         if not isinstance(other, DomainScalar):
             return NotImplemented
         self, other = self.unify(other)
         return self.new(self.domain.quo(self.element, other.element), self.domain)
 
-    def __mod__(self, other) -> NotImplementedType | Self:
+    def __mod__(self, other) -> Self:
         if not isinstance(other, DomainScalar):
             return NotImplemented
         self, other = self.unify(other)
         return self.new(self.domain.rem(self.element, other.element), self.domain)
 
-    def __divmod__(self, other) -> NotImplementedType | tuple[Self, Self]:
+    def __divmod__(self, other) -> tuple[Self, Self]:
         if not isinstance(other, DomainScalar):
             return NotImplemented
         self, other = self.unify(other)
         q, r = self.domain.div(self.element, other.element)
         return (self.new(q, self.domain), self.new(r, self.domain))
 
-    def __pow__(self, n) -> NotImplementedType | Self:
+    def __pow__(self, n) -> Self:
         if not isinstance(n, int):
             return NotImplemented
         return self.new(self.element**n, self.domain)

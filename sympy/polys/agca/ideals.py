@@ -3,7 +3,6 @@
 from sympy.polys.polyerrors import CoercionFailed
 from sympy.polys.polyutils import IntegerPowerable
 from collections.abc import Generator
-from types import NotImplementedType
 
 
 class Ideal(IntegerPowerable):
@@ -253,7 +252,7 @@ class Ideal(IntegerPowerable):
 
     __radd__ = __add__
 
-    def __mul__(self, e) -> NotImplementedType:
+    def __mul__(self, e):
         if not isinstance(e, Ideal):
             try:
                 e = self.ring.ideal(e)

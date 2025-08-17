@@ -35,7 +35,6 @@ from mpmath.libmp.libmpf import prec_to_dps
 
 import random
 from sympy.core.basic import Basic
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -111,7 +110,7 @@ class Ellipse(GeometrySet):
 
     """
 
-    def __contains__(self, o) -> bool | NotImplementedType:
+    def __contains__(self, o) -> bool:
         if isinstance(o, Point):
             res = self.equation(x, y).subs({x: o.x, y: o.y})
             return trigsimp(simplify(res)) is S.Zero

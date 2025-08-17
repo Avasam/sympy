@@ -59,7 +59,6 @@ from .sdm import SDM
 from .dfm import DFM
 
 from .rref import _dm_rref, _dm_rref_den
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from sympy.matrices.dense import MutableDenseMatrix
@@ -1348,13 +1347,13 @@ class DomainMatrix:
             domain = self.domain
         return self.from_rep(self.rep.applyfunc(func, domain))
 
-    def __add__(A, B) -> NotImplementedType:
+    def __add__(A, B):
         if not isinstance(B, DomainMatrix):
             return NotImplemented
         A, B = A.unify(B, fmt='dense')
         return A.add(B)
 
-    def __sub__(A, B) -> NotImplementedType:
+    def __sub__(A, B):
         if not isinstance(B, DomainMatrix):
             return NotImplemented
         A, B = A.unify(B, fmt='dense')
@@ -1363,7 +1362,7 @@ class DomainMatrix:
     def __neg__(A) -> Self:
         return A.neg()
 
-    def __mul__(A, B) -> DomainMatrix | Self | NotImplementedType:
+    def __mul__(A, B) -> DomainMatrix | Self:
         """A * B"""
         if isinstance(B, DomainMatrix):
             A, B = A.unify(B, fmt='dense')
@@ -1376,7 +1375,7 @@ class DomainMatrix:
         else:
             return NotImplemented
 
-    def __rmul__(A, B) -> DomainMatrix | Self | NotImplementedType:
+    def __rmul__(A, B) -> DomainMatrix | Self:
         if B in A.domain:
             return A.rscalarmul(B)
         elif isinstance(B, DomainScalar):
@@ -1385,7 +1384,7 @@ class DomainMatrix:
         else:
             return NotImplemented
 
-    def __pow__(A, n) -> NotImplementedType | Self:
+    def __pow__(A, n) -> Self:
         """A ** n"""
         if not isinstance(n, int):
             return NotImplemented
@@ -1637,7 +1636,7 @@ class DomainMatrix:
         assert A.domain == B.domain
         return A.from_rep(A.rep.mul_elementwise(B.rep))
 
-    def __truediv__(A, lamda) -> NotImplementedType:
+    def __truediv__(A, lamda):
         """ Method for Scalar Division"""
         if isinstance(lamda, int) or ZZ.of_type(lamda):
             lamda = DomainScalar(ZZ(lamda), ZZ)

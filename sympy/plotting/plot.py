@@ -52,7 +52,6 @@ from sympy.plotting.series import flat # noqa: F401
 from sympy.plotting.backends.base_backend import unset_show # noqa: F401
 from sympy.plotting.backends.matplotlibbackend import _matplotlib_list # noqa: F401
 from sympy.plotting.textplot import textplot # noqa: F401
-from types import NotImplementedType
 
 
 __doctest_requires__ = {
@@ -1132,7 +1131,7 @@ def plot_contour(*args, show=True, **kwargs) -> Plot:
 
 def check_arguments(
     args, expr_len, nb_of_free_symbols
-) -> list | list[tuple | NotImplementedType] | None:
+) -> list | list[tuple] | None:
     """
     Checks the arguments and converts into tuples of the
     form (exprs, ranges).

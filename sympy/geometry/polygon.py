@@ -22,7 +22,6 @@ from mpmath.libmp.libmpf import prec_to_dps
 
 import warnings
 from sympy.core.basic import Basic
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -1340,7 +1339,7 @@ class Polygon(GeometrySet):
         canonical_args = [ D[order] for order in r ]
         return tuple(canonical_args)
 
-    def __contains__(self, o) -> NotImplementedType | bool:
+    def __contains__(self, o) -> bool:
         """
         Return True if o is contained within the boundary lines of self.altitudes
 

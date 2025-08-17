@@ -17,7 +17,6 @@ from .exceptions import DMBadInputError, DMDomainError, DMShapeError
 from sympy.polys.domains import QQ
 
 from .ddm import DDM
-from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -752,14 +751,14 @@ class SDM(dict):
         MT = sdm_transpose(M)
         return M.new(MT, M.shape[::-1], M.domain)
 
-    def __add__(A, B) -> NotImplementedType | Self:
+    def __add__(A, B) -> Self:
         if not isinstance(B, SDM):
             return NotImplemented
         elif A.shape != B.shape:
             raise DMShapeError("Matrix size mismatch: %s + %s" % (A.shape, B.shape))
         return A.add(B)
 
-    def __sub__(A, B) -> NotImplementedType | Self:
+    def __sub__(A, B) -> Self:
         if not isinstance(B, SDM):
             return NotImplemented
         elif A.shape != B.shape:
@@ -769,7 +768,7 @@ class SDM(dict):
     def __neg__(A) -> Self:
         return A.neg()
 
-    def __mul__(A, B) -> Self | NotImplementedType:
+    def __mul__(A, B) -> Self:
         """A * B"""
         if isinstance(B, SDM):
             return A.matmul(B)
@@ -778,7 +777,7 @@ class SDM(dict):
         else:
             return NotImplemented
 
-    def __rmul__(a, b) -> Self | NotImplementedType:
+    def __rmul__(a, b) -> Self:
         if b in a.domain:
             return a.rmul(b)
         else:

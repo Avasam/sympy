@@ -35,7 +35,6 @@ from mpmath.libmp.libmpf import (
 from sympy.utilities.misc import debug
 from sympy.utilities.exceptions import sympy_deprecation_warning
 from .parameters import global_parameters
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -362,7 +361,7 @@ class Number(AtomicExpr):
             return mod_inverse(self, other)
         return invert(self, other, *gens, **args)
 
-    def __divmod__(self, other) -> tuple[Any, Any] | NotImplementedType | tuple:
+    def __divmod__(self, other) -> tuple[Any, Any] | tuple:
         from sympy.functions.elementary.complexes import sign
 
         try:
@@ -392,7 +391,7 @@ class Number(AtomicExpr):
             r = other if w else self
         return Tuple(w, r)
 
-    def __rdivmod__(self, other) -> NotImplementedType | tuple[Any, Any] | tuple:
+    def __rdivmod__(self, other) -> tuple[Any, Any] | tuple:
         try:
             other = Number(other)
         except TypeError:
@@ -480,7 +479,7 @@ class Number(AtomicExpr):
         return AtomicExpr.__sub__(self, other)
 
     @_sympifyit('other', NotImplemented)
-    def __mul__(self, other) -> NotImplementedType:
+    def __mul__(self, other):
         if isinstance(other, Number) and global_parameters.evaluate:
             if other is S.NaN:
                 return S.NaN
@@ -1040,7 +1039,7 @@ class Float(Number):
         return Number.__sub__(self, other)
 
     @_sympifyit('other', NotImplemented)
-    def __mul__(self, other) -> Float | NotImplementedType:
+    def __mul__(self, other) -> Float:
         if isinstance(other, Number) and global_parameters.evaluate:
             rhs, prec = other._as_mpf_op(self._prec)
             return Float._new(mlib.mpf_mul(self._mpf_, rhs, prec, rnd), prec)
@@ -1489,7 +1488,7 @@ class Rational(Number):
                 return Number.__rsub__(self, other)
         return Number.__rsub__(self, other)
     @_sympifyit('other', NotImplemented)
-    def __mul__(self, other) -> Rational | Integer | Float | NotImplementedType:
+    def __mul__(self, other) -> Rational | Integer | Float:
         if global_parameters.evaluate:
             if isinstance(other, Integer):
                 return Rational._new(self.p*other.p, self.q, igcd(other.p, self.q))
@@ -1870,13 +1869,13 @@ class Integer(Rational):
         else:
             return Integer(-self.p)
 
-    def __divmod__(self, other) -> tuple | NotImplementedType:
+    def __divmod__(self, other) -> tuple:
         if isinstance(other, Integer) and global_parameters.evaluate:
             return Tuple(*(divmod(self.p, other.p)))
         else:
             return Number.__divmod__(self, other)
 
-    def __rdivmod__(self, other) -> tuple | NotImplementedType:
+    def __rdivmod__(self, other) -> tuple:
         if isinstance(other, int) and global_parameters.evaluate:
             return Tuple(*(divmod(other, self.p)))
         else:
@@ -1931,7 +1930,7 @@ class Integer(Rational):
             return Rational.__rsub__(self, other)
         return Rational.__rsub__(self, other)
 
-    def __mul__(self, other) -> Integer | Rational | Float | NotImplementedType:
+    def __mul__(self, other) -> Integer | Rational | Float:
         if global_parameters.evaluate:
             if isinstance(other, int):
                 return Integer(self.p*other)
@@ -2149,7 +2148,7 @@ class Integer(Rational):
         return self, S.One
 
     @_sympifyit('other', NotImplemented)
-    def __floordiv__(self, other) -> NotImplementedType | Integer | tuple:
+    def __floordiv__(self, other) -> Integer | tuple:
         if not isinstance(other, Expr):
             return NotImplemented
         if isinstance(other, Integer):
@@ -2166,61 +2165,61 @@ class Integer(Rational):
     # integer types rather than using sympify because they should not accept arbitrary
     # symbolic expressions and there is no symbolic analogue of numbers.Integral's
     # bitwise operations.
-    def __lshift__(self, other) -> Integer | NotImplementedType:
+    def __lshift__(self, other) -> Integer:
         if isinstance(other, (int, Integer, numbers.Integral)):
             return Integer(self.p << int(other))
         else:
             return NotImplemented
 
-    def __rlshift__(self, other) -> Integer | NotImplementedType:
+    def __rlshift__(self, other) -> Integer:
         if isinstance(other, (int, numbers.Integral)):
             return Integer(int(other) << self.p)
         else:
             return NotImplemented
 
-    def __rshift__(self, other) -> Integer | NotImplementedType:
+    def __rshift__(self, other) -> Integer:
         if isinstance(other, (int, Integer, numbers.Integral)):
             return Integer(self.p >> int(other))
         else:
             return NotImplemented
 
-    def __rrshift__(self, other) -> Integer | NotImplementedType:
+    def __rrshift__(self, other) -> Integer:
         if isinstance(other, (int, numbers.Integral)):
             return Integer(int(other) >> self.p)
         else:
             return NotImplemented
 
-    def __and__(self, other) -> Integer | NotImplementedType:
+    def __and__(self, other) -> Integer:
         if isinstance(other, (int, Integer, numbers.Integral)):
             return Integer(self.p & int(other))
         else:
             return NotImplemented
 
-    def __rand__(self, other) -> Integer | NotImplementedType:
+    def __rand__(self, other) -> Integer:
         if isinstance(other, (int, numbers.Integral)):
             return Integer(int(other) & self.p)
         else:
             return NotImplemented
 
-    def __xor__(self, other) -> Integer | NotImplementedType:
+    def __xor__(self, other) -> Integer:
         if isinstance(other, (int, Integer, numbers.Integral)):
             return Integer(self.p ^ int(other))
         else:
             return NotImplemented
 
-    def __rxor__(self, other) -> Integer | NotImplementedType:
+    def __rxor__(self, other) -> Integer:
         if isinstance(other, (int, numbers.Integral)):
             return Integer(int(other) ^ self.p)
         else:
             return NotImplemented
 
-    def __or__(self, other) -> Integer | NotImplementedType:
+    def __or__(self, other) -> Integer:
         if isinstance(other, (int, Integer, numbers.Integral)):
             return Integer(self.p | int(other))
         else:
             return NotImplemented
 
-    def __ror__(self, other) -> Integer | NotImplementedType:
+    def __ror__(self, other) -> Integer:
         if isinstance(other, (int, numbers.Integral)):
             return Integer(int(other) | self.p)
         else:
@@ -3084,7 +3083,7 @@ class Infinity(Number, metaclass=Singleton):
         return (-self).__add__(other)
 
     @_sympifyit('other', NotImplemented)
-    def __mul__(self, other) -> Self | NotImplementedType:
+    def __mul__(self, other) -> Self:
         if isinstance(other, Number) and global_parameters.evaluate:
             if other.is_zero or other is S.NaN:
                 return S.NaN
@@ -3168,7 +3167,7 @@ class Infinity(Number, metaclass=Singleton):
     __le__ = Expr.__le__
 
     @_sympifyit('other', NotImplemented)
-    def __mod__(self, other) -> NotImplementedType:
+    def __mod__(self, other):
         if not isinstance(other, Expr):
             return NotImplemented
         return S.NaN
@@ -3245,7 +3244,7 @@ class NegativeInfinity(Number, metaclass=Singleton):
         return (-self).__add__(other)
 
     @_sympifyit('other', NotImplemented)
-    def __mul__(self, other) -> Self | NotImplementedType:
+    def __mul__(self, other) -> Self:
         if isinstance(other, Number) and global_parameters.evaluate:
             if other.is_zero or other is S.NaN:
                 return S.NaN
@@ -3334,7 +3333,7 @@ class NegativeInfinity(Number, metaclass=Singleton):
     __le__ = Expr.__le__
 
     @_sympifyit('other', NotImplemented)
-    def __mod__(self, other) -> NotImplementedType:
+    def __mod__(self, other):
         if not isinstance(other, Expr):
             return NotImplemented
         return S.NaN

@@ -16,7 +16,6 @@ from sympy.logic.boolalg import Boolean, BooleanAtom
 from sympy.utilities.iterables import sift
 from sympy.utilities.misc import filldedent
 from sympy.utilities.exceptions import sympy_deprecation_warning
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -1163,7 +1162,7 @@ class GreaterThan(_Greater):
         return is_ge(lhs, rhs)
 
     @property
-    def strict(self) -> NotImplementedType | Gt | Eq | Relational | Ne:
+    def strict(self) -> Gt | Eq | Relational | Ne:
         return Gt(*self.args)
 
 Ge = GreaterThan
@@ -1180,7 +1179,7 @@ class LessThan(_Less):
         return is_le(lhs, rhs)
 
     @property
-    def strict(self) -> NotImplementedType | Lt | Eq | Relational | Ne:
+    def strict(self) -> Lt | Eq | Relational | Ne:
         return Lt(*self.args)
 
 Le = LessThan
@@ -1197,7 +1196,7 @@ class StrictGreaterThan(_Greater):
         return is_gt(lhs, rhs)
 
     @property
-    def weak(self) -> NotImplementedType | Ge | Eq | Relational | Ne:
+    def weak(self) -> Ge | Eq | Relational | Ne:
         return Ge(*self.args)
 
 
@@ -1215,7 +1214,7 @@ class StrictLessThan(_Less):
         return is_lt(lhs, rhs)
 
     @property
-    def weak(self) -> NotImplementedType | Le | Eq | Relational | Ne:
+    def weak(self) -> Le | Eq | Relational | Ne:
         return Le(*self.args)
 
 Lt = StrictLessThan

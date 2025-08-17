@@ -1792,7 +1792,7 @@ class Basic(Printable):
             return expr
 
         rv = walk(self, rec_replace)
-        return (rv, mapping) if map else rv  # type: ignore
+        return (rv, mapping) if map else rv # type: ignore
 
     def find(self, query, group=False) -> set | dict:
         """Find all subexpressions matching a query."""

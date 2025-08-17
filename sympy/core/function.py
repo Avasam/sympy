@@ -66,7 +66,6 @@ from mpmath.libmp.libmpf import prec_to_dps
 
 import inspect
 from .kind import Kind
-from types import NotImplementedType
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -2097,7 +2096,7 @@ class Lambda(Expr):
         return symargmap
 
     @property
-    def is_identity(self) -> NotImplementedType | bool:
+    def is_identity(self) -> bool:
         """Return ``True`` if this ``Lambda`` is an identity function. """
         return self.signature == self.expr
 

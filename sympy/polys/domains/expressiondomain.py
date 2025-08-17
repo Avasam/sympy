@@ -8,7 +8,6 @@ from sympy.polys.domains.field import Field
 from sympy.polys.domains.simpledomain import SimpleDomain
 from sympy.polys.polyutils import PicklableWithSlots
 from sympy.utilities import public
-from types import NotImplementedType
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -76,7 +75,7 @@ class ExpressionDomain(Field, CharacteristicZero, SimpleDomain):
         def __lt__(f, g):
             return f.ex.sort_key() < g.ex.sort_key()
 
-        def __add__(f, g) -> NotImplementedType | Self:
+        def __add__(f, g) -> Self:
             g = f._to_ex(g)
 
             if g is None:
@@ -91,7 +90,7 @@ class ExpressionDomain(Field, CharacteristicZero, SimpleDomain):
         def __radd__(f, g) -> Self:
             return f.simplify(f.__class__(g).ex + f.ex)
 
-        def __sub__(f, g) -> NotImplementedType | Self:
+        def __sub__(f, g) -> Self:
             g = f._to_ex(g)
 
             if g is None:
@@ -106,7 +105,7 @@ class ExpressionDomain(Field, CharacteristicZero, SimpleDomain):
         def __rsub__(f, g) -> Self:
             return f.simplify(f.__class__(g).ex - f.ex)
 
-        def __mul__(f, g) -> NotImplementedType | Self:
+        def __mul__(f, g) -> Self:
             g = f._to_ex(g)
 
             if g is None:
@@ -122,7 +121,7 @@ class ExpressionDomain(Field, CharacteristicZero, SimpleDomain):
         def __rmul__(f, g) -> Self:
             return f.simplify(f.__class__(g).ex*f.ex)
 
-        def __pow__(f, n) -> Self | NotImplementedType:
+        def __pow__(f, n) -> Self:
             n = f._to_ex(n)
 
             if n is not None:
@@ -130,7 +129,7 @@ class ExpressionDomain(Field, CharacteristicZero, SimpleDomain):
             else:
                 return NotImplemented
 
-        def __truediv__(f, g) -> Self | NotImplementedType:
+        def __truediv__(f, g) -> Self:
             g = f._to_ex(g)
 
             if g is not None:
