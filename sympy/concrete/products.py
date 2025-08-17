@@ -14,8 +14,7 @@ from sympy.functions.special.tensor_functions import KroneckerDelta
 from sympy.polys import quo, roots
 from sympy.core.basic import Basic
 from sympy.core.relational import Equality, Ne, Relational
-from sympy.series.order import Order
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -255,7 +254,7 @@ class Product(ExprWithIntLimits):
         if self.has_finite_limits and self.function.is_finite:
             return True
 
-    def doit(self, **hints) -> tuple | Self | Basic | Equality | Order | Relational | Ne | Any:
+    def doit(self, **hints):
         # first make sure any definite limits have product
         # variables with matching assumptions
         reps = {}

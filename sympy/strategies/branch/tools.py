@@ -1,7 +1,7 @@
 from .core import exhaust, multiplex
 from .traverse import top_down
 from collections.abc import Generator
-from typing import Any, Callable
+from typing import Callable
 
 
 def canon(*rules) -> Callable[..., Generator]:

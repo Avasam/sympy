@@ -997,7 +997,7 @@ class BaseScalarField(Expr):
         return simplify(coords[self._index]).doit()
 
     # XXX Workaround for limitations on the content of args
-    free_symbols: set = set()
+    free_symbols = set()
 
 
 class BaseVectorField(Expr):

@@ -2008,7 +2008,7 @@ def udivisors(
     return rv if generator else sorted(rv)
 
 
-def udivisor_count(n) -> Any | int:
+def udivisor_count(n):
     """
     Return the number of unitary divisors of ``n``.
 

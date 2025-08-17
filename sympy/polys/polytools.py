@@ -73,10 +73,9 @@ if TYPE_CHECKING:
     from sympy.combinatorics.galois import S1TransitiveSubgroups, S2TransitiveSubgroups, S3TransitiveSubgroups
     from sympy.combinatorics.perm_groups import PermutationGroup
     from sympy.series.order import Order
-    from functools import _Wrapped
 
 
-def _polifyit(func) -> _Wrapped[..., Any, ..., Any]:
+def _polifyit(func):
     @wraps(func)
     def wrapper(f, g):
         g = _sympify(g)
@@ -1121,7 +1120,7 @@ class Poly(Basic):
 
         return basic_from_dict(f.rep.to_sympy_dict(), *gens)
 
-    def as_poly(self, *gens, **args) -> Any | None:
+    def as_poly(self, *gens, **args):
         """Converts ``self`` to a polynomial or returns ``None``.
 
         >>> from sympy import sin
@@ -5641,7 +5640,7 @@ def invert(f, g, *gens, **args):
 
 
 @public
-def subresultants(f, g, *gens, **args) -> list | Any:
+def subresultants(f, g, *gens, **args):
     """
     Compute subresultant PRS of ``f`` and ``g``.
 
@@ -5918,7 +5917,7 @@ def gcd(f, g=None, *gens, **args):
 
 
 @public
-def lcm_list(seq, *gens, **args) -> Expr | Any:
+def lcm_list(seq, *gens, **args):
     """
     Compute LCM of a list of polynomials.
 
@@ -6326,7 +6325,7 @@ def compose(f, g, *gens, **args):
 
 
 @public
-def decompose(f, *gens, **args) -> list | Any:
+def decompose(f, *gens, **args):
     """
     Compute functional decomposition of ``f``.
 
@@ -6356,7 +6355,7 @@ def decompose(f, *gens, **args) -> list | Any:
 
 
 @public
-def sturm(f, *gens, **args) -> list | Any:
+def sturm(f, *gens, **args):
     """
     Compute Sturm sequence of ``f``.
 
@@ -6386,7 +6385,7 @@ def sturm(f, *gens, **args) -> list | Any:
 
 
 @public
-def gff_list(f, *gens, **args) -> list[tuple[Any, Any]] | Any:
+def gff_list(f, *gens, **args):
     """
     Compute a list of greatest factorial factors of ``f``.
 
@@ -6896,7 +6895,7 @@ def factor_list(
 
 
 @public
-def factor(f, *gens, deep=False, **args) -> Add | Order | Mul | Expr | Any:
+def factor(f, *gens, deep=False, **args):
     """
     Compute the factorization of expression, ``f``, into irreducibles. (To
     factor an integer into primes, use ``factorint``.)
@@ -6997,7 +6996,7 @@ def factor(f, *gens, deep=False, **args) -> Add | Order | Mul | Expr | Any:
 @public
 def intervals(
     F, all=False, eps=None, inf=None, sup=None, strict=False, fast=False, sqf=False
-) -> list | Any:
+):
     """
     Compute isolating intervals for roots of ``f``.
 

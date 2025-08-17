@@ -11,7 +11,7 @@ from sympy.utilities import public
 
 from mpmath import MPContext
 from mpmath.libmp import to_rational as _mpmath_to_rational
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -177,7 +177,7 @@ class RealField(Field, CharacteristicZero, SimpleDomain):
     def from_RealField(self, element, base):
         return self.dtype(element)
 
-    def from_ComplexField(self, element, base) -> Any | None:
+    def from_ComplexField(self, element, base):
         if not element.imag:
             return self.dtype(element.real)
 

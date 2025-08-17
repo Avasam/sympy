@@ -897,7 +897,7 @@ def symbols(names, *, cls: Any = Symbol, **args) -> Any:
         return type(names)(result)
 
 
-def var(names, **args) -> Basic | FunctionClass | Any:
+def var(names, **args):
     """
     Create symbols and inject them into the global namespace.
 

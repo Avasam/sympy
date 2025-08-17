@@ -152,7 +152,7 @@ class SingleDiscreteDistribution(DiscreteDistribution, NamedArgsMixin):
                 return quantile
         return self.compute_quantile(**kwargs)(x)
 
-    def expectation(self, expr, var, evaluate=True, **kwargs) -> Any | Equality | Relational | Ne | Sum | int:
+    def expectation(self, expr, var, evaluate=True, **kwargs):
         """ Expectation of expression over distribution """
         # TODO: support discrete sets with non integer stepsizes
 

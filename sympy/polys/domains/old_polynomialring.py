@@ -14,7 +14,6 @@ from sympy.polys.polyutils import dict_from_basic, basic_from_dict, _dict_reorde
 from sympy.utilities import public
 from sympy.utilities.iterables import iterable
 from sympy.series.order import Order
-from typing import Any
 
 
 @public
@@ -412,7 +411,7 @@ class GeneralizedPolynomialRing(PolynomialRingBase):
 
 
 @public
-def PolynomialRing(dom, *gens, **opts) -> Any | GeneralizedPolynomialRing:
+def PolynomialRing(dom, *gens, **opts):
     r"""
     Create a generalized multivariate polynomial ring.
 

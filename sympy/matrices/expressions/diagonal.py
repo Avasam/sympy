@@ -154,7 +154,7 @@ class DiagonalOf(MatrixExpr):
         return m, S.One
 
     @property
-    def diagonal_length(self) -> Any | None:
+    def diagonal_length(self):
         return self.shape[0]
 
     def _entry(self, i, j, **kwargs):

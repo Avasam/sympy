@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 
-def get_class(lookup_view) -> Any | str:
+def get_class(lookup_view):
     """
     Convert a string version of a class name to the object.
 

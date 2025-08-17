@@ -1957,7 +1957,7 @@ def __remove_linear_redundancies(expr, Cs):
 @vectorize(0)
 def constantsimp(
     expr, constants
-) -> list[list | Any] | Eq | Relational | Ne | Add | Basic | Any:
+):
     r"""
     Simplifies an expression with arbitrary constants in it.
 
@@ -2229,7 +2229,7 @@ def _handle_Integral(expr, func, hint):
 # XXX: Should this function maybe go somewhere else?
 
 
-def homogeneous_order(eq, *symbols) -> Any | None:
+def homogeneous_order(eq, *symbols):
     r"""
     Returns the order `n` if `g` is homogeneous and ``None`` if it is not
     homogeneous.

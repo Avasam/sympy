@@ -45,7 +45,6 @@ from sympy.utilities.misc import Undecidable, filldedent
 import random
 from sympy.core.basic import Basic
 from sympy.core.function import UndefinedFunction
-from sympy.core.power import Pow
 from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
@@ -1279,7 +1278,7 @@ class Line(LinearEntity):
             return Point.is_collinear(self.p1, self.p2, other.p1, other.p2)
         return False
 
-    def distance(self, other) -> Pow | Any:
+    def distance(self, other):
         """
         Finds the shortest distance between a line and a point.
 
@@ -1710,7 +1709,7 @@ class Segment(LinearEntity):
         return isinstance(other, self.func) and list(
             ordered(self.args)) == list(ordered(other.args))
 
-    def distance(self, other) -> Pow | Any:
+    def distance(self, other):
         """
         Finds the shortest distance between a line segment and a point.
 
@@ -1754,7 +1753,7 @@ class Segment(LinearEntity):
         raise NotImplementedError()
 
     @property
-    def length(self) -> Pow | Any:
+    def length(self):
         """The length of the line segment.
 
         See Also

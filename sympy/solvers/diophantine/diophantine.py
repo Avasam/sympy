@@ -489,7 +489,7 @@ class BinaryQuadratic(DiophantineEquationType):
 
     name = 'binary_quadratic'
 
-    def matches(self) -> Any | bool:
+    def matches(self):
         return self.total_degree == 2 and self.dimension == 2
 
     def solve(self, parameters=None, limit=None) -> DiophantineSolutionSet:
@@ -1129,7 +1129,7 @@ class CubicThue(DiophantineEquationType):
 
     name = 'cubic_thue'
 
-    def matches(self) -> Any | bool:
+    def matches(self):
         return self.total_degree == 3 and self.dimension == 2
 
 

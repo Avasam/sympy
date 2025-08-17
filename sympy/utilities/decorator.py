@@ -16,7 +16,7 @@ T = TypeVar('T')
 """A generic type"""
 
 
-def threaded_factory(func, use_add) -> _Wrapped[..., Any, ..., Any]:
+def threaded_factory(func, use_add):
     """A factory for ``threaded`` decorators. """
     from sympy.core import sympify
     from sympy.matrices import MatrixBase
@@ -45,7 +45,7 @@ def threaded_factory(func, use_add) -> _Wrapped[..., Any, ..., Any]:
     return threaded_func
 
 
-def threaded(func) -> _Wrapped[..., Any, ..., Any]:
+def threaded(func):
     """Apply ``func`` to sub--elements of an object, including :class:`~.Add`.
 
     This decorator is intended to make it uniformly possible to apply a
@@ -65,7 +65,7 @@ def threaded(func) -> _Wrapped[..., Any, ..., Any]:
     return threaded_factory(func, True)
 
 
-def xthreaded(func) -> _Wrapped[..., Any, ..., Any]:
+def xthreaded(func):
     """Apply ``func`` to sub--elements of an object, excluding :class:`~.Add`.
 
     This decorator is intended to make it uniformly possible to apply a

@@ -3,7 +3,7 @@ import itertools
 from sympy.concrete.summations import Sum
 from sympy.core.add import Add
 from sympy.core.expr import Expr
-from sympy.core.function import Lambda, expand as _expand
+from sympy.core.function import expand as _expand
 from sympy.core.mul import Mul
 from sympy.core.relational import Eq
 from sympy.core.singleton import S
@@ -25,7 +25,6 @@ from sympy.core.basic import Basic
 from sympy.functions.elementary.piecewise import Piecewise
 
 if TYPE_CHECKING:
-    from sympy.stats.frv_types import BernoulliDistribution
     from sympy.stats.symbolic_multivariate_probability import CrossCovarianceMatrix, ExpectationMatrix, VarianceMatrix
     from typing_extensions import Self
 
@@ -81,7 +80,7 @@ class Probability(Expr):
         obj._condition = condition
         return obj
 
-    def doit(self, **hints) -> Any | BernoulliDistribution | Probability | Equality | Lambda | Order | Relational | Ne | int:
+    def doit(self, **hints):
         condition = self.args[0]
         given_condition = self._condition
         numsamples = hints.get('numsamples', False)
@@ -139,7 +138,7 @@ class Probability(Expr):
 
     _eval_rewrite_as_Sum = _eval_rewrite_as_Integral
 
-    def evaluate_integral(self) -> Any | BernoulliDistribution | Probability | Equality | Lambda | Order | Relational | Ne | int:
+    def evaluate_integral(self):
         return self.rewrite(Integral).doit()
 
 
@@ -477,7 +476,7 @@ class Variance(Expr):
 
     _eval_rewrite_as_Sum = _eval_rewrite_as_Integral
 
-    def evaluate_integral(self) -> Self | Any:
+    def evaluate_integral(self):
         return self.rewrite(Integral).doit()
 
 
@@ -616,7 +615,7 @@ class Covariance(Expr):
 
     _eval_rewrite_as_Sum = _eval_rewrite_as_Integral
 
-    def evaluate_integral(self) -> Self | Any:
+    def evaluate_integral(self):
         return self.rewrite(Integral).doit()
 
 

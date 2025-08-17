@@ -51,7 +51,6 @@ from sympy.solvers.solvers import solve
 from sympy.simplify.radsimp import collect
 
 import operator
-from typing import Any
 
 
 allhints = (
@@ -64,7 +63,7 @@ allhints = (
 
 def pdsolve(
     eq, func=None, hint="default", dict=False, solvefun=None, **kwargs
-) -> dict | Any:
+):
     """
     Solves any (supported) kind of partial differential equation.
 
@@ -367,7 +366,7 @@ def classify_pde(eq, func=None, dict=False, *, prep=True, **kwargs):
     return rettuple
 
 
-def checkpdesol(pde, sol, func=None, solve_for_func=True) -> Any | tuple[bool, Any]:
+def checkpdesol(pde, sol, func=None, solve_for_func=True):
     """
     Checks if the given solution satisfies the partial differential
     equation.

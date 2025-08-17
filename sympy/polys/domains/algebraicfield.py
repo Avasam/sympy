@@ -455,7 +455,7 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain[Er], Generic[Er, Eg
         self._maximal_order = ZK
         self._discriminant = dK
 
-    def maximal_order(self) -> Any | None:
+    def maximal_order(self):
         """
         Compute the maximal order, or ring of integers, of the field.
 
@@ -529,7 +529,7 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain[Er], Generic[Er, Eg
             return [self.to_alg_num(b) for b in B]
         return B
 
-    def discriminant(self) -> Any | None:
+    def discriminant(self):
         """Get the discriminant of the field."""
         if self._discriminant is None:
             self._do_round_two()

@@ -1012,7 +1012,7 @@ class TransferFunction(SISOLinearTimeInvariant):
         m = Mul(self.num, Pow(self.den, -1, evaluate=False), evaluate=False)
         return limit(m, self.var, 0)
 
-    def poles(self) -> list | Any:
+    def poles(self):
         """
         Returns the poles of a transfer function.
 
@@ -1034,7 +1034,7 @@ class TransferFunction(SISOLinearTimeInvariant):
         """
         return _roots(Poly(self.den, self.var), self.var)
 
-    def zeros(self) -> list | Any:
+    def zeros(self):
         """
         Returns the zeros of a transfer function.
 

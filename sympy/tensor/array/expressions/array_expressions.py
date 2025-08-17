@@ -1526,7 +1526,7 @@ class ArrayContraction(_CodegenArrayAbstract):
         args, dlinks = _get_contraction_links([self], self.subranks, *self.contraction_indices)
         return dlinks
 
-    def as_explicit(self) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray | Any:
+    def as_explicit(self):
         expr = self.expr
         if hasattr(expr, "as_explicit"):
             expr = expr.as_explicit()

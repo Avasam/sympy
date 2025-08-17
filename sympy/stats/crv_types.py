@@ -84,13 +84,13 @@ from sympy.functions.special.error_functions import (erf, erfc, erfi, erfinv, ex
 from sympy.functions.special.gamma_functions import (gamma, lowergamma, uppergamma)
 from sympy.functions.special.zeta_functions import zeta
 from sympy.functions.special.hyper import hyper
-from sympy.integrals.integrals import integrate, Integral
+from sympy.integrals.integrals import integrate
 from sympy.logic.boolalg import And
 from sympy.sets.sets import Interval, FiniteSet
 from sympy.matrices import MatrixBase
 from sympy.stats.crv import SingleContinuousPSpace, SingleContinuousDistribution
 from sympy.stats.rv import RandomSymbol, _value_check, is_random
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from sympy.stats.joint_rv import JointRandomSymbol
@@ -4330,7 +4330,7 @@ class UniformDistribution(SingleContinuousDistribution):
         return Piecewise(((exp(t*right) - exp(t*left)) / (t * (right - left)), Ne(t, 0)),
                          (S.One, True))
 
-    def expectation(self, expr, var, **kwargs) -> Equality | Basic | Relational | Ne | Integral | Any:
+    def expectation(self, expr, var, **kwargs):
         kwargs['evaluate'] = True
         result = SingleContinuousDistribution.expectation(self, expr, var, **kwargs)
         result = result.subs({Max(self.left, self.right): self.right,

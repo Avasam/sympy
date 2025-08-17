@@ -128,7 +128,7 @@ def convolution(
 #                                                                            #
 #----------------------------------------------------------------------------#
 
-def convolution_fft(a, b, dps=None) -> list | Any:
+def convolution_fft(a, b, dps=None):
     """
     Performs linear convolution using Fast Fourier Transform.
 
@@ -184,7 +184,7 @@ def convolution_fft(a, b, dps=None) -> list | Any:
 #                                                                            #
 #----------------------------------------------------------------------------#
 
-def convolution_ntt(a, b, prime) -> list[int] | list[Any | int] | Any:
+def convolution_ntt(a, b, prime):
     """
     Performs linear convolution using Number Theoretic Transform.
 
@@ -239,7 +239,7 @@ def convolution_ntt(a, b, prime) -> list[int] | list[Any | int] | Any:
 #                                                                            #
 #----------------------------------------------------------------------------#
 
-def convolution_fwht(a, b) -> list | Any:
+def convolution_fwht(a, b):
     """
     Performs dyadic (*bitwise-XOR*) convolution using Fast Walsh Hadamard
     Transform.
@@ -305,7 +305,7 @@ def convolution_fwht(a, b) -> list | Any:
 #                                                                            #
 #----------------------------------------------------------------------------#
 
-def convolution_subset(a, b) -> list | Any:
+def convolution_subset(a, b):
     """
     Performs Subset Convolution of given sequences.
 
@@ -382,7 +382,7 @@ def convolution_subset(a, b) -> list | Any:
 #                                                                            #
 #----------------------------------------------------------------------------#
 
-def covering_product(a, b) -> list | Any:
+def covering_product(a, b):
     """
     Returns the covering product of given sequences.
 
@@ -452,7 +452,7 @@ def covering_product(a, b) -> list | Any:
 #                                                                            #
 #----------------------------------------------------------------------------#
 
-def intersecting_product(a, b) -> list | Any:
+def intersecting_product(a, b):
     """
     Returns the intersecting product of given sequences.
 

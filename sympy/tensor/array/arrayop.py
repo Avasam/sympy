@@ -16,7 +16,7 @@ from sympy.core.basic import Basic
 
 if TYPE_CHECKING:
     from sympy.tensor.array.array_derivatives import ArrayDerivative
-    from sympy.tensor.array.expressions.array_expressions import ArrayDiagonal, ZeroArray, ArrayTensorProduct, ArrayContraction, PermuteDims
+    from sympy.tensor.array.expressions.array_expressions import ZeroArray, ArrayTensorProduct, ArrayContraction, PermuteDims
     from typing_extensions import Self
 
 
@@ -152,7 +152,7 @@ def _util_contraction_diagonal(array, *contraction_or_diagonal_axes):
     return array, remaining_indices, remaining_shape, summed_deltas
 
 
-def tensorcontraction(array, *contraction_axes) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray | Any:
+def tensorcontraction(array, *contraction_axes):
     """
     Contraction of an array-like object on the specified axes.
 
@@ -229,7 +229,7 @@ def tensorcontraction(array, *contraction_axes) -> Basic | ZeroArray | ArrayTens
     return type(array)(contracted_array, remaining_shape)
 
 
-def tensordiagonal(array, *diagonal_axes) -> ZeroArray | ArrayTensorProduct | ArrayContraction | Basic | PermuteDims | ArrayDiagonal | ImmutableDenseNDimArray | Any:
+def tensordiagonal(array, *diagonal_axes):
     """
     Diagonalization of an array-like object on the specified axes.
 

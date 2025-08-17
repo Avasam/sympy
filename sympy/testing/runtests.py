@@ -2025,7 +2025,7 @@ class PyTestReporter(Reporter):
         self._root_dir = dir
 
     @property
-    def terminal_width(self) -> Any | int:
+    def terminal_width(self):
         if self._terminal_width is not None:
             return self._terminal_width
 

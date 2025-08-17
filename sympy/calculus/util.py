@@ -26,7 +26,6 @@ from sympy.sets.conditionset import ConditionSet
 from sympy.utilities import filldedent
 from sympy.utilities.iterables import iterable
 from sympy.matrices.dense import hessian
-from typing import Any
 
 
 def continuous_domain(f, symbol, domain):
@@ -631,7 +630,7 @@ def _periodicity(args, symbol):
         return periods[0]
 
 
-def lcim(numbers) -> Any | None:
+def lcim(numbers):
     """Returns the least common integral multiple of a list of numbers.
 
     The numbers can be rational or irrational or a mixture of both.

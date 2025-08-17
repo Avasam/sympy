@@ -4902,7 +4902,7 @@ class PermutationGroup(Basic):
         group = FpGroup(F, rels)
         return simplify_presentation(group)
 
-    def presentation(self, eliminate_gens=True) -> FpGroup | tuple[Any, Any] | tuple[Any | list, Any | list] | Any:
+    def presentation(self, eliminate_gens=True):
         '''
         Return an `FpGroup` presentation of the group.
 

@@ -35,7 +35,6 @@ from mpmath.libmp.libmpf import prec_to_dps
 
 import random
 from sympy.core.basic import Basic
-from sympy.core.power import Pow
 from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
@@ -567,7 +566,7 @@ class Ellipse(GeometrySet):
             return (c + Point(-fd, 0), c + Point(fd, 0))
 
     @property
-    def focus_distance(self) -> Pow | Any:
+    def focus_distance(self):
         """The focal distance of the ellipse.
 
         The distance between the center and one focus.

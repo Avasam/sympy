@@ -813,7 +813,7 @@ class Basic(Printable):
             reps[b] = d
         return reps
 
-    def rcall(self, *args) -> Symbol | Any:
+    def rcall(self, *args):
         """Apply on the argument recursively through the expression tree.
 
         This method is used to simulate a common abuse of notation for
@@ -1978,7 +1978,7 @@ class Basic(Printable):
         else:
             return None
 
-    def rewrite(self, *args, deep=True, **hints) -> Self | Any:
+    def rewrite(self, *args, deep=True, **hints):
         """
         Rewrite *self* using a defined rule.
 

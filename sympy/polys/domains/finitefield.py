@@ -15,7 +15,7 @@ from sympy.polys.galoistools import gf_zassenhaus, gf_irred_p_rabin
 from sympy.polys.polyerrors import CoercionFailed
 from sympy.utilities import public
 from sympy.polys.domains.groundtypes import SymPyInteger
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -256,7 +256,7 @@ class FiniteField(Field, SimpleDomain):
         return isinstance(other, FiniteField) and \
             self.mod == other.mod and self.dom == other.dom
 
-    def characteristic(self) -> Any | None:
+    def characteristic(self):
         """Return the characteristic of this domain. """
         return self.mod
 
@@ -268,7 +268,7 @@ class FiniteField(Field, SimpleDomain):
         """Convert ``a`` to a SymPy object. """
         return SymPyInteger(self.to_int(a))
 
-    def from_sympy(self, a) -> Any | Self:
+    def from_sympy(self, a):
         """Convert SymPy's Integer to SymPy's ``Integer``. """
         if a.is_Integer or int_valued(a):
             return self.dtype(self.dom.dtype(int(a)))
@@ -297,46 +297,46 @@ class FiniteField(Field, SimpleDomain):
         """Returns True if ``a`` is non-positive. """
         return not a
 
-    def from_FF(K1, a, K0=None) -> Any | Self:
+    def from_FF(K1, a, K0=None):
         """Convert ``ModularInteger(int)`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ(int(a), K0.dom))
 
-    def from_FF_python(K1, a, K0=None) -> Any | Self:
+    def from_FF_python(K1, a, K0=None):
         """Convert ``ModularInteger(int)`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ_python(int(a), K0.dom))
 
-    def from_ZZ(K1, a, K0=None) -> Any | Self:
+    def from_ZZ(K1, a, K0=None):
         """Convert Python's ``int`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ_python(a, K0))
 
-    def from_ZZ_python(K1, a, K0=None) -> Any | Self:
+    def from_ZZ_python(K1, a, K0=None):
         """Convert Python's ``int`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ_python(a, K0))
 
-    def from_QQ(K1, a, K0=None) -> Any | Self | None:
+    def from_QQ(K1, a, K0=None):
         """Convert Python's ``Fraction`` to ``dtype``. """
         if a.denominator == 1:
             return K1.from_ZZ_python(a.numerator)
 
-    def from_QQ_python(K1, a, K0=None) -> Any | Self | None:
+    def from_QQ_python(K1, a, K0=None):
         """Convert Python's ``Fraction`` to ``dtype``. """
         if a.denominator == 1:
             return K1.from_ZZ_python(a.numerator)
 
-    def from_FF_gmpy(K1, a, K0=None) -> Any | Self:
+    def from_FF_gmpy(K1, a, K0=None):
         """Convert ``ModularInteger(mpz)`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ_gmpy(a.val, K0.dom))
 
-    def from_ZZ_gmpy(K1, a, K0=None) -> Any | Self:
+    def from_ZZ_gmpy(K1, a, K0=None):
         """Convert GMPY's ``mpz`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ_gmpy(a, K0))
 
-    def from_QQ_gmpy(K1, a, K0=None) -> Any | Self | None:
+    def from_QQ_gmpy(K1, a, K0=None):
         """Convert GMPY's ``mpq`` to ``dtype``. """
         if a.denominator == 1:
             return K1.from_ZZ_gmpy(a.numerator)
 
-    def from_RealField(K1, a, K0) -> Any | Self | None:
+    def from_RealField(K1, a, K0):
         """Convert mpmath's ``mpf`` to ``dtype``. """
         p, q = K0.to_rational(a)
 

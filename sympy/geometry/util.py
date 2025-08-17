@@ -31,10 +31,6 @@ from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.utilities.iterables import is_sequence
 
 from mpmath.libmp.libmpf import prec_to_dps
-from ast import Add
-from sympy.core.basic import Basic
-from sympy.core.mul import Mul
-from sympy.series.order import Order
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -155,7 +151,7 @@ def are_coplanar(*e) -> bool:
         return are_coplanar(*pt3d)
 
 
-def are_similar(e1, e2) -> Any | bool:
+def are_similar(e1, e2):
     """Are two geometrical entities similar.
 
     Can one geometrical entity be uniformly scaled to the other?
@@ -585,7 +581,7 @@ def farthest_points(*args) -> set[tuple[Any, Any]]:
     return set(rv)
 
 
-def idiff(eq, y, x, n=1) -> Basic | Add | Order | Mul | Any | None:
+def idiff(eq, y, x, n=1):
     """Return ``dy/dx`` assuming that ``eq == 0``.
 
     Parameters

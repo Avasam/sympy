@@ -2740,27 +2740,27 @@ def _apply_operation(op, x, y, commutative):
     return out
 
 
-def set_add(x, y) -> Any | FiniteSet | ImageSet | Union:
+def set_add(x, y):
     from sympy.sets.handlers.add import _set_add
     return _apply_operation(_set_add, x, y, commutative=True)
 
 
-def set_sub(x, y) -> Any | FiniteSet | ImageSet | Union:
+def set_sub(x, y):
     from sympy.sets.handlers.add import _set_sub
     return _apply_operation(_set_sub, x, y, commutative=False)
 
 
-def set_mul(x, y) -> Any | FiniteSet | ImageSet | Union:
+def set_mul(x, y):
     from sympy.sets.handlers.mul import _set_mul
     return _apply_operation(_set_mul, x, y, commutative=True)
 
 
-def set_div(x, y) -> Any | FiniteSet | ImageSet | Union:
+def set_div(x, y):
     from sympy.sets.handlers.mul import _set_div
     return _apply_operation(_set_div, x, y, commutative=False)
 
 
-def set_pow(x, y) -> Any | FiniteSet | ImageSet | Union:
+def set_pow(x, y):
     from sympy.sets.handlers.power import _set_pow
     return _apply_operation(_set_pow, x, y, commutative=False)
 

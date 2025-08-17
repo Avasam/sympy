@@ -40,9 +40,8 @@ from .entity import GeometryEntity
 from mpmath.libmp.libmpf import prec_to_dps
 from collections.abc import Iterator
 from sympy.core.basic import Basic
-from sympy.core.power import Pow
 from sympy.series.order import Order
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -187,7 +186,7 @@ class Point(GeometryEntity):
         # the general Point
         return GeometryEntity.__new__(cls, *coords)
 
-    def __abs__(self) -> Pow | Any:
+    def __abs__(self):
         """Returns the distance between this point and the origin."""
         origin = Point([0]*len(self))
         return Point.distance(origin, self)
@@ -343,7 +342,7 @@ class Point(GeometryEntity):
             abs(x.n(2)) < 1e-12 if x.is_number else x.is_zero)
 
     @property
-    def ambient_dimension(self) -> Any | int:
+    def ambient_dimension(self):
         """Number of components this point has."""
         return getattr(self, '_ambient_dimension', len(self))
 
@@ -393,7 +392,7 @@ class Point(GeometryEntity):
         points = list(uniq(points))
         return Point.affine_rank(*points) <= 2
 
-    def distance(self, other) -> Pow | Any:
+    def distance(self, other):
         """The Euclidean distance between self and another GeometricEntity.
 
         Returns
@@ -860,7 +859,7 @@ class Point(GeometryEntity):
         return Add(*((abs(a - b)/(abs(a) + abs(b))) for a, b in zip(s, p)))
 
     @property
-    def unit(self) -> Point | Point2D | Point3D | Any:
+    def unit(self):
         """Return the Point that is in the same direction as `self`
         and a distance of 1 from the origin"""
         return self / abs(self)

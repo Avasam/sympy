@@ -86,7 +86,7 @@ def _add_splines(c, b1, d, b2, x):
 
 
 @lru_cache(maxsize=128)
-def bspline_basis(d, knots, n, x) -> Piecewise | Order | Any:
+def bspline_basis(d, knots, n, x):
     """
     The $n$-th B-spline at $x$ of degree $d$ with knots.
 

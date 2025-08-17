@@ -1163,7 +1163,7 @@ class Expr(Basic, EvalfMixin):
         """Return list of ordered factors (if Mul) else [self]."""
         return [self]
 
-    def as_poly(self, *gens, **args) -> Any | None:
+    def as_poly(self, *gens, **args):
         """Converts ``self`` to a polynomial or returns ``None``.
 
         Explanation
@@ -3840,7 +3840,7 @@ class Expr(Basic, EvalfMixin):
         from sympy.simplify.combsimp import combsimp
         return combsimp(self)
 
-    def gammasimp(self) -> Self | Any:
+    def gammasimp(self):
         """See the gammasimp function in sympy.simplify"""
         from sympy.simplify.gammasimp import gammasimp
         return gammasimp(self)
@@ -3855,7 +3855,7 @@ class Expr(Basic, EvalfMixin):
         from sympy.polys.polytools import cancel
         return cancel(self, *gens, **args)
 
-    def invert(self, g, *gens, **args) -> int | Any:
+    def invert(self, g, *gens, **args):
         """Return the multiplicative inverse of ``self`` mod ``g``
         where ``self`` (and ``g``) may be symbolic expressions).
 

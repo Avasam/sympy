@@ -9,7 +9,7 @@ the separate 'factorials' module.
 from __future__ import annotations
 from math import prod
 from collections import defaultdict
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Callable
 
 from sympy.core import S, Symbol, Add, Dummy
 from sympy.core.cache import cacheit
@@ -18,7 +18,7 @@ from sympy.core.expr import Expr
 from sympy.core.function import UndefinedFunction, ArgumentIndexError, DefinedFunction, expand_mul
 from sympy.core.logic import fuzzy_not
 from sympy.core.mul import Mul
-from sympy.core.numbers import Float, E, I, pi, oo, Rational, Integer
+from sympy.core.numbers import E, I, pi, oo, Rational, Integer
 from sympy.core.relational import Eq, is_le, is_gt, is_lt
 from sympy.external.gmpy import SYMPY_INTS, remove, lcm, legendre, jacobi, kronecker
 from sympy.functions.combinatorial.factorials import (binomial,
@@ -545,7 +545,7 @@ class bernoulli(DefinedFunction):
     _highest = {0: 0, 1: 1, 2: 2, 4: 4}
 
     @classmethod
-    def eval(cls, n, x=None) -> Self | Rational | Integer | Float | Any | None:
+    def eval(cls, n, x=None):
         if x is S.One:
             return cls(n)
         elif n.is_zero:
@@ -1121,7 +1121,7 @@ class euler(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, n, x=None) -> Integer | Any | None:
+    def eval(cls, n, x=None):
         if n.is_zero:
             return S.One
         elif n is S.NegativeOne:
@@ -1403,7 +1403,7 @@ class genocchi(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, n, x=None) -> Self | Any | None:
+    def eval(cls, n, x=None):
         if x is S.One:
             return cls(n)
         elif n.is_integer is False or n.is_nonnegative is False:

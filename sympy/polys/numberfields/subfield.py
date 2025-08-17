@@ -137,7 +137,7 @@ def field_isomorphism_pslq(a, b) -> list | None:
     return None
 
 
-def field_isomorphism_factor(a, b) -> Any | None:
+def field_isomorphism_factor(a, b):
     """Construct field isomorphism via factorization. """
     _, factors = factor_list(a.minpoly, extension=b)
     for f, _ in factors:
@@ -162,7 +162,7 @@ def field_isomorphism_factor(a, b) -> Any | None:
 
 
 @public
-def field_isomorphism(a, b, *, fast=True) -> list | Any | None:
+def field_isomorphism(a, b, *, fast=True):
     r"""
     Find an embedding of one number field into another.
 

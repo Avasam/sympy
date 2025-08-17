@@ -1019,7 +1019,7 @@ class WildFunction(Function, AtomicExpr):  # type: ignore
     """
 
     # XXX: What is this class attribute used for?
-    include: set = set()
+    include = set()
 
     def __init__(cls, name, **assumptions) -> None:
         from sympy.sets.sets import Set, FiniteSet

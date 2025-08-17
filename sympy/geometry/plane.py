@@ -315,7 +315,7 @@ class Plane(GeometryEntity):
         return abs(d)
 
 
-    def equals(self, o) -> Any | bool:
+    def equals(self, o):
         """
         Returns True if self and o are the same mathematical entities.
 

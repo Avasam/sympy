@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any, TYPE_CHECKING
+from typing import Any
 
 from functools import wraps
 
@@ -14,15 +14,12 @@ from sympy.functions.elementary.complexes import re
 from sympy.printing.str import StrPrinter
 from sympy.printing.precedence import precedence, PRECEDENCE
 
-if TYPE_CHECKING:
-    from functools import _Wrapped
-
 class requires:
     """ Decorator for registering requirements on print methods. """
     def __init__(self, **kwargs) -> None:
         self._req = kwargs
 
-    def __call__(self, method) -> _Wrapped[..., Any, ..., Any]:
+    def __call__(self, method):
         def _method_wrapper(self_, *args, **kwargs):
             for k, v in self._req.items():
                 getattr(self_, k).update(v)

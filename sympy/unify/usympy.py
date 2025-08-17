@@ -11,7 +11,7 @@ from sympy.sets.sets import Union, Intersection, FiniteSet
 from sympy.unify.core import Compound, Variable, CondVariable
 from sympy.unify import core
 from collections.abc import Generator
-from typing import Any, Callable
+from typing import Callable
 
 basic_new_legal = [MatrixExpr]
 eval_false_legal = [AssocOp, Pow, FiniteSet]
@@ -66,7 +66,7 @@ def construct(t):
     else:
         return t.op(*map(construct, t.args))
 
-def rebuild(s) -> Any | Basic:
+def rebuild(s):
     """ Rebuild a SymPy expression.
 
     This removes harm caused by Expr-Rules interactions.

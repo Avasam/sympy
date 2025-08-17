@@ -3,7 +3,7 @@ from itertools import product
 from sympy.strategies.util import basic_fns
 from .core import chain, identity, do_one
 from collections.abc import Generator
-from typing import Any, Callable
+from typing import Callable
 
 
 def top_down(brule, fns=basic_fns) -> Callable[..., Generator]:

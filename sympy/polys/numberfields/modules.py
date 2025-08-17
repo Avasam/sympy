@@ -446,7 +446,7 @@ class Module:
         return nca
 
     @property
-    def number_field(self) -> Any | None:
+    def number_field(self):
         r"""
         Return the associated :py:class:`~.AlgebraicField`, if any.
 
@@ -728,7 +728,7 @@ class PowerBasis(Module):
         self._mult_tab = None
 
     @property
-    def number_field(self) -> Any | None:
+    def number_field(self):
         return self.K
 
     def __repr__(self):
@@ -1614,7 +1614,7 @@ class ModuleElement(IntegerPowerable):
     def _first_power(self):
         return self
 
-    def __floordiv__(self, a) -> Any | NotImplementedType:
+    def __floordiv__(self, a):
         if is_rat(a):
             a = QQ(a)
             return self * (1/a)
@@ -2022,7 +2022,7 @@ class EndomorphismRing:
         raise NotImplementedError
 
 
-def find_min_poly(alpha, domain, x=None, powers=None) -> Any | None:
+def find_min_poly(alpha, domain, x=None, powers=None):
     r"""
     Find a polynomial of least degree (not necessarily irreducible) satisfied
     by an element of a finitely-generated ring with unity.

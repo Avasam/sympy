@@ -1,6 +1,6 @@
 """ Generic SymPy-Independent Strategies """
 from collections.abc import Generator
-from typing import Any, Callable
+from typing import Callable
 
 
 def identity(x) -> Generator:

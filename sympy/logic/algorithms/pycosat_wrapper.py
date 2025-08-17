@@ -1,7 +1,6 @@
 from __future__ import annotations
 from sympy.assumptions.cnf import EncodedCNF
 from collections.abc import Generator
-from typing import Any
 
 
 def pycosat_satisfiable(expr, all_models=False) -> Generator[bool] | dict | Generator[dict | bool] | bool:

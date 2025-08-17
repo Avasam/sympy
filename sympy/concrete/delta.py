@@ -19,7 +19,6 @@ from sympy.sets.sets import Interval
 from sympy.solvers.solvers import solve
 from sympy.core.basic import Basic
 from sympy.core.relational import Equality, Ne, Relational
-from typing import Any
 
 
 @cacheit
@@ -167,7 +166,7 @@ def _simplify_delta(expr):
 
 
 @cacheit
-def deltaproduct(f, limit) -> Equality | Relational | Ne | Any:
+def deltaproduct(f, limit):
     """
     Handle products containing a KroneckerDelta.
 

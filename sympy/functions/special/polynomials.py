@@ -22,7 +22,7 @@ from sympy.functions.special.hyper import hyper
 from sympy.polys.orthopolys import (chebyshevt_poly, chebyshevu_poly,
                                     gegenbauer_poly, hermite_poly, hermite_prob_poly,
                                     jacobi_poly, laguerre_poly, legendre_poly)
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from sympy.concrete.summations import Sum
@@ -131,7 +131,7 @@ class jacobi(OrthogonalPolynomial):
     """
 
     @classmethod
-    def eval(cls, n, a, b, x) -> type[UndefinedFunction] | Any | None:
+    def eval(cls, n, a, b, x):
         # Simplify to other polynomials
         # P^{a, a}_n(x)
         if a == b:
@@ -1396,7 +1396,7 @@ class assoc_laguerre(OrthogonalPolynomial):
     """
 
     @classmethod
-    def eval(cls, n, alpha, x) -> type[UndefinedFunction] | Any | None:
+    def eval(cls, n, alpha, x):
         # L_{n}^{0}(x)  --->  L_{n}(x)
         if alpha.is_zero:
             return laguerre(n, x)

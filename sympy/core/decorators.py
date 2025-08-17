@@ -7,14 +7,13 @@ dependencies, so that they can be easily imported anywhere in sympy/core.
 
 from __future__ import annotations
 
-from typing import Any, Callable, TYPE_CHECKING
+from typing import Callable, TYPE_CHECKING
 
 from functools import wraps
 from .sympify import SympifyError, sympify
 
 
 if TYPE_CHECKING:
-    from functools import _Wrapped
     from typing import Callable, TypeVar, Union
     T1 = TypeVar('T1')
     T2 = TypeVar('T2')
@@ -212,7 +211,7 @@ class _SympifyWrapper:
         self.func = func
         self.args = args
 
-    def make_wrapped(self, cls) -> _Wrapped[..., Any, ..., Any]:
+    def make_wrapped(self, cls):
         func = self.func
         parameters, retval = self.args
 

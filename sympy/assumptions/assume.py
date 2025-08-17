@@ -12,7 +12,7 @@ from sympy.utilities.iterables import is_sequence
 from sympy.utilities.source import get_class
 from collections.abc import Generator
 from sympy.core.basic import Basic
-from typing import Any, Callable, TYPE_CHECKING
+from typing import Callable, TYPE_CHECKING
 
 
 if TYPE_CHECKING:
@@ -431,7 +431,7 @@ class UndefinedPredicate(Predicate):
         )
         self.handlers.remove(handler)
 
-    def eval(self, args, assumptions=True) -> Any | None:
+    def eval(self, args, assumptions=True):
         # Support for deprecated design
         # When old design is removed, this will always return None
         sympy_deprecation_warning(

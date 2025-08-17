@@ -220,7 +220,7 @@ class FpGroup(DefaultPrinting):
             C.standardize()
             return C.table
 
-    def order(self, strategy="relator_based") -> int | Any:
+    def order(self, strategy="relator_based"):
         """
         Returns the order of the finitely presented group ``self``. It uses
         the coset enumeration with identity group as subgroup, i.e ``H=[]``.

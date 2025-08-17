@@ -2,8 +2,7 @@ from __future__ import annotations
 from sympy.core import Basic, Expr
 from sympy.core.sympify import _sympify
 from sympy.matrices.expressions.transpose import transpose
-from sympy.matrices.expressions.slice import MatrixSlice
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -46,7 +45,7 @@ class DotProduct(Expr):
 
         return Basic.__new__(cls, arg1, arg2)
 
-    def doit(self, expand=False, **hints) -> Any | MatrixSlice:
+    def doit(self, expand=False, **hints):
         if self.args[0].shape == self.args[1].shape:
             if self.args[0].shape[0] == 1:
                 mul = self.args[0]*transpose(self.args[1])

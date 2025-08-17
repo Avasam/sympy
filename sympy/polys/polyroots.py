@@ -247,7 +247,7 @@ def _roots_quartic_euler(p, q, r, a):
     return [c1 - c2 - a, -c1 - c3 - a, -c1 + c3 - a, c1 + c2 - a]
 
 
-def roots_quartic(f) -> Any | list | list[Any | Piecewise]:
+def roots_quartic(f):
     r"""
     Returns a list of roots of a quartic polynomial.
 

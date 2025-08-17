@@ -23,7 +23,7 @@ from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from sympy.stats.symbolic_multivariate_probability import CrossCovarianceMatrix, ExpectationMatrix, VarianceMatrix
-    from sympy.stats.symbolic_probability import CentralMoment, Covariance, Expectation, Moment, Variance
+    from sympy.stats.symbolic_probability import CentralMoment, Covariance, Expectation, Variance
 
 
 __all__ = ['P', 'E', 'H', 'density', 'where', 'given', 'sample', 'cdf',
@@ -35,7 +35,7 @@ __all__ = ['P', 'E', 'H', 'density', 'where', 'given', 'sample', 'cdf',
 
 
 
-def moment(X, n, c=0, condition=None, *, evaluate=True, **kwargs) -> Any | Moment:
+def moment(X, n, c=0, condition=None, *, evaluate=True, **kwargs):
     """
     Return the nth moment of a random expression about c.
 
@@ -262,7 +262,7 @@ def correlation(X, Y, condition=None, **kwargs):
      * std(Y, condition, **kwargs))
 
 
-def cmoment(X, n, condition=None, *, evaluate=True, **kwargs) -> Any | CentralMoment:
+def cmoment(X, n, condition=None, *, evaluate=True, **kwargs):
     """
     Return the nth central moment of a random expression about its mean.
 

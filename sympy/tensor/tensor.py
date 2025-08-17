@@ -59,7 +59,6 @@ from sympy.utilities.exceptions import (sympy_deprecation_warning,
 from sympy.utilities.decorator import memoize_property, deprecated
 from sympy.utilities.iterables import sift
 from sympy.matrices.dense import Matrix
-from collections.abc import Generator
 from sympy.combinatorics.permutations import Perm
 from sympy.tensor.array.expressions.array_expressions import ArrayContraction, ArrayElement, ArrayTensorProduct, PermuteDims, ZeroArray
 from types import NotImplementedType
@@ -547,13 +546,13 @@ class _TensorDataLazyEvaluator(CantSympify):
         return None
 
     @staticmethod
-    def data_contract_dum(ndarray_list, dum, ext_rank) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray | Any:
+    def data_contract_dum(ndarray_list, dum, ext_rank):
         from .array import tensorproduct, tensorcontraction, MutableDenseNDimArray
         arrays = list(map(MutableDenseNDimArray, ndarray_list))
         prodarr = tensorproduct(*arrays)
         return tensorcontraction(prodarr, *dum)
 
-    def data_tensorhead_from_tensmul(self, data, tensmul, tensorhead) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray | Any | None:
+    def data_tensorhead_from_tensmul(self, data, tensmul, tensorhead):
         """
         This method is used when assigning components data to a ``TensMul``
         object, it converts components data to a fully contravariant ndarray,
@@ -569,7 +568,7 @@ class _TensorDataLazyEvaluator(CantSympify):
             tensmul.dum,
             True)
 
-    def data_from_tensor(self, tensor) -> Basic | ZeroArray | ArrayTensorProduct | ArrayContraction | PermuteDims | ImmutableDenseNDimArray | Any | None:
+    def data_from_tensor(self, tensor):
         """
         This method corrects the components data to the right signature
         (covariant/contravariant) using the metric associated with each
@@ -1955,7 +1954,7 @@ class TensorHead(Basic):
         if self in _tensor_data_substitution_dict:
             del _tensor_data_substitution_dict[self]
 
-    def __iter__(self) -> Generator | Any:
+    def __iter__(self):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return self.data.__iter__()
@@ -2676,7 +2675,7 @@ class TensAdd(TensExpr, AssocOp):
             else:
                 return all(x.coeff == 0 for x in t.args)
 
-    def __getitem__(self, item) -> Any | ArrayElement | Indexed | ImmutableDenseNDimArray | Basic:
+    def __getitem__(self, item):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return self.data[item]
@@ -3225,13 +3224,13 @@ class Tensor(TensExpr):
         return t
 
     # TODO: put this into TensExpr?
-    def __iter__(self) -> Generator | Any:
+    def __iter__(self):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return self.data.__iter__()
 
     # TODO: put this into TensExpr?
-    def __getitem__(self, item) -> Any | ArrayElement | Indexed | ImmutableDenseNDimArray | Basic:
+    def __getitem__(self, item):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return self.data[item]
@@ -3866,7 +3865,7 @@ class TensMul(TensExpr, AssocOp):
     def __neg__(self) -> TensExpr | TensMul:
         return TensMul(S.NegativeOne, self, is_canon_bp=self._is_canon_bp).doit(deep=False)
 
-    def __getitem__(self, item) -> Any | ArrayElement | Indexed | ImmutableDenseNDimArray | Basic:
+    def __getitem__(self, item):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return self.data[item]
@@ -4226,7 +4225,7 @@ class TensMul(TensExpr, AssocOp):
         deprecate_data()
         raise ValueError("Not possible to delete component data to a tensor expression")
 
-    def __iter__(self) -> Generator | Any:
+    def __iter__(self):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             if self.data is None:

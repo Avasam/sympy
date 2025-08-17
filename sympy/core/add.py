@@ -12,7 +12,7 @@ from .operations import AssocOp, AssocOpDispatcher
 from .cache import cacheit
 from .intfunc import ilcm, igcd
 from .expr import Expr
-from .kind import UndefinedKind, _UndefinedKind
+from .kind import UndefinedKind
 from sympy.utilities.iterables import is_sequence, sift
 from .mul import Mul
 
@@ -411,7 +411,7 @@ class Add(Expr, AssocOp):
         return 3, 1, cls.__name__
 
     @property
-    def kind(self) -> _UndefinedKind | Any:
+    def kind(self):
         k = attrgetter('kind')
         kinds = map(k, self.args)
         kinds = frozenset(kinds)

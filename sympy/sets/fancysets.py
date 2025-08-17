@@ -383,7 +383,7 @@ class ImageSet(Set):
     base_sets = property(lambda self: self.args[1:])
 
     @property
-    def base_set(self) -> Any | FiniteSet | ProductSet:
+    def base_set(self):
         # XXX: Maybe deprecate this? It is poorly defined in handling
         # the multivariate case...
         sets = self.base_sets
@@ -507,7 +507,7 @@ class ImageSet(Set):
     def is_iterable(self) -> bool:
         return all(s.is_iterable for s in self.base_sets)
 
-    def doit(self, **hints) -> Any | FiniteSet | Self:
+    def doit(self, **hints):
         from sympy.sets.setexpr import SetExpr
         f = self.lamda
         sig = f.signature

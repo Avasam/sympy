@@ -50,15 +50,12 @@ from sympy.functions.elementary.piecewise import Piecewise
 from sympy.concrete.summations import Sum
 
 if TYPE_CHECKING:
-    from sympy.stats.frv import ConditionalFiniteDomain, FiniteDensity, FinitePSpace, ProductFiniteDomain, ProductFinitePSpace
-    from sympy.stats.frv_types import BernoulliDistribution
+    from sympy.stats.frv import FiniteDensity, FinitePSpace, ProductFiniteDomain, ProductFinitePSpace
     from sympy.stats.joint_rv import JointRandomSymbol
-    from sympy.stats.stochastic_process import StochasticPSpace
     from sympy.stats.symbolic_multivariate_probability import ExpectationMatrix
     from sympy.stats.symbolic_probability import Expectation, Probability
     from sympy.stats.drv import DiscretePSpace, ProductDiscreteDomain
     from sympy.stats.crv import ContinuousPSpace, ProductContinuousDomain
-    from sympy.stats.compound_rv import CompoundPSpace
     from typing_extensions import Self
 
 
@@ -639,7 +636,7 @@ def random_symbols(expr) -> list:
         return []
 
 
-def pspace(expr) -> Any | CompoundPSpace | StochasticPSpace | ProductFinitePSpace | IndependentProductPSpace:
+def pspace(expr):
     """
     Returns the underlying Probability Space of a random expression.
 
@@ -844,7 +841,7 @@ def expectation(
 
 
 def probability(condition, given_condition=None, numsamples=None,
-                evaluate=True, **kwargs) -> Any | BernoulliDistribution | Probability | Equality | Lambda | Order | Relational | Ne | int:
+                evaluate=True, **kwargs):
     """
     Probability that a condition is true, optionally given a second condition.
 
@@ -1029,7 +1026,7 @@ def cdf(expr, condition=None, evaluate=True, **kwargs) -> Lambda | Any | dict:
         return result
 
 
-def characteristic_function(expr, condition=None, evaluate=True, **kwargs) -> Lambda | Any:
+def characteristic_function(expr, condition=None, evaluate=True, **kwargs):
     """
     Characteristic function of a random expression, optionally given a second condition.
 
@@ -1062,7 +1059,7 @@ def characteristic_function(expr, condition=None, evaluate=True, **kwargs) -> La
     else:
         return result
 
-def moment_generating_function(expr, condition=None, evaluate=True, **kwargs) -> Lambda | Any:
+def moment_generating_function(expr, condition=None, evaluate=True, **kwargs):
     if condition is not None:
         return moment_generating_function(given(expr, condition, **kwargs), **kwargs)
 
@@ -1073,7 +1070,7 @@ def moment_generating_function(expr, condition=None, evaluate=True, **kwargs) ->
     else:
         return result
 
-def where(condition, given_condition=None, **kwargs) -> ConditionalFiniteDomain | Any:
+def where(condition, given_condition=None, **kwargs):
     """
     Returns the domain where a condition is True.
 
@@ -1226,7 +1223,7 @@ def sample(expr, condition=None, size=(), library='scipy',
     return next(iterator)
 
 
-def quantile(expr, evaluate=True, **kwargs) -> Lambda | Any:
+def quantile(expr, evaluate=True, **kwargs):
     r"""
     Return the :math:`p^{th}` order quantile of a probability distribution.
 
@@ -1518,7 +1515,7 @@ def sampling_density(
     return results
 
 
-def dependent(a, b) -> Any | bool:
+def dependent(a, b):
     """
     Dependence of two random expressions.
 

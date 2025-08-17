@@ -25,10 +25,7 @@ from sympy.polys.orthopolys import spherical_bessel_fn
 from mpmath import mp, workprec
 from numpy import ndarray as NDArray
 from sympy.core.basic import Basic
-from typing import Any, TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from functools import _Wrapped
+from typing import Any
 
 # TODO
 # o Scorer functions G1 and G2
@@ -898,7 +895,7 @@ class hankel2(BesselBase):
             return hankel1(self.order.conjugate(), z.conjugate())
 
 
-def assume_integer_order(fn) -> _Wrapped[..., Any, ..., Any | None]:
+def assume_integer_order(fn):
     @wraps(fn)
     def g(self, nu, z):
         if nu.is_integer:

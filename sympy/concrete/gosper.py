@@ -77,7 +77,7 @@ def gosper_normal(f, g, n, polys=True) -> tuple[Any, Any, Any]:
     return A, B, C
 
 
-def gosper_term(f, n) -> Any | None:
+def gosper_term(f, n):
     r"""
     Compute Gosper's hypergeometric term for ``f``.
 
@@ -158,7 +158,7 @@ def gosper_term(f, n) -> Any | None:
         return B.as_expr()*x/C.as_expr()
 
 
-def gosper_sum(f, k) -> Any | None:
+def gosper_sum(f, k):
     r"""
     Gosper's hypergeometric summation algorithm.
 

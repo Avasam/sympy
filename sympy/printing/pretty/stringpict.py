@@ -251,7 +251,7 @@ class stringPict:
         root.baseline = result.baseline - result.height() + root.height()
         return result.left(root)
 
-    def render(self, * args, **kwargs) -> str | Any:
+    def render(self, * args, **kwargs):
         """Return the string form of self.
 
            Unless the argument line_break is set to False, it will
@@ -327,7 +327,7 @@ class stringPict:
         # Add spacers between sub-pictures
         return "\n\n".join(pictures)
 
-    def terminal_width(self) -> Any | int:
+    def terminal_width(self):
         """Return the terminal width if possible, otherwise return 0.
         """
         size = shutil.get_terminal_size(fallback=(0, 0))

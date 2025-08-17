@@ -241,7 +241,7 @@ class Resolvent:
         C = Poly(f, Y).coeffs()
         self.esf_lambdas = [lambdify(R, c) for c in C]
 
-    def get_prec(self, M, target='coeffs') -> int | Any:
+    def get_prec(self, M, target='coeffs'):
         r"""
         For a given upper bound *M* on the magnitude of the complex numbers to
         be plugged in for this resolvent's symbols, compute a sufficient
@@ -326,7 +326,7 @@ class Resolvent:
         return approx1
 
     @staticmethod
-    def round_mpf(a) -> int | Any:
+    def round_mpf(a):
         if isinstance(a, int):
             return a
         # If we use python's built-in `round()`, we lose precision.

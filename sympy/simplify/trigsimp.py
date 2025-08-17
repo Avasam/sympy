@@ -26,10 +26,9 @@ from sympy.strategies.tree import greedy
 from sympy.utilities.iterables import iterable
 from sympy.utilities.misc import debug
 from sympy.series.order import Order
-from typing import Any
 
 def trigsimp_groebner(expr, hints=[], quick=False, order="grlex",
-                      polynomial=False) -> Order | Any:
+                      polynomial=False):
     """
     Simplify trigonometric expressions using a groebner basis algorithm.
 

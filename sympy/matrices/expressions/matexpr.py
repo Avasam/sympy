@@ -268,12 +268,12 @@ class MatrixExpr(Expr):
     def conjugate(self) -> type[UndefinedFunction]:
         return conjugate(self)
 
-    def transpose(self) -> Any | Transpose:
+    def transpose(self):
         from sympy.matrices.expressions.transpose import transpose
         return transpose(self)
 
     @property
-    def T(self) -> Any | Transpose:
+    def T(self):
         '''Matrix transposition'''
         return self.transpose()
 

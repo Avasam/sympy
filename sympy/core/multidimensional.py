@@ -6,10 +6,7 @@ Read the vectorize docstring for more details.
 from __future__ import annotations
 
 from functools import wraps
-from typing import Any, TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from functools import _Wrapped
+from typing import Any
 
 
 def apply_on_element(f, args, kwargs, n) -> list[list | Any]:
@@ -95,7 +92,7 @@ class vectorize:
                 raise TypeError("a is of invalid type")
         self.mdargs = mdargs
 
-    def __call__(self, f) -> _Wrapped[..., Any, ..., list[list | Any] | Any]:
+    def __call__(self, f):
         """
         Returns a wrapper for the one-dimensional function that can handle
         multidimensional arguments.

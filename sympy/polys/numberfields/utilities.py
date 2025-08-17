@@ -16,7 +16,7 @@ from collections.abc import Generator
 from typing import Any, NoReturn
 
 
-def is_rat(c) -> Any | bool:
+def is_rat(c):
     r"""
     Test whether an argument is of an acceptable type to be used as a rational
     number.
@@ -41,7 +41,7 @@ def is_rat(c) -> Any | bool:
     return isinstance(c, int) or ZZ.of_type(c) or QQ.of_type(c)
 
 
-def is_int(c) -> Any | bool:
+def is_int(c):
     r"""
     Test whether an argument is of an acceptable type to be used as an integer.
 

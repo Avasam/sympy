@@ -878,7 +878,7 @@ def as_poly_1t(p, t, z):
     return ans
 
 
-def derivation(p, DE, coefficientD=False, basic=False) -> Any | int:
+def derivation(p, DE, coefficientD=False, basic=False):
     """
     Computes Dp.
 

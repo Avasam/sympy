@@ -464,7 +464,7 @@ def no_cancel_b_large(b, c, n, DE):
     return q
 
 
-def no_cancel_b_small(b, c, n, DE) -> tuple[Any, Any, Any] | Any:
+def no_cancel_b_small(b, c, n, DE):
     """
     Poly Risch Differential Equation - No cancellation: deg(b) small enough.
 
@@ -511,7 +511,7 @@ def no_cancel_b_small(b, c, n, DE) -> tuple[Any, Any, Any] | Any:
 
 
 # TODO: better name for this function
-def no_cancel_equal(b, c, n, DE) -> tuple[Any, Any | int, Any] | Any:
+def no_cancel_equal(b, c, n, DE):
     """
     Poly Risch Differential Equation - No cancellation: deg(b) == deg(D) - 1
 

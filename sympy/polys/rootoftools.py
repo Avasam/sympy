@@ -1182,7 +1182,7 @@ class RootSum(Expr):
         return obj
 
     @classmethod
-    def new(cls, poly, func, auto=True) -> Self | Any:
+    def new(cls, poly, func, auto=True):
         """Construct new ``RootSum`` instance. """
         if not func.expr.has(*func.variables):
             return func.expr

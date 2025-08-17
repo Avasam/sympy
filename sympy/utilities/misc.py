@@ -8,7 +8,7 @@ import os
 import re as _re
 import struct
 from textwrap import fill, dedent
-from typing import Any, Callable, TypeVar
+from typing import Callable, TypeVar
 
 _CallableT = TypeVar("_CallableT", bound=Callable)
 
@@ -304,7 +304,7 @@ def find_executable(executable, path=None) -> str | None:
     return None
 
 
-def func_name(x, short=False) -> str | Any:
+def func_name(x, short=False):
     """Return function name of `x` (if defined) else the `type(x)`.
     If short is True and there is a shorter alias for the result,
     return the alias.

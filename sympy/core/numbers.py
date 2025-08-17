@@ -356,7 +356,7 @@ class Number(AtomicExpr):
     def could_extract_minus_sign(self) -> bool:
         return bool(self.is_extended_negative)
 
-    def invert(self, other, *gens, **args) -> int | Any:
+    def invert(self, other, *gens, **args):
         from sympy.polys.polytools import invert
         if getattr(other, 'is_number', True):
             return mod_inverse(self, other)
@@ -1725,7 +1725,7 @@ class Rational(Number):
         return self.q
 
     @_sympifyit('other', NotImplemented)
-    def gcd(self, other) -> Rational | Integer | Any:
+    def gcd(self, other):
         if isinstance(other, Rational):
             if other == S.Zero:
                 return other
@@ -1735,7 +1735,7 @@ class Rational(Number):
         return Number.gcd(self, other)
 
     @_sympifyit('other', NotImplemented)
-    def lcm(self, other) -> Rational | Integer | Any:
+    def lcm(self, other):
         if isinstance(other, Rational):
             return Rational(
                 self.p // igcd(self.p, other.p) * other.p,
@@ -2721,7 +2721,7 @@ class AlgebraicNumber(Expr):
                 self._own_minpoly = minpoly(self.as_expr(theta), polys=True)
         return self._own_minpoly
 
-    def to_root(self, radicals=True, minpoly=None) -> Any | None:
+    def to_root(self, radicals=True, minpoly=None):
         """
         Convert to an :py:class:`~.Expr` that is not an
         :py:class:`~.AlgebraicNumber`, specifically, either a

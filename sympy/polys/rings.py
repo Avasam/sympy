@@ -124,7 +124,7 @@ def xring(symbols, domain, order=lex) -> tuple[PolyRing | Any, Any]:
 
 
 @public
-def vring(symbols, domain, order=lex) -> PolyRing | Any:
+def vring(symbols, domain, order=lex):
     """Construct a polynomial ring and inject ``x_1, ..., x_n`` into the global namespace.
 
     Parameters

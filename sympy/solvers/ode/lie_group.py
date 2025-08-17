@@ -162,7 +162,7 @@ def _ode_lie_group( s, func, order, match):
     return sol
 
 
-def infinitesimals(eq, func=None, order=None, hint="default", match=None) -> list | Any:
+def infinitesimals(eq, func=None, order=None, hint="default", match=None):
     r"""
     The infinitesimal functions of an ordinary differential equation, `\xi(x,y)`
     and `\eta(x,y)`, are the infinitesimals of the Lie group of point transformations

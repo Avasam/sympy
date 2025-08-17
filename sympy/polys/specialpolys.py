@@ -93,7 +93,7 @@ def cyclotomic_poly(n, x=None, polys=False):
 
 
 @public
-def symmetric_poly(n, *gens, polys=False) -> Any | Order:
+def symmetric_poly(n, *gens, polys=False):
     """
     Generates symmetric polynomial of order `n`.
 

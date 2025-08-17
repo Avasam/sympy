@@ -22,7 +22,6 @@ from mpmath.libmp.libmpf import prec_to_dps
 
 import warnings
 from sympy.core.basic import Basic
-from sympy.core.power import Pow
 from types import NotImplementedType
 from typing import Any, TYPE_CHECKING
 
@@ -2443,7 +2442,7 @@ class Triangle(Polygon):
         return a.intersection(b)[0]
 
     @property
-    def circumradius(self) -> Pow | Any:
+    def circumradius(self):
         """The radius of the circumcircle of the triangle.
 
         Returns
