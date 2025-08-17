@@ -1,4 +1,3 @@
-from __future__ import annotations
 from sympy.core import (Function, Pow, sympify, Expr)
 from sympy.core.relational import Relational
 from sympy.core.singleton import S
