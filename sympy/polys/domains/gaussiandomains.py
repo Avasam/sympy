@@ -324,7 +324,7 @@ class GaussianDomain():
         """Convert a QQ_python element to ``self.dtype``."""
         return K1(a)
 
-    def from_AlgebraicField(K1, a, K0) -> None:
+    def from_AlgebraicField(K1, a, K0):
         """Convert an element from ZZ<I> or QQ<I> to ``self.dtype``."""
         if K0.ext.args[0] == I:
             return K1.from_sympy(K0.to_sympy(a))
@@ -444,7 +444,7 @@ class GaussianIntegerRing(GaussianDomain, Ring):
     is_ZZ_I = True
     is_PID = True
 
-    def __init__(self) -> None:  # override Domain.__init__
+    def __init__(self):  # override Domain.__init__
         """For constructing ZZ_I."""
 
     def __eq__(self, other):
@@ -649,7 +649,7 @@ class GaussianRationalField(GaussianDomain, Field):
     is_GaussianField = True
     is_QQ_I = True
 
-    def __init__(self) -> None:  # override Domain.__init__
+    def __init__(self):  # override Domain.__init__
         """For constructing QQ_I."""
 
     def __eq__(self, other):

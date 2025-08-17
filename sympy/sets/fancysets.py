@@ -800,7 +800,7 @@ class Range(Set):
         return self.size.is_finite
 
     @property
-    def is_empty(self) -> None:
+    def is_empty(self):
         try:
             return self.size.is_zero
         except ValueError:

@@ -169,7 +169,7 @@ class DifferentialExtension:
         'exts', 'extargs', 'cases', 'case', 't', 'd', 'newf', 'level',
         'ts', 'dummy')
 
-    def __init__(self, f=None, x=None, handle_first='log', dummy=False, extension=None, rewrite_complex=None) -> None:
+    def __init__(self, f=None, x=None, handle_first='log', dummy=False, extension=None, rewrite_complex=None):
         """
         Tries to build a transcendental extension tower from ``f`` with respect to ``x``.
 
@@ -288,7 +288,7 @@ class DifferentialExtension:
 
         return
 
-    def __getattr__(self, attr) -> None:
+    def __getattr__(self, attr):
         # Avoid AttributeErrors when debugging
         if attr not in self.__slots__:
             raise AttributeError("%s has no attribute %s" % (repr(self), repr(attr)))
@@ -654,7 +654,7 @@ class DifferentialExtension:
                 return False
         return True
 
-    def reset(self) -> None:
+    def reset(self):
         """
         Reset self to an initial state.  Used by __init__.
         """
@@ -704,7 +704,7 @@ class DifferentialExtension:
         """
         return [i for i, ext in enumerate(self.exts) if ext == extension]
 
-    def increment_level(self) -> None:
+    def increment_level(self):
         """
         Increment the level of self.
 
@@ -725,7 +725,7 @@ class DifferentialExtension:
         self.case = self.cases[self.level]
         return None
 
-    def decrement_level(self) -> None:
+    def decrement_level(self):
         """
         Decrease the level of self.
 
@@ -761,14 +761,14 @@ class DecrementLevel:
     """
     __slots__ = ('DE',)
 
-    def __init__(self, DE) -> None:
+    def __init__(self, DE):
         self.DE = DE
         return
 
-    def __enter__(self) -> None:
+    def __enter__(self):
         self.DE.decrement_level()
 
-    def __exit__(self, exc_type, exc_value, traceback) -> None:
+    def __exit__(self, exc_type, exc_value, traceback):
         self.DE.increment_level()
 
 

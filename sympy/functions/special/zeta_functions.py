@@ -694,7 +694,7 @@ class riemann_xi(DefinedFunction):
 
 
     @classmethod
-    def eval(cls, s) -> None:
+    def eval(cls, s):
         from sympy.functions.special.gamma_functions import gamma
         z = zeta(s)
         if s in (S.Zero, S.One):
@@ -746,7 +746,7 @@ class stieltjes(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, n, a=None) -> None:
+    def eval(cls, n, a=None):
         if a is not None:
             a = sympify(a)
             if a is S.NaN:

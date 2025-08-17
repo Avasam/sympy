@@ -50,7 +50,7 @@ new = object.__new__
 @public
 class MPContext(PythonMPContext):
 
-    def __init__(ctx, prec=53, dps=None, tol=None, real=False) -> None:
+    def __init__(ctx, prec=53, dps=None, tol=None, real=False):
         ctx._prec_rounding = [prec, round_nearest]
 
         if dps is None:

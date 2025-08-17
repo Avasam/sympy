@@ -35,7 +35,7 @@ def using(**kwargs) -> Generator[None]:
     for k in kwargs.keys():
         setup(k)
 
-def setup(key, value=None) -> None:
+def setup(key, value=None):
     """Assign a value to (or reset) a configuration item. """
     key = key.upper()
 
@@ -50,7 +50,7 @@ def query(key):
     return _current_config.get(key.upper(), None)
 
 
-def configure() -> None:
+def configure():
     """Initialized configuration of polys module. """
     from os import getenv
 

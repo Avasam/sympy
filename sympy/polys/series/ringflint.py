@@ -101,7 +101,7 @@ class FlintPowerSeriesRingZZ:
 
     _domain = ZZ
 
-    def __init__(self, prec: int = 6) -> None:
+    def __init__(self, prec: int = 6):
         if prec < 0:
             raise ValueError("Power series precision must be non-negative")
         self._prec = prec
@@ -492,7 +492,7 @@ class FlintPowerSeriesRingQQ:
 
     _domain = QQ
 
-    def __init__(self, prec: int = 6) -> None:
+    def __init__(self, prec: int = 6):
         if prec < 0:
             raise ValueError("Power series precision must be non-negative")
         self._prec = prec

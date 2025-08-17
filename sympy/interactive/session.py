@@ -142,7 +142,7 @@ def int_to_Integer(s):
     return untokenize(result)
 
 
-def enable_automatic_int_sympification(shell) -> None:
+def enable_automatic_int_sympification(shell):
     """
     Allow IPython to automatically convert integer literals to Integer.
     """
@@ -166,7 +166,7 @@ def enable_automatic_int_sympification(shell) -> None:
     shell.run_cell = my_run_cell
 
 
-def enable_automatic_symbols(shell) -> None:
+def enable_automatic_symbols(shell):
     """Allow IPython to automatically create symbols (``isympy -a``). """
     # XXX: This should perhaps use tokenize, like int_to_Integer() above.
     # This would avoid re-executing the code, which can lead to subtle
@@ -341,7 +341,7 @@ def init_bpython_session():
 def init_session(console_backend=None, pretty_print=True, order=None,
                  use_unicode=None, use_latex=None, quiet=False, auto_symbols=False,
                  auto_int_to_Integer=False, str_printer=None, pretty_printer=None,
-                 latex_printer=None, argv=[]) -> None:
+                 latex_printer=None, argv=[]):
     """
     Initialize an embedded IPython or Python session. The IPython session is
     initiated with the --pylab option, without the numpy imports, so that

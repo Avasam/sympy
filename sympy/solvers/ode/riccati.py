@@ -707,7 +707,7 @@ def solve_aux_eq(
         return S.One, auxeq, auxeq == 0
 
 
-def remove_redundant_sols(sol1, sol2, x) -> None:
+def remove_redundant_sols(sol1, sol2, x):
     """
     Helper function to remove redundant
     solutions to the differential equation.

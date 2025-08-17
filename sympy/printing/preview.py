@@ -26,7 +26,7 @@ def _check_output_no_window(*args, **kwargs):
     return check_output(*args, creationflags=creation_flag, **kwargs)
 
 
-def system_default_viewer(fname, fmt) -> None:
+def system_default_viewer(fname, fmt):
     """ Open fname with the default system viewer.
 
     In practice, it is impossible for python to know when the system viewer is
@@ -51,7 +51,7 @@ def system_default_viewer(fname, fmt) -> None:
         subprocess.call(('xdg-open', temp_f.name))
 
 
-def pyglet_viewer(fname, fmt) -> None:
+def pyglet_viewer(fname, fmt):
     try:
         from pyglet import window, image, gl
         from pyglet.window import key
@@ -153,7 +153,7 @@ def _get_latex_main(expr, *, preamble=None, packages=(), extra_preamble=None,
 def preview(expr, output='png', viewer=None, euler=True, packages=(),
             filename=None, outputbuffer=None, preamble=None, dvioptions=None,
             outputTexFile=None, extra_preamble=None, fontsize=None,
-            **latex_settings) -> None:
+            **latex_settings):
     r"""
     View expression or LaTeX markup in PNG, DVI, PostScript or PDF form.
 

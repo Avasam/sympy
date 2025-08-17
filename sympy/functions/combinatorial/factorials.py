@@ -423,7 +423,7 @@ class factorial2(CombinatorialFunction):
     """
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         # TODO: extend this to complex numbers?
 
         if arg.is_Number:

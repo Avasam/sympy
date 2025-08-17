@@ -625,7 +625,7 @@ class MutableRepMatrix(RepMatrix):
     def as_mutable(self) -> Self:
         return self.copy()
 
-    def __setitem__(self, key, value) -> None:
+    def __setitem__(self, key, value):
         """
 
         Examples
@@ -755,7 +755,7 @@ class MutableRepMatrix(RepMatrix):
         other = self._new(other)
         return self.vstack(self[:row,:], other, self[row:,:])
 
-    def col_op(self, j, f) -> None:
+    def col_op(self, j, f):
         """In-place operation on col j using two-arg functor whose args are
         interpreted as (self[i, j], i).
 
@@ -778,7 +778,7 @@ class MutableRepMatrix(RepMatrix):
         for i in range(self.rows):
             self[i, j] = f(self[i, j], i)
 
-    def col_swap(self, i, j) -> None:
+    def col_swap(self, i, j):
         """Swap the two given columns of the matrix in-place.
 
         Examples
@@ -805,7 +805,7 @@ class MutableRepMatrix(RepMatrix):
         for k in range(0, self.rows):
             self[k, i], self[k, j] = self[k, j], self[k, i]
 
-    def row_op(self, i, f) -> None:
+    def row_op(self, i, f):
         """In-place operation on row ``i`` using two-arg functor whose args are
         interpreted as ``(self[i, j], j)``.
 
@@ -867,7 +867,7 @@ class MutableRepMatrix(RepMatrix):
         for j in range(self.cols):
             self[t,j] += k*self[s,j]
 
-    def row_swap(self, i, j) -> None:
+    def row_swap(self, i, j):
         """Swap the two given rows of the matrix in-place.
 
         Examples
@@ -894,7 +894,7 @@ class MutableRepMatrix(RepMatrix):
         for k in range(0, self.cols):
             self[i, k], self[j, k] = self[j, k], self[i, k]
 
-    def zip_row_op(self, i, k, f) -> None:
+    def zip_row_op(self, i, k, f):
         """In-place operation on row ``i`` using two-arg functor whose args are
         interpreted as ``(self[i, j], self[k, j])``.
 
@@ -919,7 +919,7 @@ class MutableRepMatrix(RepMatrix):
         for j in range(self.cols):
             self[i, j] = f(self[i, j], self[k, j])
 
-    def copyin_list(self, key, value) -> None:
+    def copyin_list(self, key, value):
         """Copy in elements from a list.
 
         Parameters
@@ -957,7 +957,7 @@ class MutableRepMatrix(RepMatrix):
             raise TypeError("`value` must be an ordered iterable, not %s." % type(value))
         return self.copyin_matrix(key, type(self)(value))
 
-    def copyin_matrix(self, key, value) -> None:
+    def copyin_matrix(self, key, value):
         """Copy in values from a matrix into the given bounds.
 
         Parameters
@@ -1004,7 +1004,7 @@ class MutableRepMatrix(RepMatrix):
             for j in range(value.cols):
                 self[i + rlo, j + clo] = value[i, j]
 
-    def fill(self, value) -> None:
+    def fill(self, value):
         """Fill self with the given value.
 
         Notes

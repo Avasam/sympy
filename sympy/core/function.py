@@ -168,7 +168,7 @@ class FunctionClass(type):
     """
     _new = type.__new__
 
-    def __init__(cls, *args, **kwargs) -> None:
+    def __init__(cls, *args, **kwargs):
         # honor kwarg value or class-defined value before using
         # the number of arguments in the eval function (if present)
         nargs = kwargs.pop('nargs', cls.__dict__.get('nargs', arity(cls)))
@@ -344,7 +344,7 @@ class Application(Basic, metaclass=FunctionClass):
         return obj
 
     @classmethod
-    def eval(cls, *args) -> None:
+    def eval(cls, *args):
         """
         Returns a canonical form of cls applied to arguments args.
 
@@ -1021,7 +1021,7 @@ class WildFunction(Function, AtomicExpr):  # type: ignore
     # XXX: What is this class attribute used for?
     include = set()
 
-    def __init__(cls, name, **assumptions) -> None:
+    def __init__(cls, name, **assumptions):
         from sympy.sets.sets import Set, FiniteSet
         cls.name = name
         nargs = assumptions.pop('nargs', S.Naturals0)

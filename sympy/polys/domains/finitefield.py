@@ -213,7 +213,7 @@ class FiniteField(Field, SimpleDomain):
     dom = None
     mod = None
 
-    def __init__(self, mod, symmetric=True) -> None:
+    def __init__(self, mod, symmetric=True):
         from sympy.polys.domains import ZZ
         dom = ZZ
 

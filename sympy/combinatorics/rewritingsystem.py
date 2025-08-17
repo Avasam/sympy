@@ -16,7 +16,7 @@ class RewritingSystem:
            https://www.gap-system.org/Manuals/pkg/kbmag-1.5.3/doc/manual.pdf
 
     '''
-    def __init__(self, group) -> None:
+    def __init__(self, group):
         self.group = group
         self.alphabet = group.generators
         self._is_confluent = None
@@ -46,7 +46,7 @@ class RewritingSystem:
         self.reduction_automaton = StateMachine('Reduction automaton for '+ repr(self.group), generators)
         self.construct_automaton()
 
-    def set_max(self, n) -> None:
+    def set_max(self, n):
         '''
         Set the maximum number of rules that can be defined
 
@@ -321,7 +321,7 @@ class RewritingSystem:
                 inverse_rules[rule_value_inverse] = rule_key_inverse
         return inverse_rules
 
-    def construct_automaton(self) -> None:
+    def construct_automaton(self):
         '''
         Construct the automaton based on the set of reduction rules of the system.
 

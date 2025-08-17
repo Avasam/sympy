@@ -58,7 +58,7 @@ class CosetTable(DefaultPrinting):
     # which it is emptied
     max_stack_size = 100
 
-    def __init__(self, fp_grp, subgroup, max_cosets=None) -> None:
+    def __init__(self, fp_grp, subgroup, max_cosets=None):
         if not max_cosets:
             max_cosets = CosetTable.coset_table_max_limit
         self.fp_group = fp_grp
@@ -133,7 +133,7 @@ class CosetTable(DefaultPrinting):
         return not any(None in self.table[coset] for coset in self.omega)
 
     # Pg. 153 [1]
-    def define(self, alpha, x, modified=False) -> None:
+    def define(self, alpha, x, modified=False):
         r"""
         This routine is used in the relator-based strategy of Todd-Coxeter
         algorithm if some `\alpha^x` is undefined. We check whether there is
@@ -172,7 +172,7 @@ class CosetTable(DefaultPrinting):
             self.P[beta][self.A_dict_inv[x]] = self._grp.identity
             self.p_p[beta] = self._grp.identity
 
-    def define_c(self, alpha, x) -> None:
+    def define_c(self, alpha, x):
         r"""
         A variation of ``define`` routine, described on Pg. 165 [1], used in
         the coset table-based strategy of Todd-Coxeter algorithm. It differs
@@ -202,7 +202,7 @@ class CosetTable(DefaultPrinting):
         # append to deduction stack
         self.deduction_stack.append((alpha, x))
 
-    def scan_c(self, alpha, word) -> None:
+    def scan_c(self, alpha, word):
         """
         A variation of ``scan`` routine, described on pg. 165 of [1], which
         puts at tuple, whenever a deduction occurs, to deduction stack.
@@ -249,7 +249,7 @@ class CosetTable(DefaultPrinting):
 
     # alpha, beta coincide, i.e. alpha, beta represent the pair of cosets where
     # coincidence occurs
-    def coincidence_c(self, alpha, beta) -> None:
+    def coincidence_c(self, alpha, beta):
         """
         A variation of ``coincidence`` routine used in the coset-table based
         method of coset enumeration. The only difference being on addition of
@@ -286,7 +286,7 @@ class CosetTable(DefaultPrinting):
                         table[mu][A_dict[x]] = nu
                         table[nu][A_dict_inv[x]] = mu
 
-    def scan(self, alpha, word, y=None, fill=False, modified=False) -> None:
+    def scan(self, alpha, word, y=None, fill=False, modified=False):
         r"""
         ``scan`` performs a scanning process on the input ``word``.
         It first locates the largest prefix ``s`` of ``word`` for which
@@ -428,7 +428,7 @@ class CosetTable(DefaultPrinting):
             table[b][A_dict_inv[word[i]]] = f
         return True
 
-    def merge(self, k, lamda, q, w=None, modified=False) -> None:
+    def merge(self, k, lamda, q, w=None, modified=False):
         """
         Merge two classes with representatives ``k`` and ``lamda``, described
         on Pg. 157 [1] (for pseudocode), start by putting ``p[k] = lamda``.
@@ -540,7 +540,7 @@ class CosetTable(DefaultPrinting):
 
     # alpha, beta coincide, i.e. alpha, beta represent the pair of cosets
     # where coincidence occurs
-    def coincidence(self, alpha, beta, w=None, modified=False) -> None:
+    def coincidence(self, alpha, beta, w=None, modified=False):
         r"""
         The third situation described in ``scan`` routine is handled by this
         routine, described on Pg. 156-161 [1].
@@ -599,7 +599,7 @@ class CosetTable(DefaultPrinting):
                             self.P[nu][self.A_dict_inv[x]] = v**-1
 
     # method used in the HLT strategy
-    def scan_and_fill(self, alpha, word) -> None:
+    def scan_and_fill(self, alpha, word):
         """
         A modified version of ``scan`` routine used in the relator-based
         method of coset enumeration, described on pg. 162-163 [1], which
@@ -611,7 +611,7 @@ class CosetTable(DefaultPrinting):
         """
         self.scan(alpha, word, fill=True)
 
-    def scan_and_fill_c(self, alpha, word) -> None:
+    def scan_and_fill_c(self, alpha, word):
         """
         A modified version of ``scan`` routine, described on Pg. 165 second
         para. [1], with modification similar to that of ``scan_anf_fill`` the
@@ -656,7 +656,7 @@ class CosetTable(DefaultPrinting):
                 self.define_c(f, word[i])
 
     # method used in the HLT strategy
-    def look_ahead(self) -> None:
+    def look_ahead(self):
         """
         When combined with the HLT method this is known as HLT+Lookahead
         method of coset enumeration, described on pg. 164 [1]. Whenever
@@ -676,7 +676,7 @@ class CosetTable(DefaultPrinting):
                     break
 
     # Pg. 166
-    def process_deductions(self, R_c_x, R_c_x_inv) -> None:
+    def process_deductions(self, R_c_x, R_c_x_inv):
         """
         Processes the deductions that have been pushed onto ``deduction_stack``,
         described on Pg. 166 [1] and is used in coset-table based enumeration.
@@ -730,7 +730,7 @@ class CosetTable(DefaultPrinting):
                     return False
         return True
 
-    def switch(self, beta, gamma) -> None:
+    def switch(self, beta, gamma):
         r"""Switch the elements `\beta, \gamma \in \Omega` of ``self``, used
         by the ``standardize`` procedure, described on Pg. 167 [1].
 
@@ -754,7 +754,7 @@ class CosetTable(DefaultPrinting):
                     elif table[alpha][A_dict[x]] == gamma:
                         table[alpha][A_dict[x]] = beta
 
-    def standardize(self) -> None:
+    def standardize(self):
         r"""
         A coset table is standardized if when running through the cosets and
         within each coset through the generator images (ignoring generator
@@ -802,7 +802,7 @@ class CosetTable(DefaultPrinting):
                     return
 
     # Compression of a Coset Table
-    def compress(self) -> None:
+    def compress(self):
         """Removes the non-live cosets from the coset table, described on
         pg. 167 [1].
 
@@ -849,7 +849,7 @@ class CosetTable(DefaultPrinting):
             R_set.difference_update(r)
         return R_c_list
 
-    def coset_representative(self, coset) -> None:
+    def coset_representative(self, coset):
         '''
         Compute the coset representative of a given coset.
 
@@ -883,7 +883,7 @@ class CosetTable(DefaultPrinting):
     #      Modified Methods      #
     ##############################
 
-    def modified_define(self, alpha, x) -> None:
+    def modified_define(self, alpha, x):
         r"""
         Define a function p_p from from [1..n] to A* as
         an additional component of the modified coset table.
@@ -902,7 +902,7 @@ class CosetTable(DefaultPrinting):
         """
         self.define(alpha, x, modified=True)
 
-    def modified_scan(self, alpha, w, y, fill=False) -> None:
+    def modified_scan(self, alpha, w, y, fill=False):
         r"""
         Parameters
         ==========
@@ -918,10 +918,10 @@ class CosetTable(DefaultPrinting):
         """
         self.scan(alpha, w, y=y, fill=fill, modified=True)
 
-    def modified_scan_and_fill(self, alpha, w, y) -> None:
+    def modified_scan_and_fill(self, alpha, w, y):
         self.modified_scan(alpha, w, y, fill=True)
 
-    def modified_merge(self, k, lamda, w, q) -> None:
+    def modified_merge(self, k, lamda, w, q):
         r"""
         Parameters
         ==========
@@ -937,7 +937,7 @@ class CosetTable(DefaultPrinting):
         """
         self.merge(k, lamda, q, w=w, modified=True)
 
-    def modified_rep(self, k) -> None:
+    def modified_rep(self, k):
         r"""
         Parameters
         ==========
@@ -951,7 +951,7 @@ class CosetTable(DefaultPrinting):
         """
         self.rep(k, modified=True)
 
-    def modified_coincidence(self, alpha, beta, w) -> None:
+    def modified_coincidence(self, alpha, beta, w):
         r"""
         Parameters
         ==========

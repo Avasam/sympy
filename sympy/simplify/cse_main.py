@@ -223,7 +223,7 @@ class FuncArgTracker:
     mapping from arguments to functions.
     """
 
-    def __init__(self, funcs) -> None:
+    def __init__(self, funcs):
         # To minimize the number of symbolic comparisons, all function arguments
         # get assigned a value number.
         self.value_numbers = {}
@@ -261,7 +261,7 @@ class FuncArgTracker:
             self.arg_to_funcset.append(OrderedSet())
         return value_number
 
-    def stop_arg_tracking(self, func_i) -> None:
+    def stop_arg_tracking(self, func_i):
         """
         Remove the function func_i from the argument to function mapping.
         """
@@ -328,7 +328,7 @@ class FuncArgTracker:
 
         return indices
 
-    def update_func_argset(self, func_i, new_argset) -> None:
+    def update_func_argset(self, func_i, new_argset):
         """
         Update a function with a new set of arguments.
         """
@@ -346,7 +346,7 @@ class FuncArgTracker:
 
 class Unevaluated:
 
-    def __init__(self, func, args) -> None:
+    def __init__(self, func, args):
         self.func = func
         self.args = args
 
@@ -364,7 +364,7 @@ class Unevaluated:
     __repr__ = __str__
 
 
-def match_common_args(func_class, funcs, opt_subs) -> None:
+def match_common_args(func_class, funcs, opt_subs):
     """
     Recognize and extract common subexpressions of function arguments within a
     set of function calls. For instance, for the following function calls::

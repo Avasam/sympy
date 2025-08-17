@@ -246,22 +246,22 @@ class IPolys:
     domain: Domain
     order: MonomialOrder
 
-    def drop(self, gen) -> None:
+    def drop(self, gen):
         pass
 
-    def clone(self, symbols=None, domain=None, order=None) -> None:
+    def clone(self, symbols=None, domain=None, order=None):
         pass
 
-    def to_ground(self) -> None:
+    def to_ground(self):
         pass
 
-    def ground_new(self, element) -> None:
+    def ground_new(self, element):
         pass
 
-    def domain_new(self, element) -> None:
+    def domain_new(self, element):
         pass
 
-    def from_dict(self, d) -> None:
+    def from_dict(self, d):
         pass
 
     def wrap(self, element) -> PolyElement | None:
@@ -277,109 +277,109 @@ class IPolys:
     def to_dense(self, element) -> list | list[list]:
         return self.wrap(element).to_dense()
 
-    def from_dense(self, element) -> None:
+    def from_dense(self, element):
         return self.from_dict(dmp_to_dict(element, self.ngens-1, self.domain))
 
-    def dup_add_term(self, f, c, i) -> None:
+    def dup_add_term(self, f, c, i):
         return self.from_dense(dup_add_term(self.to_dense(f), c, i, self.domain))
-    def dmp_add_term(self, f, c, i) -> None:
+    def dmp_add_term(self, f, c, i):
         return self.from_dense(dmp_add_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens-1, self.domain))
-    def dup_sub_term(self, f, c, i) -> None:
+    def dup_sub_term(self, f, c, i):
         return self.from_dense(dup_sub_term(self.to_dense(f), c, i, self.domain))
-    def dmp_sub_term(self, f, c, i) -> None:
+    def dmp_sub_term(self, f, c, i):
         return self.from_dense(dmp_sub_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens-1, self.domain))
-    def dup_mul_term(self, f, c, i) -> None:
+    def dup_mul_term(self, f, c, i):
         return self.from_dense(dup_mul_term(self.to_dense(f), c, i, self.domain))
-    def dmp_mul_term(self, f, c, i) -> None:
+    def dmp_mul_term(self, f, c, i):
         return self.from_dense(dmp_mul_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens-1, self.domain))
 
-    def dup_add_ground(self, f, c) -> None:
+    def dup_add_ground(self, f, c):
         return self.from_dense(dup_add_ground(self.to_dense(f), c, self.domain))
-    def dmp_add_ground(self, f, c) -> None:
+    def dmp_add_ground(self, f, c):
         return self.from_dense(dmp_add_ground(self.to_dense(f), c, self.ngens-1, self.domain))
-    def dup_sub_ground(self, f, c) -> None:
+    def dup_sub_ground(self, f, c):
         return self.from_dense(dup_sub_ground(self.to_dense(f), c, self.domain))
-    def dmp_sub_ground(self, f, c) -> None:
+    def dmp_sub_ground(self, f, c):
         return self.from_dense(dmp_sub_ground(self.to_dense(f), c, self.ngens-1, self.domain))
-    def dup_mul_ground(self, f, c) -> None:
+    def dup_mul_ground(self, f, c):
         return self.from_dense(dup_mul_ground(self.to_dense(f), c, self.domain))
-    def dmp_mul_ground(self, f, c) -> None:
+    def dmp_mul_ground(self, f, c):
         return self.from_dense(dmp_mul_ground(self.to_dense(f), c, self.ngens-1, self.domain))
-    def dup_quo_ground(self, f, c) -> None:
+    def dup_quo_ground(self, f, c):
         return self.from_dense(dup_quo_ground(self.to_dense(f), c, self.domain))
-    def dmp_quo_ground(self, f, c) -> None:
+    def dmp_quo_ground(self, f, c):
         return self.from_dense(dmp_quo_ground(self.to_dense(f), c, self.ngens-1, self.domain))
-    def dup_exquo_ground(self, f, c) -> None:
+    def dup_exquo_ground(self, f, c):
         return self.from_dense(dup_exquo_ground(self.to_dense(f), c, self.domain))
-    def dmp_exquo_ground(self, f, c) -> None:
+    def dmp_exquo_ground(self, f, c):
         return self.from_dense(dmp_exquo_ground(self.to_dense(f), c, self.ngens-1, self.domain))
 
-    def dup_lshift(self, f, n) -> None:
+    def dup_lshift(self, f, n):
         return self.from_dense(dup_lshift(self.to_dense(f), n, self.domain))
-    def dup_rshift(self, f, n) -> None:
+    def dup_rshift(self, f, n):
         return self.from_dense(dup_rshift(self.to_dense(f), n, self.domain))
 
-    def dup_abs(self, f) -> None:
+    def dup_abs(self, f):
         return self.from_dense(dup_abs(self.to_dense(f), self.domain))
-    def dmp_abs(self, f) -> None:
+    def dmp_abs(self, f):
         return self.from_dense(dmp_abs(self.to_dense(f), self.ngens-1, self.domain))
 
-    def dup_neg(self, f) -> None:
+    def dup_neg(self, f):
         return self.from_dense(dup_neg(self.to_dense(f), self.domain))
-    def dmp_neg(self, f) -> None:
+    def dmp_neg(self, f):
         return self.from_dense(dmp_neg(self.to_dense(f), self.ngens-1, self.domain))
 
-    def dup_add(self, f, g) -> None:
+    def dup_add(self, f, g):
         return self.from_dense(dup_add(self.to_dense(f), self.to_dense(g), self.domain))
-    def dmp_add(self, f, g) -> None:
+    def dmp_add(self, f, g):
         return self.from_dense(dmp_add(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
-    def dup_sub(self, f, g) -> None:
+    def dup_sub(self, f, g):
         return self.from_dense(dup_sub(self.to_dense(f), self.to_dense(g), self.domain))
-    def dmp_sub(self, f, g) -> None:
+    def dmp_sub(self, f, g):
         return self.from_dense(dmp_sub(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
-    def dup_add_mul(self, f, g, h) -> None:
+    def dup_add_mul(self, f, g, h):
         return self.from_dense(dup_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))
-    def dmp_add_mul(self, f, g, h) -> None:
+    def dmp_add_mul(self, f, g, h):
         return self.from_dense(dmp_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens-1, self.domain))
-    def dup_sub_mul(self, f, g, h) -> None:
+    def dup_sub_mul(self, f, g, h):
         return self.from_dense(dup_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))
-    def dmp_sub_mul(self, f, g, h) -> None:
+    def dmp_sub_mul(self, f, g, h):
         return self.from_dense(dmp_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens-1, self.domain))
 
-    def dup_mul(self, f, g) -> None:
+    def dup_mul(self, f, g):
         return self.from_dense(dup_mul(self.to_dense(f), self.to_dense(g), self.domain))
-    def dmp_mul(self, f, g) -> None:
+    def dmp_mul(self, f, g):
         return self.from_dense(dmp_mul(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
-    def dup_sqr(self, f) -> None:
+    def dup_sqr(self, f):
         return self.from_dense(dup_sqr(self.to_dense(f), self.domain))
-    def dmp_sqr(self, f) -> None:
+    def dmp_sqr(self, f):
         return self.from_dense(dmp_sqr(self.to_dense(f), self.ngens-1, self.domain))
-    def dup_pow(self, f, n) -> None:
+    def dup_pow(self, f, n):
         return self.from_dense(dup_pow(self.to_dense(f), n, self.domain))
-    def dmp_pow(self, f, n) -> None:
+    def dmp_pow(self, f, n):
         return self.from_dense(dmp_pow(self.to_dense(f), n, self.ngens-1, self.domain))
 
     def dup_pdiv(self, f, g) -> tuple[None, None]:
         q, r = dup_pdiv(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(q), self.from_dense(r))
-    def dup_prem(self, f, g) -> None:
+    def dup_prem(self, f, g):
         return self.from_dense(dup_prem(self.to_dense(f), self.to_dense(g), self.domain))
-    def dup_pquo(self, f, g) -> None:
+    def dup_pquo(self, f, g):
         return self.from_dense(dup_pquo(self.to_dense(f), self.to_dense(g), self.domain))
-    def dup_pexquo(self, f, g) -> None:
+    def dup_pexquo(self, f, g):
         return self.from_dense(dup_pexquo(self.to_dense(f), self.to_dense(g), self.domain))
 
     def dmp_pdiv(self, f, g) -> tuple[None, None]:
         q, r = dmp_pdiv(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(q), self.from_dense(r))
-    def dmp_prem(self, f, g) -> None:
+    def dmp_prem(self, f, g):
         return self.from_dense(dmp_prem(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
-    def dmp_pquo(self, f, g) -> None:
+    def dmp_pquo(self, f, g):
         return self.from_dense(dmp_pquo(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
-    def dmp_pexquo(self, f, g) -> None:
+    def dmp_pexquo(self, f, g):
         return self.from_dense(dmp_pexquo(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
     def dup_rr_div(self, f, g) -> tuple[None, None]:
@@ -398,21 +398,21 @@ class IPolys:
     def dup_div(self, f, g) -> tuple[None, None]:
         q, r = dup_div(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(q), self.from_dense(r))
-    def dup_rem(self, f, g) -> None:
+    def dup_rem(self, f, g):
         return self.from_dense(dup_rem(self.to_dense(f), self.to_dense(g), self.domain))
-    def dup_quo(self, f, g) -> None:
+    def dup_quo(self, f, g):
         return self.from_dense(dup_quo(self.to_dense(f), self.to_dense(g), self.domain))
-    def dup_exquo(self, f, g) -> None:
+    def dup_exquo(self, f, g):
         return self.from_dense(dup_exquo(self.to_dense(f), self.to_dense(g), self.domain))
 
     def dmp_div(self, f, g) -> tuple[None, None]:
         q, r = dmp_div(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(q), self.from_dense(r))
-    def dmp_rem(self, f, g) -> None:
+    def dmp_rem(self, f, g):
         return self.from_dense(dmp_rem(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
-    def dmp_quo(self, f, g) -> None:
+    def dmp_quo(self, f, g):
         return self.from_dense(dmp_quo(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
-    def dmp_exquo(self, f, g) -> None:
+    def dmp_exquo(self, f, g):
         return self.from_dense(dmp_exquo(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
     def dup_max_norm(self, f):
@@ -430,9 +430,9 @@ class IPolys:
     def dmp_l2_norm_squared(self, f) -> int:
         return dmp_l2_norm_squared(self.to_dense(f), self.ngens-1, self.domain)
 
-    def dup_expand(self, polys) -> None:
+    def dup_expand(self, polys):
         return self.from_dense(dup_expand(list(map(self.to_dense, polys)), self.domain))
-    def dmp_expand(self, polys) -> None:
+    def dmp_expand(self, polys):
         return self.from_dense(dmp_expand(list(map(self.to_dense, polys)), self.ngens-1, self.domain))
 
     def dup_LC(self, f):
@@ -463,19 +463,19 @@ class IPolys:
         return dmp_degree(self.to_dense(f), self.ngens-1)
     def dmp_degree_in(self, f, j) -> int:
         return dmp_degree_in(self.to_dense(f), j, self.ngens-1)
-    def dup_integrate(self, f, m) -> None:
+    def dup_integrate(self, f, m):
         return self.from_dense(dup_integrate(self.to_dense(f), m, self.domain))
-    def dmp_integrate(self, f, m) -> None:
+    def dmp_integrate(self, f, m):
         return self.from_dense(dmp_integrate(self.to_dense(f), m, self.ngens-1, self.domain))
 
-    def dup_diff(self, f, m) -> None:
+    def dup_diff(self, f, m):
         return self.from_dense(dup_diff(self.to_dense(f), m, self.domain))
-    def dmp_diff(self, f, m) -> None:
+    def dmp_diff(self, f, m):
         return self.from_dense(dmp_diff(self.to_dense(f), m, self.ngens-1, self.domain))
 
-    def dmp_diff_in(self, f, m, j) -> None:
+    def dmp_diff_in(self, f, m, j):
         return self.from_dense(dmp_diff_in(self.to_dense(f), m, j, self.ngens-1, self.domain))
-    def dmp_integrate_in(self, f, m, j) -> None:
+    def dmp_integrate_in(self, f, m, j):
         return self.from_dense(dmp_integrate_in(self.to_dense(f), m, j, self.ngens-1, self.domain))
 
     def dup_eval(self, f, a):
@@ -498,16 +498,16 @@ class IPolys:
         else:
             return result
 
-    def dup_trunc(self, f, p) -> None:
+    def dup_trunc(self, f, p):
         return self.from_dense(dup_trunc(self.to_dense(f), p, self.domain))
-    def dmp_trunc(self, f, g) -> None:
+    def dmp_trunc(self, f, g):
         return self.from_dense(dmp_trunc(self.to_dense(f), self[1:].to_dense(g), self.ngens-1, self.domain))
-    def dmp_ground_trunc(self, f, p) -> None:
+    def dmp_ground_trunc(self, f, p):
         return self.from_dense(dmp_ground_trunc(self.to_dense(f), p, self.ngens-1, self.domain))
 
-    def dup_monic(self, f) -> None:
+    def dup_monic(self, f):
         return self.from_dense(dup_monic(self.to_dense(f), self.domain))
-    def dmp_ground_monic(self, f) -> None:
+    def dmp_ground_monic(self, f):
         return self.from_dense(dmp_ground_monic(self.to_dense(f), self.ngens-1, self.domain))
 
     def dup_extract(self, f, g) -> tuple[Any, None, None]:
@@ -521,20 +521,20 @@ class IPolys:
         p, q = dup_real_imag(self.wrap(f).drop(1).to_dense(), self.domain)
         return (self.from_dense(p), self.from_dense(q))
 
-    def dup_mirror(self, f) -> None:
+    def dup_mirror(self, f):
         return self.from_dense(dup_mirror(self.to_dense(f), self.domain))
-    def dup_scale(self, f, a) -> None:
+    def dup_scale(self, f, a):
         return self.from_dense(dup_scale(self.to_dense(f), a, self.domain))
-    def dup_shift(self, f, a) -> None:
+    def dup_shift(self, f, a):
         return self.from_dense(dup_shift(self.to_dense(f), a, self.domain))
     def dmp_shift(self, f, a):
         return self.from_dense(dmp_shift(self.to_dense(f), a, self.ngens-1, self.domain))
-    def dup_transform(self, f, p, q) -> None:
+    def dup_transform(self, f, p, q):
         return self.from_dense(dup_transform(self.to_dense(f), self.to_dense(p), self.to_dense(q), self.domain))
 
-    def dup_compose(self, f, g) -> None:
+    def dup_compose(self, f, g):
         return self.from_dense(dup_compose(self.to_dense(f), self.to_dense(g), self.domain))
-    def dmp_compose(self, f, g) -> None:
+    def dmp_compose(self, f, g):
         return self.from_dense(dmp_compose(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
     def dup_decompose(self, f) -> list[None]:
@@ -563,7 +563,7 @@ class IPolys:
             ring = self
         return (c, ring.from_dense(F))
 
-    def dup_revert(self, f, n) -> None:
+    def dup_revert(self, f, n):
         return self.from_dense(dup_revert(self.to_dense(f), n, self.domain))
 
     def dup_half_gcdex(self, f, g) -> tuple[None, None]:
@@ -579,9 +579,9 @@ class IPolys:
         s, t, h = dmp_gcdex(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(s), self.from_dense(t), self.from_dense(h))
 
-    def dup_invert(self, f, g) -> None:
+    def dup_invert(self, f, g):
         return self.from_dense(dup_invert(self.to_dense(f), self.to_dense(g), self.domain))
-    def dmp_invert(self, f, g) -> None:
+    def dmp_invert(self, f, g):
         return self.from_dense(dmp_invert(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
     def dup_euclidean_prs(self, f, g) -> list[None]:
@@ -686,28 +686,28 @@ class IPolys:
     def dmp_inner_gcd(self, f, g) -> tuple[None, None, None]:
         H, F, G = dmp_inner_gcd(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(H), self.from_dense(F), self.from_dense(G))
-    def dup_gcd(self, f, g) -> None:
+    def dup_gcd(self, f, g):
         H = dup_gcd(self.to_dense(f), self.to_dense(g), self.domain)
         return self.from_dense(H)
-    def dmp_gcd(self, f, g) -> None:
+    def dmp_gcd(self, f, g):
         H = dmp_gcd(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return self.from_dense(H)
-    def dup_rr_lcm(self, f, g) -> None:
+    def dup_rr_lcm(self, f, g):
         H = dup_rr_lcm(self.to_dense(f), self.to_dense(g), self.domain)
         return self.from_dense(H)
-    def dup_ff_lcm(self, f, g) -> None:
+    def dup_ff_lcm(self, f, g):
         H = dup_ff_lcm(self.to_dense(f), self.to_dense(g), self.domain)
         return self.from_dense(H)
-    def dup_lcm(self, f, g) -> None:
+    def dup_lcm(self, f, g):
         H = dup_lcm(self.to_dense(f), self.to_dense(g), self.domain)
         return self.from_dense(H)
-    def dmp_rr_lcm(self, f, g) -> None:
+    def dmp_rr_lcm(self, f, g):
         H = dmp_rr_lcm(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return self.from_dense(H)
-    def dmp_ff_lcm(self, f, g) -> None:
+    def dmp_ff_lcm(self, f, g):
         H = dmp_ff_lcm(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return self.from_dense(H)
-    def dmp_lcm(self, f, g) -> None:
+    def dmp_lcm(self, f, g):
         H = dmp_lcm(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return self.from_dense(H)
 
@@ -789,7 +789,7 @@ class IPolys:
         return dup_zz_irreducible_p(self.to_dense(f), self.domain)
     def dup_cyclotomic_p(self, f, irreducible=False) -> bool:
         return dup_cyclotomic_p(self.to_dense(f), self.domain, irreducible=irreducible)
-    def dup_zz_cyclotomic_poly(self, n) -> None:
+    def dup_zz_cyclotomic_poly(self, n):
         F = dup_zz_cyclotomic_poly(n, self.domain)
         return self.from_dense(F)
     def dup_zz_cyclotomic_factor(self, f) -> list[None] | None:
@@ -917,13 +917,13 @@ class IPolys:
         s, F, R = dmp_sqf_norm(self.to_dense(f), self.ngens-1, self.domain)
         return (s, self.from_dense(F), self.to_ground().from_dense(R))
 
-    def dup_gf_sqf_part(self, f) -> None:
+    def dup_gf_sqf_part(self, f):
         return self.from_dense(dup_gf_sqf_part(self.to_dense(f), self.domain))
-    def dmp_gf_sqf_part(self, f) -> None:
+    def dmp_gf_sqf_part(self, f):
         return self.from_dense(dmp_gf_sqf_part(self.to_dense(f), self.domain))
-    def dup_sqf_part(self, f) -> None:
+    def dup_sqf_part(self, f):
         return self.from_dense(dup_sqf_part(self.to_dense(f), self.domain))
-    def dmp_sqf_part(self, f) -> None:
+    def dmp_sqf_part(self, f):
         return self.from_dense(dmp_sqf_part(self.to_dense(f), self.ngens-1, self.domain))
 
     def dup_gf_sqf_list(self, f, all=False) -> tuple[Any, list[tuple[None, Any]]]:
@@ -953,9 +953,9 @@ class IPolys:
         factors = dmp_gff_list(self.to_dense(f), self.ngens-1, self.domain)
         return [ (self.from_dense(g), k) for g, k in factors ]
 
-    def dup_root_upper_bound(self, f) -> None:
+    def dup_root_upper_bound(self, f):
         return dup_root_upper_bound(self.to_dense(f), self.domain)
-    def dup_root_lower_bound(self, f) -> None:
+    def dup_root_lower_bound(self, f):
         return dup_root_lower_bound(self.to_dense(f), self.domain)
 
     def dup_step_refine_real_root(
@@ -1052,7 +1052,7 @@ class IPolys:
     def to_gf_dense(self, element):
         return gf_strip([ self.domain.dom.convert(c, self.domain) for c in self.wrap(element).to_dense() ])
 
-    def from_gf_dense(self, element) -> None:
+    def from_gf_dense(self, element):
         return self.from_dict(dmp_to_dict(element, self.ngens-1, self.domain.dom))
 
     def gf_degree(self, f) -> int:
@@ -1063,87 +1063,87 @@ class IPolys:
     def gf_TC(self, f):
         return gf_TC(self.to_gf_dense(f), self.domain.dom)
 
-    def gf_strip(self, f) -> None:
+    def gf_strip(self, f):
         return self.from_gf_dense(gf_strip(self.to_gf_dense(f)))
-    def gf_trunc(self, f) -> None:
+    def gf_trunc(self, f):
         return self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod))
-    def gf_normal(self, f) -> None:
+    def gf_normal(self, f):
         return self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 
-    def gf_from_dict(self, f) -> None:
+    def gf_from_dict(self, f):
         return self.from_gf_dense(gf_from_dict(f, self.domain.mod, self.domain.dom))
 
     def gf_to_dict(self, f, symmetric=True) -> dict:
         return gf_to_dict(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)
 
-    def gf_from_int_poly(self, f) -> None:
+    def gf_from_int_poly(self, f):
         return self.from_gf_dense(gf_from_int_poly(f, self.domain.mod))
 
     def gf_to_int_poly(self, f, symmetric=True) -> list:
         return gf_to_int_poly(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)
 
-    def gf_neg(self, f) -> None:
+    def gf_neg(self, f):
         return self.from_gf_dense(gf_neg(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 
-    def gf_add_ground(self, f, a) -> None:
+    def gf_add_ground(self, f, a):
         return self.from_gf_dense(gf_add_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))
-    def gf_sub_ground(self, f, a) -> None:
+    def gf_sub_ground(self, f, a):
         return self.from_gf_dense(gf_sub_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))
-    def gf_mul_ground(self, f, a) -> None:
+    def gf_mul_ground(self, f, a):
         return self.from_gf_dense(gf_mul_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))
-    def gf_quo_ground(self, f, a) -> None:
+    def gf_quo_ground(self, f, a):
         return self.from_gf_dense(gf_quo_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))
 
-    def gf_add(self, f, g) -> None:
+    def gf_add(self, f, g):
         return self.from_gf_dense(gf_add(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
-    def gf_sub(self, f, g) -> None:
+    def gf_sub(self, f, g):
         return self.from_gf_dense(gf_sub(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
-    def gf_mul(self, f, g) -> None:
+    def gf_mul(self, f, g):
         return self.from_gf_dense(gf_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
-    def gf_sqr(self, f) -> None:
+    def gf_sqr(self, f):
         return self.from_gf_dense(gf_sqr(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 
-    def gf_add_mul(self, f, g, h) -> None:
+    def gf_add_mul(self, f, g, h):
         return self.from_gf_dense(gf_add_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))
-    def gf_sub_mul(self, f, g, h) -> None:
+    def gf_sub_mul(self, f, g, h):
         return self.from_gf_dense(gf_sub_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))
 
-    def gf_expand(self, F) -> None:
+    def gf_expand(self, F):
         return self.from_gf_dense(gf_expand(list(map(self.to_gf_dense, F)), self.domain.mod, self.domain.dom))
 
     def gf_div(self, f, g) -> tuple[None, None]:
         q, r = gf_div(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom)
         return self.from_gf_dense(q), self.from_gf_dense(r)
-    def gf_rem(self, f, g) -> None:
+    def gf_rem(self, f, g):
         return self.from_gf_dense(gf_rem(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
-    def gf_quo(self, f, g) -> None:
+    def gf_quo(self, f, g):
         return self.from_gf_dense(gf_quo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
-    def gf_exquo(self, f, g) -> None:
+    def gf_exquo(self, f, g):
         return self.from_gf_dense(gf_exquo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 
-    def gf_lshift(self, f, n) -> None:
+    def gf_lshift(self, f, n):
         return self.from_gf_dense(gf_lshift(self.to_gf_dense(f), n, self.domain.dom))
-    def gf_rshift(self, f, n) -> None:
+    def gf_rshift(self, f, n):
         return self.from_gf_dense(gf_rshift(self.to_gf_dense(f), n, self.domain.dom))
 
-    def gf_pow(self, f, n) -> None:
+    def gf_pow(self, f, n):
         return self.from_gf_dense(gf_pow(self.to_gf_dense(f), n, self.domain.mod, self.domain.dom))
-    def gf_pow_mod(self, f, n, g) -> None:
+    def gf_pow_mod(self, f, n, g):
         return self.from_gf_dense(gf_pow_mod(self.to_gf_dense(f), n, self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 
     def gf_cofactors(self, f, g) -> tuple[None, None, None]:
         h, cff, cfg = gf_cofactors(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom)
         return self.from_gf_dense(h), self.from_gf_dense(cff), self.from_gf_dense(cfg)
-    def gf_gcd(self, f, g) -> None:
+    def gf_gcd(self, f, g):
         return self.from_gf_dense(gf_gcd(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
-    def gf_lcm(self, f, g) -> None:
+    def gf_lcm(self, f, g):
         return self.from_gf_dense(gf_lcm(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
-    def gf_gcdex(self, f, g) -> None:
+    def gf_gcdex(self, f, g):
         return self.from_gf_dense(gf_gcdex(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 
-    def gf_monic(self, f) -> None:
+    def gf_monic(self, f):
         return self.from_gf_dense(gf_monic(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
-    def gf_diff(self, f) -> None:
+    def gf_diff(self, f):
         return self.from_gf_dense(gf_diff(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 
     def gf_eval(self, f, a):
@@ -1152,9 +1152,9 @@ class IPolys:
     def gf_multi_eval(self, f, A) -> list:
         return gf_multi_eval(self.to_gf_dense(f), A, self.domain.mod, self.domain.dom)
 
-    def gf_compose(self, f, g) -> None:
+    def gf_compose(self, f, g):
         return self.from_gf_dense(gf_compose(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
-    def gf_compose_mod(self, g, h, f) -> None:
+    def gf_compose_mod(self, g, h, f):
         return self.from_gf_dense(gf_compose_mod(self.to_gf_dense(g), self.to_gf_dense(h), self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 
     def gf_trace_map(self, a, b, c, n, f) -> tuple[None, None]:
@@ -1165,9 +1165,9 @@ class IPolys:
         U, V = gf_trace_map(a, b, c, n, f, self.domain.mod, self.domain.dom)
         return self.from_gf_dense(U), self.from_gf_dense(V)
 
-    def gf_random(self, n) -> None:
+    def gf_random(self, n):
         return self.from_gf_dense(gf_random(n, self.domain.mod, self.domain.dom))
-    def gf_irreducible(self, n) -> None:
+    def gf_irreducible(self, n):
         return self.from_gf_dense(gf_irreducible(n, self.domain.mod, self.domain.dom))
 
     def gf_irred_p_ben_or(self, f) -> bool:
@@ -1179,7 +1179,7 @@ class IPolys:
     def gf_sqf_p(self, f) -> bool:
         return gf_sqf_p(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
 
-    def gf_sqf_part(self, f) -> None:
+    def gf_sqf_part(self, f):
         return self.from_gf_dense(gf_sqf_part(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
     def gf_sqf_list(self, f, all=False) -> tuple[Any, list[tuple[None, Any]]]:
         coeff, factors = gf_sqf_part(self.to_gf_dense(f), self.domain.mod, self.domain.dom)

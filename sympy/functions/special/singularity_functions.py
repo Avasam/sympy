@@ -117,7 +117,7 @@ class SingularityFunction(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, variable, offset, exponent) -> None:
+    def eval(cls, variable, offset, exponent):
         """
         Returns a simplified form or a value of Singularity Function depending
         on the argument passed by the object.

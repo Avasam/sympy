@@ -46,13 +46,13 @@ if GROUND_TYPES == 'flint':
 
 class NonInvertibleCipherWarning(RuntimeWarning):
     """A warning raised if the cipher is not invertible."""
-    def __init__(self, msg) -> None:
+    def __init__(self, msg):
         self.fullMessage = msg
 
     def __str__(self):
         return '\n\t' + self.fullMessage
 
-    def warn(self, stacklevel=3) -> None:
+    def warn(self, stacklevel=3):
         warnings.warn(self, stacklevel=stacklevel)
 
 

@@ -475,7 +475,7 @@ class Domain(Generic[Er]):
     rep: str
     alias: str | None = None
 
-    def __init__(self) -> None:
+    def __init__(self):
         raise NotImplementedError
 
     def __str__(self) -> str:

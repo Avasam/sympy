@@ -61,7 +61,7 @@ class RecurrenceOperatorAlgebra:
     RecurrenceOperator
     """
 
-    def __init__(self, base, generator) -> None:
+    def __init__(self, base, generator):
         # the base ring for the algebra
         self.base = base
         # the operator representing shift i.e. `Sn`
@@ -140,7 +140,7 @@ class RecurrenceOperator:
 
     _op_priority = 20
 
-    def __init__(self, list_of_poly, parent) -> None:
+    def __init__(self, list_of_poly, parent):
         # the parent ring for this operator
         # must be an RecurrenceOperatorAlgebra object
         self.parent = parent
@@ -310,7 +310,7 @@ class HolonomicSequence:
     is Holonomic if and only if its generating function is a Holonomic Function.
     """
 
-    def __init__(self, recurrence, u0=[]) -> None:
+    def __init__(self, recurrence, u0=[]):
         self.recurrence = recurrence
         if not isinstance(u0, list):
             self.u0 = [u0]

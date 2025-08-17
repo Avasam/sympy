@@ -24,7 +24,7 @@ except ImportError:
 sp = re.compile(r"([0-9]+)/([1-9][0-9]*)")
 
 
-def process_split(config, items) -> None:
+def process_split(config, items):
     split = config.getoption("--split")
     if not split:
         return
@@ -61,30 +61,30 @@ def pytest_report_header(config) -> str:
     return s
 
 
-def pytest_terminal_summary(terminalreporter) -> None:
+def pytest_terminal_summary(terminalreporter):
     if terminalreporter.stats.get("error", None) or terminalreporter.stats.get(
         "failed", None
     ):
         terminalreporter.write_sep(" ", "DO *NOT* COMMIT!", red=True, bold=True)
 
 
-def pytest_addoption(parser) -> None:
+def pytest_addoption(parser):
     parser.addoption("--split", action="store", default="", help="split tests")
 
 
-def pytest_collection_modifyitems(config, items) -> None:
+def pytest_collection_modifyitems(config, items):
     """pytest hook."""
     # handle splits
     process_split(config, items)
 
 
 @pytest.fixture(autouse=True, scope="module")
-def file_clear_cache() -> None:
+def file_clear_cache():
     clear_cache()
 
 
 @pytest.fixture(autouse=True, scope="module")
-def check_disabled(request) -> None:
+def check_disabled(request):
     if getattr(request.module, "disabled", False):
         pytest.skip("test requirements not met.")
     elif getattr(request.module, "ipython", False):

@@ -38,7 +38,7 @@ class TableForm:
 
     """
 
-    def __init__(self, data, **kwarg) -> None:
+    def __init__(self, data, **kwarg):
         """
         Creates a TableForm.
 

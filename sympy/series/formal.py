@@ -976,7 +976,7 @@ class Coeff(Function):
     Coeff(p, x, n) represents the nth coefficient of the polynomial p in x
     """
     @classmethod
-    def eval(cls, p, x, n) -> None:
+    def eval(cls, p, x, n):
         if p.is_polynomial(x) and n.is_integer:
             return p.coeff(x, n)
 
@@ -1002,7 +1002,7 @@ class FormalPowerSeries(SeriesBase):
         args = map(sympify, args)
         return Expr.__new__(cls, *args)
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         ak = args[4][0]
         k = ak.variables[0]
         self.ak_seq = sequence(ak.formula, (k, 1, oo))
@@ -1508,7 +1508,7 @@ class FormalPowerSeries(SeriesBase):
 class FiniteFormalPowerSeries(FormalPowerSeries):
     """Base Class for Product, Compose and Inverse classes"""
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         pass
 
     @property
@@ -1578,7 +1578,7 @@ class FormalPowerSeriesProduct(FiniteFormalPowerSeries):
 
     """
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         ffps, gfps = self.ffps, self.gfps
 
         k = ffps.ak.variables[0]
@@ -1725,7 +1725,7 @@ class FormalPowerSeriesInverse(FiniteFormalPowerSeries):
     sympy.series.formal.FiniteFormalPowerSeries
 
     """
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         ffps = self.ffps
         k = ffps.xk.variables[0]
 

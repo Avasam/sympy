@@ -21,7 +21,7 @@ class PythonRationalField(RationalField):
     one = dtype(1) # type: ignore
     alias = 'QQ_python'
 
-    def __init__(self) -> None:
+    def __init__(self):
         pass
 
     def get_ring(self):

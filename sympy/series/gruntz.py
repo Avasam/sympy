@@ -202,7 +202,7 @@ class SubsSet(dict):
 
         exp(-w)/w + 1/w + x.
     """
-    def __init__(self) -> None:
+    def __init__(self):
         self.rewrites = {}
 
     def __repr__(self):

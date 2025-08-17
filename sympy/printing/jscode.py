@@ -55,7 +55,7 @@ class JavascriptCodePrinter(CodePrinter):
         'contract': True,
     })
 
-    def __init__(self, settings={}) -> None:
+    def __init__(self, settings={}):
         CodePrinter.__init__(self, settings)
         self.known_functions = dict(known_functions)
         userfuncs = settings.get('user_functions', {})
@@ -326,7 +326,7 @@ def jscode(
     return JavascriptCodePrinter(settings).doprint(expr, assign_to)
 
 
-def print_jscode(expr, **settings) -> None:
+def print_jscode(expr, **settings):
     """Prints the Javascript representation of the given expression.
 
        See jscode for the meaning of the optional arguments.

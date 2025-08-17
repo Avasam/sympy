@@ -56,7 +56,7 @@ class IntegralTransformError(NotImplementedError):
     objects, and instead raise this exception if an integral cannot be
     computed.
     """
-    def __init__(self, transform, function, msg) -> None:
+    def __init__(self, transform, function, msg):
         super().__init__(
             "%s Transform could not be computed: %s." % (transform, msg))
         self.function = function

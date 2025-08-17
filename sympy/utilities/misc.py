@@ -242,7 +242,7 @@ def debug_decorator(func: _CallableT) -> _CallableT:
     return decorated  # type: ignore
 
 
-def debug(*args) -> None:
+def debug(*args):
     """
     Print ``*args`` if SYMPY_DEBUG is True, else do nothing.
     """
@@ -251,7 +251,7 @@ def debug(*args) -> None:
         print(*args, file=sys.stderr)
 
 
-def debugf(string, args) -> None:
+def debugf(string, args):
     """
     Print ``string%args`` if SYMPY_DEBUG is True, else do nothing. This is
     intended for debug messages using formatted strings.

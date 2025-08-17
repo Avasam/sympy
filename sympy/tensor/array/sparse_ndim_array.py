@@ -165,7 +165,7 @@ class MutableSparseNDimArray(MutableNDimArray, SparseNDimArray):
 
         return self
 
-    def __setitem__(self, index, value) -> None:
+    def __setitem__(self, index, value):
         """Allows to set items to MutableDenseNDimArray.
 
         Examples

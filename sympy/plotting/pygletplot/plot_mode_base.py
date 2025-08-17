@@ -130,7 +130,7 @@ class PlotModeBase(PlotMode):
         raise NotImplementedError()
 
     ## Base member functions
-    def __init__(self, *args, bounds_callback=None, **kwargs) -> None:
+    def __init__(self, *args, bounds_callback=None, **kwargs):
         self.verts = []
         self.cverts = []
         self.bounds = [[S.Infinity, S.NegativeInfinity, 0],
@@ -177,7 +177,7 @@ class PlotModeBase(PlotMode):
         return w
 
     @synchronized
-    def push_wireframe(self, function) -> None:
+    def push_wireframe(self, function):
         """
         Push a function which performs gl commands
         used to build a display list. (The list is
@@ -189,7 +189,7 @@ class PlotModeBase(PlotMode):
             del self._draw_wireframe[1]  # leave marker element
 
     @synchronized
-    def push_solid(self, function) -> None:
+    def push_solid(self, function):
         """
         Push a function which performs gl commands
         used to build a display list. (The list is
@@ -237,7 +237,7 @@ class PlotModeBase(PlotMode):
         pgl.glPopAttrib()
 
     @synchronized
-    def draw(self) -> None:
+    def draw(self):
         for f in self.predraw:
             if callable(f):
                 f()

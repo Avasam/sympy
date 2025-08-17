@@ -86,7 +86,7 @@ class _pure_key_dict:
     via PurePoly instances. It does not, for example, implement
     ``get`` or ``setdefault``.
     """
-    def __init__(self) -> None:
+    def __init__(self):
         self._dict = {}
 
     def __getitem__(self, k):
@@ -96,7 +96,7 @@ class _pure_key_dict:
             k = PurePoly(k, expand=False)
         return self._dict[k]
 
-    def __setitem__(self, k, v) -> None:
+    def __setitem__(self, k, v):
         if not isinstance(k, PurePoly):
             if not (isinstance(k, Expr) and len(k.free_symbols) == 1):
                 raise ValueError('expecting univariate expression')
@@ -840,7 +840,7 @@ class ComplexRootOf(RootOf):
         return roots_flat
 
     @classmethod
-    def clear_cache(cls) -> None:
+    def clear_cache(cls):
         """Reset cache for reals and complexes.
 
         The intervals used to approximate a root instance are updated

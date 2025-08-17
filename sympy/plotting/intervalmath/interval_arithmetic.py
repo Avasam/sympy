@@ -63,7 +63,7 @@ class interval:
     of two 3-valued logic values.
     """
 
-    def __init__(self, *args, is_valid=True, **kwargs) -> None:
+    def __init__(self, *args, is_valid=True, **kwargs):
         self.is_valid = is_valid
         if len(args) == 1:
             if isinstance(args[0], interval):

@@ -209,7 +209,7 @@ class AlgIntPowers:
 
     """
 
-    def __init__(self, T, modulus=None) -> None:
+    def __init__(self, T, modulus=None):
         """
         Parameters
         ==========
@@ -234,7 +234,7 @@ class AlgIntPowers:
     def __rmod__(self, other):
         return self.red(other)
 
-    def compute_up_through(self, e) -> None:
+    def compute_up_through(self, e):
         m = self.max_so_far
         if e <= m: return
         n = self.n

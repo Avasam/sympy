@@ -64,7 +64,7 @@ class PlotController:
         key.F8: 'save_image'
     }
 
-    def __init__(self, window, *, invert_mouse_zoom=False, **kwargs) -> None:
+    def __init__(self, window, *, invert_mouse_zoom=False, **kwargs):
         self.invert_mouse_zoom = invert_mouse_zoom
         self.window = window
         self.camera = window.camera
@@ -185,15 +185,15 @@ class PlotController:
         else:
             return self.normal_key_sensitivity
 
-    def on_key_press(self, symbol, modifiers) -> None:
+    def on_key_press(self, symbol, modifiers):
         if symbol in self.keymap:
             self.action[self.keymap[symbol]] = True
 
-    def on_key_release(self, symbol, modifiers) -> None:
+    def on_key_release(self, symbol, modifiers):
         if symbol in self.keymap:
             self.action[self.keymap[symbol]] = False
 
-    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers) -> None:
+    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         if buttons & LEFT:
             if self.is_2D():
                 self.camera.mouse_translate(x, y, dx, dy)
@@ -206,7 +206,7 @@ class PlotController:
         if buttons & RIGHT:
             self.camera.mouse_translate(x, y, dx, dy)
 
-    def on_mouse_scroll(self, x, y, dx, dy) -> None:
+    def on_mouse_scroll(self, x, y, dx, dy):
         self.camera.zoom_relative([1, -1][self.invert_mouse_zoom]*dy,
                                   self.get_mouse_sensitivity())
 

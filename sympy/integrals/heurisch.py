@@ -212,7 +212,7 @@ class BesselTable:
     See the docstring of DiffCache.
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
         self.table = {}
         self.n = Dummy('n')
         self.z = Dummy('z')
@@ -269,7 +269,7 @@ class DiffCache:
     All derivatives are with respect to the same variable `x`.
     """
 
-    def __init__(self, x) -> None:
+    def __init__(self, x):
         self.cache = {}
         self.x = x
 

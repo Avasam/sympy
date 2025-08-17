@@ -82,7 +82,7 @@ class FiniteDistributionHandmade(SingleFiniteDistribution):
         return set(self.dict.keys())
 
     @staticmethod
-    def check(density) -> None:
+    def check(density):
         for p in density.values():
             _value_check((p >= 0, p <= 1),
                         "Probability at a point must be between 0 and 1.")
@@ -131,7 +131,7 @@ def FiniteRV(name, density, **kwargs) -> RandomSymbol:
 class DiscreteUniformDistribution(SingleFiniteDistribution):
 
     @staticmethod
-    def check(*args) -> None:
+    def check(*args):
         # not using _value_check since there is a
         # suggestion for the user
         if len(set(args)) != len(args):
@@ -209,7 +209,7 @@ class DieDistribution(SingleFiniteDistribution):
     _argnames = ('sides',)
 
     @staticmethod
-    def check(sides) -> None:
+    def check(sides):
         _value_check((sides.is_positive, sides.is_integer),
                     "number of sides must be a positive integer.")
 
@@ -283,7 +283,7 @@ class BernoulliDistribution(SingleFiniteDistribution):
     _argnames = ('p', 'succ', 'fail')
 
     @staticmethod
-    def check(p, succ, fail) -> None:
+    def check(p, succ, fail):
         _value_check((p >= 0, p <= 1),
                     "p should be in range [0, 1].")
 
@@ -395,7 +395,7 @@ class BinomialDistribution(SingleFiniteDistribution):
     _argnames = ('n', 'p', 'succ', 'fail')
 
     @staticmethod
-    def check(n, p, succ, fail) -> None:
+    def check(n, p, succ, fail):
         _value_check((n.is_integer, n.is_nonnegative),
                     "'n' must be nonnegative integer.")
         _value_check((p <= 1, p >= 0),
@@ -493,7 +493,7 @@ class BetaBinomialDistribution(SingleFiniteDistribution):
     _argnames = ('n', 'alpha', 'beta')
 
     @staticmethod
-    def check(n, alpha, beta) -> None:
+    def check(n, alpha, beta):
         _value_check((n.is_integer, n.is_nonnegative),
         "'n' must be nonnegative integer. n = %s." % str(n))
         _value_check((alpha > 0),
@@ -565,7 +565,7 @@ class HypergeometricDistribution(SingleFiniteDistribution):
     _argnames = ('N', 'm', 'n')
 
     @staticmethod
-    def check(n, N, m) -> None:
+    def check(n, N, m):
         _value_check((N.is_integer, N.is_nonnegative),
                      "'N' must be nonnegative integer. N = %s." % str(N))
         _value_check((n.is_integer, n.is_nonnegative),
@@ -682,7 +682,7 @@ class IdealSolitonDistribution(SingleFiniteDistribution):
     _argnames = ('k',)
 
     @staticmethod
-    def check(k) -> None:
+    def check(k):
         _value_check(k.is_integer and k.is_positive,
                     "'k' must be a positive integer.")
 
@@ -768,7 +768,7 @@ class RobustSolitonDistribution(SingleFiniteDistribution):
     _argnames= ('k', 'delta', 'c')
 
     @staticmethod
-    def check(k, delta, c) -> None:
+    def check(k, delta, c):
         _value_check(k.is_integer and k.is_positive,
                     "'k' must be a positive integer")
         _value_check(Gt(delta, 0) and Le(delta, 1),

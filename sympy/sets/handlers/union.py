@@ -12,31 +12,31 @@ union_sets = Dispatcher('union_sets')
 
 
 @union_sets.register(Naturals0, Naturals)
-def _(a, b) -> None:
+def _(a, b):
     return a
 
 @union_sets.register(Rationals, Naturals)
-def _(a, b) -> None:
+def _(a, b):
     return a
 
 @union_sets.register(Rationals, Naturals0)
-def _(a, b) -> None:
+def _(a, b):
     return a
 
 @union_sets.register(Reals, Naturals)
-def _(a, b) -> None:
+def _(a, b):
     return a
 
 @union_sets.register(Reals, Naturals0)
-def _(a, b) -> None:
+def _(a, b):
     return a
 
 @union_sets.register(Reals, Rationals)
-def _(a, b) -> None:
+def _(a, b):
     return a
 
 @union_sets.register(Integers, Set)
-def _(a, b) -> None:
+def _(a, b):
     intersect = Intersection(a, b)
     if intersect == a:
         return b
@@ -44,7 +44,7 @@ def _(a, b) -> None:
         return a
 
 @union_sets.register(ComplexRegion, Set)
-def _(a, b) -> None:
+def _(a, b):
     if b.is_subset(S.Reals):
         # treat a subset of reals as a complex region
         b = ComplexRegion.from_real(b)
@@ -59,16 +59,16 @@ def _(a, b) -> None:
     return None
 
 @union_sets.register(EmptySet, Set)
-def _(a, b) -> None:
+def _(a, b):
     return b
 
 
 @union_sets.register(UniversalSet, Set)
-def _(a, b) -> None:
+def _(a, b):
     return a
 
 @union_sets.register(ProductSet, ProductSet)
-def _(a, b) -> None:
+def _(a, b):
     if b.is_subset(a):
         return a
     if len(b.sets) != len(a.sets):
@@ -83,13 +83,13 @@ def _(a, b) -> None:
     return None
 
 @union_sets.register(ProductSet, Set)
-def _(a, b) -> None:
+def _(a, b):
     if b.is_subset(a):
         return a
     return None
 
 @union_sets.register(Interval, Interval)
-def _(a, b) -> None:
+def _(a, b):
     if a._is_comparable(b):
         # Non-overlapping intervals
         end = Min(a.end, b.end)
@@ -108,11 +108,11 @@ def _(a, b) -> None:
             return Interval(start, end, left_open, right_open)
 
 @union_sets.register(Interval, UniversalSet)
-def _(a, b) -> None:
+def _(a, b):
     return S.UniversalSet
 
 @union_sets.register(Interval, Set)
-def _(a, b) -> None:
+def _(a, b):
     # If I have open end points and these endpoints are contained in b
     # But only in case, when endpoints are finite. Because
     # interval does not contain oo or -oo.
@@ -131,11 +131,11 @@ def _(a, b) -> None:
     return None
 
 @union_sets.register(FiniteSet, FiniteSet)
-def _(a, b) -> None:
+def _(a, b):
     return FiniteSet(*(a._elements | b._elements))
 
 @union_sets.register(FiniteSet, Set)
-def _(a, b) -> None:
+def _(a, b):
     # If `b` set contains one of my elements, remove it from `a`
     if any(b.contains(x) == True for x in a):
         return {
@@ -143,5 +143,5 @@ def _(a, b) -> None:
     return None
 
 @union_sets.register(Set, Set)
-def _(a, b) -> None:
+def _(a, b):
     return None

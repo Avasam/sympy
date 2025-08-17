@@ -612,7 +612,7 @@ def _ask_single_fact(key, local_facts):
     return None
 
 
-def register_handler(key, handler) -> None:
+def register_handler(key, handler):
     """
     Register a handler in the ask system. key must be a string and handler a
     class inheriting from AskHandler.
@@ -638,7 +638,7 @@ def register_handler(key, handler) -> None:
         setattr(Q, key, Predicate(key, handlers=[handler]))
 
 
-def remove_handler(key, handler) -> None:
+def remove_handler(key, handler):
     """
     Removes a handler from the ask system.
 

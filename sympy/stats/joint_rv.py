@@ -157,7 +157,7 @@ class JointPSpace(ProductPSpace):
 
 class SampleJointScipy:
     """Returns the sample from scipy of the given distribution"""
-    def __new__(cls, dist, size, seed=None) -> None:
+    def __new__(cls, dist, size, seed=None):
         return cls._sample_scipy(dist, size, seed)
 
     @classmethod
@@ -197,7 +197,7 @@ class SampleJointScipy:
 class SampleJointNumpy:
     """Returns the sample from numpy of the given distribution"""
 
-    def __new__(cls, dist, size, seed=None) -> None:
+    def __new__(cls, dist, size, seed=None):
         return cls._sample_numpy(dist, size, seed)
 
     @classmethod
@@ -236,7 +236,7 @@ class SampleJointNumpy:
 class SampleJointPymc:
     """Returns the sample from pymc of the given distribution"""
 
-    def __new__(cls, dist, size, seed=None) -> None:
+    def __new__(cls, dist, size, seed=None):
         return cls._sample_pymc(dist, size, seed)
 
     @classmethod
@@ -379,7 +379,7 @@ class MarginalDistribution(Distribution):
             return dist
         return Basic.__new__(cls, dist, rvs)
 
-    def check(self) -> None:
+    def check(self):
         pass
 
     @property

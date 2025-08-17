@@ -10,7 +10,7 @@ class ColorGradient:
     colors = [0.4, 0.4, 0.4], [0.9, 0.9, 0.9]
     intervals = 0.0, 1.0
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         if len(args) == 2:
             self.colors = list(args)
             self.intervals = [0.0, 1.0]
@@ -48,7 +48,7 @@ default_color_schemes = {}  # defined at the bottom of this file
 
 class ColorScheme:
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         self.args = args
         self.f, self.gradient = None, ColorGradient()
 
@@ -223,7 +223,7 @@ class ColorScheme:
         except Exception:
             pass  # color function probably not valid at 0,0,0,0,0
 
-    def __call__(self, x, y, z, u, v) -> None:
+    def __call__(self, x, y, z, u, v):
         try:
             return self.f(x, y, z, u, v)
         except Exception:

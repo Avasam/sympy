@@ -118,7 +118,7 @@ class DDM(list):
     is_DFM = False
     is_DDM = True
 
-    def __init__(self, rowslist, shape, domain) -> None:
+    def __init__(self, rowslist, shape, domain):
         if not (isinstance(rowslist, list) and all(type(row) is list for row in rowslist)):
             raise DMBadInputError("rowslist must be a list of lists")
         m, n = shape
@@ -134,7 +134,7 @@ class DDM(list):
     def getitem(self, i, j):
         return self[i][j]
 
-    def setitem(self, i, j, value) -> None:
+    def setitem(self, i, j, value):
         self[i][j] = value
 
     def extract_slice(self, slice1, slice2) -> DDM:

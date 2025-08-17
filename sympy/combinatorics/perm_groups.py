@@ -156,7 +156,7 @@ class PermutationGroup(Basic):
             args = [g for g in args if not g.is_identity]
         return Basic.__new__(cls, *args, **kwargs)
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         self._generators = list(self.args)
         self._order = None
         self._elements = []
@@ -3006,7 +3006,7 @@ class PermutationGroup(Basic):
         self._order = m
         return m
 
-    def index(self, H) -> None:
+    def index(self, H):
         """
         Returns the index of a permutation group.
 
@@ -3516,7 +3516,7 @@ class PermutationGroup(Basic):
         h = self.orbit_rep(alpha, beta, schreier_vector)
         return rmul(~h, rand)
 
-    def schreier_sims(self) -> None:
+    def schreier_sims(self):
         """Schreier-Sims algorithm.
 
         Explanation
@@ -5296,7 +5296,7 @@ class SymmetricPermutationGroup(Basic):
         obj = Basic.__new__(cls, deg)
         return obj
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         self._deg = self.args[0]
         self._order = None
 
@@ -5431,7 +5431,7 @@ class Coset(Basic):
         obj = Basic.__new__(cls, g, H, G, dir)
         return obj
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         self._dir = self.args[3]
 
     @property

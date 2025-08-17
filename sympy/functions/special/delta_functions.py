@@ -501,7 +501,7 @@ class Heaviside(DefinedFunction):
         return args
 
     @classmethod
-    def eval(cls, arg, H0=S.Half) -> None:
+    def eval(cls, arg, H0=S.Half):
         """
         Returns a simplified form or a value of Heaviside depending on the
         argument passed by the Heaviside object.

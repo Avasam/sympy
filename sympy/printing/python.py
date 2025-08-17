@@ -10,7 +10,7 @@ STRPRINT = ("Add", "Infinity", "Integer", "Mul", "NegativeInfinity", "Pow")
 class PythonPrinter(ReprPrinter, StrPrinter):
     """A printer which converts an expression into its Python interpretation."""
 
-    def __init__(self, settings=None) -> None:
+    def __init__(self, settings=None):
         super().__init__(settings)
         self.symbols = []
         self.functions = []
@@ -87,6 +87,6 @@ def python(expr, **settings) -> str:
     return result
 
 
-def print_python(expr, **settings) -> None:
+def print_python(expr, **settings):
     """Print output of python() function"""
     print(python(expr, **settings))

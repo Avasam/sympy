@@ -210,7 +210,7 @@ class im(DefinedFunction):
     _singularities = True  # non-holomorphic
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         if arg is S.NaN or arg is S.ComplexInfinity:
             return S.NaN
         elif arg.is_extended_real:
@@ -893,7 +893,7 @@ class conjugate(DefinedFunction):
         def __new__(cls, arg: Basic) -> Basic: ... # type: ignore
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         obj = arg._eval_conjugate()
         if obj is not None:
             return obj
@@ -965,7 +965,7 @@ class transpose(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         obj = arg._eval_transpose()
         if obj is not None:
             return obj

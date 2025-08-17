@@ -294,7 +294,7 @@ def posify(eq) -> tuple[Any, dict] | tuple[Any, dict[Dummy, Any]]:
     return eq, {r: s for s, r in reps.items()}
 
 
-def hypersimp(f, k) -> None:
+def hypersimp(f, k):
     """Given combinatorial term f(k) simplify its consecutive term ratio
        i.e. f(k+1)/f(k).  The input term can be composed of functions and
        integer sequences which have equivalent representation in terms
@@ -1187,7 +1187,7 @@ def inversecombine(expr):
     return _bottom_up(expr, f)
 
 
-def kroneckersimp(expr) -> None:
+def kroneckersimp(expr):
     """
     Simplify expressions with KroneckerDelta.
 

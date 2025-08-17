@@ -2485,7 +2485,7 @@ class acos(InverseTrigonometricFunction):
             return s.is_rational
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -3177,7 +3177,7 @@ class asec(InverseTrigonometricFunction):
     """
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         if arg.is_zero:
             return S.ComplexInfinity
         if arg.is_Number:

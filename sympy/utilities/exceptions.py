@@ -56,7 +56,7 @@ class SymPyDeprecationWarning(DeprecationWarning):
     sympy.testing.pytest.warns_deprecated_sympy
 
     """
-    def __init__(self, message, *, deprecated_since_version, active_deprecations_target) -> None:
+    def __init__(self, message, *, deprecated_since_version, active_deprecations_target):
 
         super().__init__(message, deprecated_since_version,
                      active_deprecations_target)
@@ -103,7 +103,7 @@ will be removed in a future version of SymPy.
 warnings.simplefilter("once", SymPyDeprecationWarning)
 
 def sympy_deprecation_warning(message, *, deprecated_since_version,
-                              active_deprecations_target, stacklevel=3) -> None:
+                              active_deprecations_target, stacklevel=3):
     r'''
     Warn that a feature is deprecated in SymPy.
 

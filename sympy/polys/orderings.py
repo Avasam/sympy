@@ -105,7 +105,7 @@ class ProductOrder(MonomialOrder):
     of the monomial is most important.
     """
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         self.args = args
 
     def __call__(self, monomial) -> tuple:
@@ -154,7 +154,7 @@ class InverseOrder(MonomialOrder):
     True
     """
 
-    def __init__(self, O) -> None:
+    def __init__(self, O):
         self.O = O
 
     def __str__(self):
@@ -243,7 +243,7 @@ def monomial_key(order=None, gens=None) -> MonomialOrder:
 class _ItemGetter:
     """Helper class to return a subsequence of values."""
 
-    def __init__(self, seq) -> None:
+    def __init__(self, seq):
         self.seq = tuple(seq)
 
     def __call__(self, m) -> tuple:

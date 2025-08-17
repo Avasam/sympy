@@ -70,7 +70,7 @@ if TYPE_CHECKING:
     from typing_extensions import Self
 
 
-def deprecate_data() -> None:
+def deprecate_data():
     sympy_deprecation_warning(
         """
         The data attribute of TensorIndexType is deprecated. Use The
@@ -81,7 +81,7 @@ def deprecate_data() -> None:
         stacklevel=4,
     )
 
-def deprecate_fun_eval() -> None:
+def deprecate_fun_eval():
     sympy_deprecation_warning(
         """
         The Tensor.fun_eval() method is deprecated. Use
@@ -93,7 +93,7 @@ def deprecate_fun_eval() -> None:
     )
 
 
-def deprecate_call() -> None:
+def deprecate_call():
     sympy_deprecation_warning(
         """
         Calling a tensor like Tensor(*indices) is deprecated. Use
@@ -115,7 +115,7 @@ class _IndexStructure(CantSympify):
     objects corresponding to the given index structure.
     """
 
-    def __init__(self, free, dum, index_types, indices, canon_bp=False) -> None:
+    def __init__(self, free, dum, index_types, indices, canon_bp=False):
         self.free = free
         self.dum = dum
         self.index_types = index_types
@@ -626,7 +626,7 @@ class _TensorDataLazyEvaluator(CantSympify):
                     raise ValueError("Component data symmetry structure error")
                 last_data = data_swapped
 
-    def __setitem__(self, key, value) -> None:
+    def __setitem__(self, key, value):
         """
         Set the components data of a tensor object/expression.
 
@@ -657,13 +657,13 @@ class _TensorDataLazyEvaluator(CantSympify):
                     raise ValueError("wrong dimension of ndarray")
         self._substitutions_dict[key] = data
 
-    def __delitem__(self, key) -> None:
+    def __delitem__(self, key):
         del self._substitutions_dict[key]
 
     def __contains__(self, key) -> bool:
         return key in self._substitutions_dict
 
-    def add_metric_data(self, metric, data) -> None:
+    def add_metric_data(self, metric, data):
         """
         Assign data to the ``metric`` tensor. The metric tensor behaves in an
         anomalous way when raising and lowering indices.
@@ -767,7 +767,7 @@ class _TensorDataLazyEvaluator(CantSympify):
         return new_data
 
     @staticmethod
-    def add_rearrange_tensmul_parts(new_tensmul, old_tensmul) -> None:
+    def add_rearrange_tensmul_parts(new_tensmul, old_tensmul):
         def sorted_compo():
             return _TensorDataLazyEvaluator._sort_data_axes(old_tensmul, new_tensmul)
 
@@ -822,7 +822,7 @@ class _TensorManager:
     groups commute with those with ``comm=0``; by default they
     do not commute with any other group.
     """
-    def __init__(self) -> None:
+    def __init__(self):
         self._comm_init()
 
     def _comm_init(self):
@@ -865,7 +865,7 @@ class _TensorManager:
         """
         return self._comm_i2symbol[i]
 
-    def set_comm(self, i, j, c) -> None:
+    def set_comm(self, i, j, c):
         """
         Set the commutation parameter ``c`` for commutation groups ``i, j``.
 
@@ -948,7 +948,7 @@ class _TensorManager:
         """
         clear_cache()
 
-    def set_comms(self, *args) -> None:
+    def set_comms(self, *args):
         """
         Set the commutation group numbers ``c`` for symbols ``i, j``.
 
@@ -968,7 +968,7 @@ class _TensorManager:
         """
         return self._comm[i].get(j, 0 if i == 0 or j == 0 else None)
 
-    def clear(self) -> None:
+    def clear(self):
         """
         Clear the TensorManager.
         """
@@ -1158,7 +1158,7 @@ class TensorIndexType(Basic):
         symmetry = TensorSymmetry.fully_symmetric(-self.eps_dim)
         return TensorHead('Eps', [self]*self.eps_dim, symmetry)
 
-    def set_metric(self, tensor) -> None:
+    def set_metric(self, tensor):
         self._metric = tensor
 
     def __lt__(self, other) -> bool:
@@ -1172,13 +1172,13 @@ class TensorIndexType(Basic):
     # Everything below this line is deprecated
 
     @property
-    def data(self) -> None:
+    def data(self):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return _tensor_data_substitution_dict[self]
 
     @data.setter
-    def data(self, data) -> None:
+    def data(self, data):
         deprecate_data()
         # This assignment is a bit controversial, should metric components be assigned
         # to the metric only or also to the TensorIndexType object? The advantage here
@@ -1215,7 +1215,7 @@ class TensorIndexType(Basic):
             delta(i1, -i2).data = _TensorDataLazyEvaluator.parse_data(eye(dim1))
 
     @data.deleter
-    def data(self) -> None:
+    def data(self):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             if self in _tensor_data_substitution_dict:
@@ -1937,19 +1937,19 @@ class TensorHead(Basic):
             return marray ** (other * S.Half)
 
     @property
-    def data(self) -> None:
+    def data(self):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return _tensor_data_substitution_dict[self]
 
     @data.setter
-    def data(self, data) -> None:
+    def data(self, data):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             _tensor_data_substitution_dict[self] = data
 
     @data.deleter
-    def data(self) -> None:
+    def data(self):
         deprecate_data()
         if self in _tensor_data_substitution_dict:
             del _tensor_data_substitution_dict[self]
@@ -2739,19 +2739,19 @@ class TensAdd(TensExpr, AssocOp):
         return ref_indices, sum(arrays, Array.zeros(*array.shape))
 
     @property
-    def data(self) -> None:
+    def data(self):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return _tensor_data_substitution_dict[self.expand()]
 
     @data.setter
-    def data(self, data) -> None:
+    def data(self, data):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             _tensor_data_substitution_dict[self] = data
 
     @data.deleter
-    def data(self) -> None:
+    def data(self):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             if self in _tensor_data_substitution_dict:
@@ -3280,20 +3280,20 @@ class Tensor(TensExpr):
         return self._match_indices_with_other_tensor(array, free_ind1, free_ind2, replacement_dict)
 
     @property
-    def data(self) -> None:
+    def data(self):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             return _tensor_data_substitution_dict[self]
 
     @data.setter
-    def data(self, data) -> None:
+    def data(self, data):
         deprecate_data()
         # TODO: check data compatibility with properties of tensor.
         with ignore_warnings(SymPyDeprecationWarning):
             _tensor_data_substitution_dict[self] = data
 
     @data.deleter
-    def data(self) -> None:
+    def data(self):
         deprecate_data()
         with ignore_warnings(SymPyDeprecationWarning):
             if self in _tensor_data_substitution_dict:
@@ -4967,7 +4967,7 @@ class _WildTensExpr(Basic):
     K(R_0)*K(-R_0)*K(p)
 
     """
-    def __init__(self, expr) -> None:
+    def __init__(self, expr):
         if not isinstance(expr, TensExpr):
             raise TypeError("_WildTensExpr expects a TensExpr as argument")
         self.expr = expr

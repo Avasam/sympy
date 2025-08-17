@@ -80,7 +80,7 @@ def refine(expr: Basic, assumptions: Boolean | bool = True) -> Basic:
     return refine(new_expr, assumptions)
 
 
-def refine_abs(expr, assumptions) -> None:
+def refine_abs(expr, assumptions):
     """
     Handler for the absolute value.
 
@@ -308,7 +308,7 @@ def refine_im(expr, assumptions) -> Basic | None:
         return - S.ImaginaryUnit * arg
     return _refine_reim(expr, assumptions)
 
-def refine_arg(expr, assumptions) -> None:
+def refine_arg(expr, assumptions):
     """
     Handler for complex argument
 

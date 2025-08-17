@@ -11,7 +11,7 @@ class PolycyclicGroup(DefaultPrinting):
     is_group = True
     is_solvable = True
 
-    def __init__(self, pc_sequence, pc_series, relative_order, collector=None) -> None:
+    def __init__(self, pc_sequence, pc_series, relative_order, collector=None):
         """
 
         Parameters
@@ -52,7 +52,7 @@ class Collector(DefaultPrinting):
            Section 8.1.3
     """
 
-    def __init__(self, pcgs, pc_series, relative_order, free_group_=None, pc_presentation=None) -> None:
+    def __init__(self, pcgs, pc_series, relative_order, free_group_=None, pc_presentation=None):
         """
 
         Most of the parameters for the Collector class are the same as for PolycyclicGroup.

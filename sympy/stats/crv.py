@@ -185,7 +185,7 @@ class SingleContinuousDistribution(ContinuousDistribution, NamedArgsMixin):
         return Basic.__new__(cls, *args)
 
     @staticmethod
-    def check(*args) -> None:
+    def check(*args):
         pass
 
     @cacheit

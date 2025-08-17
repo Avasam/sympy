@@ -180,7 +180,7 @@ class MutableDenseNDimArray(DenseNDimArray, MutableNDimArray):
         self._loop_size = functools.reduce(lambda x,y: x*y, shape) if shape else len(flat_list)
         return self
 
-    def __setitem__(self, index, value) -> None:
+    def __setitem__(self, index, value):
         """Allows to set items to MutableDenseNDimArray.
 
         Examples

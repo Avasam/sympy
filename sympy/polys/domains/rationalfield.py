@@ -49,7 +49,7 @@ class RationalField(Field[MPQ], CharacteristicZero, SimpleDomain):
     one = dtype(1)
     tp = type(one)
 
-    def __init__(self) -> None:
+    def __init__(self):
         pass
 
     def __eq__(self, other):
@@ -112,7 +112,7 @@ class RationalField(Field[MPQ], CharacteristicZero, SimpleDomain):
         from sympy.polys.domains import AlgebraicField
         return AlgebraicField(self, *extension, alias=alias)
 
-    def from_AlgebraicField(K1, a, K0) -> None:
+    def from_AlgebraicField(K1, a, K0):
         """Convert a :py:class:`~.ANP` object to :ref:`QQ`.
 
         See :py:meth:`~.Domain.convert`

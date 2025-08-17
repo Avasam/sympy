@@ -352,7 +352,7 @@ def chop_parts(value: TMP_RES, prec: int) -> TMP_RES:
     return re, im, re_acc, im_acc
 
 
-def check_target(expr: Expr, result: TMP_RES, prec: int) -> None:
+def check_target(expr: Expr, result: TMP_RES, prec: int):
     a = complex_accuracy(result)
     if a < prec:
         raise PrecisionExhausted("Failed to distinguish the expression: \n\n%s\n\n"

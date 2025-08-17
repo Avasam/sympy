@@ -619,7 +619,7 @@ class AssocOpDispatcher:
     True
 
     """
-    def __init__(self, name, doc=None) -> None:
+    def __init__(self, name, doc=None):
         self.name = name
         self.doc = doc
         self.handlerattr = "_%s_handler" % name
@@ -629,7 +629,7 @@ class AssocOpDispatcher:
     def __repr__(self) -> str:
         return "<dispatched %s>" % self.name
 
-    def register_handlerclass(self, classes, typ, on_ambiguity=ambiguity_register_error_ignore_dup) -> None:
+    def register_handlerclass(self, classes, typ, on_ambiguity=ambiguity_register_error_ignore_dup):
         """
         Register the handler class for two classes, in both straight and reversed order.
 

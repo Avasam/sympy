@@ -513,7 +513,7 @@ class PicklableWithSlots:
 
         return d
 
-    def __setstate__(self, d) -> None:
+    def __setstate__(self, d):
         # All values that were pickled are now assigned to a fresh instance
         for name, value in d.items():
             setattr(self, name, value)

@@ -86,7 +86,7 @@ class Prufer(Basic):
         return self._tree_repr
 
     @property
-    def nodes(self) -> None:
+    def nodes(self):
         """Returns the number of nodes in the tree.
 
         Examples

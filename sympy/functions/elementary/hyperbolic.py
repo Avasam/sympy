@@ -1963,7 +1963,7 @@ class asech(InverseHyperbolicFunction):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN

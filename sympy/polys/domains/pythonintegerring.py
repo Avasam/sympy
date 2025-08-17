@@ -25,7 +25,7 @@ class PythonIntegerRing(IntegerRing):
     one = dtype(1) # type: ignore
     alias = 'ZZ_python'
 
-    def __init__(self) -> None:
+    def __init__(self):
         """Allow instantiation of this domain. """
 
     def to_sympy(self, a) -> Integer:
@@ -49,12 +49,12 @@ class PythonIntegerRing(IntegerRing):
         """Convert Python's ``int`` to Python's ``int``. """
         return a
 
-    def from_QQ(K1, a, K0) -> None:
+    def from_QQ(K1, a, K0):
         """Convert Python's ``Fraction`` to Python's ``int``. """
         if a.denominator == 1:
             return a.numerator
 
-    def from_QQ_python(K1, a, K0) -> None:
+    def from_QQ_python(K1, a, K0):
         """Convert Python's ``Fraction`` to Python's ``int``. """
         if a.denominator == 1:
             return a.numerator

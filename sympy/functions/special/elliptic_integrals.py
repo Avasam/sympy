@@ -57,7 +57,7 @@ class elliptic_k(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, m) -> None:
+    def eval(cls, m):
         if m.is_zero:
             return pi*S.Half
         elif m is S.Half:
@@ -144,7 +144,7 @@ class elliptic_f(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, z, m) -> None:
+    def eval(cls, z, m):
         if z.is_zero:
             return S.Zero
         if m.is_zero:
@@ -235,7 +235,7 @@ class elliptic_e(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, m, z=None) -> None:
+    def eval(cls, m, z=None):
         if z is not None:
             z, m = m, z
             k = 2*z/pi

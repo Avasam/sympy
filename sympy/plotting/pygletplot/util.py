@@ -81,7 +81,7 @@ def vec_subs(a, b) -> tuple:
     return tuple(a[i] - b[i] for i in range(len(a)))
 
 
-def billboard_matrix() -> None:
+def billboard_matrix():
     """
     Removes rotational components of
     current matrix so that primitives
@@ -112,7 +112,7 @@ def create_bounds() -> list[list]:
             [S.Infinity, S.NegativeInfinity, 0]]
 
 
-def update_bounds(b, v) -> None:
+def update_bounds(b, v):
     if v is None:
         return
     for axis in range(3):

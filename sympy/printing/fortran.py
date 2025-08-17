@@ -117,7 +117,7 @@ class FCodePrinter(CodePrinter):
         '!=': '/=',
     }
 
-    def __init__(self, settings=None) -> None:
+    def __init__(self, settings=None):
         if not settings:
             settings = {}
         self.mangled_symbols = {}         # Dict showing mapping of all words

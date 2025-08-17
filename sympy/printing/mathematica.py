@@ -134,7 +134,7 @@ class MCodePrinter(CodePrinter):
     _number_symbols: set[tuple[Expr, Float]] = set()
     _not_supported: set[Basic] = set()
 
-    def __init__(self, settings={}) -> None:
+    def __init__(self, settings={}):
         """Register function mappings supplied by user"""
         CodePrinter.__init__(self, settings)
         self.known_functions = dict(known_functions)

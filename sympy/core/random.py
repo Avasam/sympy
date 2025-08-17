@@ -41,7 +41,7 @@ _assumptions_rng = _random.Random()
 _assumptions_shuffle = _assumptions_rng.shuffle
 
 
-def seed(a=None, version=2) -> None:
+def seed(a=None, version=2):
     rng.seed(a=a, version=version)
     _assumptions_rng.seed(a=a, version=version)
 

@@ -311,7 +311,7 @@ class lucas(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, n) -> None:
+    def eval(cls, n):
         if n is S.Infinity:
             return S.Infinity
 
@@ -1550,7 +1550,7 @@ class andre(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, n) -> None:
+    def eval(cls, n):
         if n is S.NaN:
             return S.NaN
         elif n is S.Infinity:

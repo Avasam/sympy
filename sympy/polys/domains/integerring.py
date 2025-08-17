@@ -49,7 +49,7 @@ class IntegerRing(Ring[MPZ], CharacteristicZero, SimpleDomain):
     has_assoc_Ring = True
     has_assoc_Field = True
 
-    def __init__(self) -> None:
+    def __init__(self):
         """Allow instantiation of this domain. """
 
     def __eq__(self, other):
@@ -126,7 +126,7 @@ class IntegerRing(Ring[MPZ], CharacteristicZero, SimpleDomain):
         """
         return self.get_field().algebraic_field(*extension, alias=alias)
 
-    def from_AlgebraicField(K1, a, K0) -> None:
+    def from_AlgebraicField(K1, a, K0):
         """Convert a :py:class:`~.ANP` object to :ref:`ZZ`.
 
         See :py:meth:`~.Domain.convert`.
@@ -200,7 +200,7 @@ class IntegerRing(Ring[MPZ], CharacteristicZero, SimpleDomain):
         """Convert GMPY's ``mpz`` to GMPY's ``mpz``. """
         return a
 
-    def from_QQ_gmpy(K1, a, K0) -> None:
+    def from_QQ_gmpy(K1, a, K0):
         """Convert GMPY ``mpq`` to GMPY's ``mpz``. """
         if a.denominator == 1:
             return a.numerator
@@ -215,7 +215,7 @@ class IntegerRing(Ring[MPZ], CharacteristicZero, SimpleDomain):
             # other.
             return MPZ(int(p))
 
-    def from_GaussianIntegerRing(K1, a, K0) -> None:
+    def from_GaussianIntegerRing(K1, a, K0):
         if a.y == 0:
             return a.x
 

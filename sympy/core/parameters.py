@@ -58,10 +58,10 @@ class _global_parameters(local):
     .. [1] https://docs.python.org/3/library/threading.html
 
     """
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
-    def __setattr__(self, name, value) -> None:
+    def __setattr__(self, name, value):
         if getattr(self, name) != value:
             clear_cache()
         return super().__setattr__(name, value)

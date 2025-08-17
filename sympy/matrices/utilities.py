@@ -13,7 +13,7 @@ from sympy.core.function import expand_mul
 
 
 class DotProdSimpState(local):
-    def __init__(self) -> None:
+    def __init__(self):
         self.state = None
 
 _dotprodsimp_state = DotProdSimpState()

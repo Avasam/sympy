@@ -47,7 +47,7 @@ class CommonHandler(AskHandler):
         return False
 
     @staticmethod
-    def AlwaysNone(expr, assumptions) -> None:
+    def AlwaysNone(expr, assumptions):
         return None
 
     NaN = AlwaysFalse

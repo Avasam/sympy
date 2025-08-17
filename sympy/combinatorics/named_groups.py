@@ -116,7 +116,7 @@ def AlternatingGroup(n) -> PermutationGroup:
     return G
 
 
-def set_alternating_group_properties(G, n, degree) -> None:
+def set_alternating_group_properties(G, n, degree):
     """Set known properties of an alternating group. """
     if n < 4:
         G._is_abelian = True
@@ -302,7 +302,7 @@ def SymmetricGroup(n) -> PermutationGroup:
     return G
 
 
-def set_symmetric_group_properties(G, n, degree) -> None:
+def set_symmetric_group_properties(G, n, degree):
     """Set known properties of a symmetric group. """
     if n < 3:
         G._is_abelian = True

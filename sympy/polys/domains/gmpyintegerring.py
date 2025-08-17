@@ -27,7 +27,7 @@ class GMPYIntegerRing(IntegerRing):
     tp: type[_GMPYInteger] = type(one)
     alias = 'ZZ_gmpy'
 
-    def __init__(self) -> None:
+    def __init__(self):
         """Allow instantiation of this domain. """
 
     def to_sympy(self, a) -> Integer:
@@ -69,7 +69,7 @@ class GMPYIntegerRing(IntegerRing):
         """Convert GMPY's ``mpz`` to GMPY's ``mpz``. """
         return a
 
-    def from_QQ_gmpy(K1, a, K0) -> None:
+    def from_QQ_gmpy(K1, a, K0):
         """Convert GMPY ``mpq`` to GMPY's ``mpz``. """
         if a.denominator == 1:
             return a.numerator
@@ -81,7 +81,7 @@ class GMPYIntegerRing(IntegerRing):
         if q == 1:
             return GMPYInteger(p)
 
-    def from_GaussianIntegerRing(K1, a, K0) -> None:
+    def from_GaussianIntegerRing(K1, a, K0):
         if a.y == 0:
             return a.x
 

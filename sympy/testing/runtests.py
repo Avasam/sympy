@@ -276,7 +276,7 @@ def run_in_subprocess_with_hash_randomization(
 
 def run_all_tests(test_args=(), test_kwargs=None,
                   doctest_args=(), doctest_kwargs=None,
-                  examples_args=(), examples_kwargs=None) -> None:
+                  examples_args=(), examples_kwargs=None):
     """
     Run all tests.
 
@@ -1126,7 +1126,7 @@ def sympytestfile(filename, module_relative=True, name=None, package=None,
 class SymPyTests:
 
     def __init__(self, reporter, kw="", post_mortem=False,
-                 seed=None, fast_threshold=None, slow_threshold=None) -> None:
+                 seed=None, fast_threshold=None, slow_threshold=None):
         self._post_mortem = post_mortem
         self._kw = kw
         self._count = 0
@@ -1381,7 +1381,7 @@ class SymPyTests:
 
 class SymPyDocTests:
 
-    def __init__(self, reporter, normal) -> None:
+    def __init__(self, reporter, normal):
         self._count = 0
         self._root_dir = get_sympy_dir()
         self._reporter = reporter
@@ -1404,7 +1404,7 @@ class SymPyDocTests:
                 raise
         return self._reporter.finish()
 
-    def test_file(self, filename) -> None:
+    def test_file(self, filename):
         clear_cache()
 
         from io import StringIO
@@ -1890,7 +1890,7 @@ class SymPyOutputChecker(pdoctest.OutputChecker):
     doctest examples
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
         # NOTE OutputChecker is an old-style class with no __init__ method,
         # so we can't call the base class version of __init__ here
 
@@ -1994,7 +1994,7 @@ class PyTestReporter(Reporter):
     """
 
     def __init__(self, verbose=False, tb="short", colors=True,
-                 force_colors=False, split=None) -> None:
+                 force_colors=False, split=None):
         self._verbose = verbose
         self._tb_style = tb
         self._colors = colors
@@ -2021,7 +2021,7 @@ class PyTestReporter(Reporter):
         self._write_pos = 0
         self._line_wrap = False
 
-    def root_dir(self, dir) -> None:
+    def root_dir(self, dir):
         self._root_dir = dir
 
     @property
@@ -2093,7 +2093,7 @@ class PyTestReporter(Reporter):
         return width
 
     def write(self, text, color="", align="left", width=None,
-              force_colors=False) -> None:
+              force_colors=False):
         """
         Prints a text on the screen.
 
@@ -2182,7 +2182,7 @@ class PyTestReporter(Reporter):
         self._line_wrap = self._write_pos >= width
         self._write_pos %= width
 
-    def write_center(self, text, delim="=") -> None:
+    def write_center(self, text, delim="="):
         width = self.terminal_width
         if text != "":
             text = " %s " % text
@@ -2190,13 +2190,13 @@ class PyTestReporter(Reporter):
         t = delim*idx + text + delim*(width - idx - len(text))
         self.write(t + "\n")
 
-    def write_exception(self, e, val, tb) -> None:
+    def write_exception(self, e, val, tb):
         # remove the first item, as that is always runtests.py
         tb = tb.tb_next
         t = traceback.format_exception(e, val, tb)
         self.write("".join(t))
 
-    def start(self, seed=None, msg="test process starts") -> None:
+    def start(self, seed=None, msg="test process starts"):
         self.write_center(msg)
         executable = sys.executable
         v = tuple(sys.version_info)
@@ -2315,14 +2315,14 @@ class PyTestReporter(Reporter):
             self.write("DO *NOT* COMMIT!\n")
         return ok
 
-    def entering_filename(self, filename, n) -> None:
+    def entering_filename(self, filename, n):
         rel_name = filename[len(self._root_dir) + 1:]
         self._active_file = rel_name
         self._active_file_error = False
         self.write(rel_name)
         self.write("[%d] " % n)
 
-    def leaving_filename(self) -> None:
+    def leaving_filename(self):
         self.write(" ")
         if self._active_file_error:
             self.write("[FAIL]", "Red", align="right")
@@ -2332,40 +2332,40 @@ class PyTestReporter(Reporter):
         if self._verbose:
             self.write("\n")
 
-    def entering_test(self, f) -> None:
+    def entering_test(self, f):
         self._active_f = f
         if self._verbose:
             self.write("\n" + f.__name__ + " ")
 
-    def test_xfail(self) -> None:
+    def test_xfail(self):
         self._xfailed += 1
         self.write("f", "Green")
 
-    def test_xpass(self, v) -> None:
+    def test_xpass(self, v):
         message = str(v)
         self._xpassed.append((self._active_file, message))
         self.write("X", "Green")
 
-    def test_fail(self, exc_info) -> None:
+    def test_fail(self, exc_info):
         self._failed.append((self._active_file, self._active_f, exc_info))
         self.write("F", "Red")
         self._active_file_error = True
 
-    def doctest_fail(self, name, error_msg) -> None:
+    def doctest_fail(self, name, error_msg):
         # the first line contains "******", remove it:
         error_msg = "\n".join(error_msg.split("\n")[1:])
         self._failed_doctest.append((name, error_msg))
         self.write("F", "Red")
         self._active_file_error = True
 
-    def test_pass(self, char=".") -> None:
+    def test_pass(self, char="."):
         self._passed += 1
         if self._verbose:
             self.write("ok", "Green")
         else:
             self.write(char, "Green")
 
-    def test_skip(self, v=None) -> None:
+    def test_skip(self, v=None):
         char = "s"
         self._skipped += 1
         if v is not None:
@@ -2383,7 +2383,7 @@ class PyTestReporter(Reporter):
                 self.write(" - ", "Blue")
         self.write(char, "Blue")
 
-    def test_exception(self, exc_info) -> None:
+    def test_exception(self, exc_info):
         self._exceptions.append((self._active_file, self._active_f, exc_info))
         if exc_info[0] is TimeOutError:
             self.write("T", "Red")
@@ -2391,7 +2391,7 @@ class PyTestReporter(Reporter):
             self.write("E", "Red")
         self._active_file_error = True
 
-    def import_error(self, filename, exc_info) -> None:
+    def import_error(self, filename, exc_info):
         self._exceptions.append((filename, None, exc_info))
         rel_name = filename[len(self._root_dir) + 1:]
         self.write(rel_name)

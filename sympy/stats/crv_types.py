@@ -182,7 +182,7 @@ class ContinuousDistributionHandmade(SingleContinuousDistribution):
         return self.args[1]
 
     @staticmethod
-    def check(pdf, set) -> None:
+    def check(pdf, set):
         x = Dummy('x')
         val = integrate(pdf(x), (x, set))
         _value_check(Eq(val, 1) != S.false, "The pdf on the given set is incorrect.")
@@ -325,7 +325,7 @@ class BeniniDistribution(SingleContinuousDistribution):
     _argnames = ('alpha', 'beta', 'sigma')
 
     @staticmethod
-    def check(alpha, beta, sigma) -> None:
+    def check(alpha, beta, sigma):
         _value_check(alpha > 0, "Shape parameter Alpha must be positive.")
         _value_check(beta > 0, "Shape parameter Beta must be positive.")
         _value_check(sigma > 0, "Scale parameter Sigma must be positive.")
@@ -415,7 +415,7 @@ class BetaDistribution(SingleContinuousDistribution):
     set = Interval(0, 1)
 
     @staticmethod
-    def check(alpha, beta) -> None:
+    def check(alpha, beta):
         _value_check(alpha > 0, "Shape parameter Alpha must be positive.")
         _value_check(beta > 0, "Shape parameter Beta must be positive.")
 
@@ -497,7 +497,7 @@ class BetaNoncentralDistribution(SingleContinuousDistribution):
     set = Interval(0, 1)
 
     @staticmethod
-    def check(alpha, beta, lamda) -> None:
+    def check(alpha, beta, lamda):
         _value_check(alpha > 0, "Shape parameter Alpha must be positive.")
         _value_check(beta > 0, "Shape parameter Beta must be positive.")
         _value_check(lamda >= 0, "Noncentrality parameter Lambda must be positive")
@@ -587,7 +587,7 @@ class BetaPrimeDistribution(SingleContinuousDistribution):
     _argnames = ('alpha', 'beta')
 
     @staticmethod
-    def check(alpha, beta) -> None:
+    def check(alpha, beta):
         _value_check(alpha > 0, "Shape parameter Alpha must be positive.")
         _value_check(beta > 0, "Shape parameter Beta must be positive.")
 
@@ -658,7 +658,7 @@ class BoundedParetoDistribution(SingleContinuousDistribution):
         return Interval(self.left, self.right)
 
     @staticmethod
-    def check(alpha, left, right) -> None:
+    def check(alpha, left, right):
         _value_check (alpha.is_positive, "Shape must be positive.")
         _value_check (left.is_positive, "Left value should be positive.")
         _value_check (right > left, "Right should be greater than left.")
@@ -724,7 +724,7 @@ class CauchyDistribution(SingleContinuousDistribution):
     _argnames = ('x0', 'gamma')
 
     @staticmethod
-    def check(x0, gamma) -> None:
+    def check(x0, gamma):
         _value_check(gamma > 0, "Scale parameter Gamma must be positive.")
         _value_check(x0.is_real, "Location parameter must be real.")
 
@@ -799,7 +799,7 @@ class ChiDistribution(SingleContinuousDistribution):
     _argnames = ('k',)
 
     @staticmethod
-    def check(k) -> None:
+    def check(k):
         _value_check(k > 0, "Number of degrees of freedom (k) must be positive.")
         _value_check(k.is_integer, "Number of degrees of freedom (k) must be an integer.")
 
@@ -880,7 +880,7 @@ class ChiNoncentralDistribution(SingleContinuousDistribution):
     _argnames = ('k', 'l')
 
     @staticmethod
-    def check(k, l) -> None:
+    def check(k, l):
         _value_check(k > 0, "Number of degrees of freedom (k) must be positive.")
         _value_check(k.is_integer, "Number of degrees of freedom (k) must be an integer.")
         _value_check(l > 0, "Shift parameter Lambda must be positive.")
@@ -951,7 +951,7 @@ class ChiSquaredDistribution(SingleContinuousDistribution):
     _argnames = ('k',)
 
     @staticmethod
-    def check(k) -> None:
+    def check(k):
         _value_check(k > 0, "Number of degrees of freedom (k) must be positive.")
         _value_check(k.is_integer, "Number of degrees of freedom (k) must be an integer.")
 
@@ -1043,7 +1043,7 @@ class DagumDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(p, a, b) -> None:
+    def check(p, a, b):
         _value_check(p > 0, "Shape parameter p must be positive.")
         _value_check(a > 0, "Shape parameter a must be positive.")
         _value_check(b > 0, "Scale parameter b must be positive.")
@@ -1271,7 +1271,7 @@ class ExGaussianDistribution(SingleContinuousDistribution):
     set = Interval(-oo, oo)
 
     @staticmethod
-    def check(mean, std, rate) -> None:
+    def check(mean, std, rate):
         _value_check(
             std > 0, "Standard deviation of ExGaussian must be positive.")
         _value_check(rate > 0, "Rate of ExGaussian must be positive.")
@@ -1389,7 +1389,7 @@ class ExponentialDistribution(SingleContinuousDistribution):
     set  = Interval(0, oo)
 
     @staticmethod
-    def check(rate) -> None:
+    def check(rate):
         _value_check(rate > 0, "Rate must be positive.")
 
     def pdf(self, x):
@@ -1498,7 +1498,7 @@ class ExponentialPowerDistribution(SingleContinuousDistribution):
     set = Interval(-oo, oo)
 
     @staticmethod
-    def check(mu, alpha, beta) -> None:
+    def check(mu, alpha, beta):
         _value_check(alpha > 0, "Scale parameter alpha must be positive.")
         _value_check(beta > 0, "Shape parameter beta must be positive.")
 
@@ -1590,7 +1590,7 @@ class FDistributionDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(d1, d2) -> None:
+    def check(d1, d2):
         _value_check((d1 > 0, d1.is_integer),
             "Degrees of freedom d1 must be positive integer.")
         _value_check((d2 > 0, d2.is_integer),
@@ -1674,7 +1674,7 @@ class FisherZDistribution(SingleContinuousDistribution):
     set = Interval(-oo, oo)
 
     @staticmethod
-    def check(d1, d2) -> None:
+    def check(d1, d2):
         _value_check(d1 > 0, "Degree of freedom d1 must be positive.")
         _value_check(d2 > 0, "Degree of freedom d2 must be positive.")
 
@@ -1755,7 +1755,7 @@ class FrechetDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(a, s, m) -> None:
+    def check(a, s, m):
         _value_check(a > 0, "Shape parameter alpha must be positive.")
         _value_check(s > 0, "Scale parameter s must be positive.")
 
@@ -1837,7 +1837,7 @@ class GammaDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(k, theta) -> None:
+    def check(k, theta):
         _value_check(k > 0, "k must be positive")
         _value_check(theta > 0, "Theta must be positive")
 
@@ -1943,7 +1943,7 @@ class GammaInverseDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(a, b) -> None:
+    def check(a, b):
         _value_check(a > 0, "alpha must be positive")
         _value_check(b > 0, "beta must be positive")
 
@@ -2035,7 +2035,7 @@ class GumbelDistribution(SingleContinuousDistribution):
     set = Interval(-oo, oo)
 
     @staticmethod
-    def check(beta, mu, minimum) -> None:
+    def check(beta, mu, minimum):
         _value_check(beta > 0, "Scale parameter beta must be positive.")
 
     def pdf(self, x) -> Piecewise:
@@ -2132,7 +2132,7 @@ class GompertzDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(b, eta) -> None:
+    def check(b, eta):
         _value_check(b > 0, "b must be positive")
         _value_check(eta > 0, "eta must be positive")
 
@@ -2206,7 +2206,7 @@ class KumaraswamyDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(a, b) -> None:
+    def check(a, b):
         _value_check(a > 0, "a must be positive")
         _value_check(b > 0, "b must be positive")
 
@@ -2286,7 +2286,7 @@ class LaplaceDistribution(SingleContinuousDistribution):
     set = Interval(-oo, oo)
 
     @staticmethod
-    def check(mu, b) -> None:
+    def check(mu, b):
         _value_check(b > 0, "Scale parameter b must be positive.")
         _value_check(mu.is_real, "Location parameter mu should be real")
 
@@ -2384,7 +2384,7 @@ class LevyDistribution(SingleContinuousDistribution):
         return Interval(self.mu, oo)
 
     @staticmethod
-    def check(mu, c) -> None:
+    def check(mu, c):
         _value_check(c > 0, "c (scale parameter) must be positive")
         _value_check(mu.is_real, "mu (location parameter) must be real")
 
@@ -2461,7 +2461,7 @@ class LogCauchyDistribution(SingleContinuousDistribution):
     set = Interval.open(0, oo)
 
     @staticmethod
-    def check(mu, sigma) -> None:
+    def check(mu, sigma):
         _value_check((sigma > 0) != False, "Scale parameter Gamma must be positive.")
         _value_check(mu.is_real != False, "Location parameter must be real.")
 
@@ -2538,7 +2538,7 @@ class LogisticDistribution(SingleContinuousDistribution):
     set = Interval(-oo, oo)
 
     @staticmethod
-    def check(mu, s) -> None:
+    def check(mu, s):
         _value_check(s > 0, "Scale parameter s must be positive.")
 
     def pdf(self, x):
@@ -2619,7 +2619,7 @@ class LogLogisticDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(alpha, beta) -> None:
+    def check(alpha, beta):
         _value_check(alpha > 0, "Scale parameter Alpha must be positive.")
         _value_check(beta > 0, "Shape parameter Beta must be positive.")
 
@@ -2713,7 +2713,7 @@ class LogitNormalDistribution(SingleContinuousDistribution):
     set = Interval.open(0, 1)
 
     @staticmethod
-    def check(mu, s) -> None:
+    def check(mu, s):
         _value_check((s ** 2).is_real is not False and s ** 2 > 0, "Squared scale parameter s must be positive.")
         _value_check(mu.is_real is not False, "Location parameter must be real")
 
@@ -2800,7 +2800,7 @@ class LogNormalDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(mean, std) -> None:
+    def check(mean, std):
         _value_check(std > 0, "Parameter std must be positive.")
 
     def pdf(self, x):
@@ -2894,7 +2894,7 @@ class LomaxDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(alpha, lamda) -> None:
+    def check(alpha, lamda):
         _value_check(alpha.is_real, "Shape parameter should be real.")
         _value_check(lamda.is_real, "Scale parameter should be real.")
         _value_check(alpha.is_positive, "Shape parameter should be positive.")
@@ -2964,7 +2964,7 @@ class MaxwellDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(a) -> None:
+    def check(a):
         _value_check(a > 0, "Parameter a must be positive.")
 
     def pdf(self, x):
@@ -3037,7 +3037,7 @@ class MoyalDistribution(SingleContinuousDistribution):
     _argnames = ('mu', 'sigma')
 
     @staticmethod
-    def check(mu, sigma) -> None:
+    def check(mu, sigma):
         _value_check(mu.is_real, "Location parameter must be real.")
         _value_check(sigma.is_real and sigma > 0, "Scale parameter must be real\
         and positive.")
@@ -3121,7 +3121,7 @@ class NakagamiDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(mu, omega) -> None:
+    def check(mu, omega):
         _value_check(mu >= S.Half, "Shape parameter mu must be greater than equal to 1/2.")
         _value_check(omega > 0, "Spread parameter omega must be positive.")
 
@@ -3215,7 +3215,7 @@ class NormalDistribution(SingleContinuousDistribution):
     _argnames = ('mean', 'std')
 
     @staticmethod
-    def check(mean, std) -> None:
+    def check(mean, std):
         _value_check(std > 0, "Standard deviation must be positive")
 
     def pdf(self, x):
@@ -3344,7 +3344,7 @@ class GaussianInverseDistribution(SingleContinuousDistribution):
         return Interval(0, oo)
 
     @staticmethod
-    def check(mean, shape) -> None:
+    def check(mean, shape):
         _value_check(shape > 0, "Shape parameter must be positive")
         _value_check(mean > 0, "Mean must be positive")
 
@@ -3453,7 +3453,7 @@ class ParetoDistribution(SingleContinuousDistribution):
         return Interval(self.xm, oo)
 
     @staticmethod
-    def check(xm, alpha) -> None:
+    def check(xm, alpha):
         _value_check(xm > 0, "Xm must be positive")
         _value_check(alpha > 0, "Alpha must be positive")
 
@@ -3539,7 +3539,7 @@ class PowerFunctionDistribution(SingleContinuousDistribution):
         return Interval(self.a, self.b)
 
     @staticmethod
-    def check(alpha, a, b) -> None:
+    def check(alpha, a, b):
         _value_check(a.is_real, "Continuous Boundary parameter should be real.")
         _value_check(b.is_real, "Continuous Boundary parameter should be real.")
         _value_check(a < b, " 'a' the left Boundary must be smaller than 'b' the right Boundary." )
@@ -3627,7 +3627,7 @@ class QuadraticUDistribution(SingleContinuousDistribution):
         return Interval(self.a, self.b)
 
     @staticmethod
-    def check(a, b) -> None:
+    def check(a, b):
         _value_check(b > a, "Parameter b must be in range (%s, oo)."%(a))
 
     def pdf(self, x) -> Piecewise:
@@ -3719,7 +3719,7 @@ class RaisedCosineDistribution(SingleContinuousDistribution):
         return Interval(self.mu - self.s, self.mu + self.s)
 
     @staticmethod
-    def check(mu, s) -> None:
+    def check(mu, s):
         _value_check(s > 0, "s must be positive")
 
     def pdf(self, x) -> Piecewise:
@@ -3804,7 +3804,7 @@ class RayleighDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(sigma) -> None:
+    def check(sigma):
         _value_check(sigma > 0, "Scale parameter sigma must be positive.")
 
     def pdf(self, x):
@@ -3889,7 +3889,7 @@ class ReciprocalDistribution(SingleContinuousDistribution):
         return Interval(self.a, self.b)
 
     @staticmethod
-    def check(a, b) -> None:
+    def check(a, b):
         _value_check(a > 0, "Parameter > 0. a = %s"%a)
         _value_check((a < b),
         "Parameter b must be in range (%s, +oo]. b = %s"%(a, b))
@@ -3946,7 +3946,7 @@ class ShiftedGompertzDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(b, eta) -> None:
+    def check(b, eta):
         _value_check(b > 0, "b must be positive")
         _value_check(eta > 0, "eta must be positive")
 
@@ -4011,7 +4011,7 @@ class StudentTDistribution(SingleContinuousDistribution):
     set = Interval(-oo, oo)
 
     @staticmethod
-    def check(nu) -> None:
+    def check(nu):
         _value_check(nu > 0, "Degrees of freedom nu must be positive.")
 
     def pdf(self, x):
@@ -4103,7 +4103,7 @@ class TrapezoidalDistribution(SingleContinuousDistribution):
         return Interval(self.a, self.d)
 
     @staticmethod
-    def check(a, b, c, d) -> None:
+    def check(a, b, c, d):
         _value_check(a < d, "Lower bound parameter a < %s. a = %s"%(d, a))
         _value_check((a <= b, b < c),
         "Level start parameter b must be in range [%s, %s). b = %s"%(a, c, b))
@@ -4199,7 +4199,7 @@ class TriangularDistribution(SingleContinuousDistribution):
         return Interval(self.a, self.b)
 
     @staticmethod
-    def check(a, b, c) -> None:
+    def check(a, b, c):
         _value_check(b > a, "Parameter b > %s. b = %s"%(a, b))
         _value_check((a <= c, c <= b),
         "Parameter c must be in range [%s, %s]. c = %s"%(a, b, c))
@@ -4302,7 +4302,7 @@ class UniformDistribution(SingleContinuousDistribution):
         return Interval(self.left, self.right)
 
     @staticmethod
-    def check(left, right) -> None:
+    def check(left, right):
         _value_check(left < right, "Lower limit should be less than Upper limit.")
 
     def pdf(self, x) -> Piecewise:
@@ -4412,7 +4412,7 @@ class UniformSumDistribution(SingleContinuousDistribution):
         return Interval(0, self.n)
 
     @staticmethod
-    def check(n) -> None:
+    def check(n):
         _value_check((n > 0, n.is_integer),
         "Parameter n must be positive integer.")
 
@@ -4518,7 +4518,7 @@ class VonMisesDistribution(SingleContinuousDistribution):
     set = Interval(0, 2*pi)
 
     @staticmethod
-    def check(mu, k) -> None:
+    def check(mu, k):
         _value_check(k > 0, "k must be positive")
 
     def pdf(self, x):
@@ -4592,7 +4592,7 @@ class WeibullDistribution(SingleContinuousDistribution):
     set = Interval(0, oo)
 
     @staticmethod
-    def check(alpha, beta) -> None:
+    def check(alpha, beta):
         _value_check(alpha > 0, "Alpha must be positive")
         _value_check(beta > 0, "Beta must be positive")
 
@@ -4671,7 +4671,7 @@ class WignerSemicircleDistribution(SingleContinuousDistribution):
         return Interval(-self.R, self.R)
 
     @staticmethod
-    def check(R) -> None:
+    def check(R):
         _value_check(R > 0, "Radius R must be positive.")
 
     def pdf(self, x):

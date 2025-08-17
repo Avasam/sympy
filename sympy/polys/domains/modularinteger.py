@@ -24,10 +24,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
 
     __slots__ = ('val',)
 
-    def parent(self) -> None:
+    def parent(self):
         return self._parent
 
-    def __init__(self, val) -> None:
+    def __init__(self, val):
         if isinstance(val, self.__class__):
             self.val = val.val % self.mod
         else:

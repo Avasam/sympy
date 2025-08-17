@@ -14,8 +14,8 @@ class Registry:
     """
     __slots__ = ()
 
-    def __setattr__(self, name, obj) -> None:
+    def __setattr__(self, name, obj):
         setattr(self.__class__, name, obj)
 
-    def __delattr__(self, name) -> None:
+    def __delattr__(self, name):
         delattr(self.__class__, name)

@@ -221,7 +221,7 @@ class C89CodePrinter(CodePrinter):
     # known_functions-dict to copy
     _kf: dict[str, Any] = known_functions_C89
 
-    def __init__(self, settings=None) -> None:
+    def __init__(self, settings=None):
         settings = settings or {}
         if self.math_macros is None:
             self.math_macros = settings.pop('math_macros', get_math_macros())

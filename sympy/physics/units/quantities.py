@@ -54,10 +54,10 @@ class Quantity(AtomicExpr):
         obj._is_prefixed = is_prefixed
         return obj
 
-    def set_global_dimension(self, dimension) -> None:
+    def set_global_dimension(self, dimension):
         _QuantityMapper._quantity_dimension_global[self] = dimension
 
-    def set_global_relative_scale_factor(self, scale_factor, reference_quantity) -> None:
+    def set_global_relative_scale_factor(self, scale_factor, reference_quantity):
         """
         Setting a scale factor that is valid across all unit system.
         """

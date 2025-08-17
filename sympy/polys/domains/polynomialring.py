@@ -28,7 +28,7 @@ class PolynomialRing(Ring['PolyElement[Er]'], CompositeDomain):
     has_assoc_Ring  = True
     has_assoc_Field = True
 
-    def __init__(self, domain_or_ring: Domain[Er] | PolyRing[Er], symbols=None, order=None) -> None:
+    def __init__(self, domain_or_ring: Domain[Er] | PolyRing[Er], symbols=None, order=None):
         from sympy.polys.rings import PolyRing
 
         if isinstance(domain_or_ring, PolyRing) and symbols is None and order is None:
@@ -148,14 +148,14 @@ class PolynomialRing(Ring['PolyElement[Er]'], CompositeDomain):
         if a is not None:
             return K1.new(a)
 
-    def from_PolynomialRing(K1, a, K0) -> None:
+    def from_PolynomialRing(K1, a, K0):
         """Convert a polynomial to ``dtype``. """
         try:
             return a.set_ring(K1.ring)
         except (CoercionFailed, GeneratorsError):
             return None
 
-    def from_FractionField(K1, a, K0) -> None:
+    def from_FractionField(K1, a, K0):
         """Convert a rational function to ``dtype``. """
         if K1.domain == K0:
             return K1.ring.from_list([a])
@@ -167,7 +167,7 @@ class PolynomialRing(Ring['PolyElement[Er]'], CompositeDomain):
         else:
             return None
 
-    def from_GlobalPolynomialRing(K1, a, K0) -> None:
+    def from_GlobalPolynomialRing(K1, a, K0):
         """Convert from old poly ring to ``dtype``. """
         if K1.symbols == K0.gens:
             ad = a.to_dict()

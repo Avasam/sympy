@@ -20,7 +20,7 @@ class PlotInterval:
             return f(self, *args, **kwargs)
         return check
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         if len(args) == 1:
             if isinstance(args[0], PlotInterval):
                 self.fill_from(args[0])
@@ -53,7 +53,7 @@ class PlotInterval:
     def get_v(self) -> Symbol | None:
         return self._v
 
-    def set_v(self, v) -> None:
+    def set_v(self, v):
         if v is None:
             self._v = None
             return
@@ -61,10 +61,10 @@ class PlotInterval:
             raise ValueError("v must be a SymPy Symbol.")
         self._v = v
 
-    def get_v_min(self) -> None:
+    def get_v_min(self):
         return self._v_min
 
-    def set_v_min(self, v_min) -> None:
+    def set_v_min(self, v_min):
         if v_min is None:
             self._v_min = None
             return
@@ -74,10 +74,10 @@ class PlotInterval:
         except TypeError:
             raise ValueError("v_min could not be interpreted as a number.")
 
-    def get_v_max(self) -> None:
+    def get_v_max(self):
         return self._v_max
 
-    def set_v_max(self, v_max) -> None:
+    def set_v_max(self, v_max):
         if v_max is None:
             self._v_max = None
             return
@@ -90,7 +90,7 @@ class PlotInterval:
     def get_v_steps(self) -> Integer | None:
         return self._v_steps
 
-    def set_v_steps(self, v_steps) -> None:
+    def set_v_steps(self, v_steps):
         if v_steps is None:
             self._v_steps = None
             return
@@ -112,7 +112,7 @@ class PlotInterval:
     v_steps = property(get_v_steps, set_v_steps)
     v_len = property(get_v_len)
 
-    def fill_from(self, b) -> None:
+    def fill_from(self, b):
         if b.v is not None:
             self.v = b.v
         if b.v_min is not None:
@@ -152,7 +152,7 @@ class PlotInterval:
         return "[%s]" % (self._str_base())
 
     @require_all_args
-    def assert_complete(self) -> None:
+    def assert_complete(self):
         pass
 
     @require_all_args

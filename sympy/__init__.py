@@ -31,7 +31,7 @@ from sympy.release import __version__
 from sympy.core.cache import lazy_function
 
 if 'dev' in __version__:
-    def enable_warnings() -> None:
+    def enable_warnings():
         import warnings
         warnings.filterwarnings('default',   '.*',   DeprecationWarning, module='sympy.*')
         del warnings

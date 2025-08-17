@@ -1067,7 +1067,7 @@ class hermite(OrthogonalPolynomial):
     _ortho_poly = staticmethod(hermite_poly)
 
     @classmethod
-    def eval(cls, n, x) -> None:
+    def eval(cls, n, x):
         if not n.is_Number:
             # Symbolic result H_n(x)
             # H_n(-x)  --->  (-1)**n * H_n(x)
@@ -1173,7 +1173,7 @@ class hermite_prob(OrthogonalPolynomial):
     _ortho_poly = staticmethod(hermite_prob_poly)
 
     @classmethod
-    def eval(cls, n, x) -> None:
+    def eval(cls, n, x):
         if not n.is_Number:
             if x.could_extract_minus_sign():
                 return S.NegativeOne**n * hermite_prob(n, -x)
@@ -1274,7 +1274,7 @@ class laguerre(OrthogonalPolynomial):
     _ortho_poly = staticmethod(laguerre_poly)
 
     @classmethod
-    def eval(cls, n, x) -> None:
+    def eval(cls, n, x):
         if n.is_integer is False:
             raise ValueError("Error: n should be an integer.")
         if not n.is_Number:

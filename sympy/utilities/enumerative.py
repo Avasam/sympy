@@ -105,7 +105,7 @@ class PartComponent:
 
     __slots__ = ('c', 'u', 'v')
 
-    def __init__(self) -> None:
+    def __init__(self):
         self.c = 0   # Component number
         self.u = 0   # The as yet unpartitioned amount in component c
                      # *before* it is allocated by this triple
@@ -411,7 +411,7 @@ class MultisetPartitionTraverser():
 
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
         self.debug = False
         # TRACING variables.  These are useful for gathering
         # statistics on the algorithm itself, but have no particular
@@ -437,7 +437,7 @@ class MultisetPartitionTraverser():
         if not hasattr(self, 'dp_map'):
             self.dp_map = {}
 
-    def db_trace(self, msg) -> None:
+    def db_trace(self, msg):
         """Useful for understanding/debugging the algorithms.  Not
         generally activated in end-user code."""
         if self.debug:

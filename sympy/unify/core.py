@@ -26,7 +26,7 @@ class Compound:
 
     This is analogous to SymPy.Basic for non-Atoms
     """
-    def __init__(self, op, args) -> None:
+    def __init__(self, op, args):
         self.op = op
         self.args = args
 
@@ -42,7 +42,7 @@ class Compound:
 
 class Variable:
     """ A Wild token """
-    def __init__(self, arg) -> None:
+    def __init__(self, arg):
         self.arg = arg
 
     def __eq__(self, other) -> bool:
@@ -60,7 +60,7 @@ class CondVariable:
     arg   - a wild token.
     valid - an additional constraining function on a match.
     """
-    def __init__(self, arg, valid) -> None:
+    def __init__(self, arg, valid):
         self.arg = arg
         self.valid = valid
 

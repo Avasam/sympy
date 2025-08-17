@@ -120,7 +120,7 @@ class no_attrs_in_subclass:
     False
 
     """
-    def __init__(self, cls, f) -> None:
+    def __init__(self, cls, f):
         self.cls = cls
         self.f = f
 

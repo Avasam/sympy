@@ -295,7 +295,7 @@ class Factors:
 
     __slots__ = ('factors', 'gens')
 
-    def __init__(self, factors=None) -> None:  # Factors
+    def __init__(self, factors=None):  # Factors
         """Initialize Factors from dict or expr.
 
         Examples
@@ -816,7 +816,7 @@ class Term:
 
     __slots__ = ('coeff', 'numer', 'denom')
 
-    def __init__(self, term, numer=None, denom=None) -> None:  # Term
+    def __init__(self, term, numer=None, denom=None):  # Term
         if numer is None and denom is None:
             if not term.is_commutative:
                 raise NonCommutativeExpression(

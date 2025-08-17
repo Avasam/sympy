@@ -907,7 +907,7 @@ class Rem(DefinedFunction):
     kind = NumberKind
 
     @classmethod
-    def eval(cls, p, q) -> None:
+    def eval(cls, p, q):
         """Return the function remainder if both p, q are numbers and q is not
         zero.
         """

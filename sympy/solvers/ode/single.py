@@ -78,7 +78,7 @@ class SingleODEProblem:
     _eq_preprocessed: Expr
     _eq_high_order_free = None
 
-    def __init__(self, eq: Expr, func: AppliedUndef, sym: Symbol, prep: bool = True, **kwargs) -> None:
+    def __init__(self, eq: Expr, func: AppliedUndef, sym: Symbol, prep: bool = True, **kwargs):
         self.eq = eq
         self.func = func
         self.sym = sym
@@ -260,7 +260,7 @@ class SingleODESolver:
     # that subclass can solve or leave it to None if not specific to any order
     order: list | None = None
 
-    def __init__(self, ode_problem) -> None:
+    def __init__(self, ode_problem):
         self.ode_problem = ode_problem
 
     def matches(self) -> bool:

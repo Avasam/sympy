@@ -103,7 +103,7 @@ def _mod1(x):
 
 
 # leave add formulae at the top for easy reference
-def add_formulae(formulae) -> None:
+def add_formulae(formulae):
     """ Create our knowledge base. """
     a, b, c, z = symbols('a b c, z', cls=Dummy)
 
@@ -391,7 +391,7 @@ def add_formulae(formulae) -> None:
                  [0,0,0,-1]]))
 
 
-def add_meijerg_formulae(formulae) -> None:
+def add_meijerg_formulae(formulae):
     a, b, c, z = list(map(Dummy, 'abcz'))
     rho = Dummy('rho')
 
@@ -472,7 +472,7 @@ def make_simp(z) -> Callable:
     return simp
 
 
-def debug(*args) -> None:
+def debug(*args):
     if SYMPY_DEBUG:
         for a in args:
             print(a, end="")
@@ -727,7 +727,7 @@ class Formula:
         l.reverse()
         self.M = m.row_insert(n, -Matrix([l])/poly.all_coeffs()[0])
 
-    def __init__(self, func, z, res, symbols, B=None, C=None, M=None) -> None:
+    def __init__(self, func, z, res, symbols, B=None, C=None, M=None):
         z = sympify(z)
         res = sympify(res)
         symbols = [x for x in sympify(symbols) if func.has(x)]
@@ -815,7 +815,7 @@ class Formula:
 class FormulaCollection:
     """ A collection of formulae to use as origins. """
 
-    def __init__(self) -> None:
+    def __init__(self):
         """ Doing this globally at module init time is a pain ... """
         self.symbolic_formulae = {}
         self.concrete_formulae = {}
@@ -899,7 +899,7 @@ class MeijerFormula:
     - B, C, M (c/f ordinary Formula)
     """
 
-    def __init__(self, an, ap, bm, bq, z, symbols, B, C, M, matcher) -> None:
+    def __init__(self, an, ap, bm, bq, z, symbols, B, C, M, matcher):
         an, ap, bm, bq = [Tuple(*list(map(expand, w))) for w in [an, ap, bm, bq]]
         self.func = G_Function(an, ap, bm, bq)
         self.z = z
@@ -934,7 +934,7 @@ class MeijerFormulaCollection:
     This class holds a collection of meijer g formulae.
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
         formulae = []
         add_meijerg_formulae(formulae)
         self.formulae = defaultdict(list)
@@ -942,7 +942,7 @@ class MeijerFormulaCollection:
             self.formulae[formula.func.signature].append(formula)
         self.formulae = dict(self.formulae)
 
-    def lookup_origin(self, func) -> None:
+    def lookup_origin(self, func):
         """ Try to find a formula that matches func. """
         if func.signature not in self.formulae:
             return None
@@ -1008,14 +1008,14 @@ class Operator:
 class MultOperator(Operator):
     """ Simply multiply by a "constant" """
 
-    def __init__(self, p) -> None:
+    def __init__(self, p):
         self._poly = Poly(p, _x)
 
 
 class ShiftA(Operator):
     """ Increment an upper index. """
 
-    def __init__(self, ai) -> None:
+    def __init__(self, ai):
         ai = sympify(ai)
         if ai == 0:
             raise ValueError('Cannot increment zero upper index.')
@@ -1028,7 +1028,7 @@ class ShiftA(Operator):
 class ShiftB(Operator):
     """ Decrement a lower index. """
 
-    def __init__(self, bi) -> None:
+    def __init__(self, bi):
         bi = sympify(bi)
         if bi == 1:
             raise ValueError('Cannot decrement unit lower index.')
@@ -1041,7 +1041,7 @@ class ShiftB(Operator):
 class UnShiftA(Operator):
     """ Decrement an upper index. """
 
-    def __init__(self, ap, bq, i, z) -> None:
+    def __init__(self, ap, bq, i, z):
         """ Note: i counts from zero! """
         ap, bq, i = list(map(sympify, [ap, bq, i]))
 
@@ -1082,7 +1082,7 @@ class UnShiftA(Operator):
 class UnShiftB(Operator):
     """ Increment a lower index. """
 
-    def __init__(self, ap, bq, i, z) -> None:
+    def __init__(self, ap, bq, i, z):
         """ Note: i counts from zero! """
         ap, bq, i = list(map(sympify, [ap, bq, i]))
 
@@ -1124,7 +1124,7 @@ class UnShiftB(Operator):
 class MeijerShiftA(Operator):
     """ Increment an upper b index. """
 
-    def __init__(self, bi) -> None:
+    def __init__(self, bi):
         bi = sympify(bi)
         self._poly = Poly(bi - _x, _x)
 
@@ -1135,7 +1135,7 @@ class MeijerShiftA(Operator):
 class MeijerShiftB(Operator):
     """ Decrement an upper a index. """
 
-    def __init__(self, bi) -> None:
+    def __init__(self, bi):
         bi = sympify(bi)
         self._poly = Poly(1 - bi + _x, _x)
 
@@ -1146,7 +1146,7 @@ class MeijerShiftB(Operator):
 class MeijerShiftC(Operator):
     """ Increment a lower b index. """
 
-    def __init__(self, bi) -> None:
+    def __init__(self, bi):
         bi = sympify(bi)
         self._poly = Poly(-bi + _x, _x)
 
@@ -1157,7 +1157,7 @@ class MeijerShiftC(Operator):
 class MeijerShiftD(Operator):
     """ Decrement a lower a index. """
 
-    def __init__(self, bi) -> None:
+    def __init__(self, bi):
         bi = sympify(bi)
         self._poly = Poly(bi - 1 - _x, _x)
 
@@ -1168,7 +1168,7 @@ class MeijerShiftD(Operator):
 class MeijerUnShiftA(Operator):
     """ Decrement an upper b index. """
 
-    def __init__(self, an, ap, bm, bq, i, z) -> None:
+    def __init__(self, an, ap, bm, bq, i, z):
         """ Note: i counts from zero! """
         an, ap, bm, bq, i = list(map(sympify, [an, ap, bm, bq, i]))
 
@@ -1206,7 +1206,7 @@ class MeijerUnShiftA(Operator):
 class MeijerUnShiftB(Operator):
     """ Increment an upper a index. """
 
-    def __init__(self, an, ap, bm, bq, i, z) -> None:
+    def __init__(self, an, ap, bm, bq, i, z):
         """ Note: i counts from zero! """
         an, ap, bm, bq, i = list(map(sympify, [an, ap, bm, bq, i]))
 
@@ -1258,7 +1258,7 @@ class MeijerUnShiftC(Operator):
     #     However, sorting out the details seems harder than just coding it
     #     again.
 
-    def __init__(self, an, ap, bm, bq, i, z) -> None:
+    def __init__(self, an, ap, bm, bq, i, z):
         """ Note: i counts from zero! """
         an, ap, bm, bq, i = list(map(sympify, [an, ap, bm, bq, i]))
 
@@ -1306,7 +1306,7 @@ class MeijerUnShiftD(Operator):
     # XXX This is essentially the same as MeijerUnShiftA.
     #     See comment at MeijerUnShiftC.
 
-    def __init__(self, an, ap, bm, bq, i, z) -> None:
+    def __init__(self, an, ap, bm, bq, i, z):
         """ Note: i counts from zero! """
         an, ap, bm, bq, i = list(map(sympify, [an, ap, bm, bq, i]))
 
@@ -1700,7 +1700,7 @@ def try_shifted_sum(func, z) -> tuple[Hyper_Function, list, Any | int] | None:
     return Hyper_Function(nap, nbq), ops, -p
 
 
-def try_polynomial(func, z) -> None:
+def try_polynomial(func, z):
     """ Recognise polynomial cases. Returns None if not such a case.
         Requires order to be fully reduced. """
     abuckets, bbuckets = sift(func.ap, _mod1), sift(func.bq, _mod1)

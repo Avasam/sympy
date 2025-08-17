@@ -682,7 +682,7 @@ class Level:
     enough information for a sound backtracking procedure.
     """
 
-    def __init__(self, decision, flipped=False) -> None:
+    def __init__(self, decision, flipped=False):
         self.decision = decision
         self.var_settings = set()
         self.flipped = flipped

@@ -19,7 +19,7 @@ class MDNotImplementedError(NotImplementedError):
 
 ### Functions for on_ambiguity
 
-def ambiguity_warn(dispatcher, ambiguities) -> None:
+def ambiguity_warn(dispatcher, ambiguities):
     """ Raise warning when ambiguity is detected
 
     Parameters
@@ -39,7 +39,7 @@ def ambiguity_warn(dispatcher, ambiguities) -> None:
 class RaiseNotImplementedError:
     """Raise ``NotImplementedError`` when called."""
 
-    def __init__(self, dispatcher) -> None:
+    def __init__(self, dispatcher):
         self.dispatcher = dispatcher
 
     def __call__(self, *args, **kwargs):
@@ -49,7 +49,7 @@ class RaiseNotImplementedError:
             self.dispatcher.name, str_signature(types)
         ))
 
-def ambiguity_register_error_ignore_dup(dispatcher, ambiguities) -> None:
+def ambiguity_register_error_ignore_dup(dispatcher, ambiguities):
     """
     If super signature for ambiguous types is duplicate types, ignore it.
     Else, register instance of ``RaiseNotImplementedError`` for ambiguous types.
@@ -81,11 +81,11 @@ _unresolved_dispatchers: set[Dispatcher] = set()
 _resolve = [True]
 
 
-def halt_ordering() -> None:
+def halt_ordering():
     _resolve[0] = False
 
 
-def restart_ordering(on_ambiguity=ambiguity_warn) -> None:
+def restart_ordering(on_ambiguity=ambiguity_warn):
     _resolve[0] = True
     while _unresolved_dispatchers:
         dispatcher = _unresolved_dispatchers.pop()
@@ -116,7 +116,7 @@ class Dispatcher:
     """
     __slots__ = '__name__', 'name', 'funcs', 'ordering', '_cache', 'doc'
 
-    def __init__(self, name, doc=None) -> None:
+    def __init__(self, name, doc=None):
         self.name = self.__name__ = name
         self.funcs = {}
         self._cache = {}
@@ -181,7 +181,7 @@ class Dispatcher:
             if not any(ann is Parameter.empty for ann in annotations):
                 return annotations
 
-    def add(self, signature, func, on_ambiguity=ambiguity_warn) -> None:
+    def add(self, signature, func, on_ambiguity=ambiguity_warn):
         """ Add new types/method pair to dispatcher
 
         >>> from sympy.multipledispatch import Dispatcher
@@ -225,7 +225,7 @@ class Dispatcher:
         self.reorder(on_ambiguity=on_ambiguity)
         self._cache.clear()
 
-    def reorder(self, on_ambiguity=ambiguity_warn) -> None:
+    def reorder(self, on_ambiguity=ambiguity_warn):
         if _resolve[0]:
             self.ordering = ordering(self.funcs)
             amb = ambiguities(self.funcs)
@@ -264,7 +264,7 @@ class Dispatcher:
         return "<dispatched %s>" % self.name
     __repr__ = __str__
 
-    def dispatch(self, *types) -> None:
+    def dispatch(self, *types):
         """ Deterimine appropriate implementation for this type signature
 
         This method is internal.  Users should call this object as a function.
@@ -301,7 +301,7 @@ class Dispatcher:
                 result = self.funcs[signature]
                 yield result
 
-    def resolve(self, types) -> None:
+    def resolve(self, types):
         """ Deterimine appropriate implementation for this type signature
 
         .. deprecated:: 0.4.4
@@ -316,7 +316,7 @@ class Dispatcher:
         return {'name': self.name,
                 'funcs': self.funcs}
 
-    def __setstate__(self, d) -> None:
+    def __setstate__(self, d):
         self.name = d['name']
         self.funcs = d['funcs']
         self.ordering = ordering(self.funcs)
@@ -348,7 +348,7 @@ class Dispatcher:
     def _help(self, *args):
         return self.dispatch(*map(type, args)).__doc__
 
-    def help(self, *args, **kwargs) -> None:
+    def help(self, *args, **kwargs):
         """ Print docstring for the function corresponding to inputs """
         print(self._help(*args))
 
@@ -358,7 +358,7 @@ class Dispatcher:
             raise TypeError("No function found")
         return source(func)
 
-    def source(self, *args, **kwargs) -> None:
+    def source(self, *args, **kwargs):
         """ Print source code for the function corresponding to inputs """
         print(self._source(*args))
 

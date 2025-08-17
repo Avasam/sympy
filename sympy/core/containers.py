@@ -307,7 +307,7 @@ class Dict(Basic):
         '''x.__len__() <==> len(x)'''
         return self._dict.__len__()
 
-    def get(self, key, default=None) -> None:
+    def get(self, key, default=None):
         '''Returns the value for key if the key is in the dictionary.'''
         try:
             key = _sympify(key)
@@ -342,7 +342,7 @@ class Dict(Basic):
 _sympy_converter[dict] = lambda d: Dict(*d.items())
 
 class OrderedSet(MutableSet):
-    def __init__(self, iterable=None) -> None:
+    def __init__(self, iterable=None):
         if iterable:
             self.map = OrderedDict((item, None) for item in iterable)
         else:
@@ -354,10 +354,10 @@ class OrderedSet(MutableSet):
     def __contains__(self, key) -> bool:
         return key in self.map
 
-    def add(self, key) -> None:
+    def add(self, key):
         self.map[key] = None
 
-    def discard(self, key) -> None:
+    def discard(self, key):
         self.map.pop(key)
 
     def pop(self, last=True):
@@ -377,7 +377,7 @@ class OrderedSet(MutableSet):
     def difference(self, other) -> Self:
         return self.__class__([val for val in self if val not in other])
 
-    def update(self, iterable) -> None:
+    def update(self, iterable):
         for val in iterable:
             self.add(val)
 

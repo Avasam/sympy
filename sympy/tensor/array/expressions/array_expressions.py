@@ -1614,7 +1614,7 @@ class _ArgE:
     """
     indices: list[int | None]
 
-    def __init__(self, element, indices: list[int | None] | None = None) -> None:
+    def __init__(self, element, indices: list[int | None] | None = None):
         self.element = element
         if indices is None:
             self.indices = [None for i in range(get_rank(element))]
@@ -1634,7 +1634,7 @@ class _IndPos:
     - arg: the position of the argument in the tensor product,
     - rel: the relative position of the index inside the argument.
     """
-    def __init__(self, arg: int, rel: int) -> None:
+    def __init__(self, arg: int, rel: int):
         self.arg = arg
         self.rel = rel
 
@@ -1719,7 +1719,7 @@ class _EditArrayContraction:
                 arg_pos, rel_pos = mapping[j]
                 self.args_with_ind[arg_pos].indices[rel_pos] = -1 - i
 
-    def insert_after(self, arg: _ArgE, new_arg: _ArgE) -> None:
+    def insert_after(self, arg: _ArgE, new_arg: _ArgE):
         pos = self.args_with_ind.index(arg)
         self.args_with_ind.insert(pos + 1, new_arg)
 
@@ -1727,7 +1727,7 @@ class _EditArrayContraction:
         self.number_of_contraction_indices += 1
         return self.number_of_contraction_indices - 1
 
-    def refresh_indices(self) -> None:
+    def refresh_indices(self):
         updates = {}
         for arg_with_ind in self.args_with_ind:
             updates.update({i: -1 for i in arg_with_ind.indices if i is not None})
@@ -1737,7 +1737,7 @@ class _EditArrayContraction:
         for arg_with_ind in self.args_with_ind:
             arg_with_ind.indices = [updates.get(i, None) for i in arg_with_ind.indices]
 
-    def merge_scalars(self) -> None:
+    def merge_scalars(self):
         scalars = []
         for arg_with_ind in self.args_with_ind:
             if len(arg_with_ind.indices) == 0:
@@ -1870,7 +1870,7 @@ class _EditArrayContraction:
             data.update({i for i in arg.indices if i is not None and i < 0})
         return len(data)
 
-    def track_permutation_start(self) -> None:
+    def track_permutation_start(self):
         permutation = []
         perm_diag = []
         counter = 0
@@ -1890,7 +1890,7 @@ class _EditArrayContraction:
         perm_diag = [max_ind - i for i in perm_diag]
         self._track_permutation = permutation + [perm_diag]
 
-    def track_permutation_merge(self, destination: _ArgE, from_element: _ArgE) -> None:
+    def track_permutation_merge(self, destination: _ArgE, from_element: _ArgE):
         index_destination = self.args_with_ind.index(destination)
         index_element = self.args_with_ind.index(from_element)
         self._track_permutation[index_destination].extend(self._track_permutation[index_element]) # type: ignore

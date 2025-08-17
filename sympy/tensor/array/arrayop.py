@@ -496,7 +496,7 @@ class Flatten(Printable):
     >>> [i for i in Flatten(A)]
     [0, 1, 2, 3, 4, 5]
     """
-    def __init__(self, iterable) -> None:
+    def __init__(self, iterable):
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array import NDimArray
 

@@ -162,7 +162,7 @@ class MultivariateNormalDistribution(JointDistribution):
         return S.Reals**k
 
     @staticmethod
-    def check(mu, sigma) -> None:
+    def check(mu, sigma):
         _value_check(mu.shape[0] == sigma.shape[0],
             "Size of the mean vector and covariance matrix are incorrect.")
         #check if covariance matrix is positive semi definite or not.
@@ -267,7 +267,7 @@ class MultivariateLaplaceDistribution(JointDistribution):
         return S.Reals**k
 
     @staticmethod
-    def check(mu, sigma) -> None:
+    def check(mu, sigma):
         _value_check(mu.shape[0] == sigma.shape[0],
                      "Size of the mean vector and covariance matrix are incorrect.")
         # check if covariance matrix is positive definite or not.
@@ -342,7 +342,7 @@ class MultivariateTDistribution(JointDistribution):
         return S.Reals**k
 
     @staticmethod
-    def check(mu, sigma, v) -> None:
+    def check(mu, sigma, v):
         _value_check(mu.shape[0] == sigma.shape[0],
                      "Size of the location vector and shape matrix are incorrect.")
         # check if covariance matrix is positive definite or not.
@@ -403,7 +403,7 @@ class NormalGammaDistribution(JointDistribution):
     is_Continuous=True
 
     @staticmethod
-    def check(mu, lamda, alpha, beta) -> None:
+    def check(mu, lamda, alpha, beta):
         _value_check(mu.is_real, "Location must be real.")
         _value_check(lamda > 0, "Lambda must be positive")
         _value_check(alpha > 0, "alpha must be positive")
@@ -489,7 +489,7 @@ class MultivariateBetaDistribution(JointDistribution):
     is_Continuous = True
 
     @staticmethod
-    def check(alpha) -> None:
+    def check(alpha):
         _value_check(len(alpha) >= 2, "At least two categories should be passed.")
         for a_k in alpha:
             _value_check((a_k > 0) != False, "Each concentration parameter"
@@ -562,7 +562,7 @@ class MultivariateEwensDistribution(JointDistribution):
     is_Continuous = False
 
     @staticmethod
-    def check(n, theta) -> None:
+    def check(n, theta):
         _value_check((n > 0),
                         "sample size should be positive integer.")
         _value_check(theta.is_positive, "mutation rate should be positive.")
@@ -647,7 +647,7 @@ class GeneralizedMultivariateLogGammaDistribution(JointDistribution):
     _argnames = ('delta', 'v', 'lamda', 'mu')
     is_Continuous=True
 
-    def check(self, delta, v, l, mu) -> None:
+    def check(self, delta, v, l, mu):
         _value_check((delta >= 0, delta <= 1), "delta must be in range [0, 1].")
         _value_check((v > 0), "v must be positive")
         for lk in l:
@@ -808,7 +808,7 @@ class MultinomialDistribution(JointDistribution):
     is_Discrete = True
 
     @staticmethod
-    def check(n, p) -> None:
+    def check(n, p):
         _value_check(n > 0,
                         "number of trials must be a positive integer")
         for p_k in p:
@@ -881,7 +881,7 @@ class NegativeMultinomialDistribution(JointDistribution):
     is_Discrete = True
 
     @staticmethod
-    def check(k0, p) -> None:
+    def check(k0, p):
         _value_check(k0 > 0,
                         "number of failures must be a positive integer")
         for p_k in p:

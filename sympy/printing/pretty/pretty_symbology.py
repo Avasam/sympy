@@ -55,7 +55,7 @@ def pretty_use_unicode(flag=None) -> bool:
     return use_unicode_prev
 
 
-def pretty_try_use_unicode() -> None:
+def pretty_try_use_unicode():
     """See if unicode output is available and leverage it if possible"""
 
     encoding = getattr(sys.stdout, 'encoding', None)

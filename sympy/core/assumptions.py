@@ -465,7 +465,7 @@ class StdFactKB(FactKB):
 
     This is the only kind of FactKB that Basic objects should use.
     """
-    def __init__(self, facts=None) -> None:
+    def __init__(self, facts=None):
         super().__init__(_assume_rules)
         # save a copy of the facts dict
         if not facts:
@@ -677,7 +677,7 @@ def _prepare_class_assumptions(cls):
 # more but it should still be usable as a metaclass for Basic subclasses since
 # it is a subclass of type which is now the metaclass for Basic.
 class ManagedProperties(type):
-    def __init__(cls, *args, **kwargs) -> None:
+    def __init__(cls, *args, **kwargs):
         msg = ("The ManagedProperties metaclass. "
                "Basic does not use metaclasses any more")
         sympy_deprecation_warning(msg,

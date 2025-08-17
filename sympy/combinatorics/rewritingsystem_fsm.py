@@ -10,14 +10,14 @@ class State:
         state_machine (instance of StateMachine object) -- The finite state machine that the state belongs to.
     '''
 
-    def __init__(self, name, state_machine, state_type=None, rh_rule=None) -> None:
+    def __init__(self, name, state_machine, state_type=None, rh_rule=None):
         self.name = name
         self.transitions = {}
         self.state_machine = state_machine
         self.state_type = state_type[0]
         self.rh_rule = rh_rule
 
-    def add_transition(self, letter, state) -> None:
+    def add_transition(self, letter, state):
         '''
         Add a transition from the current state to a new state.
 
@@ -37,13 +37,13 @@ class StateMachine:
         name (str) -- Name of the state machine.
     '''
 
-    def __init__(self, name, automaton_alphabet) -> None:
+    def __init__(self, name, automaton_alphabet):
         self.name = name
         self.automaton_alphabet = automaton_alphabet
         self.states = {} # Contains all the states in the machine.
         self.add_state('start', state_type='s')
 
-    def add_state(self, state_name, state_type=None, rh_rule=None) -> None:
+    def add_state(self, state_name, state_type=None, rh_rule=None):
         '''
         Instantiate a state object and stores it in the 'states' dictionary.
 

@@ -1501,7 +1501,7 @@ def check_nonlinear_2eq_order1(eq, func, func_coef) -> str | None:
     return None
 
 
-def check_nonlinear_2eq_order2(eq, func, func_coef) -> None:
+def check_nonlinear_2eq_order2(eq, func, func_coef):
     return None
 
 def check_nonlinear_3eq_order1(eq, func, func_coef):
@@ -1585,7 +1585,7 @@ def check_nonlinear_3eq_order1(eq, func, func_coef):
     return None
 
 
-def check_nonlinear_3eq_order2(eq, func, func_coef) -> None:
+def check_nonlinear_3eq_order2(eq, func, func_coef):
     return None
 
 

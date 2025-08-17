@@ -996,7 +996,7 @@ def powsimp_rule(integral):
         return RewriteRule(integrand, symbol, simplified, steps)
 
 
-def orthogonal_poly_rule(integral) -> None:
+def orthogonal_poly_rule(integral):
     orthogonal_poly_classes = {
         jacobi: JacobiRule,
         gegenbauer: GegenbauerRule,
@@ -1026,7 +1026,7 @@ _wilds = []
 _symbol = Dummy('x')
 
 
-def special_function_rule(integral) -> None:
+def special_function_rule(integral):
     integrand, symbol = integral
     if not _special_function_patterns:
         a = Wild('a', exclude=[_symbol], properties=[lambda x: not x.is_zero])
@@ -1742,7 +1742,7 @@ cotcsc_cotodd = trig_rewriter(
                                     cot(a*symbol) *
                                     csc(b*symbol) ** n ))
 
-def trig_sincos_rule(integral) -> None:
+def trig_sincos_rule(integral):
     integrand, symbol = integral
 
     if any(integrand.has(f) for f in (sin, cos)):
@@ -1759,7 +1759,7 @@ def trig_sincos_rule(integral) -> None:
             [match.get(i, S.Zero) for i in (a, b, m, n)] +
             [integrand, symbol]))
 
-def trig_tansec_rule(integral) -> None:
+def trig_tansec_rule(integral):
     integrand, symbol = integral
 
     integrand = integrand.subs({
@@ -1780,7 +1780,7 @@ def trig_tansec_rule(integral) -> None:
             [match.get(i, S.Zero) for i in (a, b, m, n)] +
             [integrand, symbol]))
 
-def trig_cotcsc_rule(integral) -> None:
+def trig_cotcsc_rule(integral):
     integrand, symbol = integral
     integrand = integrand.subs({
         1 / sin(symbol): csc(symbol),

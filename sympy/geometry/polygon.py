@@ -1918,7 +1918,7 @@ class RegularPolygon(Polygon):
             # now enumerate the RegularPolygon like a general polygon.
             return Polygon.encloses_point(self, p)
 
-    def spin(self, angle) -> None:
+    def spin(self, angle):
         """Increment *in place* the virtual Polygon's rotation by ccw angle.
 
         See also: rotate method which moves the center.

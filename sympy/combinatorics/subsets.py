@@ -378,7 +378,7 @@ class Subset():
         return self._rank_graycode
 
     @property
-    def subset(self) -> None:
+    def subset(self):
         """
         Gets the subset represented by the current instance.
 
@@ -418,7 +418,7 @@ class Subset():
         return len(self.subset)
 
     @property
-    def superset(self) -> None:
+    def superset(self):
         """
         Gets the superset of the subset.
 

@@ -82,7 +82,7 @@ class TensorflowPrinter(ArrayPrinter, AbstractPythonCodePrinter):
         tensorflow_version=None
     )
 
-    def __init__(self, settings=None) -> None:
+    def __init__(self, settings=None):
         super().__init__(settings)
 
         version = self._settings['tensorflow_version']

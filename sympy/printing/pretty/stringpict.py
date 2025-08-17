@@ -31,7 +31,7 @@ class stringPict:
     #special value for stringPict.below
     LINE = 'line'
 
-    def __init__(self, s, baseline=0) -> None:
+    def __init__(self, s, baseline=0):
         """Initialize from string.
         Multiline strings are centered.
         """
@@ -376,7 +376,7 @@ class prettyForm(stringPict):
     """
     ATOM, FUNC, DIV, POW, MUL, ADD, NEG, OPEN = range(8)
 
-    def __init__(self, s, baseline=0, binding=0, unicode=None) -> None:
+    def __init__(self, s, baseline=0, binding=0, unicode=None):
         """Initialize from stringPict and binding power."""
         stringPict.__init__(self, s, baseline)
         self.binding = binding

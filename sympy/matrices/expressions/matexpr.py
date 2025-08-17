@@ -760,7 +760,7 @@ class _LeftRightArgs:
     The trace connects the end of the two lines.
     """
 
-    def __init__(self, lines, higher=S.One) -> None:
+    def __init__(self, lines, higher=S.One):
         self._lines = list(lines)
         self._first_pointer_parent = self._lines
         self._first_pointer_index = 0
@@ -775,7 +775,7 @@ class _LeftRightArgs:
         return self._first_pointer_parent[self._first_pointer_index]
 
     @first_pointer.setter
-    def first_pointer(self, value) -> None:
+    def first_pointer(self, value):
         self._first_pointer_parent[self._first_pointer_index] = value
 
     @property
@@ -783,7 +783,7 @@ class _LeftRightArgs:
         return self._second_pointer_parent[self._second_pointer_index]
 
     @second_pointer.setter
-    def second_pointer(self, value) -> None:
+    def second_pointer(self, value):
         self._second_pointer_parent[self._second_pointer_index] = value
 
     def __repr__(self):
@@ -875,10 +875,10 @@ class _LeftRightArgs:
 
         return subexpr
 
-    def append_first(self, other) -> None:
+    def append_first(self, other):
         self.first_pointer *= other
 
-    def append_second(self, other) -> None:
+    def append_second(self, other):
         self.second_pointer *= other
 
 

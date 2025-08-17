@@ -498,7 +498,7 @@ def ddm_idet(a, K):
     return uf * a[-1][-1]
 
 
-def ddm_iinv(ainv, a, K) -> None:
+def ddm_iinv(ainv, a, K):
     """ainv  <--  inv(a)
 
     Compute the inverse of a matrix $a$ over a field $K$ using Gauss-Jordan
@@ -666,7 +666,7 @@ def ddm_ilu(a) -> list:
     return swaps
 
 
-def ddm_ilu_solve(x, L, U, swaps, b) -> None:
+def ddm_ilu_solve(x, L, U, swaps, b):
     """x  <--  solve(L*U*x = swaps(b))
 
     Solve a linear system, $A*x = b$, given an LU factorization of $A$.

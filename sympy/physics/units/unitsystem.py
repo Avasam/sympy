@@ -73,7 +73,7 @@ class UnitSystem(_QuantityMapper):
 
         return UnitSystem(base, units, name, description, dimension_system, {**self._derived_units, **derived_units})
 
-    def get_dimension_system(self) -> None:
+    def get_dimension_system(self):
         return self._dimension_system
 
     def get_quantity_dimension(self, unit) -> Expr | Dimension:

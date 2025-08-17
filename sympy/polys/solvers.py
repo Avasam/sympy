@@ -35,7 +35,7 @@ class RawMatrix(MutableDenseMatrix):
     """
     _sympify = staticmethod(lambda x, *args, **kwargs: x) # type: ignore
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         sympy_deprecation_warning(
             """
             The RawMatrix class is deprecated. Use either DomainMatrix or

@@ -84,7 +84,7 @@ class LeviCivita(DefinedFunction):
     is_integer = True
 
     @classmethod
-    def eval(cls, *args) -> None:
+    def eval(cls, *args):
         if all(isinstance(a, (SYMPY_INTS, Integer)) for a in args):
             return eval_levicivita(*args)
         if has_dups(args):

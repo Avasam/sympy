@@ -257,7 +257,7 @@ class Printer:
                 settings[key] = val
         return settings
 
-    def __init__(self, settings=None) -> None:
+    def __init__(self, settings=None):
         self._str = str
 
         self._settings = self._get_initial_settings()
@@ -276,7 +276,7 @@ class Printer:
         self._print_level = 0
 
     @classmethod
-    def set_global_settings(cls, **settings) -> None:
+    def set_global_settings(cls, **settings):
         """Set system-wide printing settings. """
         for key, val in settings.items():
             if val is not None:

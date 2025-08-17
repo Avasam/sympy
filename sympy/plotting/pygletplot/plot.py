@@ -154,7 +154,7 @@ class PygletPlot:
     """
 
     @doctest_depends_on(modules=('pyglet',))
-    def __init__(self, *fargs, **win_args) -> None:
+    def __init__(self, *fargs, **win_args):
         """
         Positional Arguments
         ====================
@@ -244,7 +244,7 @@ class PygletPlot:
 
     ## Window Interfaces
 
-    def show(self) -> None:
+    def show(self):
         """
         Creates and displays a plot window, or activates it
         (gives it focus) if it has already been created.
@@ -260,14 +260,14 @@ class PygletPlot:
 
             self._window = PlotWindow(self, **self._win_args)
 
-    def close(self) -> None:
+    def close(self):
         """
         Closes the plot window.
         """
         if self._window:
             self._window.close()
 
-    def saveimage(self, outfile=None, format='', size=(600, 500)) -> None:
+    def saveimage(self, outfile=None, format='', size=(600, 500)):
         """
         Saves a screen capture of the plot window to an
         image file.
@@ -282,7 +282,7 @@ class PygletPlot:
 
     ## Function List Interfaces
 
-    def clear(self) -> None:
+    def clear(self):
         """
         Clears the function list of this plot.
         """
@@ -298,7 +298,7 @@ class PygletPlot:
         """
         return self._functions[i]
 
-    def __setitem__(self, i, args) -> None:
+    def __setitem__(self, i, args):
         """
         Parses and adds a PlotMode to the function
         list.
@@ -325,7 +325,7 @@ class PygletPlot:
             raise ValueError("Failed to parse '%s'."
                     % ', '.join(str(a) for a in args))
 
-    def __delitem__(self, i) -> None:
+    def __delitem__(self, i):
         """
         Removes the function in the function list at
         position i.
@@ -346,7 +346,7 @@ class PygletPlot:
         self._render_lock.release()
         return i
 
-    def append(self, *args) -> None:
+    def append(self, *args):
         """
         Parses and adds a PlotMode to the function
         list at the first available index.
@@ -383,14 +383,14 @@ class PygletPlot:
             self._render_lock.release()
         return s
 
-    def adjust_all_bounds(self) -> None:
+    def adjust_all_bounds(self):
         self._render_lock.acquire()
         self.axes.reset_bounding_box()
         for f in self._functions:
             self.axes.adjust_bounds(self._functions[f].bounds)
         self._render_lock.release()
 
-    def wait_for_calculations(self) -> None:
+    def wait_for_calculations(self):
         sleep(0)
         self._render_lock.acquire()
         for f in self._functions:
@@ -401,7 +401,7 @@ class PygletPlot:
         self._render_lock.release()
 
 class ScreenShot:
-    def __init__(self, plot) -> None:
+    def __init__(self, plot):
         self._plot = plot
         self.screenshot_requested = False
         self.outfile = None
@@ -431,7 +431,7 @@ class ScreenShot:
         if self.invisibleMode:
             self._plot._window.close()
 
-    def save(self, outfile=None, format='', size=(600, 500)) -> None:
+    def save(self, outfile=None, format='', size=(600, 500)):
         self.outfile = outfile
         self.format = format
         self.size = size

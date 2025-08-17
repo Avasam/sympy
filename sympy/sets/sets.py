@@ -94,7 +94,7 @@ class Set(Basic, EvalfMixin):
         deprecated_since_version="1.5",
         active_deprecations_target="deprecated-is-emptyset",
     )
-    def is_EmptySet(self) -> None:
+    def is_EmptySet(self):
         return None
 
     if TYPE_CHECKING:

@@ -72,7 +72,7 @@ class AssumptionsContext(set):
 
     """
 
-    def add(self, *assumptions) -> None:
+    def add(self, *assumptions):
         """Add assumptions."""
         for a in assumptions:
             super().add(a)
@@ -345,7 +345,7 @@ class Predicate(Boolean, metaclass=PredicateMeta):
     def __call__(self, *args) -> AppliedPredicate:
         return AppliedPredicate(self, *args)
 
-    def eval(self, args, assumptions=True) -> None:
+    def eval(self, args, assumptions=True):
         """
         Evaluate ``self(*args)`` under the given assumptions.
 
@@ -409,7 +409,7 @@ class UndefinedPredicate(Predicate):
     def __call__(self, expr) -> AppliedPredicate:
         return AppliedPredicate(self, expr)
 
-    def add_handler(self, handler) -> None:
+    def add_handler(self, handler):
         sympy_deprecation_warning(
             """
             The AskHandler system is deprecated. Predicate.add_handler()
@@ -420,7 +420,7 @@ class UndefinedPredicate(Predicate):
         )
         self.handlers.append(handler)
 
-    def remove_handler(self, handler) -> None:
+    def remove_handler(self, handler):
         sympy_deprecation_warning(
             """
             The AskHandler system is deprecated. Predicate.remove_handler()

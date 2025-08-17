@@ -1201,7 +1201,7 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict[tuple[int, .
             return self # type: ignore
         return self._change_ring(new_ring)
 
-    def strip_zero(self) -> None:
+    def strip_zero(self):
         """Eliminate monomials with zero coefficient."""
         for monom, coeff in self.listterms():
             if not coeff:
@@ -2520,7 +2520,7 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict[tuple[int, .
     def _degrees(self):
         return tuple(map(max, list(zip(*self.itermonoms()))))
 
-    def leading_expv(self) -> None:
+    def leading_expv(self):
         """Leading monomial tuple according to the monomial ordering.
 
         Examples

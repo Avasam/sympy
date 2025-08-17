@@ -28,7 +28,7 @@ class ExpressionDomain(Field, CharacteristicZero, SimpleDomain):
 
         __slots__ = ('ex',)
 
-        def __init__(self, ex) -> None:
+        def __init__(self, ex):
             if not isinstance(ex, self.__class__):
                 self.ex = sympify(ex)
             else:
@@ -168,7 +168,7 @@ class ExpressionDomain(Field, CharacteristicZero, SimpleDomain):
     has_assoc_Ring = False
     has_assoc_Field = True
 
-    def __init__(self) -> None:
+    def __init__(self):
         pass
 
     def __eq__(self, other):

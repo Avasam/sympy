@@ -207,7 +207,7 @@ def sympify_return(*args) -> Callable[..., _SympifyWrapper]:
 class _SympifyWrapper:
     '''Internal class used by sympify_return and sympify_method_args'''
 
-    def __init__(self, func, args) -> None:
+    def __init__(self, func, args):
         self.func = func
         self.args = args
 

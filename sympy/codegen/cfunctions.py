@@ -69,7 +69,7 @@ class expm1(Function):
     _eval_rewrite_as_tractable = _eval_rewrite_as_exp
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         exp_arg = exp.eval(arg)
         if exp_arg is not None:
             return exp_arg - S.One
@@ -263,7 +263,7 @@ class log2(Function):
 
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         if arg.is_number:
             result = log.eval(arg, base=_Two)
             if result.is_Atom:
@@ -367,7 +367,7 @@ class log10(Function):
 
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         if arg.is_number:
             result = log.eval(arg, base=_Ten)
             if result.is_Atom:

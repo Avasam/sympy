@@ -111,7 +111,7 @@ class preorder_traversal:
     [z*(x + y), z, x + y, x, y]
 
     """
-    def __init__(self, node, keys=None) -> None:
+    def __init__(self, node, keys=None):
         self._skip_flag = False
         self._pt = self._preorder_traversal(node, keys)
 
@@ -138,7 +138,7 @@ class preorder_traversal:
             for item in node:
                 yield from self._preorder_traversal(item, keys)
 
-    def skip(self) -> None:
+    def skip(self):
         """
         Skip yielding current node's (last yielded node's) subtrees.
 

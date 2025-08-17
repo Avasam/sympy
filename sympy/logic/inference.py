@@ -250,7 +250,7 @@ def entails(expr, formula_set=None) -> bool:
 
 class KB:
     """Base class for all knowledge bases"""
-    def __init__(self, sentence=None) -> None:
+    def __init__(self, sentence=None):
         self.clauses_ = set()
         if sentence:
             self.tell(sentence)
@@ -272,7 +272,7 @@ class KB:
 class PropKB(KB):
     """A KB for Propositional Logic.  Inefficient, with no indexing."""
 
-    def tell(self, sentence) -> None:
+    def tell(self, sentence):
         """Add the sentence's clauses to the KB
 
         Examples
@@ -314,7 +314,7 @@ class PropKB(KB):
         """
         return entails(query, self.clauses_)
 
-    def retract(self, sentence) -> None:
+    def retract(self, sentence):
         """Remove the sentence's clauses from the KB
 
         Examples

@@ -53,7 +53,7 @@ class GLSLPrinter(CodePrinter):
         'contract': True,
     })
 
-    def __init__(self, settings={}) -> None:
+    def __init__(self, settings={}):
         CodePrinter.__init__(self, settings)
         self.known_functions = dict(known_functions)
         userfuncs = settings.get('user_functions', {})
@@ -543,7 +543,7 @@ def glsl_code(
     """
     return GLSLPrinter(settings).doprint(expr,assign_to)
 
-def print_glsl(expr, **settings) -> None:
+def print_glsl(expr, **settings):
     """Prints the GLSL representation of the given expression.
 
        See GLSLPrinter init function for settings.

@@ -153,7 +153,7 @@ class SingletonRegistry(Registry):
         return sympify(a, locals=locals, convert_xor=convert_xor, strict=strict,
                        rational=rational, evaluate=evaluate) # type: ignore
 
-    def __init__(self) -> None:
+    def __init__(self):
         self._classes_to_install = {}
         # Dict of classes that have been registered, but that have not have been
         # installed as an attribute of this SingletonRegistry.
@@ -164,7 +164,7 @@ class SingletonRegistry(Registry):
         # actual use (which should not happen until after all imports are
         # finished).
 
-    def register(self, cls) -> None:
+    def register(self, cls):
         # Make sure a duplicate class overwrites the old one
         if hasattr(self, cls.__name__):
             delattr(self, cls.__name__)
@@ -229,7 +229,7 @@ class Singleton(type):
     (SymPy versions before 1.0 would create the instance during class
     creation time, which would be prone to import cycles.)
     """
-    def __init__(cls, *args, **kwargs) -> None:
+    def __init__(cls, *args, **kwargs):
         cls._instance = obj = Basic.__new__(cls)
         cls.__new__ = lambda cls: obj
         cls.__getnewargs__ = lambda obj: ()

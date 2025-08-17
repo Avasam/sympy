@@ -16,7 +16,7 @@ from sympy.printing.precedence import precedence, PRECEDENCE
 
 class requires:
     """ Decorator for registering requirements on print methods. """
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, **kwargs):
         self._req = kwargs
 
     def __call__(self, method):
@@ -112,7 +112,7 @@ class CodePrinter(StrPrinter):
             'SingularityFunction': ('Piecewise', []),
     }
 
-    def __init__(self, settings=None) -> None:
+    def __init__(self, settings=None):
         super().__init__(settings=settings)
         if self._settings.get('strict', True) == None:
             # for backwards compatibility, human=False need not to throw:
@@ -781,7 +781,7 @@ def ccode(expr, assign_to=None, standard='c99', **settings):
     from sympy.printing.c import c_code_printers
     return c_code_printers[standard.lower()](settings).doprint(expr, assign_to)
 
-def print_ccode(expr, **settings) -> None:
+def print_ccode(expr, **settings):
     """Prints C representation of the given expression."""
     print(ccode(expr, **settings))
 
@@ -907,7 +907,7 @@ def fcode(
     return FCodePrinter(settings).doprint(expr, assign_to)
 
 
-def print_fcode(expr, **settings) -> None:
+def print_fcode(expr, **settings):
     """Prints the Fortran representation of the given expression.
 
        See fcode for the meaning of the optional arguments.

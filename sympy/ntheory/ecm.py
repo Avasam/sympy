@@ -43,7 +43,7 @@ class Point:
 
     """
 
-    def __init__(self, x_cord, z_cord, a_24, mod) -> None:
+    def __init__(self, x_cord, z_cord, a_24, mod):
         """
         Initial parameters for the Point class.
 

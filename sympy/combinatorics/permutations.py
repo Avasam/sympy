@@ -436,7 +436,7 @@ class Cycle(dict):
         s = s.replace(',', '')
         return s
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         """Load up a Cycle instance with the values for the cycle.
 
         Examples
@@ -1188,7 +1188,7 @@ class Permutation(Atom):
         return rv
 
     @property
-    def size(self) -> None:
+    def size(self):
         """
         Returns the number of elements in the permutation.
 

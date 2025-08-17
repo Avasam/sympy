@@ -211,7 +211,7 @@ def are_similar(e1, e2):
         "Cannot test similarity between %s and %s" % (n1, n2))
 
 
-def centroid(*args) -> None:
+def centroid(*args):
     """Find the centroid (center of mass) of the collection containing only Points,
     Segments or Polygons. The centroid is the weighted average of the individual centroid
     where the weights are the lengths (of segments) or areas (of polygons).

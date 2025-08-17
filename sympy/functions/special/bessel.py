@@ -65,7 +65,7 @@ class BesselBase(DefinedFunction):
         return self.args[1]
 
     @classmethod
-    def eval(cls, nu, z) -> None:
+    def eval(cls, nu, z):
         return
 
     def fdiff(self, argindex=2):
@@ -329,7 +329,7 @@ class bessely(BesselBase):
     _b = S.One
 
     @classmethod
-    def eval(cls, nu, z) -> None:
+    def eval(cls, nu, z):
         if z.is_zero:
             if nu.is_zero:
                 return S.NegativeInfinity
@@ -1001,7 +1001,7 @@ class jn(SphericalBesselBase):
 
     """
     @classmethod
-    def eval(cls, nu, z) -> None:
+    def eval(cls, nu, z):
         if z.is_zero:
             if nu.is_zero:
                 return S.One
@@ -1469,7 +1469,7 @@ class airyai(AiryBase):
     unbranched = True
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -1641,7 +1641,7 @@ class airybi(AiryBase):
     unbranched = True
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -1809,7 +1809,7 @@ class airyaiprime(AiryBase):
     unbranched = True
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -1968,7 +1968,7 @@ class airybiprime(AiryBase):
     unbranched = True
 
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -2094,7 +2094,7 @@ class marcumq(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, m, a, b) -> None:
+    def eval(cls, m, a, b):
         if a is S.Zero:
             if m is S.Zero and b is S.Zero:
                 return S.Zero

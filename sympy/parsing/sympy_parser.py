@@ -94,7 +94,7 @@ class AppliedFunction:
 
     `exponent` is for handling the shorthand sin^2, ln^2, etc.
     """
-    def __init__(self, function: TOKEN, args: ParenthesisGroup, exponent=None) -> None:
+    def __init__(self, function: TOKEN, args: ParenthesisGroup, exponent=None):
         if exponent is None:
             exponent = []
         self.function = function
@@ -1251,7 +1251,7 @@ class _T():
     >>> from sympy.parsing.sympy_parser import T, standard_transformations
     >>> assert T[:5] == standard_transformations
     """
-    def __init__(self) -> None:
+    def __init__(self):
         self.N = len(_transformation)
 
     def __str__(self):

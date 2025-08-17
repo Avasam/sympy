@@ -131,7 +131,7 @@ class DifferentialOperatorAlgebra:
     DifferentialOperator
     """
 
-    def __init__(self, base, generator) -> None:
+    def __init__(self, base, generator):
         # the base polynomial ring for the algebra
         self.base = base
         # the operator representing differentiation i.e. `Dx`
@@ -198,7 +198,7 @@ class DifferentialOperator:
 
     _op_priority = 20
 
-    def __init__(self, list_of_poly, parent) -> None:
+    def __init__(self, list_of_poly, parent):
         """
         Parameters
         ==========
@@ -443,7 +443,7 @@ class HolonomicFunction:
 
     _op_priority = 20
 
-    def __init__(self, annihilator, x, x0=0, y0=None) -> None:
+    def __init__(self, annihilator, x, x0=0, y0=None):
         """
 
         Parameters

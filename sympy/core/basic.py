@@ -208,7 +208,7 @@ class Basic(Printable):
     def __sympy__(self) -> bool:
         return True
 
-    def __init_subclass__(cls) -> None:
+    def __init_subclass__(cls):
         # Initialize the default_assumptions FactKB and also any assumptions
         # property methods. This method will only be called for subclasses of
         # Basic but not for Basic itself so we call
@@ -296,10 +296,10 @@ class Basic(Printable):
     def __getnewargs__(self) -> tuple[Basic, ...] | tuple[Hashable, ...]:
         return self.args
 
-    def __getstate__(self) -> None:
+    def __getstate__(self):
         return None
 
-    def __setstate__(self, state) -> None:
+    def __setstate__(self, state):
         for name, value in state.items():
             setattr(self, name, value)
 

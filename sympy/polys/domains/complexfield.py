@@ -45,7 +45,7 @@ class ComplexField(Field, CharacteristicZero, SimpleDomain):
     def tolerance(self):
         return self._tolerance
 
-    def __init__(self, prec=None, dps=None, tol=None) -> None:
+    def __init__(self, prec=None, dps=None, tol=None):
         # XXX: The tolerance parameter is ignored but is kept for backward
         # compatibility for now.
 

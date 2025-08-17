@@ -187,7 +187,7 @@ def mpf_norm(mpf, prec) -> tuple[int, int | Any, int, int] | tuple[Any, Any | in
 _errdict = {"divide": False}
 
 
-def seterr(divide=False) -> None:
+def seterr(divide=False):
     """
     Should SymPy raise an exception on 0/0 or return a nan?
 
@@ -3568,7 +3568,7 @@ class NumberSymbol(AtomicExpr):
     def __new__(cls) -> Self:
         return AtomicExpr.__new__(cls)
 
-    def approximation(self, number_cls) -> None:
+    def approximation(self, number_cls):
         """ Return an interval with number_cls endpoints
         that contains the value of NumberSymbol.
         If not implemented, then return None.

@@ -17,7 +17,7 @@ class BasePolynomialError(Exception):
 @public
 class ExactQuotientFailed(BasePolynomialError):
 
-    def __init__(self, f, g, dom=None) -> None:
+    def __init__(self, f, g, dom=None):
         self.f, self.g, self.dom = f, g, dom
 
     def __str__(self):  # pragma: no cover
@@ -34,7 +34,7 @@ class ExactQuotientFailed(BasePolynomialError):
 @public
 class PolynomialDivisionFailed(BasePolynomialError):
 
-    def __init__(self, f, g, domain) -> None:
+    def __init__(self, f, g, domain):
         self.f = f
         self.g = g
         self.domain = domain
@@ -61,7 +61,7 @@ class PolynomialDivisionFailed(BasePolynomialError):
 @public
 class OperationNotSupported(BasePolynomialError):
 
-    def __init__(self, poly, func) -> None:
+    def __init__(self, poly, func):
         self.poly = poly
         self.func = func
 
@@ -140,7 +140,7 @@ class GeneratorsNeeded(GeneratorsError):
 @public
 class ComputationFailed(BasePolynomialError):
 
-    def __init__(self, func, nargs, exc) -> None:
+    def __init__(self, func, nargs, exc):
         self.func = func
         self.nargs = nargs
         self.exc = exc
@@ -159,7 +159,7 @@ class MultivariatePolynomialError(PolynomialError):
 @public
 class PolificationFailed(PolynomialError):
 
-    def __init__(self, opt, origs, exprs, seq=False) -> None:
+    def __init__(self, opt, origs, exprs, seq=False):
         if not seq:
             self.orig = origs
             self.expr = exprs

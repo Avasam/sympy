@@ -259,7 +259,7 @@ class KindDispatcher:
     doc : str, optional
 
     """
-    def __init__(self, name, commutative=False, doc=None) -> None:
+    def __init__(self, name, commutative=False, doc=None):
         self.name = name
         self.doc = doc
         self.commutative = commutative

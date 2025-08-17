@@ -36,7 +36,7 @@ def series_pprint(
 class PowerSeriesRingProto(Protocol[TSeries, Er]):
     """A protocol for a power series ring."""
 
-    def __init__(self, prec: int = 6, /) -> None:
+    def __init__(self, prec: int = 6, /):
         """Initialize a power series ring over ZZ."""
         ...
 

@@ -76,7 +76,7 @@ class DiscreteDistributionHandmade(SingleDiscreteDistribution):
         return self.args[1]
 
     @staticmethod
-    def check(pdf, set) -> None:
+    def check(pdf, set):
         x = Dummy('x')
         val = Sum(pdf(x), (x, set._inf, set._sup)).doit()
         _value_check(Eq(val, 1) != S.false, "The pdf is incorrect on the given set.")
@@ -137,7 +137,7 @@ class FlorySchulzDistribution(SingleDiscreteDistribution):
     set = S.Naturals
 
     @staticmethod
-    def check(a) -> None:
+    def check(a):
         _value_check((0 < a, a < 1), "a must be between 0 and 1")
 
     def pdf(self, k):
@@ -208,7 +208,7 @@ class GeometricDistribution(SingleDiscreteDistribution):
     set = S.Naturals
 
     @staticmethod
-    def check(p) -> None:
+    def check(p):
         _value_check((0 < p, p <= 1), "p must be between 0 and 1")
 
     def pdf(self, k):
@@ -284,7 +284,7 @@ class HermiteDistribution(SingleDiscreteDistribution):
     set = S.Naturals0
 
     @staticmethod
-    def check(a1, a2) -> None:
+    def check(a1, a2):
         _value_check(a1.is_nonnegative, 'Parameter a1 must be >= 0.')
         _value_check(a2.is_nonnegative, 'Parameter a2 must be >= 0.')
 
@@ -372,7 +372,7 @@ class LogarithmicDistribution(SingleDiscreteDistribution):
     set = S.Naturals
 
     @staticmethod
-    def check(p) -> None:
+    def check(p):
         _value_check((p > 0, p < 1), "p should be between 0 and 1")
 
     def pdf(self, k):
@@ -448,7 +448,7 @@ class NegativeBinomialDistribution(SingleDiscreteDistribution):
     set = S.Naturals0
 
     @staticmethod
-    def check(r, p) -> None:
+    def check(r, p):
         _value_check(r > 0, 'r should be positive')
         _value_check((p > 0, p < 1), 'p should be between 0 and 1')
 
@@ -535,7 +535,7 @@ class PoissonDistribution(SingleDiscreteDistribution):
     set = S.Naturals0
 
     @staticmethod
-    def check(lamda) -> None:
+    def check(lamda):
         _value_check(lamda > 0, "Lambda must be positive")
 
     def pdf(self, k):
@@ -621,7 +621,7 @@ class SkellamDistribution(SingleDiscreteDistribution):
     set = S.Integers
 
     @staticmethod
-    def check(mu1, mu2) -> None:
+    def check(mu1, mu2):
         _value_check(mu1 >= 0, 'Parameter mu1 must be >= 0')
         _value_check(mu2 >= 0, 'Parameter mu2 must be >= 0')
 
@@ -711,7 +711,7 @@ class YuleSimonDistribution(SingleDiscreteDistribution):
     set = S.Naturals
 
     @staticmethod
-    def check(rho) -> None:
+    def check(rho):
         _value_check(rho > 0, 'rho should be positive')
 
     def pdf(self, k):
@@ -789,7 +789,7 @@ class ZetaDistribution(SingleDiscreteDistribution):
     set = S.Naturals
 
     @staticmethod
-    def check(s) -> None:
+    def check(s):
         _value_check(s > 1, 's should be greater than 1')
 
     def pdf(self, k):

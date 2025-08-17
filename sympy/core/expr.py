@@ -1311,7 +1311,7 @@ class Expr(Basic, EvalfMixin):
         """Returns the additive O(..) symbol if there is one, else None."""
         return None
 
-    def getn(self) -> None:
+    def getn(self):
         """
         Returns the order of the expression.
 
@@ -4175,7 +4175,7 @@ def unchanged(func, *args):
 
 
 class ExprBuilder:
-    def __init__(self, op, args=None, validator=None, check=True) -> None:
+    def __init__(self, op, args=None, validator=None, check=True):
         if not hasattr(op, "__call__"):
             raise TypeError("op {} needs to be callable".format(op))
         self.op = op
@@ -4191,7 +4191,7 @@ class ExprBuilder:
     def _build_args(args):
         return [i.build() if isinstance(i, ExprBuilder) else i for i in args]
 
-    def validate(self) -> None:
+    def validate(self):
         if self.validator is None:
             return
         args = self._build_args(self.args)
@@ -4203,7 +4203,7 @@ class ExprBuilder:
             self.validator(*args)
         return self.op(*args)
 
-    def append_argument(self, arg, check=True) -> None:
+    def append_argument(self, arg, check=True):
         self.args.append(arg)
         if self.validator and check:
             self.validate(*self.args)

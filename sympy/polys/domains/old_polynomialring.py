@@ -32,7 +32,7 @@ class PolynomialRingBase(Ring, CompositeDomain):
 
     default_order = "grevlex"
 
-    def __init__(self, dom, *gens, **opts) -> None:
+    def __init__(self, dom, *gens, **opts):
         if not gens:
             raise GeneratorsNeeded("generators not specified")
 
@@ -104,7 +104,7 @@ class PolynomialRingBase(Ring, CompositeDomain):
         """Convert a mpmath ``mpf`` object to ``dtype``. """
         return K1._ground_new(K1.dom.convert(a, K0))
 
-    def from_AlgebraicField(K1, a, K0) -> None:
+    def from_AlgebraicField(K1, a, K0):
         """Convert a ``ANP`` object to ``dtype``. """
         if K1.dom == K0:
             return K1._ground_new(a)
@@ -251,7 +251,7 @@ class GlobalPolynomialRing(PolynomialRingBase):
         else:
             return self.dtype(element, self.dom, len(self.gens) - 1)
 
-    def from_FractionField(K1, a, K0) -> None:
+    def from_FractionField(K1, a, K0):
         """
         Convert a ``DMF`` object to ``DMP``.
 

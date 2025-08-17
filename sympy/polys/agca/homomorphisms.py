@@ -59,7 +59,7 @@ class ModuleHomomorphism:
     - _add
     """
 
-    def __init__(self, domain, codomain) -> None:
+    def __init__(self, domain, codomain):
         if not isinstance(domain, Module):
             raise TypeError('Source must be a module, got %s' % domain)
         if not isinstance(codomain, Module):
@@ -477,7 +477,7 @@ class MatrixHomomorphism(ModuleHomomorphism):
     - _apply
     """
 
-    def __init__(self, domain, codomain, matrix) -> None:
+    def __init__(self, domain, codomain, matrix):
         ModuleHomomorphism.__init__(self, domain, codomain)
         if len(matrix) != domain.rank:
             raise ValueError('Need to provide %s elements, got %s'

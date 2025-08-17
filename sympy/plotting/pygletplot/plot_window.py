@@ -12,7 +12,7 @@ class PlotWindow(ManagedWindow):
 
     def __init__(self, plot, antialiasing=True, ortho=False,
                  invert_mouse_zoom=False, linewidth=1.5, caption="SymPy Plot",
-                 **kwargs) -> None:
+                 **kwargs):
         """
         Named Arguments
         ===============
@@ -40,7 +40,7 @@ class PlotWindow(ManagedWindow):
 
         super().__init__(**kwargs)
 
-    def setup(self) -> None:
+    def setup(self):
         self.camera = PlotCamera(self, ortho=self.ortho)
         self.controller = PlotController(self,
                 invert_mouse_zoom=self.invert_mouse_zoom)
@@ -65,15 +65,15 @@ class PlotWindow(ManagedWindow):
 
         self.camera.setup_projection()
 
-    def on_resize(self, w, h) -> None:
+    def on_resize(self, w, h):
         super().on_resize(w, h)
         if self.camera is not None:
             self.camera.setup_projection()
 
-    def update(self, dt) -> None:
+    def update(self, dt):
         self.controller.update(dt)
 
-    def draw(self) -> None:
+    def draw(self):
         self.plot._render_lock.acquire()
         self.camera.apply_transformation()
 
@@ -129,7 +129,7 @@ class PlotWindow(ManagedWindow):
         self.plot._render_lock.release()
 
     def update_caption(self, calc_verts_pos, calc_verts_len,
-            calc_cverts_pos, calc_cverts_len) -> None:
+            calc_cverts_pos, calc_cverts_len):
         caption = self.title
         if calc_verts_len or calc_cverts_len:
             caption += " (calculating"

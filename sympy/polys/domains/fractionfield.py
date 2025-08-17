@@ -26,7 +26,7 @@ class FractionField(Field, CompositeDomain, Generic[Er]):
     has_assoc_Ring = True
     has_assoc_Field = True
 
-    def __init__(self, domain_or_field: FracField[Er] | Domain[Er], symbols=None, order=None) -> None:
+    def __init__(self, domain_or_field: FracField[Er] | Domain[Er], symbols=None, order=None):
         from sympy.polys.fields import FracField
 
         if isinstance(domain_or_field, FracField) and symbols is None and order is None:
@@ -152,7 +152,7 @@ class FractionField(Field, CompositeDomain, Generic[Er]):
             except (CoercionFailed, GeneratorsError):
                 return None
 
-    def from_FractionField(K1, a, K0) -> None:
+    def from_FractionField(K1, a, K0):
         """Convert a rational function to ``dtype``. """
         try:
             return a.set_field(K1.field)

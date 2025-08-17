@@ -94,7 +94,7 @@ class RCodePrinter(CodePrinter):
 
     _relationals: dict[str, str] = {}
 
-    def __init__(self, settings={}) -> None:
+    def __init__(self, settings={}):
         CodePrinter.__init__(self, settings)
         self.known_functions = dict(known_functions)
         userfuncs = settings.get('user_functions', {})
@@ -398,6 +398,6 @@ def rcode(
     return RCodePrinter(settings).doprint(expr, assign_to)
 
 
-def print_rcode(expr, **settings) -> None:
+def print_rcode(expr, **settings):
     """Prints R representation of the given expression."""
     print(rcode(expr, **settings))

@@ -27,7 +27,7 @@ class ExtensionElement(DomainElement, DefaultPrinting):
     """
     __slots__ = ('rep', 'ext')
 
-    def __init__(self, rep, ext) -> None:
+    def __init__(self, rep, ext):
         self.rep = rep
         self.ext = ext
 
@@ -267,7 +267,7 @@ class MonogenicFiniteExtension(Domain):
 
     dtype = ExtensionElement
 
-    def __init__(self, mod) -> None:
+    def __init__(self, mod):
         if not (isinstance(mod, Poly) and mod.is_univariate):
             raise TypeError("modulus must be a univariate Poly")
 

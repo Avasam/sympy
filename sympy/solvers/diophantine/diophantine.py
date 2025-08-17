@@ -103,7 +103,7 @@ class DiophantineSolutionSet(set):
         {(t**2, t + 2)}
     """
 
-    def __init__(self, symbols_seq, parameters) -> None:
+    def __init__(self, symbols_seq, parameters):
         super().__init__()
 
         if not is_sequence(symbols_seq):
@@ -115,7 +115,7 @@ class DiophantineSolutionSet(set):
         self.symbols = tuple(symbols_seq)
         self.parameters = tuple(parameters)
 
-    def add(self, solution) -> None:
+    def add(self, solution):
         if len(solution) != len(self.symbols):
             raise ValueError("Solution should have a length of %s, not %s" % (len(self.symbols), len(solution)))
         # make solution canonical wrt sign (i.e. no -x unless x is also present as an arg)
@@ -126,7 +126,7 @@ class DiophantineSolutionSet(set):
                 solution = [_.subs(-x, x) for _ in solution]
         super().add(Tuple(*solution))
 
-    def update(self, *solutions) -> None:
+    def update(self, *solutions):
         for solution in solutions:
             self.add(solution)
 
@@ -173,7 +173,7 @@ class DiophantineEquationType:
     """
     name: str
 
-    def __init__(self, equation, free_symbols=None) -> None:
+    def __init__(self, equation, free_symbols=None):
         self.equation = _sympify(equation).expand(force=True)
 
         if free_symbols is not None:
@@ -214,7 +214,7 @@ class DiophantineEquationType:
     def solve(self, parameters=None, limit=None) -> DiophantineSolutionSet:
         raise NotImplementedError('No solver has been written for %s.' % self.name)
 
-    def pre_solve(self, parameters=None) -> None:
+    def pre_solve(self, parameters=None):
         if not self.matches():
             raise ValueError("This equation does not match the %s equation type." % self.name)
 
@@ -3364,7 +3364,7 @@ def holzer(x, y, z, a, b, c) -> tuple[int, ...]:
     return tuple([int(i) for i in (x_0, y_0, z_0)])
 
 
-def diop_general_pythagorean(eq, param=symbols("m", integer=True)) -> None:
+def diop_general_pythagorean(eq, param=symbols("m", integer=True)):
     """
     Solves the general pythagorean equation,
     `a_{1}^2x_{1}^2 + a_{2}^2x_{2}^2 + . . . + a_{n}^2x_{n}^2 - a_{n + 1}^2x_{n + 1}^2 = 0`.

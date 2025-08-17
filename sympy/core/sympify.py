@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 
 class SympifyError(ValueError):
-    def __init__(self, expr, base_exc=None) -> None:
+    def __init__(self, expr, base_exc=None):
         self.expr = expr
         self.base_exc = base_exc
 

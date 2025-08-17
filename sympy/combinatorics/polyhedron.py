@@ -515,7 +515,7 @@ class Polyhedron(Basic):
             self._edges = FiniteSet(*output)
         return self._edges
 
-    def rotate(self, perm) -> None:
+    def rotate(self, perm):
         """
         Apply a permutation to the polyhedron *in place*. The permutation
         may be given as a Permutation instance or an integer indicating
@@ -583,7 +583,7 @@ class Polyhedron(Basic):
         corners = [self.corners[a[i]] for i in range(len(self.corners))]
         self._corners = tuple(corners)
 
-    def reset(self) -> None:
+    def reset(self):
         """Return corners to their original positions.
 
         Examples

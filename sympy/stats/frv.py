@@ -205,7 +205,7 @@ class SingleFiniteDistribution(Distribution, NamedArgsMixin):
         return Basic.__new__(cls, *args)
 
     @staticmethod
-    def check(*args) -> None:
+    def check(*args):
         pass
 
     @property # type: ignore

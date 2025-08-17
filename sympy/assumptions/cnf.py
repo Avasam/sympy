@@ -84,7 +84,7 @@ class OR:
     """
     A low-level implementation for Or
     """
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         self._args = args
 
     @property
@@ -116,7 +116,7 @@ class AND:
     """
     A low-level implementation for And
     """
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         self._args = args
 
     def __invert__(self) -> OR:
@@ -291,12 +291,12 @@ class CNF:
     frozenset({Literal(Q.negative(x), False),
     Literal(Q.positive(x), False), Literal(Q.zero(x), False)})}
     """
-    def __init__(self, clauses=None) -> None:
+    def __init__(self, clauses=None):
         if not clauses:
             clauses = set()
         self.clauses = clauses
 
-    def add(self, prop) -> None:
+    def add(self, prop):
         clauses = CNF.to_CNF(prop).clauses
         self.add_clauses(clauses)
 
@@ -315,7 +315,7 @@ class CNF:
     def copy(self) -> CNF:
         return CNF(set(self.clauses))
 
-    def add_clauses(self, clauses) -> None:
+    def add_clauses(self, clauses):
         self.clauses |= clauses
 
     @classmethod
@@ -401,7 +401,7 @@ class EncodedCNF:
     """
     Class for encoding the CNF expression.
     """
-    def __init__(self, data=None, encoding=None) -> None:
+    def __init__(self, data=None, encoding=None):
         if not data and not encoding:
             data = []
             encoding = {}
@@ -409,7 +409,7 @@ class EncodedCNF:
         self.encoding = encoding
         self._symbols = list(encoding.keys())
 
-    def from_cnf(self, cnf) -> None:
+    def from_cnf(self, cnf):
         self._symbols = list(cnf.all_predicates())
         n = len(self._symbols)
         self.encoding = dict(zip(self._symbols, range(1, n + 1)))
@@ -427,11 +427,11 @@ class EncodedCNF:
         new_data = [set(clause) for clause in self.data]
         return EncodedCNF(new_data, dict(self.encoding))
 
-    def add_prop(self, prop) -> None:
+    def add_prop(self, prop):
         cnf = CNF.from_prop(prop)
         self.add_from_cnf(cnf)
 
-    def add_from_cnf(self, cnf) -> None:
+    def add_from_cnf(self, cnf):
         clauses = [self.encode(clause) for clause in cnf.clauses]
         self.data += clauses
 

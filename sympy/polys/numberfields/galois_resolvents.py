@@ -179,7 +179,7 @@ class Resolvent:
 
     """
 
-    def __init__(self, F, X, s) -> None:
+    def __init__(self, F, X, s):
         r"""
         Parameters
         ==========

@@ -1131,7 +1131,7 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
                 raise ValueError("The fundamental matrix doesn't exist.")
             return (I - P + W).inv().as_immutable()
 
-    def absorbing_probabilities(self) -> None:
+    def absorbing_probabilities(self):
         """
         Computes the absorbing probabilities, i.e.
         the ij-th entry of the matrix denotes the
@@ -1144,7 +1144,7 @@ class DiscreteMarkovChain(DiscreteTimeStochasticProcess, MarkovProcess):
             return None
         return N*R
 
-    def absorbing_probabilites(self) -> None:
+    def absorbing_probabilites(self):
         sympy_deprecation_warning(
             """
             DiscreteMarkovChain.absorbing_probabilites() is deprecated. Use

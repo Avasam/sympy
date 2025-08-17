@@ -86,7 +86,7 @@ class OctaveCodePrinter(CodePrinter):
     # for Octave.
 
 
-    def __init__(self, settings={}) -> None:
+    def __init__(self, settings={}):
         super().__init__(settings)
         self.known_functions = dict(zip(known_fcns_src1, known_fcns_src1))
         self.known_functions.update(dict(known_fcns_src2))
@@ -704,7 +704,7 @@ def octave_code(
     return OctaveCodePrinter(settings).doprint(expr, assign_to)
 
 
-def print_octave_code(expr, **settings) -> None:
+def print_octave_code(expr, **settings):
     """Prints the Octave (or Matlab) representation of the given expression.
 
     See `octave_code` for the meaning of the optional arguments.

@@ -1121,7 +1121,7 @@ def lambdastr(args, expr, printer=None, dummify=None) -> str:
     return "lambda %s: (%s)" % (args, expr)
 
 class _EvaluatorPrinter:
-    def __init__(self, printer=None, dummify=False) -> None:
+    def __init__(self, printer=None, dummify=False):
         self._dummify = dummify
 
         #XXX: This has to be done here because of circular imports

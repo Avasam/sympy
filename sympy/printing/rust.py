@@ -250,7 +250,7 @@ class TypeCast(Expr):
     The type casting operator of the Rust language.
     """
 
-    def __init__(self, expr, type_) -> None:
+    def __init__(self, expr, type_):
         super().__init__()
         self.explicit = expr.is_integer and type_ is not integer
         self._assumptions = expr._assumptions
@@ -293,7 +293,7 @@ class RustCodePrinter(CodePrinter):
         'dereference': set(),
     })
 
-    def __init__(self, settings={}) -> None:
+    def __init__(self, settings={}):
         CodePrinter.__init__(self, settings)
         self.known_functions = dict(known_functions)
         userfuncs = settings.get('user_functions', {})

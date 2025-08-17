@@ -972,7 +972,7 @@ class erfcinv (DefinedFunction):
         return erfc
 
     @classmethod
-    def eval(cls, z) -> None:
+    def eval(cls, z):
         if z is S.NaN:
             return S.NaN
         elif z.is_zero:
@@ -1185,7 +1185,7 @@ class Ei(DefinedFunction):
 
 
     @classmethod
-    def eval(cls, z) -> None:
+    def eval(cls, z):
         if z.is_zero:
             return S.NegativeInfinity
         elif z is S.Infinity:
@@ -1607,7 +1607,7 @@ class li(DefinedFunction):
 
 
     @classmethod
-    def eval(cls, z) -> None:
+    def eval(cls, z):
         if z.is_zero:
             return S.Zero
         elif z is S.One:
@@ -1739,7 +1739,7 @@ class Li(DefinedFunction):
 
 
     @classmethod
-    def eval(cls, z) -> None:
+    def eval(cls, z):
         if z is S.Infinity:
             return S.Infinity
         elif z == S(2):
@@ -1774,7 +1774,7 @@ class TrigonometricIntegral(DefinedFunction):
 
 
     @classmethod
-    def eval(cls, z) -> None:
+    def eval(cls, z):
         if z is S.Zero:
             return cls._atzero
         elif z is S.Infinity:
@@ -2337,7 +2337,7 @@ class FresnelIntegral(DefinedFunction):
     unbranched = True
 
     @classmethod
-    def eval(cls, z) -> None:
+    def eval(cls, z):
         # Values at positive infinities signs
         # if any were extracted automatically
         if z is S.Infinity:
@@ -2721,7 +2721,7 @@ class _erfs(DefinedFunction):
 
     """
     @classmethod
-    def eval(cls, arg) -> None:
+    def eval(cls, arg):
         if arg.is_zero:
             return S.One
 

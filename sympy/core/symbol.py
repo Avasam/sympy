@@ -419,7 +419,7 @@ class Symbol(AtomicExpr, Boolean): # type: ignore
     # Pickles created in previous SymPy versions will still need __setstate__
     # so that they can be unpickled in SymPy > v1.9.
 
-    def __setstate__(self, state) -> None:
+    def __setstate__(self, state):
         for name, value in state.items():
             setattr(self, name, value)
 

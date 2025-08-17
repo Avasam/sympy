@@ -93,7 +93,7 @@ def tree(node, assumptions=True) -> str:
     return s
 
 
-def print_tree(node, assumptions=True) -> None:
+def print_tree(node, assumptions=True):
     """
     Prints a tree representation of "node".
 

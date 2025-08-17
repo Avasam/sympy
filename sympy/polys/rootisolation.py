@@ -71,7 +71,7 @@ def dup_sturm(f, K) -> list[Any | list]:
 
     return sturm[:-1]
 
-def dup_root_upper_bound(f, K) -> None:
+def dup_root_upper_bound(f, K):
     """Compute the LMQ upper bound for the positive roots of `f`;
        LMQ (Local Max Quadratic) was developed by Akritas-Strzebonski-Vigklas.
 
@@ -115,7 +115,7 @@ def dup_root_upper_bound(f, K) -> None:
     else:
         return K.get_field()(2)**(max(P) + 1)
 
-def dup_root_lower_bound(f, K) -> None:
+def dup_root_lower_bound(f, K):
     """Compute the LMQ lower bound for the positive roots of `f`;
        LMQ (Local Max Quadratic) was developed by Akritas-Strzebonski-Vigklas.
 
@@ -1772,7 +1772,7 @@ def dup_isolate_all_roots(
 class RealInterval:
     """A fully qualified representation of a real isolation interval. """
 
-    def __init__(self, data, f, dom) -> None:
+    def __init__(self, data, f, dom):
         """Initialize new real interval with complete information. """
         if len(data) == 2:
             s, t = data
@@ -2054,7 +2054,7 @@ class ComplexInterval:
     0.0766 + 1.14*I
     """
 
-    def __init__(self, a, b, I, Q, F1, F2, f1, f2, dom, conj=False) -> None:
+    def __init__(self, a, b, I, Q, F1, F2, f1, f2, dom, conj=False):
         """Initialize new complex interval with complete information. """
         # a and b are the SW and NE corner of the bounding interval,
         # (ax, ay) and (bx, by), respectively, for the NON-CONJUGATE

@@ -29,7 +29,7 @@ class ExpressionRawDomain(Field, CharacteristicZero, SimpleDomain):
     has_assoc_Ring = False
     has_assoc_Field = True
 
-    def __init__(self) -> None:
+    def __init__(self):
         pass
 
     @classmethod

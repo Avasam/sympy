@@ -81,7 +81,7 @@ class SDM(dict):
     is_DFM = False
     is_DDM = False
 
-    def __init__(self, elemsdict, shape, domain) -> None:
+    def __init__(self, elemsdict, shape, domain):
         super().__init__(elemsdict)
         self.shape = self.rows, self.cols = m, n = shape
         self.domain = domain
@@ -104,7 +104,7 @@ class SDM(dict):
             else:
                 raise IndexError("index out of range")
 
-    def setitem(self, i, j, value) -> None:
+    def setitem(self, i, j, value):
         m, n = self.shape
         if not (-m <= i < m and -n <= j < n):
             raise IndexError("index out of range")

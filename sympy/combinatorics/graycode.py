@@ -208,7 +208,7 @@ class GrayCode(Basic):
             self._current = (self._current ^ gbtc)
         self._current = 0
 
-    def skip(self) -> None:
+    def skip(self):
         """
         Skips the bit generation.
 

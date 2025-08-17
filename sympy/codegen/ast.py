@@ -959,7 +959,7 @@ class Node(Token):
 
     _construct_attrs = staticmethod(_mk_Tuple)
 
-    def attr_params(self, looking_for) -> None:
+    def attr_params(self, looking_for):
         """ Returns the parameters of the Attribute with name ``looking_for`` in self.attrs """
         for attr in self.attrs:
             if str(attr.name) == str(looking_for):

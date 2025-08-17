@@ -39,11 +39,11 @@ class _QuantityMapper:
     _quantity_dimensional_equivalence_map_global: dict[Expr, Expr] = {}
     _quantity_dimension_global: dict[Expr, Expr] = {}
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         self._quantity_dimension_map = {}
         self._quantity_scale_factors = {}
 
-    def set_quantity_dimension(self, quantity, dimension) -> None:
+    def set_quantity_dimension(self, quantity, dimension):
         """
         Set the dimension for the quantity in a unit system.
 
@@ -61,7 +61,7 @@ class _QuantityMapper:
             dimension = self.get_quantity_dimension(dimension)
         self._quantity_dimension_map[quantity] = dimension
 
-    def set_quantity_scale_factor(self, quantity, scale_factor) -> None:
+    def set_quantity_scale_factor(self, quantity, scale_factor):
         """
         Set the scale factor of a quantity relative to another quantity.
 

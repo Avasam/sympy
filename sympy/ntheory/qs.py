@@ -12,7 +12,7 @@ _LOG2_SHIFT = 710 # = round(log(2)*_SHIFT)
 
 
 class SievePolynomial:
-    def __init__(self, a, b, N) -> None:
+    def __init__(self, a, b, N):
         """This class denotes the sieve polynomial.
         Provide methods to compute `(a*x + b)**2 - N` and
         `a*x + b` when given `x`.
@@ -41,7 +41,7 @@ class SievePolynomial:
 class FactorBaseElem:
     """This class stores an element of the `factor_base`.
     """
-    def __init__(self, prime, tmem_p, log_p) -> None:
+    def __init__(self, prime, tmem_p, log_p):
         """
         Initialization of factor_base_elem.
 

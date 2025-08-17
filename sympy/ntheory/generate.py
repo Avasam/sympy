@@ -95,7 +95,7 @@ class Sieve:
         if mobius:
             self._mlist = self._mlist[:self._n]
 
-    def extend(self, n) -> None:
+    def extend(self, n):
         """Grow the sieve to cover all primes <= n.
 
         Examples
@@ -161,7 +161,7 @@ class Sieve:
                     yield a + 2 * idx + 1
             a += 2 * block_size
 
-    def extend_to_no(self, i) -> None:
+    def extend_to_no(self, i):
         """Extend to include the ith prime number.
 
         Parameters

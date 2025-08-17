@@ -21,7 +21,7 @@ class intervalMembership:
         - False: If at least one of the intervals is False, else
         - None
     """
-    def __init__(self, a, b) -> None:
+    def __init__(self, a, b):
         self._wrapped = (a, b)
 
     def __getitem__(self, i):

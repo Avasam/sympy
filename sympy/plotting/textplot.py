@@ -129,7 +129,7 @@ def textplot_str(expr, a, b, W=55, H=21) -> Generator[str]:
     yield bottom
 
 
-def textplot(expr, a, b, W=55, H=21) -> None:
+def textplot(expr, a, b, W=55, H=21):
     r"""
     Print a crude ASCII art plot of the SymPy expression 'expr' (which
     should contain a single symbol, e.g. x or something else) over the

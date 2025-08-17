@@ -18,7 +18,7 @@ class FractionField(Field, CompositeDomain):
     has_assoc_Ring = True
     has_assoc_Field = True
 
-    def __init__(self, dom, *gens) -> None:
+    def __init__(self, dom, *gens):
         if not gens:
             raise GeneratorsNeeded("generators not specified")
 
@@ -108,7 +108,7 @@ class FractionField(Field, CompositeDomain):
 
             return K1(dict(zip(monoms, coeffs)))
 
-    def from_FractionField(K1, a, K0) -> None:
+    def from_FractionField(K1, a, K0):
         """
         Convert a fraction field element to another fraction field.
 

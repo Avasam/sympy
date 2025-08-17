@@ -150,7 +150,7 @@ class ClassFactRegistry:
     {Implies(Q.even(x), Q.even(Abs(x))), Implies(Q.odd(x), Q.odd(Abs(x)))}
 
     """
-    def __init__(self) -> None:
+    def __init__(self):
         self.singlefacts = defaultdict(frozenset)
         self.multifacts = defaultdict(frozenset)
 

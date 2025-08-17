@@ -260,7 +260,7 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain[Er], Generic[Er, Eg
 
     dom: Domain[Eg]
 
-    def __init__(self, dom: Domain[Eg], *ext, alias=None) -> None:
+    def __init__(self, dom: Domain[Eg], *ext, alias=None):
         r"""
         Parameters
         ==========

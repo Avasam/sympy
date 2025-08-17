@@ -43,7 +43,7 @@ class AxisOrienter(Orienter):
 
         return obj
 
-    def __init__(self, angle, axis) -> None:
+    def __init__(self, angle, axis):
         """
         Axis rotation is a rotation about an arbitrary axis by
         some angle. The angle is supplied as a SymPy expr scalar, and
@@ -184,7 +184,7 @@ class BodyOrienter(ThreeAngleOrienter):
                                          rot_order)
         return obj
 
-    def __init__(self, angle1, angle2, angle3, rot_order) -> None:
+    def __init__(self, angle1, angle2, angle3, rot_order):
         """
         Body orientation takes this coordinate system through three
         successive simple rotations.
@@ -254,7 +254,7 @@ class SpaceOrienter(ThreeAngleOrienter):
                                          rot_order)
         return obj
 
-    def __init__(self, angle1, angle2, angle3, rot_order) -> None:
+    def __init__(self, angle1, angle2, angle3, rot_order):
         """
         Space rotation is similar to Body rotation, but the rotations
         are applied in the opposite order.
@@ -338,7 +338,7 @@ class QuaternionOrienter(Orienter):
 
         return obj
 
-    def __init__(self, angle1, angle2, angle3, rot_order) -> None:
+    def __init__(self, angle1, angle2, angle3, rot_order):
         """
         Quaternion orientation orients the new CoordSys3D with
         Quaternions, defined as a finite rotation about lambda, a unit

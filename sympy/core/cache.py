@@ -5,7 +5,7 @@ from typing import Callable
 class _cache(list):
     """ List of cached functions """
 
-    def print_cache(self) -> None:
+    def print_cache(self):
         """print cache info"""
 
         for item in self:
@@ -22,7 +22,7 @@ class _cache(list):
 
             print(name, info)
 
-    def clear_cache(self) -> None:
+    def clear_cache(self):
         """clear cache content"""
         for item in self:
             myfunc = item

@@ -710,7 +710,7 @@ class Idx(Expr):
         return self.args[0]
 
     @property
-    def lower(self) -> None:
+    def lower(self):
         """Returns the lower bound of the ``Idx``.
 
         Examples
@@ -731,7 +731,7 @@ class Idx(Expr):
             return
 
     @property
-    def upper(self) -> None:
+    def upper(self):
         """Returns the upper bound of the ``Idx``.
 
         Examples

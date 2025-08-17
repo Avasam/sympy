@@ -355,7 +355,7 @@ def _roots_real_complex(poly):
     return reals, complexes
 
 
-def log_to_real(h, q, x, t) -> None:
+def log_to_real(h, q, x, t):
     r"""
     Convert complex logarithms to real functions.
 

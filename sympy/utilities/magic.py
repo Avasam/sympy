@@ -1,6 +1,6 @@
 """Functions that involve magic. """
 
-def pollute(names, objects) -> None:
+def pollute(names, objects):
     """Pollute the global namespace with symbols -> objects mapping. """
     from inspect import currentframe
     frame = currentframe().f_back.f_back

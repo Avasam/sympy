@@ -36,15 +36,15 @@ class Option:
     before: list[str] = []
 
     @classmethod
-    def default(cls) -> None:
+    def default(cls):
         return None
 
     @classmethod
-    def preprocess(cls, option) -> None:
+    def preprocess(cls, option):
         return None
 
     @classmethod
-    def postprocess(cls, options) -> None:
+    def postprocess(cls, options):
         pass
 
 
@@ -68,7 +68,7 @@ class BooleanOption(Option):
 class OptionType(type):
     """Base type for all options that does registers options. """
 
-    def __init__(cls, *args, **kwargs) -> None:
+    def __init__(cls, *args, **kwargs):
         @property
         def getter(self):
             try:
@@ -135,7 +135,7 @@ class Options(dict):
     gens: tuple[Expr, ...]
     domain: sympy.polys.domains.Domain
 
-    def __init__(self, gens, args, flags=None, strict=False) -> None:
+    def __init__(self, gens, args, flags=None, strict=False):
         dict.__init__(self)
 
         if gens and args.get('gens', ()):
@@ -222,7 +222,7 @@ class Options(dict):
 
         return obj
 
-    def __setattr__(self, attr, value) -> None:
+    def __setattr__(self, attr, value):
         if attr in self.__options__:
             self[attr] = value
         else:
@@ -394,7 +394,7 @@ class Composite(BooleanOption, metaclass=OptionType):
     option = 'composite'
 
     @classmethod
-    def default(cls) -> None:
+    def default(cls):
         return None
 
     requires: list[str] = []
@@ -506,7 +506,7 @@ class Domain(Option, metaclass=OptionType):
         raise OptionError('expected a valid domain specification, got %s' % domain)
 
     @classmethod
-    def postprocess(cls, options) -> None:
+    def postprocess(cls, options):
         if 'gens' in options and 'domain' in options and options['domain'].is_Composite and \
                 (set(options['domain'].symbols) & set(options['gens'])):
             raise GeneratorsError(
@@ -526,7 +526,7 @@ class Split(BooleanOption, metaclass=OptionType):
         'modulus', 'symmetric']
 
     @classmethod
-    def postprocess(cls, options) -> None:
+    def postprocess(cls, options):
         if 'split' in options:
             raise NotImplementedError("'split' option is not implemented yet")
 
@@ -541,7 +541,7 @@ class Gaussian(BooleanOption, metaclass=OptionType):
         'modulus', 'symmetric']
 
     @classmethod
-    def postprocess(cls, options) -> None:
+    def postprocess(cls, options):
         if 'gaussian' in options and options['gaussian'] is True:
             options['domain'] = sympy.polys.domains.QQ_I
             Extension.postprocess(options)
@@ -574,7 +574,7 @@ class Extension(Option, metaclass=OptionType):
             return extension
 
     @classmethod
-    def postprocess(cls, options) -> None:
+    def postprocess(cls, options):
         if 'extension' in options and options['extension'] is not True:
             options['domain'] = sympy.polys.domains.QQ.algebraic_field(
                 *options['extension'])
@@ -599,7 +599,7 @@ class Modulus(Option, metaclass=OptionType):
                 "'modulus' must a positive integer, got %s" % modulus)
 
     @classmethod
-    def postprocess(cls, options) -> None:
+    def postprocess(cls, options):
         if 'modulus' in options:
             modulus = options['modulus']
             symmetric = options.get('symmetric', True)
@@ -637,7 +637,7 @@ class Auto(BooleanOption, Flag, metaclass=OptionType):
         return True
 
     @classmethod
-    def postprocess(cls, options) -> None:
+    def postprocess(cls, options):
         if ('domain' in options or 'field' in options) and 'auto' not in options:
             options['auto'] = False
 
@@ -756,7 +756,7 @@ def build_options(gens, args=None):
         return args['opt']
 
 
-def allowed_flags(args, flags) -> None:
+def allowed_flags(args, flags):
     """
     Allow specified flags to be used in the given context.
 

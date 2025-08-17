@@ -122,7 +122,7 @@ def pole_zero_numerical_data(system) -> tuple[Any, Any]:
 
 def pole_zero_plot(system, pole_color='blue', pole_markersize=10,
     zero_color='orange', zero_markersize=7, grid=True, show_axes=True,
-    show=True, **kwargs) -> None:
+    show=True, **kwargs):
     r"""
     Returns the Pole-Zero plot (also known as PZ Plot or PZ Map) of a system.
 
@@ -291,7 +291,7 @@ def step_response_numerical_data(
 
 
 def step_response_plot(system, color='b', prec=8, lower_limit=0,
-    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs) -> None:
+    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs):
     r"""
     Returns the unit step response of a continuous-time system. It is
     the response of the system when the input signal is a step function.
@@ -443,7 +443,7 @@ def impulse_response_numerical_data(
 
 
 def impulse_response_plot(system, color='b', prec=8, lower_limit=0,
-    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs) -> None:
+    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs):
     r"""
     Returns the unit impulse response (Input is the Dirac-Delta Function) of a
     continuous-time system.
@@ -602,7 +602,7 @@ def ramp_response_numerical_data(
 
 
 def ramp_response_plot(system, slope=1, color='b', prec=8, lower_limit=0,
-    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs) -> None:
+    upper_limit=10, show_axes=False, grid=True, show=True, **kwargs):
     r"""
     Returns the ramp response of a continuous-time system.
 
@@ -763,7 +763,7 @@ def bode_magnitude_numerical_data(
 
 
 def bode_magnitude_plot(system, initial_exp=-5, final_exp=5,
-    color='b', show_axes=False, grid=True, show=True, freq_unit='rad/sec', **kwargs) -> None:
+    color='b', show_axes=False, grid=True, show=True, freq_unit='rad/sec', **kwargs):
     r"""
     Returns the Bode magnitude plot of a continuous-time system.
 

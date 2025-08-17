@@ -61,7 +61,7 @@ class FpGroup(DefaultPrinting):
     is_FpGroup = True
     is_PermutationGroup = False
 
-    def __init__(self, fr_grp, relators) -> None:
+    def __init__(self, fr_grp, relators):
         relators = _parse_relators(relators)
         self.free_group = fr_grp
         self.relators = relators
@@ -84,7 +84,7 @@ class FpGroup(DefaultPrinting):
     def _generators(self):
         return self.free_group.generators
 
-    def make_confluent(self) -> None:
+    def make_confluent(self):
         '''
         Try to make the group's rewriting system confluent
 
@@ -189,7 +189,7 @@ class FpGroup(DefaultPrinting):
             C.compress()
         return C
 
-    def standardize_coset_table(self) -> None:
+    def standardize_coset_table(self):
         """
         Standardized the coset table ``self`` and makes the internal variable
         ``_is_standardized`` equal to ``True``.
@@ -557,7 +557,7 @@ class FpSubgroup(DefaultPrinting):
     group belongs to the subgroup
 
     '''
-    def __init__(self, G, gens, normal=False) -> None:
+    def __init__(self, G, gens, normal=False):
         super().__init__()
         self.parent = G
         self.generators = list({g for g in gens if g != G.identity})
@@ -775,7 +775,7 @@ def low_index_subgroups(G, N, Y=()) -> list:
     return S
 
 
-def descendant_subgroups(S, C, R1_c_list, x, R2, N, Y) -> None:
+def descendant_subgroups(S, C, R1_c_list, x, R2, N, Y):
     A_dict = C.A_dict
     A_dict_inv = C.A_dict_inv
     if C.is_complete():
@@ -803,7 +803,7 @@ def descendant_subgroups(S, C, R1_c_list, x, R2, N, Y) -> None:
                             undefined_gen, beta, Y)
 
 
-def try_descendant(S, C, R1_c_list, R2, N, alpha, x, beta, Y) -> None:
+def try_descendant(S, C, R1_c_list, R2, N, alpha, x, beta, Y):
     r"""
     Solves the problem of trying out each individual possibility
     for `\alpha^x.
@@ -1128,7 +1128,7 @@ def elimination_technique_1(gens, rels, identity) -> tuple[list, list]:
 ###############################################################################
 
 # Pg 175 [1]
-def define_schreier_generators(C, homomorphism=False) -> None:
+def define_schreier_generators(C, homomorphism=False):
     '''
     Parameters
     ==========
@@ -1179,7 +1179,7 @@ def define_schreier_generators(C, homomorphism=False) -> None:
             beta = C.table[i][j]
             C.P[beta][j + 1] = r**-1
 
-def reidemeister_relators(C) -> None:
+def reidemeister_relators(C):
     R = C.fp_group.relators
     rels = [rewrite(C, coset, word) for word in R for coset in range(C.n)]
     order_1_gens = {i for i in rels if len(i) == 1}

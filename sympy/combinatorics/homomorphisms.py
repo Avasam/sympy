@@ -18,7 +18,7 @@ class GroupHomomorphism:
 
     '''
 
-    def __init__(self, domain, codomain, images) -> None:
+    def __init__(self, domain, codomain, images):
         self.domain = domain
         self.codomain = codomain
         self.images = images
@@ -194,7 +194,7 @@ class GroupHomomorphism:
         '''
         return self.kernel().order() == 1
 
-    def is_surjective(self) -> None:
+    def is_surjective(self):
         '''
         Check if the homomorphism is surjective
 

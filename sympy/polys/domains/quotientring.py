@@ -23,7 +23,7 @@ class QuotientRingElement:
     - data - element of ring.ring (i.e. base ring) representing self
     """
 
-    def __init__(self, ring, data) -> None:
+    def __init__(self, ring, data):
         self.ring = ring
         self.data = data
 
@@ -122,7 +122,7 @@ class QuotientRing(Ring):
     has_assoc_Field = False
     dtype = QuotientRingElement
 
-    def __init__(self, ring, ideal) -> None:
+    def __init__(self, ring, ideal):
         if not ideal.ring == ring:
             raise ValueError('Ideal must belong to %s, got %s' % (ring, ideal))
         self.ring = ring
@@ -166,7 +166,7 @@ class QuotientRing(Ring):
     def to_sympy(self, a):
         return self.ring.to_sympy(a.data)
 
-    def from_QuotientRing(self, a, K0) -> None:
+    def from_QuotientRing(self, a, K0):
         if K0 == self:
             return a
 

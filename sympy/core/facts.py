@@ -283,7 +283,7 @@ class Prover:
        *several* facts are true at the same time.
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
         self.proved_rules = []
         self._rules_seen = set()
 
@@ -306,7 +306,7 @@ class Prover:
     def rules_beta(self) -> list:
         return self.split_alpha_beta()[1]
 
-    def process_rule(self, a, b) -> None:
+    def process_rule(self, a, b):
         """process a -> b rule"""   # TODO write more?
         if (not a) or isinstance(b, bool):
             return
@@ -408,7 +408,7 @@ class FactRules:
        .defined_facts -- set of defined fact names
     """
 
-    def __init__(self, rules) -> None:
+    def __init__(self, rules):
         """Compile rules into internal lookup tables"""
 
         if isinstance(rules, str):
@@ -576,7 +576,7 @@ class FactKB(dict):
         return '{\n%s}' % ',\n'.join(
             ["\t%s: %s" % i for i in sorted(self.items())])
 
-    def __init__(self, rules) -> None:
+    def __init__(self, rules):
         self.rules = rules
 
     def _tell(self, k, v):
@@ -596,7 +596,7 @@ class FactKB(dict):
     # *********************************************
     # * This is the workhorse, so keep it *fast*. *
     # *********************************************
-    def deduce_all_facts(self, facts) -> None:
+    def deduce_all_facts(self, facts):
         """
         Update the KB with all the implications of a list of facts.
 

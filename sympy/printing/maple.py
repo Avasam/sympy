@@ -101,7 +101,7 @@ class MapleCodePrinter(CodePrinter):
         'allow_unknown_functions': True,
     })
 
-    def __init__(self, settings=None) -> None:
+    def __init__(self, settings=None):
         if settings is None:
             settings = {}
         super().__init__(settings)
@@ -299,7 +299,7 @@ def maple_code(
     return MapleCodePrinter(settings).doprint(expr, assign_to)
 
 
-def print_maple_code(expr, **settings) -> None:
+def print_maple_code(expr, **settings):
     """Prints the Maple representation of the given expression.
 
     See :func:`maple_code` for the meaning of the optional arguments.

@@ -100,7 +100,7 @@ class AbstractPythonCodePrinter(CodePrinter):
         standard='python3',
     )
 
-    def __init__(self, settings=None) -> None:
+    def __init__(self, settings=None):
         super().__init__(settings)
 
         # Python standard handler

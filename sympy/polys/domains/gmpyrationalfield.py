@@ -26,7 +26,7 @@ class GMPYRationalField(RationalField):
     tp: type[_GMPYRational] = type(one)
     alias = 'QQ_gmpy'
 
-    def __init__(self) -> None:
+    def __init__(self):
         pass
 
     def get_ring(self):

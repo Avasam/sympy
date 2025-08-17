@@ -96,7 +96,7 @@ class BinaryRelation(Predicate):
         return None
 
     @property
-    def negated(self) -> None:
+    def negated(self):
         return None
 
     def _compare_reflexive(self, lhs, rhs):

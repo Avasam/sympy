@@ -105,7 +105,7 @@ class Ideal(IntegerPowerable):
 
     # non-implemented methods end here
 
-    def __init__(self, ring) -> None:
+    def __init__(self, ring):
         self.ring = ring
 
     def _check_ideal(self, J):
@@ -290,7 +290,7 @@ class ModuleImplementedIdeal(Ideal):
     - _module - the underlying module
     """
 
-    def __init__(self, ring, module) -> None:
+    def __init__(self, ring, module):
         Ideal.__init__(self, ring)
         self._module = module
 

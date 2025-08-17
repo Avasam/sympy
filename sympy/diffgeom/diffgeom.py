@@ -523,7 +523,7 @@ That is, replace {s} with Symbol({s!r}, real=True).
             raise KeyError("Two coordinate systems are not connected.")
         return result
 
-    def connect_to(self, to_sys, from_coords, to_exprs, inverse=True, fill_in_gaps=False) -> None:
+    def connect_to(self, to_sys, from_coords, to_exprs, inverse=True, fill_in_gaps=False):
         sympy_deprecation_warning(
             """
             The CoordSystem.connect_to() method is deprecated. Instead,
@@ -2240,11 +2240,11 @@ class _deprecated_container:
     # This class gives deprecation warning.
     # When deprecated features are completely deleted, this should be removed as well.
     # See https://github.com/sympy/sympy/pull/19368
-    def __init__(self, message, data) -> None:
+    def __init__(self, message, data):
         super().__init__(data)
         self.message = message
 
-    def warn(self) -> None:
+    def warn(self):
         sympy_deprecation_warning(
             self.message,
             deprecated_since_version="1.7",

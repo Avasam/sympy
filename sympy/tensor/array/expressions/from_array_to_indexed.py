@@ -17,7 +17,7 @@ def convert_array_to_indexed(expr, indices) -> Mul | Equality | Relational | Ne 
 
 class _ConvertArrayToIndexed:
 
-    def __init__(self) -> None:
+    def __init__(self):
         self.count_dummies = 0
 
     def do_convert(self, expr, indices) -> Mul | Equality | Relational | Ne | Sum | Add | ArrayElement:

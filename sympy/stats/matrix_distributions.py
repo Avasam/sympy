@@ -78,7 +78,7 @@ def rv(symbol, cls, args) -> RandomMatrixSymbol:
 
 class SampleMatrixScipy:
     """Returns the sample from scipy of the given distribution"""
-    def __new__(cls, dist, size, seed=None) -> None:
+    def __new__(cls, dist, size, seed=None):
         return cls._sample_scipy(dist, size, seed)
 
     @classmethod
@@ -118,7 +118,7 @@ class SampleMatrixNumpy:
     """Returns the sample from numpy of the given distribution"""
 
     ### TODO: Add tests after adding matrix distributions in numpy_rv_map
-    def __new__(cls, dist, size, seed=None) -> None:
+    def __new__(cls, dist, size, seed=None):
         return cls._sample_numpy(dist, size, seed)
 
     @classmethod
@@ -148,7 +148,7 @@ class SampleMatrixNumpy:
 class SampleMatrixPymc:
     """Returns the sample from pymc of the given distribution"""
 
-    def __new__(cls, dist, size, seed=None) -> None:
+    def __new__(cls, dist, size, seed=None):
         return cls._sample_pymc(dist, size, seed)
 
     @classmethod
@@ -206,7 +206,7 @@ class MatrixDistribution(Distribution, NamedArgsMixin):
         return Basic.__new__(cls, *args)
 
     @staticmethod
-    def check(*args) -> None:
+    def check(*args):
         pass
 
     def __call__(self, expr):
@@ -249,7 +249,7 @@ class MatrixGammaDistribution(MatrixDistribution):
     _argnames = ('alpha', 'beta', 'scale_matrix')
 
     @staticmethod
-    def check(alpha, beta, scale_matrix) -> None:
+    def check(alpha, beta, scale_matrix):
         if not isinstance(scale_matrix, MatrixSymbol):
             _value_check(scale_matrix.is_positive_definite, "The shape "
                 "matrix must be positive definite.")
@@ -336,7 +336,7 @@ class WishartDistribution(MatrixDistribution):
     _argnames = ('n', 'scale_matrix')
 
     @staticmethod
-    def check(n, scale_matrix) -> None:
+    def check(n, scale_matrix):
         if not isinstance(scale_matrix, MatrixSymbol):
             _value_check(scale_matrix.is_positive_definite, "The shape "
                 "matrix must be positive definite.")
@@ -419,7 +419,7 @@ class MatrixNormalDistribution(MatrixDistribution):
     _argnames = ('location_matrix', 'scale_matrix_1', 'scale_matrix_2')
 
     @staticmethod
-    def check(location_matrix, scale_matrix_1, scale_matrix_2) -> None:
+    def check(location_matrix, scale_matrix_1, scale_matrix_2):
         if not isinstance(scale_matrix_1, MatrixSymbol):
             _value_check(scale_matrix_1.is_positive_definite, "The shape "
                 "matrix must be positive definite.")
@@ -517,7 +517,7 @@ class MatrixStudentTDistribution(MatrixDistribution):
     _argnames = ('nu', 'location_matrix', 'scale_matrix_1', 'scale_matrix_2')
 
     @staticmethod
-    def check(nu, location_matrix, scale_matrix_1, scale_matrix_2) -> None:
+    def check(nu, location_matrix, scale_matrix_1, scale_matrix_2):
         if not isinstance(scale_matrix_1, MatrixSymbol):
             _value_check(scale_matrix_1.is_positive_definite != False, "The shape "
                                                               "matrix must be positive definite.")

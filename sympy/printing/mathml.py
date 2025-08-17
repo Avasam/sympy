@@ -42,7 +42,7 @@ class MathMLPrinterBase(Printer):
         "disable_split_super_sub": False,
     }
 
-    def __init__(self, settings=None) -> None:
+    def __init__(self, settings=None):
         Printer.__init__(self, settings)
         from xml.dom.minidom import Document, Text
 
@@ -2119,7 +2119,7 @@ def mathml(expr, printer='content', **settings):
         return MathMLContentPrinter(settings).doprint(expr)
 
 
-def print_mathml(expr, printer='content', **settings) -> None:
+def print_mathml(expr, printer='content', **settings):
     """
     Prints a pretty representation of the MathML code for expr. If printer is
     presentation then prints Presentation MathML else prints content MathML.

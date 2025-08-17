@@ -12,7 +12,7 @@ numpy = import_module('numpy')
 
 
 @singledispatch
-def do_sample_numpy(dist, size, rand_state) -> None:
+def do_sample_numpy(dist, size, rand_state):
     return None
 
 

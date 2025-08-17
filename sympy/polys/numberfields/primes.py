@@ -44,7 +44,7 @@ class PrimeIdeal(IntegerPowerable):
     A prime ideal in a ring of algebraic integers.
     """
 
-    def __init__(self, ZK, p, alpha, f, e=None) -> None:
+    def __init__(self, ZK, p, alpha, f, e=None):
         """
         Parameters
         ==========
