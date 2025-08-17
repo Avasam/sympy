@@ -165,8 +165,6 @@ class Mul(Expr, AssocOp):
     _args_type = Expr
     _kind_dispatcher = KindDispatcher("Mul_kind_dispatcher", commutative=True)
 
-    identity: ClassVar[Expr]
-
     @property
     def kind(self):
         arg_kinds = (a.kind for a in self.args)

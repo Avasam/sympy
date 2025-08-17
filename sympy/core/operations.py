@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import overload, TYPE_CHECKING
+from typing import overload, TYPE_CHECKING, ClassVar
 
 from operator import attrgetter
 from collections import defaultdict
@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     from sympy.core.add import Add
     from sympy.core.mul import Mul
     from sympy.logic.boolalg import Boolean, And, Or
+    from typing_extensions import Self
 
 
 class AssocOp(Basic):
@@ -59,8 +60,10 @@ class AssocOp(Basic):
 
     _args_type: type[Basic] | None = None
 
+    identity: ClassVar[Expr] # concrete derived classes must define this
+
     @cacheit
-    def __new__(cls, *args, evaluate=None, _sympify=True):
+    def __new__(cls, *args, evaluate=None, _sympify=True) -> Expr:
         # Allow faster processing by passing ``_sympify=False``, if all arguments
         # are already sympified.
         if _sympify:
@@ -116,7 +119,7 @@ this object, use the * or + operator instead.
         return obj
 
     @classmethod
-    def _from_args(cls, args, is_commutative=None):
+    def _from_args(cls, args, is_commutative=None) -> Expr | Self:
         """Create new instance with already-processed args.
         If the args are not in canonical order, then a non-canonical
         result will be returned, so use with caution. The order of

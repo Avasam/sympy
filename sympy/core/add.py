@@ -183,8 +183,6 @@ class Add(Expr, AssocOp):
 
     _args_type = Expr
 
-    identity: ClassVar[Expr]
-
     if TYPE_CHECKING:
 
         def __new__(cls, *args: Expr | complex, evaluate: bool=True) -> Expr: # type: ignore

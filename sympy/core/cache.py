@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Callable
 from collections.abc import Callable
 
 _CallableT = TypeVar("_CallableT", bound=Callable)
+_T = TypeVar("_T")
 
 class _cache(list):
     """ List of cached functions """
@@ -124,7 +125,7 @@ def __cacheit_debug(maxsize):
     return func_wrapper
 
 
-def _getenv(key, default=None):
+def _getenv(key, default: _T = None) -> str | _T:
     from os import getenv
     return getenv(key, default)
 
