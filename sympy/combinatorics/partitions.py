@@ -1,7 +1,7 @@
-from typing import Literal, cast
+from __future__ import annotations
+from typing import Literal
 from collections.abc import Sequence
 from sympy.core import Basic, Dict, sympify, Tuple
-from sympy.core.expr import Expr
 from sympy.core.numbers import Integer
 from sympy.core.sorting import default_sort_key
 from sympy.core.sympify import _sympify

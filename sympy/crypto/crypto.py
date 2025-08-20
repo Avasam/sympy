@@ -12,6 +12,7 @@ and the Diffie-Hellman key exchange.
 
 """
 
+from __future__ import annotations
 from string import whitespace, ascii_uppercase as uppercase, printable
 from functools import reduce
 from typing import Literal, overload

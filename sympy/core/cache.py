@@ -1,4 +1,5 @@
 """ Caching facility for SymPy """
+from __future__ import annotations
 from typing import TypeVar
 from importlib import import_module
 from typing import TYPE_CHECKING, Callable

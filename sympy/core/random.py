@@ -22,6 +22,7 @@ Examples
 >>> assert a != b  # remote possibility this will fail
 
 """
+from __future__ import annotations
 from collections.abc import Iterable, MutableSequence
 from typing import TYPE_CHECKING
 from sympy.utilities.iterables import is_sequence

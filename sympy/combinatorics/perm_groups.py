@@ -26,7 +26,7 @@ from sympy.utilities.iterables import has_variety, is_sequence, uniq
 rmul = Permutation.rmul_with_af
 _af_new = Permutation._af_new
 
-_FreeGroupElementOrPermutationT = TypeVar("_FreeGroupElementOrPermutationT", bound=FreeGroupElement | Permutation)
+_FreeGroupElementOrPermutationT = TypeVar("_FreeGroupElementOrPermutationT", bound="FreeGroupElement | Permutation")
 _T = TypeVar("_T")
 
 class PermutationGroup(Basic):

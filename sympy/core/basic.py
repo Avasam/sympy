@@ -6,7 +6,6 @@ from collections.abc import Callable, Mapping, Iterable
 from itertools import zip_longest
 from functools import cmp_to_key
 from typing import TYPE_CHECKING, overload, ClassVar, TypeVar, Any, Hashable, Literal
-from types import NotImplementedType
 
 from .assumptions import _prepare_class_assumptions
 from .cache import cacheit
@@ -22,6 +21,7 @@ from sympy.utilities.misc import filldedent, func_name
 
 
 if TYPE_CHECKING:
+    from types import NotImplementedType
     from _typeshed import SupportsGetItem
     from typing_extensions import Self
     from .assumptions import StdFactKB

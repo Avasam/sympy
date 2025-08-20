@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from typing import TypeVar, overload
-from types import NotImplementedType
+from typing import TypeVar, overload, TYPE_CHECKING
 from sympy.core import Add, Mul, Pow, S
 from sympy.core.basic import Basic
 from sympy.core.expr import Expr
@@ -13,6 +12,8 @@ from sympy.logic.boolalg import And
 from sympy.multipledispatch import dispatch
 from sympy.series.order import Order
 from sympy.sets.sets import FiniteSet
+if TYPE_CHECKING:
+    from types import NotImplementedType
 
 _ExprT = TypeVar("_ExprT", bound=Expr)
 

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import ClassVar, cast
 from sympy.core import S, sympify, NumberKind
 from sympy.utilities.iterables import sift

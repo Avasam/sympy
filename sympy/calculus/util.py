@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import overload
 from .accumulationbounds import AccumBounds, AccumulationBounds # noqa: F401
 from .singularities import singularities
