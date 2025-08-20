@@ -1,9 +1,13 @@
+from typing import TypeVar
+
 from sympy.core.basic import Basic
 from sympy.printing import pprint
 
 import random
 
-def interactive_traversal(expr):
+_T = TypeVar("_T")
+
+def interactive_traversal(expr: _T) -> _T:
     """Traverse a tree asking a user which branch to choose. """
 
     RED, BRED = '\033[0;31m', '\033[1;31m'
