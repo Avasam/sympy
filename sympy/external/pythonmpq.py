@@ -35,8 +35,14 @@ from math import gcd
 from decimal import Decimal
 from fractions import Fraction
 import sys
-from typing import Type
-
+from collections.abc import Callable
+from typing import TYPE_CHECKING, TypeVar
+if TYPE_CHECKING:
+    from sympy.core.numbers import Rational
+    from .gmpy import MPQ, MPZ
+    from _operator import _SupportsComparison
+    from types import NotImplementedType
+_T = TypeVar("_T")
 
 # Used for __hash__
 _PyHASH_MODULUS = sys.hash_info.modulus
@@ -54,6 +60,9 @@ class PythonMPQ:
     """
     __slots__ = ('numerator', 'denominator')
 
+    # Set in _new
+    numerator: int
+    denominator: int
     def __new__(cls, numerator, denominator=None):
         """Construct PythonMPQ with gcd computation and checks"""
         if denominator is not None:
@@ -123,7 +132,7 @@ class PythonMPQ:
         """True/False if nonzero/zero"""
         return bool(self.numerator)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool | NotImplementedType:
         """Compare equal with PythonMPQ, int, float, Decimal or Fraction"""
         if isinstance(other, PythonMPQ):
             return (self.numerator == other.numerator
@@ -159,7 +168,7 @@ class PythonMPQ:
         """Convert to string"""
         return f"MPQ({self.numerator},{self.denominator})"
 
-    def _cmp(self, other, op):
+    def _cmp(self, other, op) -> int | MPZ | NotImplementedType:
         """Helper for lt/le/gt/ge"""
         if not isinstance(other, self._compatible_types):
             return NotImplemented
@@ -331,7 +340,7 @@ class PythonMPQ:
         else:
             return NotImplemented
 
-    _compatible_types: tuple[Type, ...] = ()
+    _compatible_types: tuple[type, ...] = ()
 
 #
 # These are the types that PythonMPQ will interoperate with for operations
