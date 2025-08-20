@@ -1,13 +1,13 @@
 """
 Recurrences
 """
-
+from collections.abc import Iterable
 from sympy.core import S, sympify
 from sympy.utilities.iterables import iterable
 from sympy.utilities.misc import as_int
 
 
-def linrec(coeffs, init, n):
+def linrec(coeffs, init: Iterable[object], n):
     r"""
     Evaluation of univariate linear recurrences of homogeneous type
     having coefficients independent of the recurrence variable.

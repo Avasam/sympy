@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 from collections import Counter, defaultdict, OrderedDict
 from collections.abc import Iterable, Callable
 from itertools import (
@@ -19,7 +19,10 @@ from sympy.utilities.enumerative import (
 from sympy.utilities.misc import as_int
 from sympy.utilities.decorator import deprecated
 
-from sympy.core.basic import Tbasic
+if TYPE_CHECKING:
+    from sympy.core.basic import Tbasic
+    _RecursiveFlatten = list[Tbasic | _RecursiveFlatten]
+
 _T = TypeVar('_T')
 
 
@@ -58,8 +61,6 @@ def is_palindromic(s, i=0, j=None):
     m = (j - i)//2
     # if length is odd, middle element will be ignored
     return all(s[i + k] == s[j - 1 - k] for k in range(m))
-
-_RecursiveFlatten = list[Tbasic | _RecursiveFlatten]
 
 def flatten(iterable: _RecursiveFlatten[Tbasic], levels=None, cls=None) -> list[Tbasic]:  # noqa: F811
     """

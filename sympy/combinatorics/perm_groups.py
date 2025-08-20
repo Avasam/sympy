@@ -2,8 +2,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from math import factorial as _factorial, log, prod
 from itertools import chain, product
-from typing import TypeVar, overload, Never, Literal
-
+from typing import TypeVar, overload, Literal
 
 from sympy.combinatorics import Permutation
 from sympy.combinatorics.free_groups import FreeGroupElement
@@ -1504,7 +1503,9 @@ class PermutationGroup(Basic):
         return G2
 
     @overload
-    def generate(self, method: str = "coset", af: Literal[True]) -> list[int]: ...
+    def generate(self, method: str = "coset", *, af: Literal[True]) -> list[int]: ...
+    @overload
+    def generate(self, method: str, af: Literal[True]) -> list[int]: ...
     @overload
     def generate(self, method: str = "coset", af: Literal[False] = False) -> Permutation: ...
     def generate(self, method="coset", af=False):
@@ -3578,7 +3579,9 @@ class PermutationGroup(Basic):
         self._transversal_slp = slps
 
     @overload
-    def schreier_sims_incremental(self, base: list[int] | None = None, gens: list[Permutation] | None = None, slp_dict: Literal[True]) -> tuple[list[int], list[Permutation], dict[Permutation, list[Permutation]]]: ...
+    def schreier_sims_incremental(self, base: list[int] | None = None, gens: list[Permutation] | None = None, *, slp_dict: Literal[True]) -> tuple[list[int], list[Permutation], dict[Permutation, list[Permutation]]]: ...
+    @overload
+    def schreier_sims_incremental(self, base: list[int] | None, gens: list[Permutation] | None, slp_dict: Literal[True]) -> tuple[list[int], list[Permutation], dict[Permutation, list[Permutation]]]: ...
     @overload
     def schreier_sims_incremental(self, base: list[int] | None = None, gens: list[Permutation] | None = None, slp_dict: Literal[False] = False) -> tuple[list[int], list[Permutation]]: ...
     def schreier_sims_incremental(self, base: list[int] | None = None, gens: list[Permutation] | None = None, slp_dict: bool = False):

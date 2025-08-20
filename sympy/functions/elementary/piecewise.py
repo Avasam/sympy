@@ -13,8 +13,11 @@ from sympy.logic.boolalg import (And, Boolean, distribute_and_over_or, Not,
 from sympy.utilities.iterables import uniq, sift, common_prefix
 from sympy.utilities.misc import filldedent, func_name
 
-from typing import Unpack
 from itertools import product
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from typing_extensions import Unpack
 
 Undefined = S.NaN  # Piecewise()
 
