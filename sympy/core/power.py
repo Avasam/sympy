@@ -18,7 +18,6 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.utilities.misc import as_int
 from sympy.multipledispatch import Dispatcher
 from .basic import Basic
-from .mul import Mul
 from .numbers import Number
 
 if TYPE_CHECKING:
@@ -1852,5 +1851,5 @@ power.add((object, object), Pow)
 
 from .add import Add
 from .numbers import Integer, Rational
-from .mul import _keep_coeff
+from .mul import Mul, _keep_coeff
 from .symbol import Symbol, Dummy, symbols
