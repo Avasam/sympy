@@ -110,7 +110,7 @@ TMP_RES = Any  # temporary result, should be some variant of
 OPT_DICT = dict[str, Any]
 
 
-def fastlog(x: MPF_TUP | None):
+def fastlog(x: MPF_TUP | None) -> int | Any:
     """Fast approximation of log2(x) for an mpf value tuple x.
 
     Explanation
@@ -232,7 +232,7 @@ def iszero(mpf: MPF_TUP | SCALED_ZERO_TUP | None, scaled=False) -> bool | None:
     return mpf and isinstance(mpf[0], list) and mpf[1] == mpf[-1] == 1
 
 
-def complex_accuracy(result: TMP_RES):
+def complex_accuracy(result: TMP_RES) -> int | Any:
     """
     Returns relative accuracy of a complex number with given accuracies
     for the real and imaginary parts. The relative accuracy is defined
