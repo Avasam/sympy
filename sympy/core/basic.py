@@ -19,6 +19,7 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 from sympy.utilities.iterables import iterable, numbered_symbols
 from sympy.utilities.misc import filldedent, func_name
 
+
 if TYPE_CHECKING:
     from typing import ClassVar, TypeVar, Any, Hashable
     from typing_extensions import Self
