@@ -41,6 +41,10 @@ if TYPE_CHECKING:
     from sympy.functions.elementary.integers import ceiling, floor
     from sympy.functions.elementary.trigonometric import atan
     from .numbers import Float, Rational, Integer, AlgebraicNumber, Number
+    from typing_extensions import Self
+    # "The Any Trick" (like _typeshed.MaybeNone) but for float Inf
+    # https://typing.python.org/en/latest/guides/writing_stubs.html#the-any-trick
+    MaybeInf = Any
 
 LG10 = math.log2(10)
 rnd = round_nearest
@@ -98,9 +102,7 @@ if the corresponding complex part is None.
 
 """
 TMP_RES = Any  # temporary result, should be some variant of
-# tUnion[tTuple[Optional[MPF_TUP], Optional[MPF_TUP],
-#               Optional[int], Optional[int]],
-#        'ComplexInfinity']
+# tuple[MPF_TUP | None, MPF_TUP | None, int | None, int | None] | ComplexInfinity
 # but mypy reports error because it doesn't know as we know
 # 1. re and re_acc are either both None or both MPF_TUP
 # 2. sometimes the result can't be zoo
@@ -109,7 +111,7 @@ TMP_RES = Any  # temporary result, should be some variant of
 OPT_DICT = dict[str, Any]
 
 
-def fastlog(x: MPF_TUP | None) -> int | Any:
+def fastlog(x: MPF_TUP | None) -> int | MaybeInf:
     """Fast approximation of log2(x) for an mpf value tuple x.
 
     Explanation
@@ -231,7 +233,7 @@ def iszero(mpf: MPF_TUP | SCALED_ZERO_TUP | None, scaled=False) -> bool | None:
     return mpf and isinstance(mpf[0], list) and mpf[1] == mpf[-1] == 1
 
 
-def complex_accuracy(result: TMP_RES) -> int | Any:
+def complex_accuracy(result: TMP_RES) -> int | MaybeInf:
     """
     Returns relative accuracy of a complex number with given accuracies
     for the real and imaginary parts. The relative accuracy is defined
@@ -1558,7 +1560,7 @@ class EvalfMixin:
 
     __slots__: tuple[str, ...] = ()
 
-    def evalf(self, n=15, subs=None, maxn=100, chop=False, strict=False, quad=None, verbose=False):
+    def evalf(self, n=15, subs=None, maxn=100, chop=False, strict=False, quad=None, verbose=False) -> Expr | Self | EvalfMixin | TMP_RES:
         """
         Evaluate the given formula to an accuracy of *n* digits.
 

@@ -528,6 +528,7 @@ class LatticeOp(AssocOp):
 
     is_commutative = True
 
+    _argset: frozenset
     def __new__(cls, *args, evaluate=None, **options):
         args = (_sympify_(arg) for arg in args)
 

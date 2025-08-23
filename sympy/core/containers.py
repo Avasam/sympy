@@ -7,7 +7,7 @@
 """
 
 from __future__ import annotations
-
+from typing import SupportsIndex, overload, TYPE_CHECKING
 from collections import OrderedDict
 from collections.abc import MutableSet
 
@@ -17,6 +17,9 @@ from .sympify import _sympify, sympify, _sympy_converter, SympifyError
 from sympy.core.kind import Kind
 from sympy.utilities.iterables import iterable
 from sympy.utilities.misc import as_int
+
+if TYPE_CHECKING:
+    from types import NotImplementedType
 
 
 class Tuple(Basic):
@@ -56,6 +59,10 @@ class Tuple(Basic):
         obj = Basic.__new__(cls, *args)
         return obj
 
+    @overload
+    def __getitem__(self, i: SupportsIndex): ...
+    @overload
+    def __getitem__(self, i: slice) -> Tuple: ...
     def __getitem__(self, i):
         if isinstance(i, slice):
             indices = i.indices(len(self))
@@ -112,10 +119,10 @@ class Tuple(Basic):
     def _to_mpmath(self, prec):
         return tuple(a._to_mpmath(prec) for a in self.args)
 
-    def __lt__(self, other):
+    def __lt__(self, other: Basic):
         return _sympify(self.args < other.args)
 
-    def __le__(self, other):
+    def __le__(self, other: Basic):
         return _sympify(self.args <= other.args)
 
     # XXX: Basic defines count() as something different, so we can't
@@ -318,14 +325,14 @@ class Dict(Basic):
             return False
         return key in self._dict
 
-    def __lt__(self, other):
+    def __lt__(self, other: Basic):
         return _sympify(self.args < other.args)
 
     @property
     def _sorted_args(self):
         return tuple(sorted(self.args, key=default_sort_key))
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool | NotImplementedType:
         if isinstance(other, dict):
             return self == Dict(other)
         return super().__eq__(other)

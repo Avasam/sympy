@@ -166,7 +166,7 @@ def fuzzy_not(v):
 
     """
     if v is None:
-        return v
+        return None
     else:
         return not v
 

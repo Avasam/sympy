@@ -1,13 +1,16 @@
 """Fourier Series"""
-
+from __future__ import annotations
+from typing import overload
 from sympy.core.numbers import (oo, pi)
 from sympy.core.symbol import Wild
+from sympy.core.basic import Basic, Tbasic
 from sympy.core.expr import Expr
 from sympy.core.add import Add
 from sympy.core.containers import Tuple
 from sympy.core.singleton import S
 from sympy.core.symbol import Dummy, Symbol
 from sympy.core.sympify import sympify
+from sympy.core.numbers import Integer, Float
 from sympy.functions.elementary.trigonometric import sin, cos, sinc
 from sympy.series.series_class import SeriesBase
 from sympy.series.sequences import SeqFormula
@@ -614,8 +617,18 @@ class FiniteFourierSeries(FourierSeries):
 
             return fourier_series(function, limits=self.args[1])
 
-
-def fourier_series(f, limits=None, finite=True):
+# based on the sympify overload
+@overload
+def fourier_series(f: int, limits=None, finite=True) -> Integer | FiniteFourierSeries | FourierSeries: ... # type: ignore
+@overload
+def fourier_series(f: float, limits=None, finite=True) -> Float | FiniteFourierSeries | FourierSeries: ...
+@overload
+def fourier_series(f: Expr | complex, limits=None, finite=True) -> Expr | FiniteFourierSeries | FourierSeries: ...
+@overload
+def fourier_series(f: Tbasic, limits=None, finite=True) -> Tbasic | FiniteFourierSeries | FourierSeries: ...
+@overload
+def fourier_series(f: object, limits=None, finite=True) -> Basic | FiniteFourierSeries | FourierSeries: ...
+def fourier_series(f: object, limits=None, finite=True):
     r"""Computes the Fourier trigonometric series expansion.
 
     Explanation

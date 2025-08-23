@@ -1778,7 +1778,7 @@ class FormalPowerSeriesInverse(FiniteFormalPowerSeries):
         return Add(*terms)
 
 
-def fps(f, x=None, x0=0, dir=1, hyper=True, order=4, rational=True, full=False):
+def fps(f: object, x=None, x0=0, dir=1, hyper=True, order=4, rational=True, full=False):
     """
     Generates Formal Power Series of ``f``.
 

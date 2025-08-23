@@ -42,7 +42,7 @@ if TYPE_CHECKING:
 _LOG2 = math.log(2)
 
 
-def comp(z1, z2, tol=None):
+def comp(z1, z2, tol=None) -> bool:
     r"""Return a bool indicating whether the error between z1 and z2
     is $\le$ ``tol``.
 

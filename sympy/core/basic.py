@@ -22,12 +22,14 @@ from sympy.utilities.misc import filldedent, func_name
 
 if TYPE_CHECKING:
     from types import NotImplementedType
-    from _typeshed import SupportsGetItem
+    from _typeshed import SupportsContainsAndGetItem
     from typing_extensions import Self
     from .assumptions import StdFactKB
-    from .symbol import Symbol
+    from .expr import Expr
+    from .symbol import Symbol, Wild
 
 Tbasic = TypeVar("Tbasic", bound='Basic')
+_DictT = TypeVar("_DictT", bound=dict)
 _T = TypeVar("_T")
 
 
@@ -363,7 +365,7 @@ class Basic(Printable):
         """
         return {}
 
-    def compare(self, other):
+    def compare(self, other) -> Literal[-1, 0, 1]:
         """
         Return -1, 0, 1 if the object is less than, equal,
         or greater than other in a canonical sense.
@@ -412,7 +414,7 @@ class Basic(Printable):
             if isinstance(l, Basic):
                 c = l.compare(r)
             elif isinstance(l, frozenset):
-                l = Basic(*l) if isinstance(l, frozenset) else l
+                l = Basic(*l)
                 r = Basic(*r) if isinstance(r, frozenset) else r
                 c = l.compare(r)
             else:
@@ -734,7 +736,7 @@ class Basic(Printable):
             active_deprecations_target="deprecated-expr-free-symbols")
         return set()
 
-    def as_dummy(self) -> "Self":
+    def as_dummy(self) -> Self:
         """Return the expression with any objects having structurally
         bound symbols replaced with unique, canonical symbols within
         the object in which they appear and having only the default
@@ -1300,7 +1302,7 @@ class Basic(Printable):
         """
         return None
 
-    def xreplace(self, rule: SupportsGetItem[Self, _T]) -> Self | _T:
+    def xreplace(self, rule: SupportsContainsAndGetItem[Basic, _T]) -> Self | _T:
         """
         Replace occurrences of objects within the expression.
 
@@ -1365,7 +1367,7 @@ class Basic(Printable):
         value, _ = self._xreplace(rule)
         return value
 
-    def _xreplace(self, rule: SupportsGetItem[Self, _T]) -> tuple[Self, bool] | tuple[_T, Literal[True]]:
+    def _xreplace(self, rule: SupportsContainsAndGetItem[Basic, _T]) -> tuple[Self, bool] | tuple[_T, Literal[True]]:
         """
         Helper for xreplace. Tracks whether a replacement actually occurred.
         """
@@ -1813,7 +1815,8 @@ class Basic(Printable):
         query = _make_find_query(query)
         return sum(bool(query(sub)) for sub in _preorder_traversal(self))
 
-    def matches(self, expr, repl_dict=None, old=False):
+    # Mapping rather than dict because dict is invariant
+    def matches(self, expr, repl_dict: Mapping[Wild, Expr] | None = None, old=False) -> dict[Wild, Expr] | None:
         """
         Helper method for match() that looks for a match between Wild symbols
         in self and expressions in expr.
@@ -2254,11 +2257,12 @@ class Atom(Basic):
 
     __slots__ = ()
 
-    def matches(self, expr, repl_dict=None, old=False):
+    def matches(self, expr, repl_dict: _DictT | None = None, old=False) -> _DictT | None:
         if self == expr:
             if repl_dict is None:
                 return {}
             return repl_dict.copy()
+        return None
 
     def xreplace(self, rule, hack2=False):
         return rule.get(self, self)
@@ -2285,7 +2289,6 @@ class Atom(Basic):
         # to see that this property is not called for Atoms.
         raise AttributeError('Atoms have no args. It might be necessary'
         ' to make a check for Atoms in the calling code.')
-
 
 def _atomic(e, recursive=False):
     """Return atom-like quantities as far as substitution is

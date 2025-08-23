@@ -203,7 +203,8 @@ References
 .. [13] https://en.wikipedia.org/wiki/Complex_number
 
 """
-
+from __future__ import annotations
+from typing import cast
 from sympy.utilities.exceptions import sympy_deprecation_warning
 
 from .facts import FactRules, FactKB
@@ -294,7 +295,7 @@ _assume_defined.add('polar')
 _assume_defined = frozenset(_assume_defined)
 
 
-def assumptions(expr, _check=None):
+def assumptions(expr: object, _check=None):
     """return the T/F assumptions of ``expr``"""
     n = sympify(expr)
     if n.is_Symbol:
@@ -459,7 +460,7 @@ class StdFactKB(FactKB):
 
     This is the only kind of FactKB that Basic objects should use.
     """
-    def __init__(self, facts=None):
+    def __init__(self, facts: dict | StdFactKB | None=None):
         super().__init__(_assume_rules)
         # save a copy of the facts dict
         if not facts:
@@ -467,7 +468,7 @@ class StdFactKB(FactKB):
         elif not isinstance(facts, FactKB):
             self._generator = facts.copy()
         else:
-            self._generator = facts.generator
+            self._generator = cast("StdFactKB", facts).generator
         if facts:
             self.deduce_all_facts(facts)
 

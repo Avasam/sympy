@@ -1,21 +1,34 @@
+from __future__ import annotations
+from typing import overload
 from collections import defaultdict
 from functools import reduce
 from math import prod
 
 from sympy.core.function import expand_log, count_ops, _coeff_isneg
-from sympy.core import sympify, Basic, Dummy, S, Add, Mul, Pow, expand_mul, factor_terms
+from sympy.core import sympify, Dummy, S, Add, Pow, expand_mul, factor_terms
+from sympy.core.basic import Basic, Tbasic
+from sympy.core.expr import Expr
 from sympy.core.sorting import ordered, default_sort_key
-from sympy.core.numbers import Integer, Rational, equal_valued
-from sympy.core.mul import _keep_coeff
+from sympy.core.numbers import Integer, Rational, equal_valued, Float
+from sympy.core.mul import _keep_coeff, Mul
 from sympy.core.rules import Transform
 from sympy.functions import exp_polar, exp, log, root, polarify, unpolarify
 from sympy.matrices.expressions.matexpr import MatrixSymbol
 from sympy.polys import lcm, gcd
 from sympy.ntheory.factor_ import multiplicity
 
-
-
-def powsimp(expr, deep=False, combine='all', force=False, measure=count_ops):
+# Following sympify's type signature
+@overload
+def powsimp(expr: int, deep=False, combine='all', force=False, measure=count_ops) -> Integer: ... # type: ignore
+@overload
+def powsimp(expr: float, deep=False, combine='all', force=False, measure=count_ops) -> Float: ...
+@overload
+def powsimp(expr: Expr | complex, deep=False, combine='all', force=False, measure=count_ops) -> Expr: ...
+@overload
+def powsimp(expr: Tbasic, deep=False, combine='all', force=False, measure=count_ops) -> Tbasic: ...
+@overload
+def powsimp(expr: object, deep=False, combine='all', force=False, measure=count_ops) -> Basic: ...
+def powsimp(expr: object, deep=False, combine='all', force=False, measure=count_ops) -> Basic:
     """
     Reduce expression by combining powers with similar bases and exponents.
 

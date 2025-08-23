@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, overload, Literal
-from collections.abc import Iterable, Mapping
+from typing import TYPE_CHECKING, overload, Literal, Any, Hashable
+from collections import defaultdict
+from collections.abc import Iterable, Mapping, Generator
 from functools import reduce
 import re
 
@@ -21,14 +22,9 @@ from sympy.utilities.iterables import has_variety, _sift_true_false
 from mpmath.libmp import mpf_log, prec_to_dps
 from mpmath.libmp.libintmath import giant_steps
 
-
 if TYPE_CHECKING:
-    from typing import Any, Hashable
     from typing_extensions import Self
     from .numbers import Number, Zero, One
-
-from collections import defaultdict
-
 
 def _corem(eq, c):  # helper for extract_additively
     # return co, diff from co*c + diff
@@ -613,7 +609,7 @@ class Expr(Basic, EvalfMixin):
         # never got any significance
         return None
 
-    def is_constant(self, *wrt, **flags):
+    def is_constant(self, *wrt, **flags) -> bool | None | Expr:
         """Return True if self is constant, False if not, or None if
         the constancy could not be determined conclusively.
 
@@ -767,7 +763,7 @@ class Expr(Basic, EvalfMixin):
         from sympy.solvers.solvers import denoms
         return fuzzy_not(fuzzy_or(den.is_zero for den in denoms(self)))
 
-    def equals(self, other, failing_expression=False):
+    def equals(self, other, failing_expression=False) -> bool | None | Expr:
         """Return True if self == other, False if it does not, or None. If
         failing_expression is True then the expression which did not simplify
         to a 0 will be returned instead of None.
@@ -828,7 +824,7 @@ class Expr(Basic, EvalfMixin):
                 # e.g. unless the right simplification is done, a symbolic
                 # zero is possible (see expression of issue 6829: without
                 # simplification constant will be None).
-                return
+                return None
 
         if constant is True:
             # this gives a number whether there are free symbols or not
@@ -2406,7 +2402,7 @@ class Expr(Basic, EvalfMixin):
 
         return None
 
-    def extract_additively(self, c):
+    def extract_additively(self, c: object) -> Expr | None:
         """Return self - c if it's possible to subtract c from self and
         make all matching coefficients move towards zero, else return None.
 
@@ -2923,7 +2919,7 @@ class Expr(Basic, EvalfMixin):
     ##################### SERIES, LEADING TERM, LIMIT, ORDER METHODS ##################
     ###################################################################################
 
-    def series(self, x=None, x0=0, n=6, dir="+", logx=None, cdir=0):
+    def series(self, x=None, x0=0, n=6, dir="+", logx=None, cdir=0) -> Expr | Generator[Expr]:
         """
         Series expansion of "self" around ``x = x0`` yielding either terms of
         the series one by one (the lazy series given when n=None), else
@@ -3192,7 +3188,7 @@ class Expr(Basic, EvalfMixin):
 
             return yield_lseries(self.removeO()._eval_lseries(x, logx=logx, cdir=cdir))
 
-    def aseries(self, x=None, n=6, bound=0, hir=False):
+    def aseries(self, x=None, n=6, bound=0, hir=False) -> Expr:
         """Asymptotic Series expansion of self.
         This is equivalent to ``self.series(x, oo, n)``.
 
@@ -3486,7 +3482,7 @@ class Expr(Basic, EvalfMixin):
         else:
             return self._eval_nseries(x, n=n, logx=logx, cdir=cdir)
 
-    def _eval_nseries(self, x, n, logx, cdir):
+    def _eval_nseries(self, x, n, logx, cdir) -> Expr:
         """
         Return terms of series for self up to O(x**n) at x=0
         from the positive direction.
