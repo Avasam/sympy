@@ -3,8 +3,11 @@ Provides functionality for multidimensional usage of scalar-functions.
 
 Read the vectorize docstring for more details.
 """
-
+from __future__ import annotations
+from typing import Protocol, Generic, TypeVar,overload
 from functools import wraps
+
+_T = TypeVar("_T")
 
 
 def apply_on_element(f, args, kwargs, n):
@@ -43,7 +46,14 @@ def iter_copy(structure):
     """
     return [iter_copy(i) if hasattr(i, "__iter__") else i for i in structure]
 
+class SupportsCopy(Protocol, Generic[_T]):
+    def copy(self) -> _T: ...
 
+@overload
+def structure_copy(structure: SupportsCopy[_T]) -> _T: ...
+@overload
+def structure_copy(structure) -> list: ...
+@overload
 def structure_copy(structure):
     """
     Returns a copy of the given structure (numpy-array, list, iterable, ..).
@@ -51,7 +61,6 @@ def structure_copy(structure):
     if hasattr(structure, "copy"):
         return structure.copy()
     return iter_copy(structure)
-
 
 class vectorize:
     """

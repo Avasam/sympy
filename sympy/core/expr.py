@@ -24,7 +24,6 @@ from mpmath.libmp.libintmath import giant_steps
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-    from .numbers import Number, Zero, One
 
 def _corem(eq, c):  # helper for extract_additively
     # return co, diff from co*c + diff
@@ -3842,7 +3841,7 @@ class Expr(Basic, EvalfMixin):
         from sympy.polys.polytools import invert
         return invert(self, g, *gens, **args)
 
-    def round(self, n=None):
+    def round(self, n=None) -> Expr | Zero | One | NegativeOne | Integer | Infinity | NegativeInfinity | NaN | Float | Rational | ComplexInfinity:
         """Return x rounded to the given decimal place.
 
         If a complex number would result, apply round to the real
@@ -4191,10 +4190,10 @@ class ExprBuilder:
     def __repr__(self):
         return str(self.build())
 
-    def search_element(self, elem):
+    def search_element(self, elem) -> tuple[int, ...] | None:
         for i, arg in enumerate(self.args):
             if isinstance(arg, ExprBuilder):
-                ret = arg.search_index(elem)
+                ret = arg.search_element(elem)
                 if ret is not None:
                     return (i,) + ret
             elif id(arg) == id(elem):
@@ -4208,4 +4207,4 @@ from .power import Pow
 from .function import Function, _derivative_dispatch
 from .mod import Mod
 from .exprtools import factor_terms
-from .numbers import Float, Integer, Rational, _illegal, int_valued
+from .numbers import Float, Integer, Rational, _illegal, int_valued, Number, Zero, One, ComplexInfinity, NaN, NegativeOne, Infinity, NegativeInfinity

@@ -32,7 +32,7 @@ There are three types of functions implemented in SymPy:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, overload, cast
 from collections.abc import Iterable
 import copyreg
 
@@ -45,7 +45,7 @@ from .evalf import pure_complex
 from .expr import Expr, AtomicExpr
 from .logic import fuzzy_and, fuzzy_or, fuzzy_not, FuzzyBool
 from .mul import Mul
-from .numbers import Rational, Float, Integer, Zero, One
+from .numbers import Rational, Float, Integer, Zero, One, Number, Infinity, NegativeInfinity, NaN
 from .operations import LatticeOp
 from .parameters import global_parameters
 from .rules import Transform
@@ -67,11 +67,14 @@ import inspect
 from collections import Counter
 
 if TYPE_CHECKING:
+    from sympy.matrices.matrixbase import MatrixBase
     from sympy.tensor.array.ndim_array import NDimArray
     from typing_extensions import Self
 
+_T = TypeVar("_T")
 _T1 = TypeVar("_T1")
 _T2 = TypeVar("_T2")
+_IterableT = TypeVar("_IterableT", bound=Iterable)
 
 def _coeff_isneg(a):
     """Return True if the leading Number is negative.
@@ -892,6 +895,8 @@ class UndefinedFunction(FunctionClass):
     """
     name: str
     _sage_: UndefSageHelper
+    if TYPE_CHECKING:
+        class_key = Function.class_key
 
     def __new__(mcl, name, bases=(AppliedUndef,), __dict__=None, **kwargs) -> type[AppliedUndef]:
         from .symbol import _filter_assumptions
@@ -1019,7 +1024,7 @@ class WildFunction(Function, AtomicExpr):  # type: ignore
     """
 
     # XXX: What is this class attribute used for?
-    include: set[Any] = set()
+    include = set()
 
     def __init__(cls, name, **assumptions):
         from sympy.sets.sets import Set, FiniteSet
@@ -1034,7 +1039,11 @@ class WildFunction(Function, AtomicExpr):  # type: ignore
             nargs = FiniteSet(*nargs)
         cls.nargs = nargs
 
-    def matches(self, expr, repl_dict=None, old=False):
+    @overload
+    def matches(self, expr: AppliedUndef | Function, repl_dict: object = None, old=False) -> None: ...
+    @overload
+    def matches(self, expr: _T, repl_dict: dict[Self, _T] | None = None, old=False) -> dict[Self, _T] | None: ...
+    def matches(self, expr, repl_dict = None, old=False):
         if not isinstance(expr, (AppliedUndef, Function)):
             return None
         if len(expr.args) not in self.nargs:
@@ -2514,7 +2523,7 @@ def diff(f, *symbols, **kwargs):
 
     """
     if hasattr(f, 'diff'):
-        return f.diff(*symbols, **kwargs)
+        return cast('Expr', f).diff(*symbols, **kwargs)
     kwargs.setdefault('evaluate', True)
     return _derivative_dispatch(f, *symbols, **kwargs)
 
@@ -3338,7 +3347,15 @@ def count_ops(expr, visual=False):
     return sum(int((a.args or [1])[0]) for a in Add.make_args(ops))
 
 
-def nfloat(expr, n=15, exponent=False, dkeys=False):
+@overload
+def nfloat(expr: MatrixBase, n=15, exponent=False, dkeys=False) -> MatrixBase: ... # type: ignore
+@overload
+def nfloat(expr: str, n=15, exponent=False, dkeys=False) -> Infinity | NegativeInfinity | NaN | Float | Zero | Basic: ...
+@overload
+def nfloat(expr: _IterableT, n=15, exponent=False, dkeys=False) -> _IterableT: ... # type: ignore
+@overload
+def nfloat(expr: object, n=15, exponent=False, dkeys=False) -> Infinity | NegativeInfinity | NaN | Float | Zero | Basic: ...
+def nfloat(expr: object, n=15, exponent=False, dkeys=False):
     """Make all Rationals in expr Floats except those in exponents
     (unless the exponents flag is set to True) and those in undefined
     functions. When processing dictionaries, do not modify the keys

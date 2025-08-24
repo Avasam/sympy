@@ -1,7 +1,7 @@
 """Tools for manipulating of large commutative expressions. """
 
 from __future__ import annotations
-
+from typing import cast
 from .add import Add
 from .mul import Mul, _keep_coeff
 from .power import Pow
@@ -394,7 +394,7 @@ class Factors:
                         else:
                             raise ValueError('unexpected factor in i1: %s' % a)
 
-        self.factors = factors
+        self.factors: dict = factors
         keys = getattr(factors, 'keys', None)
         if keys is None:
             raise TypeError('expecting Expr or dictionary')
@@ -811,7 +811,7 @@ class Term:
 
     __slots__ = ('coeff', 'numer', 'denom')
 
-    def __init__(self, term, numer=None, denom=None):  # Term
+    def __init__(self, term: Expr, numer: Factors | None = None, denom: Factors | None = None):  # Term
         if numer is None and denom is None:
             if not term.is_commutative:
                 raise NonCommutativeExpression(
@@ -871,7 +871,7 @@ class Term:
     def quo(self, other):  # Term
         return self.mul(other.inv())
 
-    def pow(self, other):  # Term
+    def pow(self, other) -> Term:  # Term
         if other < 0:
             return self.inv().pow(-other)
         else:
@@ -907,7 +907,7 @@ class Term:
         else:
             return NotImplemented
 
-    def __eq__(self, other):  # Term
+    def __eq__(self, other: Term):  # Term
         return (self.coeff == other.coeff and
                 self.numer == other.numer and
                 self.denom == other.denom)
@@ -1084,7 +1084,7 @@ def gcd_terms(terms, isprimitive=False, clear=True, fraction=True):
         return _keep_coeff(coeff, factors*numer/denom, clear=clear)
 
     if not isinstance(terms, Basic):
-        return terms
+        return cast('list', terms)
 
     if terms.is_Atom:
         return terms
@@ -1395,7 +1395,7 @@ def _mask_nc(eq, name=None):
     return expr, {v: k for k, v in rep}, nc_syms
 
 
-def factor_nc(expr):
+def factor_nc(expr: object):
     """Return the factored form of ``expr`` while handling non-commutative
     expressions.
 

@@ -33,7 +33,7 @@ if TYPE_CHECKING:
         BooleanFalse as _BooleanFalse,
     )
     from sympy.sets.sets import EmptySet as _EmptySet, UniversalSet as _UniversalSet
-    from sympy.sets.fancysets import Complexes as _Complexes
+    from sympy.sets.fancysets import Complexes as _Complexes, Naturals0 as _Naturals0
     from sympy.series.sequences import EmptySequence as _EmptySequence
 
     from .basic import Basic
@@ -142,6 +142,7 @@ class SingletonRegistry(Registry):
     EmptySet: _EmptySet
     UniversalSet: _UniversalSet
     Complexes: _Complexes
+    Naturals0: _Naturals0
     EmptySequence: _EmptySequence
 
     # Also allow things like S(5)

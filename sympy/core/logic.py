@@ -8,7 +8,10 @@ this stuff for general purpose.
 """
 
 from __future__ import annotations
-from typing import Optional
+from typing import Optional, ClassVar, TYPE_CHECKING, overload, cast
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 # Type of a fuzzy bool
 FuzzyBool = Optional[bool]
@@ -223,6 +226,7 @@ class Logic:
     # {} 'op' -> LogicClass
     op_2class: dict[str, type[Logic]] = {}
 
+    args: tuple
     def __new__(cls, *args):
         obj = object.__new__(cls)
         obj.args = args
@@ -267,7 +271,7 @@ class Logic:
     __repr__ = __str__
 
     @staticmethod
-    def fromstring(text):
+    def fromstring(text: str):
         """Logic from string with space around & and | but none after !.
 
            e.g.
@@ -319,7 +323,13 @@ class Logic:
 
 class AndOr_Base(Logic):
 
-    def __new__(cls, *args):
+    # Must be set in subclass
+    if TYPE_CHECKING:
+        op_x_notx: ClassVar[bool]
+        def _eval_propagate_not(self) -> AndOr_Base | bool: ...
+
+    args: tuple[AndOr_Base | bool, ...]
+    def __new__(cls, *args: Logic | bool) -> Self | bool: # type: ignore
         bargs = []
         for a in args:
             if a == cls.op_x_notx:
@@ -398,6 +408,15 @@ class Or(AndOr_Base):
 
 class Not(Logic):
 
+    args: tuple[str]
+    @overload
+    def __new__(cls, arg: str) -> Self: ...
+    @overload
+    def __new__(cls, arg: bool) -> bool: ... # type: ignore
+    @overload
+    def __new__(cls, arg: Not) -> str: ... # type: ignore
+    @overload
+    def __new__(cls, arg: AndOr_Base): ...
     def __new__(cls, arg):
         if isinstance(arg, str):
             return Logic.__new__(cls, arg)
@@ -407,7 +426,7 @@ class Not(Logic):
         elif isinstance(arg, Not):
             return arg.args[0]
 
-        elif isinstance(arg, Logic):
+        elif isinstance(arg, AndOr_Base):
             # XXX this is a hack to expand right from the beginning
             arg = arg._eval_propagate_not()
             return arg

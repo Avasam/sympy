@@ -4,6 +4,7 @@ from typing import overload, TYPE_CHECKING, ClassVar
 
 from operator import attrgetter
 from collections import defaultdict
+from collections.abc import Mapping
 
 from sympy.utilities.exceptions import sympy_deprecation_warning
 
@@ -20,9 +21,10 @@ from sympy.multipledispatch.dispatcher import (Dispatcher,
 
 
 if TYPE_CHECKING:
-    from sympy.core.expr import Expr
-    from sympy.core.add import Add
-    from sympy.core.mul import Mul
+    from .expr import Expr
+    from .add import Add
+    from .mul import Mul
+    from .symbol import Symbol, Wild
     from sympy.logic.boolalg import Boolean, And, Or
     from typing_extensions import Self
 
@@ -202,7 +204,8 @@ this object, use the * or + operator instead.
         # c_part, nc_part, order_symbols
         return [], new_seq, None
 
-    def _matches_commutative(self, expr, repl_dict=None, old=False):
+    # Mapping rather than dict because dict is invariant
+    def _matches_commutative(self, expr, repl_dict: Mapping[Wild, Expr] | None=None, old=False) -> dict[Wild, Expr] | None:
         """
         Matches Add/Mul "pattern" to an expression "expr".
 

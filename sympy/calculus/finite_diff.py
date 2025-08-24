@@ -283,7 +283,7 @@ def apply_finite_diff(order: SupportsIndex, x_list, y_list: SupportsLenAndGetIte
     return derivative
 
 
-def _as_finite_diff(derivative, points=1, x0=None, wrt=None):
+def _as_finite_diff(derivative: Expr, points=1, x0=None, wrt=None) -> int | Expr:
     """
     Returns an approximation of a derivative of a function in
     the form of a finite difference formula. The expression is a

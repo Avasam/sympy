@@ -7,7 +7,7 @@ from itertools import product
 import operator
 
 from .sympify import sympify
-from .basic import Basic, _args_sortkey, Tbasic
+from .basic import Basic, _args_sortkey, Tbasic, TDict
 from .singleton import S
 from .operations import AssocOp, AssocOpDispatcher
 from .cache import cacheit
@@ -1075,7 +1075,7 @@ class Mul(Expr, AssocOp):
         return new_args
 
     @staticmethod
-    def _matches_noncomm(nodes, targets, repl_dict=None):
+    def _matches_noncomm(nodes, targets, repl_dict: TDict | None = None) -> TDict | None:
         """Non-commutative multiplication matcher.
 
         `nodes` is a list of symbols within the matcher multiplication
@@ -2133,7 +2133,7 @@ def prod(a, start=1):
     return reduce(operator.mul, a, start)
 
 
-def _keep_coeff(coeff, factors, clear=True, sign=False):
+def _keep_coeff(coeff: Expr, factors: Expr, clear=True, sign=False):
     """Return ``coeff*factors`` unevaluated if necessary.
 
     If ``clear`` is False, do not keep the coefficient as a factor

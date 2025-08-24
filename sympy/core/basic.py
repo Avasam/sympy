@@ -29,7 +29,7 @@ if TYPE_CHECKING:
     from .symbol import Symbol, Wild
 
 Tbasic = TypeVar("Tbasic", bound='Basic')
-_DictT = TypeVar("_DictT", bound=dict)
+TDict = TypeVar("TDict", bound=dict)
 _T = TypeVar("_T")
 
 
@@ -2257,7 +2257,7 @@ class Atom(Basic):
 
     __slots__ = ()
 
-    def matches(self, expr, repl_dict: _DictT | None = None, old=False) -> _DictT | None:
+    def matches(self, expr, repl_dict: TDict | None = None, old=False) -> TDict | None:
         if self == expr:
             if repl_dict is None:
                 return {}
