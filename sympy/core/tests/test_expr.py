@@ -46,6 +46,7 @@ from sympy.tensor.indexed import Indexed
 from sympy.physics.units import meter
 
 import pytest
+import sys
 from sympy.testing.pytest import raises, XFAIL
 
 from sympy.abc import a, b, c, n, t, u, x, y, z
@@ -2143,6 +2144,18 @@ def test_round():
         assert int(eq) == int(.9) == 0
         assert int(-eq) == int(-.9) == 0
 
+    # https://github.com/sympy/sympy/issues/28279
+    phi = (1+sqrt(5))/2
+    def a(n):
+        return int(2**n *log(phi)/log(10)-Rational(1, 2)*log(5)/log(10))+1
+
+    a857 = int("200829212952178927690909380949249948846461002549293765663931"
+               "695493228490311245625332991209824760595495085562557651697891"
+               "081559764342218116754386067315347927714197626480253219546461"
+               "109143700506913638072400645037349873738547576011048498684505"
+               "520181585966267100")
+    assert a(857) == a857
+
 
 def test_held_expression_UnevaluatedExpr():
     x = symbols("x")
@@ -2328,7 +2341,10 @@ def test_21494():
 def test_Expr__eq__iterable_handling():
     assert x != range(3)
 
-
+@pytest.mark.skipif(
+        sys.version_info < (3, 12),
+        reason = "Format works for Python version >= 3.12"
+)
 def test_format():
     assert '{:1.2f}'.format(S.Zero) == '0.00'
     assert '{:+3.0f}'.format(S(3)) == ' +3'
