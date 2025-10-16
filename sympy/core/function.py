@@ -451,6 +451,11 @@ class Function(Application, Expr):
     def _diff_wrt(self):
         return False
 
+    if TYPE_CHECKING:
+        @property
+        def args(self) -> tuple[Expr, ...]:
+            ...
+
     @cacheit
     def __new__(cls, *args, **options) -> type[AppliedUndef]:  # type: ignore
         # Handle calls like Function('f')

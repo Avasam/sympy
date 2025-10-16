@@ -1,4 +1,6 @@
+from typing import TYPE_CHECKING
 from sympy.core import S, oo, diff
+from sympy.core.expr import Expr
 from sympy.core.function import DefinedFunction, ArgumentIndexError
 from sympy.core.logic import fuzzy_not
 from sympy.core.relational import Eq

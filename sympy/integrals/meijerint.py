@@ -1649,8 +1649,7 @@ def _rewrite2(f, x):
             if cond != False:
                 return fac, po, g1[0], g2[0], cond
 
-
-def meijerint_indefinite(f, x):
+def meijerint_indefinite(f, x: Expr):
     """
     Compute an indefinite integral of ``f`` by rewriting it as a G function.
 
@@ -1664,7 +1663,7 @@ def meijerint_indefinite(f, x):
     -cos(x)
     """
     f = sympify(f)
-    results = []
+    results: list[Expr] = []
     for a in sorted(_find_splitting_points(f, x) | {S.Zero}, key=default_sort_key):
         res = _meijerint_indefinite_1(f.subs(x, x + a), x)
         if not res:
