@@ -9,16 +9,17 @@ the separate 'factorials' module.
 from __future__ import annotations
 from math import prod
 from collections import defaultdict
-from typing import Callable
+from typing import TYPE_CHECKING, Callable, overload
 
 from sympy.core import S, Symbol, Add, Dummy
+from sympy.core.basic import Basic
 from sympy.core.cache import cacheit
 from sympy.core.containers import Dict
 from sympy.core.expr import Expr
 from sympy.core.function import ArgumentIndexError, DefinedFunction, expand_mul
 from sympy.core.logic import fuzzy_not
 from sympy.core.mul import Mul
-from sympy.core.numbers import E, I, pi, oo, Rational, Integer
+from sympy.core.numbers import E, I, ComplexInfinity, Infinity, NaN, NegativeOne, Number, One, Zero, pi, oo, Rational, Integer
 from sympy.core.relational import Eq, is_le, is_gt, is_lt
 from sympy.external.gmpy import SYMPY_INTS, remove, lcm, legendre, jacobi, kronecker
 from sympy.functions.combinatorial.factorials import (binomial,
@@ -41,6 +42,8 @@ from sympy.utilities.misc import as_int
 from mpmath import mp, workprec
 from mpmath.libmp import ifib as _ifib
 
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 def _product(a, b):
     return prod(range(a, b + 1))
@@ -237,6 +240,15 @@ class fibonacci(DefinedFunction):
     def _fibpoly(n, prev):
         return (prev[-2] + _sym*prev[-1]).expand()
 
+    @overload
+    @classmethod
+    def eval(cls, n: Infinity, sym: Symbol | None = None) -> Infinity:...
+    @overload
+    @classmethod
+    def eval(cls, n: Integer, sym: Symbol | None = None) -> Expr | One | NegativeOne | Zero | Integer:...
+    @overload
+    @classmethod
+    def eval(cls, n: Basic, sym=None) -> None:...
     @classmethod
     def eval(cls, n, sym=None):
         if n is S.Infinity:
@@ -375,6 +387,15 @@ class tribonacci(DefinedFunction):
     def _tribpoly(n, prev):
         return (prev[-3] + _sym*prev[-2] + _sym**2*prev[-1]).expand()
 
+    @overload
+    @classmethod
+    def eval(cls, n: Infinity, sym=None) -> Infinity:...
+    @overload
+    @classmethod
+    def eval(cls, n: Integer, sym=None) -> Expr | One | NegativeOne | Zero | Integer:...
+    @overload
+    @classmethod
+    def eval(cls, n: Basic, sym=None) -> None:...
     @classmethod
     def eval(cls, n, sym=None):
         if n is S.Infinity:
@@ -720,6 +741,12 @@ class bell(DefinedFunction):
             a = a * (n - m) / m
         return expand_mul(s)
 
+    @overload
+    @classmethod
+    def eval(cls, n: Infinity, k_sym: None = None, symbols=None) -> Infinity:...
+    @overload
+    @classmethod
+    def eval(cls, n: Number, k_sym=None, symbols=None) -> Expr | One | NegativeOne | Zero | Integer:...
     @classmethod
     def eval(cls, n, k_sym=None, symbols=None):
         if n is S.Infinity:
@@ -894,6 +921,18 @@ class harmonic(DefinedFunction):
     # This prevents redundant recalculations and speeds up harmonic number computations.
     harmonic_cache: dict[Integer, Callable[[int], Rational]] = {}
 
+    @overload
+    @classmethod
+    def eval(cls, n, m: One) -> Self: ...
+    @overload
+    @classmethod
+    def eval(cls, n, m: None = None) -> One: ...
+    @overload
+    @classmethod
+    def eval(cls, n: Infinity, m: Basic) -> NaN | Infinity | Expr: ...
+    @overload
+    @classmethod
+    def eval(cls, n: Expr, m: Expr) -> ComplexInfinity | NaN | Rational | Expr | None:...
     @classmethod
     def eval(cls, n, m=None):
         from sympy.functions.special.zeta_functions import zeta
@@ -1282,7 +1321,7 @@ class catalan(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, n):
+    def eval(cls, n: Expr):
         from sympy.functions.special.gamma_functions import gamma
         if (n.is_Integer and n.is_nonnegative) or \
            (n.is_noninteger and n.is_negative):
@@ -2521,7 +2560,7 @@ def _AOP_product(n):
     return d
 
 
-def nC(n, k=None, replacement=False):
+def nC(n, k=None, replacement=False) -> int | Expr:
     """Return the number of combinations of ``n`` items taken ``k`` at a time.
 
     Possible values for ``n``:

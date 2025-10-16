@@ -159,7 +159,7 @@ class AppliedPredicate(Boolean):
         return self.function.eval(self.arguments, assumptions)
 
     @property
-    def binary_symbols(self) -> set[Basic]:
+    def binary_symbols(self) -> set[Expr]:
         from .ask import Q
         if self.function == Q.is_true:
             i = self.arguments[0]

@@ -11,7 +11,7 @@ import math
 
 from sympy.core.containers import Dict
 from sympy.core.mul import Mul
-from sympy.core.numbers import Rational, Integer
+from sympy.core.numbers import Number, Rational, Integer
 from sympy.core.intfunc import num_digits
 from sympy.core.power import Pow
 from sympy.core.random import _randint
@@ -2720,7 +2720,7 @@ def is_amicable(m, n):
     return m != n and m + n == _divisor_sigma(m) == _divisor_sigma(n)
 
 
-def is_carmichael(n):
+def is_carmichael(n: Number | int):
     """ Returns True if the numbers `n` is Carmichael number, else False.
 
     Parameters

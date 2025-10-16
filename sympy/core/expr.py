@@ -765,6 +765,10 @@ class Expr(Basic, EvalfMixin):
         from sympy.solvers.solvers import denoms
         return fuzzy_not(fuzzy_or(den.is_zero for den in denoms(self)))
 
+    @overload
+    def equals(self, other, failing_expression: Literal[True]) -> Expr: ...
+    @overload
+    def equals(self, other, failing_expression: Literal[False]=False) -> bool | None: ...
     def equals(self, other, failing_expression=False) -> bool | None | Expr:
         """Return True if self == other, False if it does not, or None. If
         failing_expression is True then the expression which did not simplify

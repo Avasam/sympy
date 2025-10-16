@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, overload, Any, Literal, TypeVar
 from collections.abc import Iterable, Callable
 
 from .assumptions import StdFactKB, _assume_defined
-from .basic import Basic, Atom
+from .basic import Basic, Atom, TDict
 from .cache import cacheit
 from .containers import Tuple
 from .expr import Expr, AtomicExpr
@@ -509,6 +509,8 @@ class Dummy(Symbol):
 
     is_Dummy = True
 
+    # Set in __new__
+    dummy_index: int
     def __new__(cls, name: str | None = None,
                      dummy_index: int | None = None,
                      **assumptions: bool | None) -> Self:
@@ -659,7 +661,7 @@ class Wild(Symbol):
         return super()._hashable_content() + (self.exclude, self.properties)
 
     # TODO add check against another Wild
-    def matches(self, expr, repl_dict=None, old=False):
+    def matches(self, expr, repl_dict: TDict | None=None, old=False) -> TDict | None:
         if any(expr.has(x) for x in self.exclude):
             return None
         if not all(f(expr) for f in self.properties):
@@ -1004,10 +1006,10 @@ def disambiguate(*iter):
     new_iter = Tuple(*iter)
     key = lambda x:tuple(sorted(x.assumptions0.items()))
     syms = ordered(new_iter.free_symbols, keys=key)
-    mapping = {}
+    mapping: dict[str, list[Basic]] = {}
     for s in syms:
         mapping.setdefault(str(s).lstrip('_'), []).append(s)
-    reps = {}
+    reps: dict[Basic, Symbol] = {}
     for k in mapping:
         # the first or only symbol doesn't get subscripted but make
         # sure that it's a Symbol, not a Dummy

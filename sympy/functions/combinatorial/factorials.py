@@ -1,11 +1,14 @@
 from __future__ import annotations
 from functools import reduce
+from typing import overload
 
 from sympy.core import S, sympify, Dummy, Mod
+from sympy.core.basic import Basic
 from sympy.core.cache import cacheit
+from sympy.core.expr import Expr
 from sympy.core.function import DefinedFunction, ArgumentIndexError, PoleError
 from sympy.core.logic import fuzzy_and
-from sympy.core.numbers import Integer, pi, I
+from sympy.core.numbers import ComplexInfinity, Infinity, Integer, NegativeInfinity, NegativeOne, Number, One, Rational, Zero, pi, I
 from sympy.core.relational import Eq
 from sympy.external.gmpy import gmpy as _gmpy
 from sympy.ntheory import sieve
@@ -930,6 +933,15 @@ class binomial(CombinatorialFunction):
         else:
             raise ArgumentIndexError(self, argindex)
 
+    @overload
+    @classmethod
+    def _eval(self, n: Integer, k: Integer) -> Zero | One | NegativeOne | Integer: ...
+    @overload
+    @classmethod
+    def _eval(self, n: Expr, k: Integer) -> Expr | Number | ComplexInfinity | Rational | Infinity | NegativeInfinity | Zero | float: ...
+    @overload
+    @classmethod
+    def _eval(self, n: Expr, k: Basic) -> None: ...
     @classmethod
     def _eval(self, n, k):
         # n.is_Number and k.is_Integer and k != 1 and n != k

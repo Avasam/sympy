@@ -211,7 +211,7 @@ class Boolean(Basic):
                                       " expressions")
 
     @property
-    def binary_symbols(self) -> set[Basic]:
+    def binary_symbols(self) -> set[Expr]:
         from sympy.core.relational import Eq, Ne
         return set().union(*[cast("Boolean", i).binary_symbols
                            for i in self.args

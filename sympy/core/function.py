@@ -2878,7 +2878,7 @@ def _mexpand(expr, recursive=False):
 # These are simple wrappers around single hints.
 
 
-def expand_mul(expr, deep=True):
+def expand_mul(expr: int | float | Expr | complex, deep=True):
     """
     Wrapper around expand that only uses the mul hint.  See the expand
     docstring for more information.

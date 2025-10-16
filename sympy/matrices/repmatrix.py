@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, overload, Literal
 
 from collections import defaultdict
 from abc import abstractmethod
@@ -400,6 +400,10 @@ class RepMatrix(MatrixBase):
         else:
             return self._fromrep(rep.applyfunc(lambda e: e.conjugate()))
 
+    @overload
+    def equals(self, other, failing_expression: Literal[True]) -> Expr: ...
+    @overload
+    def equals(self, other, failing_expression: Literal[False]=False) -> bool | None: ...
     def equals(self, other, failing_expression=False):
         """Applies ``equals`` to corresponding elements of the matrices,
         trying to prove that the elements are equivalent, returning True

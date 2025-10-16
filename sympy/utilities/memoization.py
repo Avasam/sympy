@@ -1,7 +1,12 @@
+from collections.abc import Callable, MutableSequence, Sequence
 from functools import wraps
+from typing import TypeVar
+from _typeshed import SupportsLenAndGetItem
 
+_T = TypeVar("_T")
+_MutableSequence = TypeVar("_MutableSequence", bound=MutableSequence)
 
-def recurrence_memo(initial):
+def recurrence_memo(initial: _MutableSequence) -> Callable[[Callable[[int, _MutableSequence], _T]], Callable[[int], _T]]:
     """
     Memo decorator for sequences defined by recurrence
 
@@ -24,7 +29,7 @@ def recurrence_memo(initial):
     """
     cache = initial
 
-    def decorator(f):
+    def decorator(f: Callable[[int, _MutableSequence], _T]) -> Callable[[int], _T]:
         @wraps(f)
         def g(n):
             L = len(cache)

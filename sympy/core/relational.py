@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar, overload, Literal
 
 from .basic import Atom, Basic
 from .coreerrors import LazyExceptionMessage
@@ -19,7 +19,6 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 
 
 if TYPE_CHECKING:
-    from typing import ClassVar
     from typing_extensions import Self
     from sympy.logic.boolalg import BooleanTrue, BooleanFalse
 
@@ -163,7 +162,9 @@ class Relational(Boolean, EvalfMixin):
     # ValidRelationOperator - Defined below, because the necessary classes
     #   have not yet been defined
 
-    def __new__(cls, lhs, rhs, rop=None, **assumptions) -> Self:
+    _args: tuple[Expr, ...]
+    args: tuple[Expr, ...]
+    def __new__(cls, lhs, rhs, rop=None, **assumptions) -> Self | Eq | Ne:
         # If called by a subclass, do nothing special and pass on to Basic.
         if cls is not Relational:
             return Basic.__new__(cls, lhs, rhs, **assumptions)
@@ -192,17 +193,17 @@ class Relational(Boolean, EvalfMixin):
         return cls(lhs, rhs, **assumptions) # type: ignore
 
     @property
-    def lhs(self) -> Basic:
+    def lhs(self) -> Expr:
         """The left-hand side of the relation."""
         return self._args[0]
 
     @property
-    def rhs(self) -> Basic:
+    def rhs(self) -> Expr:
         """The right-hand side of the relation."""
         return self._args[1]
 
     @property
-    def reversed(self):
+    def reversed(self) -> Eq | Lt | Le | Gt | Ge | Ne | Self:
         """Return the relationship with sides reversed.
 
         Examples
@@ -224,7 +225,7 @@ class Relational(Boolean, EvalfMixin):
         return Relational.__new__(ops.get(self.func, self.func), b, a)
 
     @property
-    def reversedsign(self):
+    def reversedsign(self) -> Eq | Lt | Le | Gt | Ge | Ne | Self:
         """Return the relationship with signs reversed.
 
         Examples
@@ -249,7 +250,7 @@ class Relational(Boolean, EvalfMixin):
             return self
 
     @property
-    def negated(self):
+    def negated(self) -> Ne | Lt | Le | Gt | Ge | Eq:
         """Return the negated relationship.
 
         Examples
@@ -377,6 +378,10 @@ class Relational(Boolean, EvalfMixin):
 
         return r
 
+    @overload
+    def equals(self, other, failing_expression: Literal[True]) -> Expr: ...
+    @overload
+    def equals(self, other, failing_expression: Literal[False]=False) -> bool | None: ...
     def equals(self, other, failing_expression=False):
         """Return True if the sides of the relationship are mathematically
         identical and the type of relationship is the same.
@@ -546,7 +551,7 @@ class Relational(Boolean, EvalfMixin):
         return xset
 
     @property
-    def binary_symbols(self) -> set[Basic]:
+    def binary_symbols(self) -> set[Expr]:
         # override where necessary
         return set()
 
@@ -630,7 +635,7 @@ class Equality(Relational):
 
     is_Equality = True
 
-    def __new__(cls, lhs, rhs, **options) -> Equality | BooleanFalse | BooleanTrue: # type: ignore
+    def __new__(cls, lhs, rhs, **options) -> Self | BooleanFalse | BooleanTrue: # type: ignore
         evaluate = options.pop('evaluate', global_parameters.evaluate)
         lhs = _sympify(lhs)
         rhs = _sympify(rhs)
@@ -700,7 +705,7 @@ class Equality(Relational):
         return Add._from_args(args)
 
     @property
-    def binary_symbols(self) -> set[Basic]:
+    def binary_symbols(self) -> set[Expr]:
         if S.true in self.args or S.false in self.args:
             if self.lhs.is_Symbol:
                 return {self.lhs}
@@ -812,7 +817,7 @@ class Unequality(Relational):
         return _sympify(lhs != rhs)
 
     @property
-    def binary_symbols(self) -> set[Basic]:
+    def binary_symbols(self) -> set[Expr]:
         if S.true in self.args or S.false in self.args:
             if self.lhs.is_Symbol:
                 return {self.lhs}
