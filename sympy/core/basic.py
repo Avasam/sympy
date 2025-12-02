@@ -6,7 +6,6 @@ from collections.abc import Callable, Mapping, Iterable
 from itertools import zip_longest
 from functools import cmp_to_key
 from typing import TYPE_CHECKING, overload, ClassVar, TypeVar, Any, Hashable, Literal
-
 from .assumptions import _prepare_class_assumptions
 from .cache import cacheit
 from .sympify import _sympify, sympify, SympifyError, _external_converter
@@ -27,10 +26,13 @@ if TYPE_CHECKING:
     from .assumptions import StdFactKB
     from .expr import Expr
     from .symbol import Symbol, Wild
+    from .numbers import Number
+    from typing_extensions import TypeAlias
 
 Tbasic = TypeVar("Tbasic", bound='Basic')
 TDict = TypeVar("TDict", bound=dict)
 _T = TypeVar("_T")
+_SortKeyTuple: TypeAlias = tuple[tuple[int, int, str], tuple[int, "tuple[_SortKeyTuple, ...] | tuple[str,...]"], "_SortKeyTuple | tuple[()]", Number]
 
 
 def as_Basic(expr):
@@ -447,7 +449,7 @@ class Basic(Printable):
         return 5, 0, cls.__name__
 
     @cacheit
-    def sort_key(self, order=None):
+    def sort_key(self, order=None) -> _SortKeyTuple:
         """
         Return a sort key.
 
@@ -2275,7 +2277,7 @@ class Atom(Basic):
         return 2, 0, cls.__name__
 
     @cacheit
-    def sort_key(self, order=None):
+    def sort_key(self, order=None) -> _SortKeyTuple:
         return self.class_key(), (1, (str(self),)), S.One.sort_key(), S.One
 
     def _eval_simplify(self, **kwargs):

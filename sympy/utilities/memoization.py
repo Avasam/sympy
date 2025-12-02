@@ -1,7 +1,6 @@
-from collections.abc import Callable, MutableSequence, Sequence
+from collections.abc import Callable, MutableSequence
 from functools import wraps
 from typing import TypeVar
-from _typeshed import SupportsLenAndGetItem
 
 _T = TypeVar("_T")
 _MutableSequence = TypeVar("_MutableSequence", bound=MutableSequence)

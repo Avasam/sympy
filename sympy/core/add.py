@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING
 from collections import defaultdict
 from functools import reduce
 from operator import attrgetter

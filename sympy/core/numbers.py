@@ -1,11 +1,14 @@
 from __future__ import annotations
 
-from typing import overload, TYPE_CHECKING
+from typing import Never, overload, TYPE_CHECKING
 
 import numbers
 import decimal
 import fractions
 import math
+
+from sympy.core.relational import GreaterThan, LessThan, StrictGreaterThan, StrictLessThan
+from sympy.logic.boolalg import BooleanFalse, BooleanTrue
 
 from .containers import Tuple
 from .sympify import (SympifyError, _sympy_converter, sympify, _convert_numpy_types,
@@ -37,6 +40,10 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 from .parameters import global_parameters
 
 if TYPE_CHECKING:
+    from .relational import StrictLessThan, GreaterThan, StrictGreaterThan, LessThan
+    from sympy.logic.boolalg import Boolean, BooleanFalse, BooleanTrue
+    from sympy.external.gmpy import MPZ as _MPZ_dummy
+    from types import NotImplementedType
     from typing_extensions import Self
 
 _LOG2 = math.log(2)
@@ -151,7 +158,7 @@ def comp(z1, z2, tol=None) -> bool:
         return diff <= tol
 
 
-def mpf_norm(mpf, prec):
+def mpf_norm(mpf, prec) -> tuple[int | _MPZ_dummy, int | _MPZ_dummy, int | _MPZ_dummy, int | _MPZ_dummy]:
     """Return the mpf tuple normalized appropriately for the indicated
     precision after doing a check to see if zero should be returned or
     not when the mantissa is 0. ``mpf_normlize`` always assumes that this
@@ -508,15 +515,15 @@ class Number(AtomicExpr):
                 return S.Zero
         return AtomicExpr.__truediv__(self, other)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         raise NotImplementedError('%s needs .__eq__() method' %
             (self.__class__.__name__))
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         raise NotImplementedError('%s needs .__ne__() method' %
             (self.__class__.__name__))
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> StrictLessThan | BooleanTrue | BooleanFalse:
         try:
             other = _sympify(other)
         except SympifyError:
@@ -524,7 +531,7 @@ class Number(AtomicExpr):
         raise NotImplementedError('%s needs .__lt__() method' %
             (self.__class__.__name__))
 
-    def __le__(self, other):
+    def __le__(self, other)  -> LessThan | BooleanTrue | BooleanFalse:
         try:
             other = _sympify(other)
         except SympifyError:
@@ -532,14 +539,14 @@ class Number(AtomicExpr):
         raise NotImplementedError('%s needs .__le__() method' %
             (self.__class__.__name__))
 
-    def __gt__(self, other):
+    def __gt__(self, other) -> StrictGreaterThan | BooleanTrue | BooleanFalse:
         try:
             other = _sympify(other)
         except SympifyError:
             raise TypeError("Invalid comparison %s > %s" % (self, other))
         return _sympify(other).__lt__(self)
 
-    def __ge__(self, other):
+    def __ge__(self, other) -> GreaterThan | BooleanTrue | BooleanFalse:
         try:
             other = _sympify(other)
         except SympifyError:
@@ -761,8 +768,9 @@ class Float(Number):
     positive and negative zeroes.
     """
     __slots__ = ('_mpf_', '_prec')
-
+    # Always set in _new
     _mpf_: tuple[int, int, int, int]
+    _prec: int
 
     # A Float, though rational in form, does not behave like
     # a rational in all Python expressions so we deal with
@@ -1534,7 +1542,7 @@ class Rational(Number):
         return Number.__rtruediv__(self, other)
 
     @_sympifyit('other', NotImplemented)
-    def __mod__(self, other):
+    def __mod__(self, other) -> Rational | NaN | ComplexInfinity | Infinity | NegativeInfinity | Float | Zero | Expr:
         if global_parameters.evaluate:
             if isinstance(other, Rational):
                 n = (self.p*other.q) // (other.p*self.q)
@@ -1665,7 +1673,7 @@ class Rational(Number):
             if o.is_number and o.is_extended_real:
                 return Integer(s.p), s.q*o
 
-    def __gt__(self, other):
+    def __gt__(self, other) -> NotImplementedType | StrictGreaterThan | BooleanTrue | BooleanFalse:
         rv = self._Rrel(other, '__lt__')
         if rv is None:
             rv = self, other
@@ -1673,7 +1681,7 @@ class Rational(Number):
             return rv
         return Expr.__gt__(*rv)
 
-    def __ge__(self, other):
+    def __ge__(self, other) -> NotImplementedType | GreaterThan | BooleanTrue | BooleanFalse:
         rv = self._Rrel(other, '__le__')
         if rv is None:
             rv = self, other
@@ -1681,7 +1689,7 @@ class Rational(Number):
             return rv
         return Expr.__ge__(*rv)
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> NotImplementedType | StrictLessThan | BooleanTrue | BooleanFalse:
         rv = self._Rrel(other, '__gt__')
         if rv is None:
             rv = self, other
@@ -1689,7 +1697,7 @@ class Rational(Number):
             return rv
         return Expr.__lt__(*rv)
 
-    def __le__(self, other):
+    def __le__(self, other) -> NotImplementedType | LessThan | BooleanTrue | BooleanFalse:
         rv = self._Rrel(other, '__ge__')
         if rv is None:
             rv = self, other
@@ -1703,6 +1711,7 @@ class Rational(Number):
     def __format__(self, format_spec):
         return format(fractions.Fraction(self.p, self.q), format_spec)
 
+    # TODO: WE'RE HERE NOW
     def factors(self, limit=None, use_trial=True, use_rho=False,
                 use_pm1=False, verbose=False, visual=False):
         """A wrapper to factorint which return factors of self that are
