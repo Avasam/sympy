@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Never, overload, TYPE_CHECKING
+from typing import Literal, Never, cast, overload, TYPE_CHECKING
 
 import numbers
 import decimal
@@ -40,8 +40,11 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 from .parameters import global_parameters
 
 if TYPE_CHECKING:
+    from .symbol import Symbol
     from .relational import StrictLessThan, GreaterThan, StrictGreaterThan, LessThan
-    from sympy.logic.boolalg import Boolean, BooleanFalse, BooleanTrue
+    from sympy.polys.polytools import Poly
+    from sympy.polys.polyclasses import DMP
+    from sympy.logic.boolalg import BooleanFalse, BooleanTrue
     from sympy.external.gmpy import MPZ as _MPZ_dummy
     from types import NotImplementedType
     from typing_extensions import Self
@@ -1648,7 +1651,7 @@ class Rational(Number):
         if other.is_Rational:
             # a Rational is always in reduced form so will never be 2/4
             # so we can just check equivalence of args
-            return self.p == other.p and self.q == other.q
+            return self.p == cast('Rational', other).p and self.q == cast('Rational', other).q
         return False
 
     def __ne__(self, other):
@@ -1711,7 +1714,6 @@ class Rational(Number):
     def __format__(self, format_spec):
         return format(fractions.Fraction(self.p, self.q), format_spec)
 
-    # TODO: WE'RE HERE NOW
     def factors(self, limit=None, use_trial=True, use_rho=False,
                 use_pm1=False, verbose=False, visual=False):
         """A wrapper to factorint which return factors of self that are
@@ -1999,7 +2001,7 @@ class Integer(Rational):
         except SympifyError:
             return NotImplemented
         if other.is_Integer:
-            return _sympify(self.p > other.p)
+            return _sympify(self.p > cast('Integer', other).p)
         return Rational.__gt__(self, other)
 
     def __lt__(self, other):
@@ -2008,7 +2010,7 @@ class Integer(Rational):
         except SympifyError:
             return NotImplemented
         if other.is_Integer:
-            return _sympify(self.p < other.p)
+            return _sympify(self.p < cast('Integer', other).p)
         return Rational.__lt__(self, other)
 
     def __ge__(self, other):
@@ -2017,7 +2019,7 @@ class Integer(Rational):
         except SympifyError:
             return NotImplemented
         if other.is_Integer:
-            return _sympify(self.p >= other.p)
+            return _sympify(self.p >= cast('Integer', other).p)
         return Rational.__ge__(self, other)
 
     def __le__(self, other):
@@ -2026,7 +2028,7 @@ class Integer(Rational):
         except SympifyError:
             return NotImplemented
         if other.is_Integer:
-            return _sympify(self.p <= other.p)
+            return _sympify(self.p <= cast('Integer', other).p)
         return Rational.__le__(self, other)
 
     def __hash__(self):
@@ -2266,6 +2268,11 @@ class AlgebraicNumber(Expr):
     """
 
     __slots__ = ('rep', 'root', 'alias', 'minpoly', '_own_minpoly')
+    # Set in __new__
+    rep: DMP
+    root: Expr
+    alias: Symbol | None
+    minpoly: Poly
 
     is_AlgebraicNumber = True
     is_algebraic = True
@@ -2897,9 +2904,21 @@ class One(IntegerConstant, metaclass=Singleton):
     def _eval_order(self, *symbols):
         return
 
+    @overload
     @staticmethod
-    def factors(limit=None, use_trial=True, use_rho=False, use_pm1=False,
-                verbose=False, visual=False):
+    def factors(limit=None, use_trial: bool = True, use_rho: bool = False, use_pm1: bool = False,
+                verbose: bool = False, *, visual: Literal[True]) -> One: ...
+    @overload
+    @staticmethod
+    def factors(limit, use_trial: bool, use_rho: bool, use_pm1: bool,
+                verbose: bool, visual: Literal[True]) -> One: ...
+    @overload
+    @staticmethod
+    def factors(limit=None, use_trial: bool = True, use_rho: bool = False, use_pm1: bool = False,
+                verbose: bool = False, visual: Literal[False] = False) -> dict[int, int]: ...
+    @staticmethod
+    def factors(limit=None, use_trial: bool = True, use_rho: bool = False, use_pm1: bool = False,
+                verbose: bool = False, visual: bool = False) -> One | dict[int, int]:
         if visual:
             return S.One
         else:
@@ -3168,10 +3187,10 @@ class Infinity(Number, metaclass=Singleton):
     def __hash__(self):
         return super().__hash__()
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return other is S.Infinity or other == float('inf')
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return other is not S.Infinity and other != float('inf')
 
     __gt__ = Expr.__gt__
@@ -3338,10 +3357,10 @@ class NegativeInfinity(Number, metaclass=Singleton):
     def __hash__(self):
         return super().__hash__()
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return other is S.NegativeInfinity or other == float('-inf')
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return other is not S.NegativeInfinity and other != float('-inf')
 
     __gt__ = Expr.__gt__
@@ -3363,7 +3382,7 @@ class NegativeInfinity(Number, metaclass=Singleton):
     def ceiling(self):
         return self
 
-    def as_powers_dict(self):
+    def as_powers_dict(self) -> dict[NegativeOne | Infinity, int]:
         return {S.NegativeOne: 1, S.Infinity: 1}
 
 

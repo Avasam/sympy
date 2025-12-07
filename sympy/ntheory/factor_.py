@@ -6,12 +6,13 @@ from __future__ import annotations
 from bisect import bisect_left
 from collections import defaultdict, OrderedDict
 from collections.abc import MutableMapping
-from typing import TYPE_CHECKING, TypeVar, overload
+from typing import TYPE_CHECKING, Literal, TypeVar, overload
 import math
 
 from sympy.core.containers import Dict
+from sympy.core.expr import Expr
 from sympy.core.mul import Mul
-from sympy.core.numbers import Number, Rational, Integer
+from sympy.core.numbers import ComplexInfinity, Infinity, NaN, NegativeInfinity, Number, Rational, Integer, Zero
 from sympy.core.intfunc import num_digits
 from sympy.core.power import Pow
 from sympy.core.random import _randint
@@ -1664,8 +1665,29 @@ def factorint(n, limit=None, use_trial=True, use_rho=True, use_pm1=True,
         num_curves *= 4
 
 
-def factorrat(rat, limit=None, use_trial=True, use_rho=True, use_pm1=True,
-              verbose=False, visual=None, multiple=False):
+@overload
+def factorrat(rat, limit=None, use_trial: bool = True, use_rho: bool = True, use_pm1: bool = True,
+              verbose: bool = False, visual: bool = False, *, multiple: Literal[True]
+) -> list[int] | list[ComplexInfinity | NaN | Rational | Infinity | NegativeInfinity | Expr | Zero]: ...
+@overload
+def factorrat(rat, limit, use_trial: bool, use_rho: bool, use_pm1: bool,
+              verbose: bool, visual: bool, multiple: Literal[True]
+) -> list[int] | list[ComplexInfinity | NaN | Rational | Infinity | NegativeInfinity | Expr | Zero]: ...
+@overload
+def factorrat(rat, limit=None, use_trial: bool = True, use_rho: bool = True, use_pm1: bool = True,
+              verbose: bool = False, *, visual: Literal[True], multiple: Literal[False] = False
+) -> dict[int, int]: ...
+@overload
+def factorrat(rat, limit, use_trial: bool, use_rho: bool, use_pm1: bool,
+              verbose: bool, visual: Literal[True], multiple: Literal[False] = False
+) -> dict[int, int]: ...
+@overload
+def factorrat(rat, limit=None, use_trial: bool = True, use_rho: bool = True, use_pm1: bool = True,
+              verbose: bool = False, visual: Literal[False] = False, multiple: Literal[False] = False
+) -> Expr: ...
+def factorrat(rat, limit=None, use_trial: bool = True, use_rho: bool = True, use_pm1: bool = True,
+              verbose: bool = False, visual: bool = False, multiple: bool = False
+)-> Expr | dict[int, int] | list[int] | list[ComplexInfinity | NaN | Rational | Infinity | NegativeInfinity | Expr | Zero]:
     r"""
     Given a Rational ``r``, ``factorrat(r)`` returns a dict containing
     the prime factors of ``r`` as keys and their respective multiplicities
@@ -1690,10 +1712,10 @@ def factorrat(rat, limit=None, use_trial=True, use_rho=True, use_pm1=True,
     """
     if multiple:
         fac = factorrat(rat, limit=limit, use_trial=use_trial,
-                  use_rho=use_rho, use_pm1=use_pm1,
-                  verbose=verbose, visual=False, multiple=False)
+                    use_rho=use_rho, use_pm1=use_pm1,
+                    verbose=verbose, visual=False, multiple=False)
         factorlist = sum(([p] * fac[p] if fac[p] > 0 else [S.One/p]*(-fac[p])
-                               for p, _ in sorted(fac.items(),
+                                for p, _ in sorted(fac.items(),
                                                         key=lambda elem: elem[0]
                                                         if elem[1] > 0
                                                         else 1/elem[0])), [])
