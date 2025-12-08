@@ -136,10 +136,10 @@ class ExpressionDomain(Field, CharacteristicZero, SimpleDomain):
         def __rtruediv__(f, g):
             return f.simplify(f.__class__(g).ex/f.ex)
 
-        def __eq__(f, g):
+        def __eq__(f, g: object):
             return f.ex == f.__class__(g).ex
 
-        def __ne__(f, g):
+        def __ne__(f, g: object):
             return not f == g
 
         def __bool__(f):
@@ -166,7 +166,7 @@ class ExpressionDomain(Field, CharacteristicZero, SimpleDomain):
     def __init__(self):
         pass
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, ExpressionDomain):
             return True
         else:

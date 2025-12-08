@@ -88,7 +88,7 @@ class ComplexField(Field, CharacteristicZero, SimpleDomain):
             y = int(y)
         return self._dtype(x, y)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return isinstance(other, ComplexField) and self.precision == other.precision
 
     def __hash__(self):

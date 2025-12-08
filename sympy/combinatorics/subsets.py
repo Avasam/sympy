@@ -63,7 +63,7 @@ class Subset():
         obj._superset = superset
         return obj
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Return a boolean indicating whether a == b on the basis of
         whether both objects are of the class Subset and if the values
         of the subset and superset attributes are the same.

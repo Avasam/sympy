@@ -795,12 +795,12 @@ class Factors:
     def __pow__(self, other):  # Factors
         return self.pow(other)
 
-    def __eq__(self, other):  # Factors
+    def __eq__(self, other: object):  # Factors
         if not isinstance(other, Factors):
             other = Factors(other)
         return self.factors == other.factors
 
-    def __ne__(self, other):  # Factors
+    def __ne__(self, other: object):  # Factors
         return not self == other
 
 
@@ -905,12 +905,12 @@ class Term:
         else:
             return NotImplemented
 
-    def __eq__(self, other):  # Term
+    def __eq__(self, other: object):  # Term
         return (self.coeff == other.coeff and
                 self.numer == other.numer and
                 self.denom == other.denom)
 
-    def __ne__(self, other):  # Term
+    def __ne__(self, other: object):  # Term
         return not self == other
 
 

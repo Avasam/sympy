@@ -246,7 +246,7 @@ class FiniteField(Field, SimpleDomain):
     def __hash__(self):
         return hash((self.__class__.__name__, self.dtype, self.mod, self.dom))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Returns ``True`` if two domains are equivalent. """
         return isinstance(other, FiniteField) and \
             self.mod == other.mod and self.dom == other.dom

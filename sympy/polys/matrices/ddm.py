@@ -578,12 +578,12 @@ class DDM(list):
         rows = list.__repr__(self)
         return '%s(%s, %s, %s)' % (cls, rows, self.shape, self.domain)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, DDM):
             return False
         return (super().__eq__(other) and self.domain == other.domain)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self.__eq__(other)
 
     @classmethod

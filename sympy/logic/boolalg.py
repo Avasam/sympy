@@ -375,7 +375,7 @@ class BooleanTrue(BooleanAtom, metaclass=Singleton):
     def __hash__(self):
         return hash(True)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if other is True:
             return True
         if other is False:
@@ -450,7 +450,7 @@ class BooleanFalse(BooleanAtom, metaclass=Singleton):
     def __hash__(self):
         return hash(False)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if other is True:
             return False
         if other is False:

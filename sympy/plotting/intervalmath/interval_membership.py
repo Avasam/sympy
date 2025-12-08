@@ -71,8 +71,8 @@ class intervalMembership:
         a2, b2 = other
         return intervalMembership(fuzzy_xor([a1, a2]), fuzzy_and([b1, b2]))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return self._wrapped == other
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return self._wrapped != other

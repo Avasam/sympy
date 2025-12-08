@@ -842,7 +842,7 @@ class Boundary:
     def __repr__(self):
         return repr("Boundary(" + repr(self.get_inequality()) + ")")
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         other = (other.var, other.bound, other.strict, other.upper, other.equality)
         return (self.var, self.bound, self.strict, self.upper, self.equality) == other
 
@@ -864,7 +864,7 @@ class LRARational():
     def __le__(self, other):
         return self.value <= other.value
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return self.value == other.value
 
     def __add__(self, other):
@@ -903,7 +903,7 @@ class LRAVariable():
     def __repr__(self):
         return repr(self.var)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, LRAVariable):
             return False
         return other.var == self.var

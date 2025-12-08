@@ -489,7 +489,7 @@ class NDimArray(Printable):
 
         return iterator()
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """
         NDimArray instances can be compared to each other.
         Instances equal if they have same shape and data.
@@ -522,7 +522,7 @@ class NDimArray(Printable):
 
         return list(self) == list(other)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self == other
 
     def _eval_transpose(self):

@@ -328,7 +328,7 @@ class stringPict:
         size = shutil.get_terminal_size(fallback=(0, 0))
         return size.columns
 
-    def __eq__(self, o):
+    def __eq__(self, o: object):
         if isinstance(o, str):
             return '\n'.join(self.picture) == o
         elif isinstance(o, stringPict):

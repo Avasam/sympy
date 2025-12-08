@@ -198,7 +198,7 @@ class MatrixBase(Printable):
         """Convert MatrixExpr to a matrix with explicit elements."""
         return self
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         raise NotImplementedError("Subclasses must implement this.")
 
     @overload

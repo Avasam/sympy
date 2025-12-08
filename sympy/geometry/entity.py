@@ -88,7 +88,7 @@ class GeometryEntity(Basic, EvalfMixin):
         """Returns a tuple that will be passed to __new__ on unpickling."""
         return tuple(self.args)
 
-    def __ne__(self, o):
+    def __ne__(self, o: object):
         """Test inequality of two geometrical entities."""
         return not self == o
 

@@ -126,7 +126,7 @@ class RealField(Field, CharacteristicZero, SimpleDomain):
             arg = int(arg)
         return self._dtype(arg)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return isinstance(other, RealField) and self.precision == other.precision
 
     def __hash__(self):

@@ -82,7 +82,7 @@ class PolynomialRing(
     def __hash__(self):
         return hash((self.__class__.__name__, self.ring, self.domain, self.symbols))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Returns `True` if two domains are equivalent. """
         if not isinstance(other, PolynomialRing):
             return NotImplemented

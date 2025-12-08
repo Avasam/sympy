@@ -281,7 +281,7 @@ class Reals(Interval, metaclass=Singleton):
     def right_open(self):
         return True
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return other == Interval(S.NegativeInfinity, S.Infinity)
 
     def __hash__(self):

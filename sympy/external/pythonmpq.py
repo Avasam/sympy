@@ -123,7 +123,7 @@ class PythonMPQ:
         """True/False if nonzero/zero"""
         return bool(self.numerator)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Compare equal with PythonMPQ, int, float, Decimal or Fraction"""
         if isinstance(other, PythonMPQ):
             return (self.numerator == other.numerator

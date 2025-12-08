@@ -1011,12 +1011,12 @@ class Domain(Generic[Er]):
         from sympy.polys.domains import EX
         return EX
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Returns ``True`` if two domains are equivalent. """
         # XXX: Remove this.
         return isinstance(other, Domain) and self.dtype == other.dtype
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         """Returns ``False`` if two domains are equivalent. """
         return not self == other
 

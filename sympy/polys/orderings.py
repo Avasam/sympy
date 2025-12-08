@@ -29,13 +29,13 @@ class MonomialOrder:
     def __call__(self, monomial: tuple[int, ...]) -> Any:
         raise NotImplementedError
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return self.__class__ == other.__class__
 
     def __hash__(self):
         return hash(self.__class__)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not (self == other)
 
 
@@ -128,7 +128,7 @@ class ProductOrder(MonomialOrder):
         contents = [str(x[0]) for x in self.args]
         return self.__class__.__name__ + '(' + ", ".join(contents) + ')'
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, ProductOrder):
             return False
         return self.args == other.args
@@ -184,7 +184,7 @@ class InverseOrder(MonomialOrder):
             return True
         return None
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return isinstance(other, InverseOrder) and other.O == self.O
 
     def __hash__(self):
@@ -290,7 +290,7 @@ class _ItemGetter:
     def __call__(self, m):
         return tuple(m[idx] for idx in self.seq)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, _ItemGetter):
             return False
         return self.seq == other.seq

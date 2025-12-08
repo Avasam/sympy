@@ -55,7 +55,7 @@ class GaussianElement(DomainElement, Generic[Tdom]):
     def __hash__(self) -> int:
         return hash((self.x, self.y))
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         if isinstance(other, self.__class__):
             return self.x == other.x and self.y == other.y
         else:
@@ -479,7 +479,7 @@ class GaussianIntegerRing(GaussianDomain[GaussianInteger, MPZ], Ring[MPZ]):
     def __init__(self):  # override Domain.__init__
         """For constructing ZZ_I."""
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Returns ``True`` if two domains are equivalent. """
         if isinstance(other, GaussianIntegerRing):
             return True
@@ -689,7 +689,7 @@ class GaussianRationalField(GaussianDomain[GaussianRational, MPQ], Field[Gaussia
     def __init__(self):  # override Domain.__init__
         """For constructing QQ_I."""
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         """Returns ``True`` if two domains are equivalent. """
         if isinstance(other, GaussianRationalField):
             return True

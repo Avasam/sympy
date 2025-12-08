@@ -255,7 +255,7 @@ class ActivationBase(ABC, _NamedMixin):
         """
         pass
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Equality check for activation dynamics."""
         if type(self) != type(other):
             return False
@@ -849,7 +849,7 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
         activation_dynamics_equation = (a2 + a3) * (self._e - self._a)
         return activation_dynamics_equation
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Equality check for ``FirstOrderActivationDeGroote2016``."""
         if type(self) != type(other):
             return False

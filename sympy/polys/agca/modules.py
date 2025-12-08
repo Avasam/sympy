@@ -122,10 +122,10 @@ class Module:
         """
         return all(self.contains(x) for x in other)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return self.is_submodule(other) and other.is_submodule(self)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not (self == other)
 
     def is_zero(self):
@@ -241,7 +241,7 @@ class ModuleElement:
                 return NotImplemented
         return self.__class__(self.module, self.div(self.data, o))
 
-    def __eq__(self, om):
+    def __eq__(self, om: object):
         if not isinstance(om, self.__class__) or om.module != self.module:
             try:
                 om = self.module.convert(om)
@@ -249,7 +249,7 @@ class ModuleElement:
                 return False
         return self.eq(self.data, om.data)
 
-    def __ne__(self, om):
+    def __ne__(self, om: object):
         return not self == om
 
 ##########################################################################
@@ -1132,7 +1132,7 @@ class SubModulePolyRing(SubModule):
         self._gb = None
         self._gbe = None
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, SubModulePolyRing) and self.order != other.order:
             return False
         return SubModule.__eq__(self, other)

@@ -3828,7 +3828,7 @@ class DomainMatrix:
         """
         return cls.from_rep(DDM.ones(shape, domain).to_dfm_or_ddm())
 
-    def __eq__(A, B):
+    def __eq__(A, B: object):
         r"""
         Checks for two DomainMatrix matrices to be equal or not
 

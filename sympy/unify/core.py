@@ -27,7 +27,7 @@ class Compound:
         self.op = op
         self.args = args
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return (type(self) is type(other) and self.op == other.op and
                 self.args == other.args)
 
@@ -42,7 +42,7 @@ class Variable:
     def __init__(self, arg):
         self.arg = arg
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return type(self) is type(other) and self.arg == other.arg
 
     def __hash__(self):
@@ -61,7 +61,7 @@ class CondVariable:
         self.arg = arg
         self.valid = valid
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return (type(self) is type(other) and
                 self.arg == other.arg and
                 self.valid == other.valid)

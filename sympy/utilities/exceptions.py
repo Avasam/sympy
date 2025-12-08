@@ -79,7 +79,7 @@ will be removed in a future version of SymPy.
     def __repr__(self):
         return f"{self.__class__.__name__}({self.message!r}, deprecated_since_version={self.deprecated_since_version!r}, active_deprecations_target={self.active_deprecations_target!r})"
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return isinstance(other, SymPyDeprecationWarning) and self.args == other.args
 
     # Make pickling work. The by default, it tries to recreate the expression

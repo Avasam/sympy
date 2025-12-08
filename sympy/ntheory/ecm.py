@@ -54,7 +54,7 @@ class Point:
         self.a_24 = a_24
         self.mod = mod
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Two points are equal if X/Z of both points are equal
         """
         if self.a_24 != other.a_24 or self.mod != other.mod:

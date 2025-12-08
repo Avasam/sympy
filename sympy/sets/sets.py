@@ -2201,7 +2201,7 @@ class FiniteSet(Set):
             raise TypeError("Invalid comparison of set with %s" % func_name(other))
         return self.is_proper_subset(other)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, (set, frozenset)):
             return self._args_set == other
         return super().__eq__(other)

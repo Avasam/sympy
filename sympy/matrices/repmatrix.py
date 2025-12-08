@@ -67,7 +67,7 @@ class RepMatrix(MatrixBase):
     def _fromrep(cls, rep):
         raise NotImplementedError("Subclasses must implement this method")
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         # Skip sympify for mutable matrices...
         if not isinstance(other, RepMatrix):
             try:

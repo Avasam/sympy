@@ -270,12 +270,12 @@ class Ideal(IntegerPowerable):
         # here so that the first power is no exception.
         return self * 1
 
-    def __eq__(self, e):
+    def __eq__(self, e: object):
         if not isinstance(e, Ideal) or e.ring != self.ring:
             return False
         return self._equals(e)
 
-    def __ne__(self, e):
+    def __ne__(self, e: object):
         return not (self == e)
 
 

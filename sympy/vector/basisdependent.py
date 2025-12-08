@@ -328,7 +328,7 @@ class BasisDependentZero(BasisDependent):
         return self._hash
 
     @call_highest_priority('__req__')
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return isinstance(other, self._zero_func)
 
     __req__ = __eq__

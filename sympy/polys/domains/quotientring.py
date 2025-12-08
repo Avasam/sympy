@@ -81,12 +81,12 @@ class QuotientRingElement:
             return self.ring.revert(self) ** -oth
         return self.ring(self.data ** oth)
 
-    def __eq__(self, om):
+    def __eq__(self, om: object):
         if not isinstance(om, self.__class__) or om.ring != self.ring:
             return False
         return self.ring.is_zero(self - om)
 
-    def __ne__(self, om):
+    def __ne__(self, om: object):
         return not self == om
 
 
@@ -142,7 +142,7 @@ class QuotientRing(Ring):
         # TODO optionally disable reduction?
         return self.dtype(self, self.base_ideal.reduce_element(a))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Returns ``True`` if two domains are equivalent. """
         return isinstance(other, QuotientRing) and \
             self.ring == other.ring and self.base_ideal == other.base_ideal

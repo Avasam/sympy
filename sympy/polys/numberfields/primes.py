@@ -189,7 +189,7 @@ class PrimeIdeal(IntegerPowerable):
         M._is_sq_maxrank_HNF = True
         return M
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, PrimeIdeal):
             return self.as_submodule() == other.as_submodule()
         return NotImplemented

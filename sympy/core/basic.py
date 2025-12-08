@@ -492,7 +492,7 @@ class Basic(Printable):
             return self == other._sympy_()
         return NotImplemented
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Return a boolean indicating whether a == b on the basis of
         their symbolic trees.
 
@@ -534,7 +534,7 @@ class Basic(Printable):
                 return False
         return True
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         """``a != b``  -> Compare two symbolic trees and see whether they are different
 
         this is the same as:

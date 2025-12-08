@@ -44,7 +44,7 @@ class FractionField(Field, CompositeDomain):
     def __hash__(self):
         return hash((self.__class__.__name__, self.dtype, self.dom, self.gens))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Returns ``True`` if two domains are equivalent. """
         return isinstance(other, FractionField) and \
             self.dtype == other.dtype and self.dom == other.dom and self.gens == other.gens

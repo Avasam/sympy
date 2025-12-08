@@ -563,7 +563,7 @@ class Monomial(PicklableWithSlots):
 
         return Mul(*[ gen**exp for gen, exp in zip(gens, self.exponents) ])
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, Monomial):
             exponents = other.exponents
         elif isinstance(other, (tuple, Tuple)):
@@ -573,7 +573,7 @@ class Monomial(PicklableWithSlots):
 
         return self.exponents == exponents
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self == other
 
     def __mul__(self, other):

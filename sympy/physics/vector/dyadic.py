@@ -144,7 +144,7 @@ class Dyadic(Printable, EvalfMixin):
         """Divides the Dyadic by a sympifyable expression. """
         return self.__mul__(1 / other)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Tests for equality.
 
         Is currently weak; needs stronger comparison testing
@@ -160,7 +160,7 @@ class Dyadic(Printable, EvalfMixin):
             return False
         return set(self.args) == set(other.args)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self == other
 
     def __neg__(self):

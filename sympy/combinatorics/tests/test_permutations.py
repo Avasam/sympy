@@ -244,7 +244,7 @@ def test_Permutation_subclassing():
             except TypeError:
                 raise TypeError('unrecognized argument')
 
-        def __eq__(self, other):
+        def __eq__(self, other: object):
             if isinstance(other, Permutation):
                 return self._hashable_content() == other._hashable_content()
             else:

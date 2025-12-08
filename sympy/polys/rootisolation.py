@@ -1762,7 +1762,7 @@ class RealInterval:
         i = self
         return (i.mobius + (i.neg,), i.f, i.dom)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if type(other) is not type(self):
             return False
         return self.args == other.args
@@ -2035,7 +2035,7 @@ class ComplexInterval:
         i = self
         return (i.a, i.b, i.I, i.Q, i.F1, i.F2, i.f1, i.f2, i.dom, i.conj)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if type(other) is not type(self):
             return False
         return self.args == other.args

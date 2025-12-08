@@ -70,7 +70,7 @@ class FractionField(Field, CompositeDomain, Generic[Er]):
     def __hash__(self):
         return hash((self.__class__.__name__, self.field, self.domain, self.symbols))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Returns ``True`` if two domains are equivalent. """
         if not isinstance(other, FractionField):
             return NotImplemented

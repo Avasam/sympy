@@ -150,7 +150,7 @@ class DifferentialOperatorAlgebra:
 
     __repr__ = __str__
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return self.base == other.base and \
                self.gen_symbol == other.gen_symbol
 
@@ -353,7 +353,7 @@ class DifferentialOperator:
 
     __repr__ = __str__
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, DifferentialOperator):
             return self.listofpoly == other.listofpoly and \
                    self.parent == other.parent
@@ -894,7 +894,7 @@ class HolonomicFunction:
         y0 = _extend_y0(self, sol.order + 1)[1:]
         return HolonomicFunction(sol, self.x, self.x0, y0)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if self.annihilator != other.annihilator or self.x != other.x:
             return False
         if self._have_init_cond() and other._have_init_cond():

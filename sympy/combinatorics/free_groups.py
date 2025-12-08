@@ -218,7 +218,7 @@ class FreeGroup(DefaultPrinting):
         symbols = self.symbols[index]
         return self.clone(symbols=symbols)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """No ``FreeGroup`` is equal to any "other" ``FreeGroup``.
         """
         return self is other
@@ -703,7 +703,7 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         """
         return sum(abs(j) for (i, j) in self)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """
         Two  associative words are equal if they are words over the
         same alphabet and if they are sequences of the same letters.

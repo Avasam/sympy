@@ -431,13 +431,13 @@ class ModuleHomomorphism:
         """
         return self.image().is_zero()
 
-    def __eq__(self, oth):
+    def __eq__(self, oth: object):
         try:
             return (self - oth).is_zero()
         except TypeError:
             return False
 
-    def __ne__(self, oth):
+    def __ne__(self, oth: object):
         return not (self == oth)
 
 

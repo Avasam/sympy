@@ -505,11 +505,11 @@ class Number(AtomicExpr):
                 return S.Zero
         return AtomicExpr.__truediv__(self, other)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         raise NotImplementedError('%s needs .__eq__() method' %
             (self.__class__.__name__))
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         raise NotImplementedError('%s needs .__ne__() method' %
             (self.__class__.__name__))
 
@@ -1111,12 +1111,12 @@ class Float(Number):
             return 0
         return int(mlib.to_int(self._mpf_))  # uses round_fast = round_down
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, float):
             other = Float(other)
         return Basic.__eq__(self, other)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         eq = self.__eq__(other)
         if eq is NotImplemented:
             return eq
@@ -1615,7 +1615,7 @@ class Rational(Number):
     def __ceil__(self):
         return self.ceiling()
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         try:
             other = _sympify(other)
         except SympifyError:
@@ -1634,7 +1634,7 @@ class Rational(Number):
             return self.p == other.p and self.q == other.q
         return False
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self == other
 
     def _Rrel(self, other, attr):
@@ -1977,14 +1977,14 @@ class Integer(Rational):
 
         return super().__pow__(other, mod)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, int):
             return (self.p == other)
         elif isinstance(other, Integer):
             return (self.p == other.p)
         return Rational.__eq__(self, other)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self == other
 
     def __gt__(self, other):
@@ -3158,10 +3158,10 @@ class Infinity(Number, metaclass=Singleton):
     def __hash__(self):
         return super().__hash__()
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return other is S.Infinity or other == float('inf')
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return other is not S.Infinity and other != float('inf')
 
     __gt__ = Expr.__gt__
@@ -3324,10 +3324,10 @@ class NegativeInfinity(Number, metaclass=Singleton):
     def __hash__(self):
         return super().__hash__()
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return other is S.NegativeInfinity or other == float('-inf')
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return other is not S.NegativeInfinity and other != float('-inf')
 
     __gt__ = Expr.__gt__
@@ -3455,11 +3455,11 @@ class NaN(Number, metaclass=Singleton):
     def __hash__(self):
         return super().__hash__()
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         # NaN is structurally equal to another NaN
         return other is S.NaN
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return other is not S.NaN
 
     # Expr will _sympify and raise TypeError
@@ -3579,7 +3579,7 @@ class NumberSymbol(AtomicExpr):
     def _eval_evalf(self, prec):
         return Float._new(self._as_mpf_val(prec), prec)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         try:
             other = _sympify(other)
         except SympifyError:
@@ -3591,7 +3591,7 @@ class NumberSymbol(AtomicExpr):
 
         return False    # NumberSymbol != non-(Number|self)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self == other
 
     def __le__(self, other):

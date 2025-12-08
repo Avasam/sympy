@@ -50,7 +50,7 @@ class IntegerRing(Ring[MPZ], CharacteristicZero, SimpleDomain):
     def __init__(self):
         """Allow instantiation of this domain. """
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Returns ``True`` if two domains are equivalent. """
         if isinstance(other, IntegerRing):
             return True

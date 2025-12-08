@@ -117,14 +117,14 @@ class PartComponent:
         "for debug/algorithm animation purposes"
         return 'c:%d u:%d v:%d' % (self.c, self.u, self.v)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Define  value oriented equality, which is useful for testers"""
         return (isinstance(other, self.__class__) and
                 self.c == other.c and
                 self.u == other.u and
                 self.v == other.v)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         """Defined for consistency with __eq__"""
         return not self == other
 

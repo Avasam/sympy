@@ -187,13 +187,13 @@ class ExtensionElement(DomainElement, DefaultPrinting):
 
         return ExtElem(r, f.ext)
 
-    def __eq__(f, g):
+    def __eq__(f, g: object):
         if isinstance(g, ExtElem):
             return f.rep == g.rep and f.ext == g.ext
         else:
             return NotImplemented
 
-    def __ne__(f, g):
+    def __ne__(f, g: object):
         return not f == g
 
     def __hash__(f):
@@ -293,7 +293,7 @@ class MonogenicFiniteExtension(Domain):
         rep = self.ring.convert(arg)
         return ExtElem(rep % self.mod, self)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, FiniteExtension):
             return False
         return self.modulus == other.modulus

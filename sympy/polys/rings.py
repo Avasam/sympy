@@ -371,10 +371,10 @@ class PolyRing(DefaultPrinting, IPolys[Er], Generic[Er]):
     def __hash__(self) -> int:
         return self._hash
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return isinstance(other, PolyRing) and self._ring_equality(other)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self == other
 
     @overload
@@ -812,7 +812,7 @@ class PolyElement(
             self._hash = _hash = hash((self.ring, frozenset(self.items())))
         return _hash
 
-    def __ne__(self, other) -> bool:
+    def __ne__(self, other: object) -> bool:
         return not self == other
 
     def __pos__(self) -> PolyElement[Er]:

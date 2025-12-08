@@ -68,7 +68,7 @@ class PolynomialRingBase(Ring, CompositeDomain):
         return hash((self.__class__.__name__, self.dtype, self.dom,
                      self.gens, self.order))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Returns ``True`` if two domains are equivalent. """
         return isinstance(other, PolynomialRingBase) and \
             self.dtype == other.dtype and self.dom == other.dom and \

@@ -99,9 +99,9 @@ if __name__ == "__main__":
             self.definer = definer
         def __hash__(self):
             return hash(self.name)
-        def __eq__(self, other):
+        def __eq__(self, other: object):
             return self.name == other.name and self.value == other.value
-        def __ne__(self, other):
+        def __ne__(self, other: object):
             return not (self == other)
         def __repr__(self):
             return 'Definition(%s, ..., %s)' % (

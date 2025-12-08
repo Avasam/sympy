@@ -45,7 +45,7 @@ class RationalField(Field[MPQ], CharacteristicZero, SimpleDomain):
     def __init__(self):
         pass
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Returns ``True`` if two domains are equivalent. """
         if isinstance(other, RationalField):
             return True

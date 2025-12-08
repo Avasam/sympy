@@ -83,12 +83,12 @@ def test_equality():
         a symmetric equivalence relation.
 
         """
-        def __eq__(self, other):
+        def __eq__(self, other: object):
             if isinstance(other, Basic):
                 return True
             return NotImplemented
 
-        def __ne__(self, other):
+        def __ne__(self, other: object):
             return not self == other
 
     bar = Bar()

@@ -165,7 +165,7 @@ class MatrixRequired(metaclass=_MatrixDeprecatedMeta):
         elements of the matrix."""
         raise NotImplementedError("Subclasses must implement this.")
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         raise NotImplementedError("Subclasses must implement this.")
 
     def __getitem__(self, key):
@@ -3123,7 +3123,7 @@ class _MinimalMatrix:
             key = _coord_to_index(i, j)
         return self.mat[key]
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         try:
             classof(self, other)
         except TypeError:

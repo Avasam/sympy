@@ -2986,7 +2986,7 @@ class DMF(PicklableWithSlots, CantSympify):
     def __rtruediv__(self, g):
         return self.invert(check=False)*g
 
-    def __eq__(f, g):
+    def __eq__(f, g: object):
         try:
             if isinstance(g, DMP):
                 _, _, _, (F_num, F_den), G = f.poly_unify(g)
@@ -3003,7 +3003,7 @@ class DMF(PicklableWithSlots, CantSympify):
 
         return False
 
-    def __ne__(f, g):
+    def __ne__(f, g: object):
         try:
             if isinstance(g, DMP):
                 _, _, _, (F_num, F_den), G = f.poly_unify(g)
@@ -3376,14 +3376,14 @@ class ANP(CantSympify, Generic[Eg]):
         else:
             return f.pow(-1).mul_ground(g)
 
-    def __eq__(f, g):
+    def __eq__(f, g: object):
         try:
             F, G, _, _ = f.unify_ANP(g)
         except UnificationFailed:
             return NotImplemented
         return F == G
 
-    def __ne__(f, g):
+    def __ne__(f, g: object):
         try:
             F, G, _, _ = f.unify_ANP(g)
         except UnificationFailed:

@@ -176,10 +176,10 @@ class ModularInteger(PicklableWithSlots, DomainElement):
 
         return op(self.val, val % self.mod)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return self._compare(other, operator.eq)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return self._compare(other, operator.ne)
 
     def __lt__(self, other):

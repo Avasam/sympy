@@ -8,7 +8,7 @@ from sympy.core.containers import Tuple
 
 class List(Tuple):
     """Represents a (frozen) (Python) list (for code printing purposes)."""
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, list):
             return self == List(*other)
         else:

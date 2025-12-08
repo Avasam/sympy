@@ -33,7 +33,7 @@ class OmegaPower(Basic):
         else:
             return op(self.exp, other.exp)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, OmegaPower):
             try:
                 other = OmegaPower(0, other)
@@ -125,7 +125,7 @@ class Ordinal(Basic):
             return ord0
         return Ordinal(OmegaPower(0, integer_value))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, Ordinal):
             try:
                 other = Ordinal.convert(other)

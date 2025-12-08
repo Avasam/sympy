@@ -234,13 +234,13 @@ class Logic:
     def __hash__(self):
         return hash((type(self).__name__,) + tuple(self.args))
 
-    def __eq__(a, b):
+    def __eq__(a, b: object):
         if not isinstance(b, type(a)):
             return False
         else:
             return a.args == b.args
 
-    def __ne__(a, b):
+    def __ne__(a, b: object):
         if not isinstance(b, type(a)):
             return True
         else:

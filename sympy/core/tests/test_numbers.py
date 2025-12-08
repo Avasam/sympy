@@ -2108,14 +2108,14 @@ def test_comparisons_with_unknown_type():
         NotImplemented singleton for symmetric equality relations.
 
         """
-        def __eq__(self, other):
+        def __eq__(self, other: object):
             if other in (oo, -oo, zoo, nan):
                 return False
             if isinstance(other, Number):
                 return True
             return NotImplemented
 
-        def __ne__(self, other):
+        def __ne__(self, other: object):
             return not self == other
 
     bar = Bar()

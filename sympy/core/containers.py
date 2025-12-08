@@ -96,12 +96,12 @@ class Tuple(Basic):
 
     __rmul__ = __mul__
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, Basic):
             return super().__eq__(other)
         return self.args == other
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         if isinstance(other, Basic):
             return super().__ne__(other)
         return self.args != other
@@ -325,7 +325,7 @@ class Dict(Basic):
     def _sorted_args(self):
         return tuple(sorted(self.args, key=default_sort_key))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, dict):
             return self == Dict(other)
         return super().__eq__(other)

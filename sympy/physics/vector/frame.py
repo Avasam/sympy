@@ -67,7 +67,7 @@ class CoordinateSym(Symbol):
     def frame(self):
         return self._id[0]
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         # Check if the other object is a CoordinateSym of the same frame and
         # same index
         if isinstance(other, CoordinateSym):
@@ -75,7 +75,7 @@ class CoordinateSym(Symbol):
                 return True
         return False
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self == other
 
     def __hash__(self):

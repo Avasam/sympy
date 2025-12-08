@@ -2039,7 +2039,7 @@ class RegularPolygon(Polygon):
         return [Point(c.x + r*cos(k*v + rot), c.y + r*sin(k*v + rot))
                 for k in range(self._n)]
 
-    def __eq__(self, o):
+    def __eq__(self, o: object):
         if not isinstance(o, Polygon):
             return False
         elif not isinstance(o, RegularPolygon):

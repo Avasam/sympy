@@ -66,7 +66,7 @@ class Literal:
 
     __repr__ = __str__
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return self.arg == other.arg and self.is_Not == other.is_Not
 
     def __hash__(self):
@@ -96,7 +96,7 @@ class OR:
     def __hash__(self):
         return hash((type(self).__name__,) + tuple(self.args))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return self.args == other.args
 
     def __str__(self):
@@ -128,7 +128,7 @@ class AND:
     def __hash__(self):
         return hash((type(self).__name__,) + tuple(self.args))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return self.args == other.args
 
     def __str__(self):

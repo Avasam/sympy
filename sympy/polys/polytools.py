@@ -4612,7 +4612,7 @@ class Poly(Basic):
         return g.as_expr()/f.as_expr()
 
     @_sympifyit('other', NotImplemented)
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         f, g = self, other
 
         if not g.is_Poly:
@@ -4630,7 +4630,7 @@ class Poly(Basic):
         return f.rep == g.rep
 
     @_sympifyit('g', NotImplemented)
-    def __ne__(f, g):
+    def __ne__(f, g: object):
         return not f == g
 
     def __bool__(f):
@@ -4682,7 +4682,7 @@ class PurePoly(Poly):
         return self.free_symbols_in_domain
 
     @_sympifyit('other', NotImplemented)
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         f, g = self, other
 
         if not g.is_Poly:
@@ -7983,7 +7983,7 @@ class GroebnerBasis(Basic):
     def __hash__(self):
         return hash((self._basis, tuple(self._options.items())))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, self.__class__):
             return self._basis == other._basis and self._options == other._options
         elif iterable(other):
@@ -7991,7 +7991,7 @@ class GroebnerBasis(Basic):
         else:
             return False
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self == other
 
     @property

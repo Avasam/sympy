@@ -728,7 +728,7 @@ class PowerBasis(Module):
     def __repr__(self):
         return f'PowerBasis({self.T.as_expr()})'
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, PowerBasis):
             return self.T == other.T
         return NotImplemented
@@ -1050,7 +1050,7 @@ class Submodule(Module, IntegerPowerable):
     def is_compat_submodule(self, other):
         return isinstance(other, Submodule) and other.parent == self.parent
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if self.is_compat_submodule(other):
             return other.QQ_matrix == self.QQ_matrix
         return NotImplemented
@@ -1457,7 +1457,7 @@ class ModuleElement(IntegerPowerable):
             return self.to_ancestor(nca), other.to_ancestor(nca)
         raise UnificationFailed(f"Cannot unify {self} with {other}")
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if self.is_compat(other):
             return self.QQ_col == other.QQ_col
         return NotImplemented

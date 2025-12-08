@@ -121,7 +121,7 @@ class Vector(Printable, EvalfMixin):
         """This uses mul and inputs self and 1 divided by other. """
         return self.__mul__(S.One / other)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Tests for equality.
 
         It is very import to note that this is only as good as the SymPy

@@ -80,7 +80,7 @@ class RecurrenceOperatorAlgebra:
 
     __repr__ = __str__
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if self.base == other.base and self.gen_symbol == other.gen_symbol:
             return True
         else:
@@ -288,7 +288,7 @@ class RecurrenceOperator:
 
     __repr__ = __str__
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, RecurrenceOperator):
             if self.listofpoly == other.listofpoly and self.parent == other.parent:
                 return True
@@ -332,7 +332,7 @@ class HolonomicSequence:
 
     __str__ = __repr__
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if self.recurrence != other.recurrence or self.n != other.n:
             return False
         if self._have_init_cond and other._have_init_cond:

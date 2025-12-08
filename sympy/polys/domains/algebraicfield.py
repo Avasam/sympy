@@ -345,7 +345,7 @@ class AlgebraicField(Field[Alg], CharacteristicZero, SimpleDomain[Alg], RingExte
     def __hash__(self):
         return hash((self.__class__.__name__, self.dtype, self.dom, self.ext))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Returns ``True`` if two domains are equivalent. """
         if isinstance(other, AlgebraicField):
             return self.dtype == other.dtype and self.ext == other.ext

@@ -189,7 +189,7 @@ class DFM:
         """Return ``repr(self)``."""
         return f'DFM{repr(self.to_ddm())[3:]}'
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         """Return ``self == other``."""
         if not isinstance(other, DFM):
             return NotImplemented

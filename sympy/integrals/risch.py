@@ -645,7 +645,7 @@ class DifferentialExtension:
     # f1 = f2 = log(x) at different places in code execution
     # may return D1 != D2 as True, since 'level' or other attribute
     # may differ
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         for attr in self.__class__.__slots__:
             d1, d2 = getattr(self, attr), getattr(other, attr)
             if not (isinstance(d1, GeneratorType) or d1 == d2):

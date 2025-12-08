@@ -231,7 +231,7 @@ class Point(GeometryEntity):
         coords = [simplify(x/divisor) for x in self.args]
         return Point(coords, evaluate=False)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, Point) or len(self.args) != len(other.args):
             return False
         return self.args == other.args

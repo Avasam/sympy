@@ -187,7 +187,7 @@ class MutablePolyDenseMatrix:
         else:
             return self.from_dm(dm[i, j])
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(self, type(other)):
             return NotImplemented
         return self._dm == other._dm

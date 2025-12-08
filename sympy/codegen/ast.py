@@ -256,7 +256,7 @@ class Token(CodegenAST):
 
         return obj
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, self.__class__):
             return False
         for attr in self._fields:
@@ -388,7 +388,7 @@ class NoneToken(Token):
     x = None
 
     """
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return other is None or isinstance(other, NoneToken)
 
     def _hashable_content(self):

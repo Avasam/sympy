@@ -927,12 +927,12 @@ class UndefinedFunction(FunctionClass):
     def __hash__(self):
         return hash((self.class_key(), frozenset(self._kwargs.items())))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return (isinstance(other, self.__class__) and
             self.class_key() == other.class_key() and
             self._kwargs == other._kwargs)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self == other
 
     @property
@@ -2351,12 +2351,12 @@ class Subs(Expr):
             return (self.expr.expr_free_symbols - set(self.variables) |
                     set(self.point.expr_free_symbols))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, Subs):
             return False
         return self._hashable_content() == other._hashable_content()
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not(self == other)
 
     def __hash__(self):

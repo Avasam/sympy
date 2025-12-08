@@ -95,10 +95,10 @@ class GenericZeroMatrix(ZeroMatrix):
         raise TypeError("GenericZeroMatrix does not have a specified shape")
 
     # Avoid Matrix.__eq__ which might call .shape
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return isinstance(other, GenericZeroMatrix)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not (self == other)
 
     def __hash__(self):
@@ -210,10 +210,10 @@ class GenericIdentity(Identity):
         return True
 
     # Avoid Matrix.__eq__ which might call .shape
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return isinstance(other, GenericIdentity)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not (self == other)
 
     def __hash__(self):

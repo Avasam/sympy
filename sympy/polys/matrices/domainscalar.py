@@ -110,7 +110,7 @@ class DomainScalar:
     def __neg__(self):
         return self.new(-self.element, self.domain)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, DomainScalar):
             return NotImplemented
         return self.element == other.element and self.domain == other.domain

@@ -123,7 +123,7 @@ class interval:
         else:
             return NotImplemented
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if isinstance(other, (int, float)):
             if self.start == other and self.end == other:
                 return intervalMembership(True, self.is_valid)
@@ -143,7 +143,7 @@ class interval:
         else:
             return NotImplemented
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         if isinstance(other, (int, float)):
             if self.start == other and self.end == other:
                 return intervalMembership(False, self.is_valid)

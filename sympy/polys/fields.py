@@ -186,12 +186,12 @@ class FracField(DefaultPrinting, Generic[Er]):
         else:
             raise ValueError("expected a %s, got %s instead" % (self.dtype,gen))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         return isinstance(other, FracField) and \
             (self.symbols, self.ngens, self.domain, self.order) == \
             (other.symbols, other.ngens, other.domain, other.order)
 
-    def __ne__(self, other):
+    def __ne__(self, other: object):
         return not self == other
 
     def is_element(self, element):
@@ -378,13 +378,13 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify, Generic[Er]):
     def as_expr(self, *symbols) -> Expr:
         return self.numer.as_expr(*symbols)/self.denom.as_expr(*symbols)
 
-    def __eq__(f, g):
+    def __eq__(f, g: object):
         if isinstance(g, FracElement) and f.field == g.field:
             return f.numer == g.numer and f.denom == g.denom
         else:
             return f.numer == g and f.denom == f.field.ring.one
 
-    def __ne__(f, g):
+    def __ne__(f, g: object):
         return not f == g
 
     def __bool__(f):
