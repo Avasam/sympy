@@ -37,7 +37,7 @@ class Point:
 
     """
 
-    def __init__(self, x_cord, z_cord, a_24, mod):
+    def __init__(self, x_cord: int, z_cord: int, a_24, mod: int):
         """
         Initial parameters for the Point class.
 
@@ -54,7 +54,7 @@ class Point:
         self.a_24 = a_24
         self.mod = mod
 
-    def __eq__(self, other):
+    def __eq__(self, other: "Point"):
         """Two points are equal if X/Z of both points are equal
         """
         if self.a_24 != other.a_24 or self.mod != other.mod:

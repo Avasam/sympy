@@ -514,7 +514,7 @@ def proth_test(n):
             return False
 
 
-def _lucas_lehmer_primality_test(p):
+def _lucas_lehmer_primality_test(p) -> bool:
     r""" Test if the Mersenne number `M_p = 2^p-1` is prime.
 
     Parameters

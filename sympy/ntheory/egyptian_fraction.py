@@ -139,7 +139,7 @@ def egyptian_fraction(r, algorithm="Greedy"):
     return prefix + [Integer(i) for i in postfix]
 
 
-def egypt_greedy(x, y):
+def egypt_greedy(x, y) -> list:
     # assumes gcd(x, y) == 1
     if x == 1:
         return [y]

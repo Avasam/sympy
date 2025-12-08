@@ -3,6 +3,7 @@ Generating and counting primes.
 
 """
 
+from typing import Callable
 from bisect import bisect, bisect_left
 from itertools import count
 # Using arrays for sieving instead of lists greatly reduces
@@ -117,7 +118,7 @@ class Sieve:
         # Merge the sieves
         self._list += _array('L', self._primerange(num, n + 1))
 
-    def _primerange(self, a, b):
+    def _primerange(self, a: int, b):
         """ Generate all prime numbers in the range (a, b).
 
         Parameters
@@ -976,7 +977,7 @@ def primorial(n, nth=True):
     return p
 
 
-def cycle_length(f, x0, nmax=None, values=False):
+def cycle_length(f: Callable[[int], int], x0: int, nmax=None, values=False):
     """For a given iterated sequence, return a generator that gives
     the length of the iterated cycle (lambda) and the length of terms
     before the cycle begins (mu); if ``values`` is True then the

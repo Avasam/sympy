@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Literal, overload
 
 from sympy.external.gmpy import (gcd, lcm, invert, sqrt, jacobi,
                                  bit_scan1, remove)
@@ -483,7 +484,10 @@ def _sqrt_mod_tonelli_shanks(a, p):
     x = pow(a, (t + 1)//2, p)*pow(D, m//2, p) % p
     return x
 
-
+@overload
+def sqrt_mod(a, p, all_roots: Literal[True]) -> list[int]: ...
+@overload
+def sqrt_mod(a, p, all_roots: Literal[False] = False) -> int | None: ...
 def sqrt_mod(a, p, all_roots=False):
     """
     Find a root of ``x**2 = a mod p``.
@@ -977,7 +981,10 @@ def _nthroot_mod_prime_power(a, n, p, k):
             tot_roots = tot_roots | roots_in_base
     return sorted(tot_roots)
 
-
+@overload
+def nthroot_mod(a, n, p, all_roots: Literal[True]) -> list[int]: ...
+@overload
+def nthroot_mod(a, n, p, all_roots: Literal[False] = False) -> int | None: ...
 def nthroot_mod(a, n, p, all_roots=False):
     """
     Find the solutions to ``x**n = a mod p``.

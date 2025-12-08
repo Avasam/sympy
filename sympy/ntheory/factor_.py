@@ -6,7 +6,7 @@ from __future__ import annotations
 from bisect import bisect_left
 from collections import defaultdict, OrderedDict
 from collections.abc import MutableMapping
-from typing import TYPE_CHECKING, Literal, TypeVar, overload
+from typing import TYPE_CHECKING, Literal, TypeVar, overload, Generator
 import math
 
 from sympy.core.containers import Dict
@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 
 _T = TypeVar("_T")
 
-def smoothness(n):
+def smoothness(n: int) -> tuple[int, int]:
     """
     Return the B-smooth and B-power smooth values of n.
 
@@ -1826,7 +1826,7 @@ def _divisors(n, proper=False):
     factordict = factorint(n)
     ps = sorted(factordict.keys())
 
-    def rec_gen(n=0):
+    def rec_gen(n=0) -> Generator[int]:
         if n == len(ps):
             yield 1
         else:
@@ -1977,7 +1977,7 @@ def _udivisors(n):
             yield 1
         return
 
-    factorpows = [p**e for p, e in factorint(n).items()]
+    factorpows: list[int] = [p**e for p, e in factorint(n).items()]
     # We want to calculate
     # yield from (math.prod(s) for s in powersets(factorpows))
     for i in range(2**len(factorpows)):
@@ -2396,7 +2396,7 @@ def core(n, t=2):
     elif t <= 1:
         raise ValueError("t must be >= 2")
     else:
-        y = 1
+        y: int = 1
         for p, e in factorint(n).items():
             y *= p**(e % t)
         return y
@@ -2717,7 +2717,7 @@ def is_deficient(n):
     return bool(abundance(n) < 0)
 
 
-def is_amicable(m, n):
+def is_amicable(m: int, n: int):
     """Returns True if the numbers `m` and `n` are "amicable", else False.
 
     Amicable numbers are two different numbers so related that the sum

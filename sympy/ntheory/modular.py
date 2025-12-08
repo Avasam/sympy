@@ -91,7 +91,7 @@ def crt(m, v, symmetric=False, check=True):
             result = solve_congruence(*list(zip(v, m)),
                     check=False, symmetric=symmetric)
             if result is None:
-                return result
+                return None
             result, mm = result
 
     if symmetric:

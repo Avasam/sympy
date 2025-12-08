@@ -320,7 +320,7 @@ class TheanoPrinter(Printer):
         return self._print(expr, dtypes=dtypes, broadcastables=broadcastables)
 
 
-global_cache: dict[Any, Any] = {}
+global_cache: dict[tuple[str, type, Any, Any | None, Any | None], Any] = {}
 
 
 def theano_code(expr, cache=None, **kwargs):

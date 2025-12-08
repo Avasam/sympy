@@ -10,7 +10,7 @@ import unicodedata
 from io import StringIO
 import builtins
 import types
-from typing import Any, Callable
+from typing import Any, Callable, Iterable
 from functools import reduce
 from sympy.assumptions.ask import AssumptionKeys
 from sympy.core.basic import Basic
@@ -1131,7 +1131,7 @@ class EvaluateFalseTransformer(ast.NodeTransformer):
         ast.Eq: 'Eq'
     }
     def visit_Compare(self, node):
-        def reducer(acc, op_right):
+        def reducer(acc: tuple[list[ast.Call], ast.AST], op_right: tuple[ast.cmpop, ast.AST]):
             result, left = acc
             op, right = op_right
             if op.__class__ not in self.relational_operators:

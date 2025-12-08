@@ -2,17 +2,18 @@
 opportunities.
 """
 from sympy.core import Add, Basic, Mul
+from sympy.core.expr import Expr
 from sympy.core.singleton import S
 from sympy.core.sorting import default_sort_key
 from sympy.core.traversal import preorder_traversal
 
 
-def sub_pre(e):
+def sub_pre(e: Basic):
     """ Replace y - x with -(x - y) if -1 can be extracted from y - x.
     """
     # replacing Add, A, from which -1 can be extracted with -1*-A
     adds = [a for a in e.atoms(Add) if a.could_extract_minus_sign()]
-    reps = {}
+    reps: dict[Basic, Expr | Mul] = {}
     ignore = set()
     for a in adds:
         na = -a
@@ -26,7 +27,7 @@ def sub_pre(e):
     # repeat again for persisting Adds but mark these with a leading 1, -1
     # e.g. y - x -> 1*-1*(x - y)
     if isinstance(e, Basic):
-        negs = {}
+        negs: dict[Basic, Expr | Mul] = {}
         for a in sorted(e.atoms(Add), key=default_sort_key):
             if a in ignore:
                 continue

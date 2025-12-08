@@ -52,7 +52,7 @@ def binomial_coefficients_list(n):
     return d
 
 
-def multinomial_coefficients(m, n):
+def multinomial_coefficients(m, n) -> dict[tuple[int, ...], int]:
     r"""Return a dictionary containing pairs ``{(k1,k2,..,km) : C_kn}``
     where ``C_kn`` are multinomial coefficients such that
     ``n=k1+k2+..+km``.

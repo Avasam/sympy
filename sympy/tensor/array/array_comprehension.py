@@ -1,4 +1,6 @@
 import functools, itertools
+from types import FunctionType, LambdaType
+from typing import TypeGuard
 from sympy.core.sympify import _sympify, sympify
 from sympy.core.expr import Expr
 from sympy.core import Basic, Tuple
@@ -337,9 +339,9 @@ class ArrayComprehension(Basic):
         return Matrix(self._expand_array().tomatrix())
 
 
-def isLambda(v):
+def isLambda(v: object) -> TypeGuard[LambdaType]:
     LAMBDA = lambda: 0
-    return isinstance(v, type(LAMBDA)) and v.__name__ == LAMBDA.__name__
+    return isinstance(v, LambdaType) and v.__name__ == LAMBDA.__name__
 
 class ArrayComprehensionMap(ArrayComprehension):
     '''

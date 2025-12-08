@@ -1,4 +1,7 @@
+from typing import Callable, Hashable, Iterable, TypeVar
 from .utils import _toposort, groupby
+
+_HashableT = TypeVar("_HashableT", bound=Hashable)
 
 class AmbiguityWarning(Warning):
     pass
@@ -20,8 +23,7 @@ def ambiguous(a, b):
     """ A is consistent with B but neither is strictly more specific """
     return consistent(a, b) and not (supercedes(a, b) or supercedes(b, a))
 
-
-def ambiguities(signatures):
+def ambiguities(signatures: Iterable[_HashableT]) -> set[tuple[tuple[_HashableT, ...], tuple[_HashableT, ...]]]:
     """ All signature pairs such that A is ambiguous with B """
     signatures = list(map(tuple, signatures))
     return {(a, b) for a in signatures for b in signatures
@@ -40,7 +42,7 @@ def super_signature(signatures):
                for i in range(n)]
 
 
-def edge(a, b, tie_breaker=hash):
+def edge(a, b, tie_breaker=hash) -> bool:
     """ A should be checked before B
 
     Tie broken by tie_breaker, defaults to ``hash``
