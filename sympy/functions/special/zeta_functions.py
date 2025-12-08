@@ -1,7 +1,9 @@
 """ Riemann zeta and related function. """
 
 from sympy.core.add import Add
+from sympy.core.basic import Basic
 from sympy.core.cache import cacheit
+from sympy.core.expr import Expr
 from sympy.core.function import ArgumentIndexError, expand_mul, DefinedFunction
 from sympy.core.logic import fuzzy_not
 from sympy.core.numbers import pi, I, Integer
@@ -291,7 +293,7 @@ class polylog(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, s, z):
+    def eval(cls, s, z: Expr):
         if z.is_number:
             if z is S.One:
                 return zeta(s)
@@ -500,7 +502,7 @@ class zeta(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, s, a=None):
+    def eval(cls, s: Expr, a=None):
         if a is S.One:
             return cls(s)
         elif s is S.NaN or a is S.NaN:
@@ -629,7 +631,7 @@ class dirichlet_eta(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, s, a=None):
+    def eval(cls, s: Expr, a=None):
         if a is S.One:
             return cls(s)
         if a is None:

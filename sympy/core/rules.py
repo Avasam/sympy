@@ -1,8 +1,12 @@
 """
 Replacement rules.
 """
+from typing import Callable, Generic, TypeVar
 
-class Transform:
+_P = TypeVar("_P")
+_R = TypeVar("_R")
+
+class Transform(Generic[_P, _R]):
     """
     Immutable mapping that can be used as a generic transformation rule.
 
@@ -46,20 +50,20 @@ class Transform:
     4
     """
 
-    def __init__(self, transform, filter=lambda x: True):
+    def __init__(self, transform: Callable[[_P], _R], filter: Callable[[_P], bool]=lambda x: True):
         self._transform = transform
         self._filter = filter
 
-    def __contains__(self, item):
+    def __contains__(self, item: _P) -> bool:
         return self._filter(item)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: _P) -> _R:
         if self._filter(key):
             return self._transform(key)
         else:
             raise KeyError(key)
 
-    def get(self, item, default=None):
+    def get(self, item: _P, default: _R | None = None)-> _R | None:
         if item in self:
             return self[item]
         else:

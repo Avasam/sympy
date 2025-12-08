@@ -306,7 +306,7 @@ class KroneckerDelta(DefinedFunction):
                 ) or False
 
     @property
-    def is_only_below_fermi(self):
+    def is_only_below_fermi(self) -> bool:
         """
         True if Delta is restricted to below fermi.
 

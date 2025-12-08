@@ -6,7 +6,10 @@ combinatorial polynomials.
 
 """
 
+from typing import Callable, ClassVar
 from sympy.core import Rational
+from sympy.core.basic import Basic
+from sympy.core.expr import Expr
 from sympy.core.function import DefinedFunction, ArgumentIndexError
 from sympy.core.singleton import S
 from sympy.core.symbol import Dummy
@@ -21,6 +24,7 @@ from sympy.functions.special.hyper import hyper
 from sympy.polys.orthopolys import (chebyshevt_poly, chebyshevu_poly,
                                     gegenbauer_poly, hermite_poly, hermite_prob_poly,
                                     jacobi_poly, laguerre_poly, legendre_poly)
+from sympy.polys.polytools import Poly
 
 _x = Dummy('x')
 
@@ -28,6 +32,7 @@ _x = Dummy('x')
 class OrthogonalPolynomial(DefinedFunction):
     """Base class for orthogonal polynomials.
     """
+    _ortho_poly: ClassVar[Callable[..., Basic]]
 
     @classmethod
     def _eval_at_order(cls, n, x):
@@ -511,7 +516,7 @@ class chebyshevt(OrthogonalPolynomial):
     _ortho_poly = staticmethod(chebyshevt_poly)
 
     @classmethod
-    def eval(cls, n, x):
+    def eval(cls, n: Basic, x):
         if not n.is_Number:
             # Symbolic result T_n(x)
             # T_n(-x)  --->  (-1)**n * T_n(x)
@@ -827,7 +832,7 @@ class legendre(OrthogonalPolynomial):
     _ortho_poly = staticmethod(legendre_poly)
 
     @classmethod
-    def eval(cls, n, x):
+    def eval(cls, n: Basic, x):
         if not n.is_Number:
             # Symbolic result L_n(x)
             # L_n(-x)  --->  (-1)**n * L_n(x)
@@ -946,12 +951,12 @@ class assoc_legendre(DefinedFunction):
     """
 
     @classmethod
-    def _eval_at_order(cls, n, m):
+    def _eval_at_order(cls, n, m: int):
         P = legendre_poly(n, _x, polys=True).diff((_x, m))
         return S.NegativeOne**m * (1 - _x**2)**Rational(m, 2) * P.as_expr()
 
     @classmethod
-    def eval(cls, n, m, x):
+    def eval(cls, n, m: Expr, x):
         if m.could_extract_minus_sign():
             # P^{-m}_n  --->  F * P^m_n
             return S.NegativeOne**(-m) * (factorial(m + n)/factorial(n - m)) * assoc_legendre(n, -m, x)

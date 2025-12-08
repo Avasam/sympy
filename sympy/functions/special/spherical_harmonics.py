@@ -1,3 +1,4 @@
+from sympy.core.basic import Basic
 from sympy.core.expr import Expr
 from sympy.core.function import DefinedFunction, ArgumentIndexError
 from sympy.core.numbers import I, pi
@@ -9,6 +10,7 @@ from sympy.functions.elementary.complexes import Abs, conjugate
 from sympy.functions.elementary.exponential import exp
 from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.functions.elementary.trigonometric import sin, cos, cot
+from typing import cast
 
 _x = Dummy("x")
 
@@ -138,7 +140,7 @@ class Ynm(DefinedFunction):
     def eval(cls, n, m, theta, phi):
         # Handle negative index m and arguments theta, phi
         if m.could_extract_minus_sign():
-            m = -m
+            m = -cast('Expr', m)
             return S.NegativeOne**m * exp(-2*I*m*phi) * Ynm(n, m, theta, phi)
         if theta.could_extract_minus_sign():
             theta = -theta

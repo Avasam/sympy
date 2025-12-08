@@ -1,6 +1,11 @@
 from __future__ import annotations
 from typing import ClassVar, cast
 from sympy.core import S, sympify, NumberKind
+from sympy.core.basic import Basic
+from sympy.functions.elementary.piecewise import Piecewise
+from sympy.holonomic.holonomic import DifferentialOperatorAlgebra
+from sympy.holonomic.recurrence import RecurrenceOperatorAlgebra
+from sympy.polys.agca.modules import QuotientModule
 from sympy.utilities.iterables import sift
 from sympy.core.add import Add
 from sympy.core.containers import Tuple
@@ -11,7 +16,7 @@ from sympy.core.expr import Expr
 from sympy.core.exprtools import factor_terms
 from sympy.core.mod import Mod
 from sympy.core.mul import Mul
-from sympy.core.numbers import Rational, Infinity, NegativeInfinity
+from sympy.core.numbers import NaN, Rational, Infinity, NegativeInfinity
 from sympy.core.power import Pow
 from sympy.core.relational import Eq, Relational
 from sympy.core.singleton import Singleton
@@ -311,7 +316,7 @@ def root(arg, n, k=0, evaluate=None):
     return Pow(arg, 1/n, evaluate=evaluate)
 
 
-def real_root(arg, n=None, evaluate=None):
+def real_root(arg: object, n=None, evaluate=None) -> Expr:
     r"""Return the real *n*'th-root of *arg* if possible.
 
     Parameters

@@ -1,10 +1,11 @@
 from math import prod
 
 from sympy.core import Add, S, Dummy, expand_func
+from sympy.core.basic import Basic
 from sympy.core.expr import Expr
 from sympy.core.function import DefinedFunction, ArgumentIndexError, PoleError
 from sympy.core.logic import fuzzy_and, fuzzy_not
-from sympy.core.numbers import Rational, pi, oo, I
+from sympy.core.numbers import ComplexInfinity, Number, Rational, pi, oo, I
 from sympy.core.power import Pow
 from sympy.functions.special.zeta_functions import zeta
 from sympy.functions.special.error_functions import erf, erfc, Ei
@@ -118,7 +119,7 @@ class gamma(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Expr) -> Number | ComplexInfinity | None:
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -669,7 +670,7 @@ class polygamma(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, n, z):
+    def eval(cls, n: Expr, z):
         if n is S.NaN or z is S.NaN:
             return S.NaN
         elif z is oo:

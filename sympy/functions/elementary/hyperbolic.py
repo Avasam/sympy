@@ -1,5 +1,8 @@
+from typing import cast
 from sympy.core import S, sympify, cacheit
 from sympy.core.add import Add
+from sympy.core.basic import Basic
+from sympy.core.expr import Expr
 from sympy.core.function import DefinedFunction, ArgumentIndexError
 from sympy.core.logic import fuzzy_or, fuzzy_and, fuzzy_not, FuzzyBool
 from sympy.core.numbers import I, pi, Rational
@@ -191,7 +194,7 @@ class sinh(HyperbolicFunction):
         return asinh
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Basic):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -396,7 +399,7 @@ class cosh(HyperbolicFunction):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Basic):
         from sympy.functions.elementary.trigonometric import cos
         if arg.is_Number:
             if arg is S.NaN:
@@ -648,7 +651,7 @@ class tanh(HyperbolicFunction):
         return atanh
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Basic):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -698,11 +701,11 @@ class tanh(HyperbolicFunction):
                 return arg.args[0]
 
             if arg.func == acoth:
-                return 1/arg.args[0]
+                return 1/cast('acoth', arg).args[0]
 
     @staticmethod
     @cacheit
-    def taylor_term(n, x, *previous_terms):
+    def taylor_term(n, x, *previous_terms): # TODO: Couldn't figure this return type
         if n < 0 or n % 2 == 0:
             return S.Zero
         else:
@@ -863,7 +866,7 @@ class coth(HyperbolicFunction):
         return acoth
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Basic):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -910,7 +913,7 @@ class coth(HyperbolicFunction):
                 return x/(sqrt(x - 1) * sqrt(x + 1))
 
             if arg.func == atanh:
-                return 1/arg.args[0]
+                return 1/cast('atanh', arg).args[0]
 
             if arg.func == acoth:
                 return arg.args[0]
@@ -1006,12 +1009,12 @@ class ReciprocalHyperbolicFunction(HyperbolicFunction):
     """Base class for reciprocal functions of hyperbolic functions. """
 
     #To be defined in class
-    _reciprocal_of = None
+    _reciprocal_of: type[HyperbolicFunction] | None = None
     _is_even: FuzzyBool = None
     _is_odd: FuzzyBool = None
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Basic):
         if arg.could_extract_minus_sign():
             if cls._is_even:
                 return cls(-arg)
@@ -1254,7 +1257,7 @@ class asinh(InverseHyperbolicFunction):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Basic):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -2181,7 +2184,7 @@ class acsch(InverseHyperbolicFunction):
 
     @staticmethod
     @cacheit
-    def taylor_term(n, x, *previous_terms):
+    def taylor_term(n, x, *previous_terms): # TODO: Couldn't figure this return type
         if n == 0:
             return log(2 / x)
         elif n < 0 or n % 2 == 1:

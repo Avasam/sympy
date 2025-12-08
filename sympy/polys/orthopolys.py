@@ -1,9 +1,11 @@
 """Efficient functions for generating orthogonal polynomials."""
+from typing import Literal, overload
+from sympy.core.expr import Expr
 from sympy.core.symbol import Dummy
 from sympy.polys.densearith import (dup_mul, dup_mul_ground,
     dup_lshift, dup_sub, dup_add, dup_sub_term, dup_sub_ground, dup_sqr)
 from sympy.polys.domains import ZZ, QQ
-from sympy.polys.polytools import named_poly
+from sympy.polys.polytools import Poly, PurePoly, named_poly
 from sympy.utilities import public
 
 def dup_jacobi(n, a, b, K):
@@ -243,6 +245,10 @@ def dup_legendre(n, K):
         m2, m1 = m1, dup_sub(a, b, K)
     return m1
 
+@overload
+def legendre_poly(n, x, polys: Literal[True]) -> PurePoly | Poly: ...
+@overload
+def legendre_poly(n, x, polys: Literal[False] = False) -> Expr: ...
 @public
 def legendre_poly(n, x=None, polys=False):
     r"""Generates the Legendre polynomial `P_n(x)`.

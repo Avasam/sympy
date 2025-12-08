@@ -1,5 +1,6 @@
 from __future__ import annotations
 from sympy.core.add import Add
+from sympy.core.basic import Basic
 from sympy.core.cache import cacheit
 from sympy.core.expr import Expr
 from sympy.core.function import DefinedFunction, ArgumentIndexError, PoleError, expand_mul
@@ -14,6 +15,7 @@ from sympy.functions.combinatorial.factorials import factorial, RisingFactorial
 from sympy.functions.combinatorial.numbers import bernoulli, euler
 from sympy.functions.elementary.complexes import arg as arg_f, im, re
 from sympy.functions.elementary.exponential import log, exp
+from sympy.functions.elementary.hyperbolic import HyperbolicFunction
 from sympy.functions.elementary.integers import floor
 from sympy.functions.elementary.miscellaneous import sqrt, Min, Max
 from sympy.functions.elementary.piecewise import Piecewise
@@ -1612,7 +1614,7 @@ class cot(TrigonometricFunction):
 class ReciprocalTrigonometricFunction(TrigonometricFunction):
     """Base class for reciprocal functions of trigonometric functions. """
 
-    _reciprocal_of = None       # mandatory, to be defined in subclass
+    _reciprocal_of: type[HyperbolicFunction] | None = None       # mandatory, to be defined in subclass
     _singularities = (S.ComplexInfinity,)
 
     # _is_even and _is_odd are used for correct evaluation of csc(-x), sec(-x)
@@ -1624,7 +1626,7 @@ class ReciprocalTrigonometricFunction(TrigonometricFunction):
     _is_odd: FuzzyBool = None
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Basic):
         if arg.could_extract_minus_sign():
             if cls._is_even:
                 return cls(-arg)
@@ -2031,7 +2033,7 @@ class sinc(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Basic):
         if arg.is_zero:
             return S.One
         if arg.is_Number:

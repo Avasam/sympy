@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, cast, overload
 
 from sympy.core import S, Add, Mul, sympify, Symbol, Dummy, Basic
 from sympy.core.expr import Expr
@@ -13,6 +13,7 @@ from sympy.core.power import Pow
 from sympy.core.relational import Eq
 from sympy.functions.elementary.miscellaneous import sqrt
 from sympy.functions.elementary.piecewise import Piecewise
+from sympy.integrals.integrals import Integral
 
 if TYPE_CHECKING:
     from typing import TypeVar
@@ -960,7 +961,7 @@ class transpose(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Expr):
         obj = arg._eval_transpose()
         if obj is not None:
             return obj
@@ -1003,7 +1004,7 @@ class adjoint(DefinedFunction):
     """
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Expr):
         obj = arg._eval_adjoint()
         if obj is not None:
             return obj
@@ -1083,7 +1084,7 @@ class polar_lift(DefinedFunction):
     is_comparable = False  # Cannot be evalf'd.
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Expr):
         from sympy.functions.elementary.complexes import arg as argument
         if arg.is_number:
             ar = argument(arg)
@@ -1168,7 +1169,7 @@ class periodic_argument(DefinedFunction):
     """
 
     @classmethod
-    def _getunbranched(cls, ar):
+    def _getunbranched(cls, ar: Expr):
         from sympy.functions.elementary.exponential import exp_polar, log
         if ar.is_Mul:
             args = ar.args
@@ -1181,17 +1182,19 @@ class periodic_argument(DefinedFunction):
             elif isinstance(a, exp_polar):
                 unbranched += a.exp.as_real_imag()[1]
             elif a.is_Pow:
-                re, im = a.exp.as_real_imag()
+                re, im = cast('Pow', a).exp.as_real_imag()
                 unbranched += re*unbranched_argument(
                     a.base) + im*log(abs(a.base))
             elif isinstance(a, polar_lift):
                 unbranched += arg(a.args[0])
             else:
                 return None
+        if unbranched == 0:
+            return None
         return unbranched
 
     @classmethod
-    def eval(cls, ar, period):
+    def eval(cls, ar, period: Expr):
         # Our strategy is to evaluate the argument on the Riemann surface of the
         # logarithm, and then reduce.
         # NOTE evidently this means it is a rather bad idea to use this with
@@ -1298,8 +1301,7 @@ class principal_branch(DefinedFunction):
     is_polar = True
     is_comparable = False  # cannot always be evalf'd
 
-    @classmethod
-    def eval(self, x, period):
+    def eval(self, x: Expr, period):
         from sympy.functions.elementary.exponential import exp_polar
         if isinstance(x, polar_lift):
             return principal_branch(x.args[0], period)
@@ -1359,7 +1361,7 @@ class principal_branch(DefinedFunction):
         return (abs(z)*exp(I*p))._eval_evalf(prec)
 
 
-def _polarify(eq, lift, pause=False):
+def _polarify(eq: Basic, lift, pause=False) -> Expr:
     from sympy.integrals.integrals import Integral
     if eq.is_polar:
         return eq
@@ -1442,7 +1444,7 @@ def polarify(eq, subs=True, lift=False):
     return eq, {r: s for s, r in reps.items()}
 
 
-def _unpolarify(eq, exponents_only, pause=False):
+def _unpolarify(eq: Basic | bool, exponents_only, pause=False) -> Expr | bool:
     if not isinstance(eq, Basic) or eq.is_Atom:
         return eq
 
@@ -1475,7 +1477,7 @@ def _unpolarify(eq, exponents_only, pause=False):
     return eq.func(*[_unpolarify(x, exponents_only, True) for x in eq.args])
 
 
-def unpolarify(eq, subs=None, exponents_only=False):
+def unpolarify(eq, subs=None, exponents_only=False) -> Expr | bool:
     """
     If `p` denotes the projection from the Riemann surface of the logarithm to
     the complex line, return a simplified version `eq'` of `eq` such that

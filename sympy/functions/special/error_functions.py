@@ -4,6 +4,8 @@
 from sympy.core import EulerGamma # Must be imported from core, not core.numbers
 from sympy.core.add import Add
 from sympy.core.cache import cacheit
+from sympy.core.basic import Basic
+from sympy.core.expr import Expr
 from sympy.core.function import DefinedFunction, ArgumentIndexError, expand_mul
 from sympy.core.logic import fuzzy_or
 from sympy.core.numbers import I, pi, Rational, Integer
@@ -25,7 +27,7 @@ from sympy.functions.special.hyper import hyper, meijerg
 # TODO see the "Note:" in Ei
 
 # Helper function
-def real_to_real_as_real_imag(self, deep=True, **hints):
+def real_to_real_as_real_imag(self: Expr, deep=True, **hints):
     if self.args[0].is_extended_real:
         if deep:
             hints['complex'] = False
@@ -140,7 +142,7 @@ class erf(DefinedFunction):
         return erfinv
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Expr):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -378,7 +380,7 @@ class erfc(DefinedFunction):
         return erfcinv
 
     @classmethod
-    def eval(cls, arg):
+    def eval(cls, arg: Expr):
         if arg.is_Number:
             if arg is S.NaN:
                 return S.NaN
@@ -1057,7 +1059,7 @@ class erf2inv(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
     @classmethod
-    def eval(cls, x, y):
+    def eval(cls, x: Basic, y):
         if x is S.NaN or y is S.NaN:
             return S.NaN
         elif x.is_zero and y.is_zero:
@@ -1380,7 +1382,7 @@ class expint(DefinedFunction):
 
 
     @classmethod
-    def eval(cls, nu, z):
+    def eval(cls, nu: Expr, z: Expr):
         from sympy.functions.special.gamma_functions import (gamma, uppergamma)
         nu2 = unpolarify(nu)
         if nu != nu2:

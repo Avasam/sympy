@@ -3,7 +3,7 @@ from sympy.core import S, diff, Tuple, Dummy, Mul
 from sympy.core.basic import Basic, as_Basic
 from sympy.core.expr import Expr
 from sympy.core.function import DefinedFunction
-from sympy.core.numbers import Rational, NumberSymbol, _illegal
+from sympy.core.numbers import Rational, NumberSymbol, _illegal, NaN
 from sympy.core.parameters import global_parameters
 from sympy.core.relational import (Lt, Gt, Eq, Ne, Relational,
     _canonical, _canonical_coeff)
@@ -16,9 +16,9 @@ from sympy.utilities.misc import filldedent, func_name
 
 from itertools import product
 
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from typing_extensions import Unpack
+from typing import Literal, overload, TypeVar
+
+_T = TypeVar("_T")
 
 Undefined = S.NaN  # Piecewise()
 
@@ -871,7 +871,7 @@ class Piecewise(DefinedFunction):
         """
         if domain is None:
             domain = S.Reals
-        exp_sets = []
+        exp_sets: list[tuple] = []
         U = domain
         complex = not domain.is_subset(S.Reals)
         cond_free = set()
@@ -993,7 +993,7 @@ class Piecewise(DefinedFunction):
             return result
 
 
-def piecewise_fold(expr, evaluate=True):
+def piecewise_fold(expr, evaluate=True) -> Expr:
     """
     Takes an expression containing a piecewise function and returns the
     expression in piecewise form. In addition, any ITE conditions are
@@ -1150,7 +1150,7 @@ def _clip(A, B, k):
     return p
 
 
-def piecewise_simplify_arguments(expr, **kwargs):
+def piecewise_simplify_arguments(expr, **kwargs) -> NaN | Expr | Piecewise:
     from sympy.simplify.simplify import simplify
 
     # simplify conditions
@@ -1428,7 +1428,12 @@ def _piecewise_simplify_eq_and(args):
             args[i] = args[i].func(expr, cond)
     return args
 
-
+@overload
+def piecewise_exclusive(expr: Expr, *, skip_nan=False, deep: Literal[True] = True) -> Expr: ...
+@overload
+def piecewise_exclusive(expr: Piecewise, *, skip_nan=False, deep: Literal[False]) -> Expr | NaN | Piecewise: ...
+@overload
+def piecewise_exclusive(expr: _T, *, skip_nan=False, deep: Literal[False]) -> _T: ...
 def piecewise_exclusive(expr, *, skip_nan=False, deep=True):
     """
     Rewrite :class:`Piecewise` with mutually exclusive conditions.

@@ -1547,7 +1547,11 @@ class Basic(Printable):
         # no success
         return False
 
-    def replace(self, query, value, map=False, simultaneous=True, exact=None) -> Basic:
+    @overload
+    def replace(self, query, value, map: Literal[True], simultaneous=True, exact=None) -> dict[Self, object]: ...
+    @overload
+    def replace(self, query, value, map: Literal[False] = False, simultaneous=True, exact=None) -> Self: ...
+    def replace(self, query, value, map=False, simultaneous=True, exact=None) -> dict[Self, object] | Self:
         """
         Replace matching subexpressions of ``self`` with ``value``.
 
@@ -1788,7 +1792,7 @@ class Basic(Printable):
                 rv = F(rv)
             return rv
 
-        mapping = {}  # changes that took place
+        mapping: dict[Self, object] = {}  # changes that took place
 
         def rec_replace(expr):
             result = _query(expr)
@@ -2266,7 +2270,7 @@ class Atom(Basic):
             return repl_dict.copy()
         return None
 
-    def xreplace(self, rule, hack2=False):
+    def xreplace(self, rule: Mapping[Atom, _T], hack2=False) -> _T | Self:
         return rule.get(self, self)
 
     def doit(self, **hints):

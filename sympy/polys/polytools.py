@@ -1090,7 +1090,7 @@ class Poly(Basic):
         else:
             return f.rep.to_sympy_list()
 
-    def as_expr(f, *gens):
+    def as_expr(f, *gens) -> Expr:
         """
         Convert a Poly instance to an Expr instance.
 
@@ -8219,7 +8219,10 @@ def poly(expr, *gens, **args):
 
     return _poly(expr, opt)
 
-
+@overload
+def named_poly(n, f, K, name, x, polys: Literal[True]) -> PurePoly | Poly: ...
+@overload
+def named_poly(n, f, K, name, x, polys: Literal[False]) -> Expr: ...
 def named_poly(n, f, K, name, x, polys):
     r"""Common interface to the low-level polynomial generating functions
     in orthopolys and appellseqs.

@@ -1,5 +1,5 @@
 from sympy.core import S, sympify
-from sympy.core.symbol import (Dummy, symbols)
+from sympy.core.symbol import (Dummy, Symbol, symbols)
 from sympy.functions import Piecewise, piecewise_fold
 from sympy.logic.boolalg import And
 from sympy.sets.sets import Interval
@@ -82,7 +82,7 @@ def _add_splines(c, b1, d, b2, x):
 
 
 @lru_cache(maxsize=128)
-def bspline_basis(d, knots, n, x):
+def bspline_basis(d, knots, n, x: Symbol):
     """
     The $n$-th B-spline at $x$ of degree $d$ with knots.
 

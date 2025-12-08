@@ -2,6 +2,7 @@ from functools import wraps
 
 from sympy.core import S
 from sympy.core.add import Add
+from sympy.core.basic import Basic
 from sympy.core.cache import cacheit
 from sympy.core.expr import Expr
 from sympy.core.function import DefinedFunction, ArgumentIndexError, _mexpand
@@ -60,7 +61,7 @@ class BesselBase(DefinedFunction):
         return self.args[1]
 
     @classmethod
-    def eval(cls, nu, z):
+    def eval(cls, nu: Expr, z: Expr) -> Expr | None:
         return
 
     def fdiff(self, argindex=2):
@@ -176,7 +177,7 @@ class besselj(BesselBase):
     _b = S.One
 
     @classmethod
-    def eval(cls, nu, z):
+    def eval(cls, nu: Expr, z: Expr):
         if z.is_zero:
             if nu.is_zero:
                 return S.One
@@ -324,7 +325,7 @@ class bessely(BesselBase):
     _b = S.One
 
     @classmethod
-    def eval(cls, nu, z):
+    def eval(cls, nu: Expr, z: Basic):
         if z.is_zero:
             if nu.is_zero:
                 return S.NegativeInfinity
@@ -479,7 +480,7 @@ class besseli(BesselBase):
     _b = S.One
 
     @classmethod
-    def eval(cls, nu, z):
+    def eval(cls, nu: Expr, z: Expr):
         if z.is_zero:
             if nu.is_zero:
                 return S.One
@@ -646,7 +647,7 @@ class besselk(BesselBase):
     _b = -S.One
 
     @classmethod
-    def eval(cls, nu, z):
+    def eval(cls, nu: Expr, z: Basic):
         if z.is_zero:
             if nu.is_zero:
                 return S.Infinity
@@ -996,7 +997,7 @@ class jn(SphericalBesselBase):
 
     """
     @classmethod
-    def eval(cls, nu, z):
+    def eval(cls, nu: Expr, z: Basic):
         if z.is_zero:
             if nu.is_zero:
                 return S.One

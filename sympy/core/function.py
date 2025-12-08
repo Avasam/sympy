@@ -347,7 +347,7 @@ class Application(Basic, metaclass=FunctionClass):
         return obj
 
     @classmethod
-    def eval(cls, *args):
+    def eval(cls, *args) -> Expr | None:
         """
         Returns a canonical form of cls applied to arguments args.
 
@@ -1278,7 +1278,7 @@ class Derivative(Expr):
         """
         return self.expr._diff_wrt and isinstance(self.doit(), Derivative)
 
-    def __new__(cls, expr, *variables, **kwargs) -> Basic | Zero | One | Self:
+    def __new__(cls, expr: object, *variables, **kwargs) -> Expr | Zero | One | Self:
         expr = sympify(expr)
         if not isinstance(expr, Basic):
             raise TypeError(f"Cannot represent derivative of {type(expr)}")
@@ -2964,7 +2964,7 @@ def expand_log(expr, deep=True, force=False, factor=False):
         basic=False, force=force, factor=factor)
 
 
-def expand_func(expr, deep=True):
+def expand_func(expr: Expr | complex, deep=True):
     """
     Wrapper around expand that only uses the func hint.  See the expand
     docstring for more information.
