@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypeGuard, TypeVar, Iterable, Callable
 
 from collections import Counter, defaultdict, OrderedDict
+from collections.abc import Iterable
 from itertools import (
     chain, combinations, combinations_with_replacement, cycle, islice,
     permutations, product, groupby
@@ -21,8 +22,8 @@ from sympy.utilities.decorator import deprecated
 
 
 if TYPE_CHECKING:
-    from typing import TypeVar, Iterable, Callable
     T = TypeVar('T')
+    IterableT = TypeVar("IterableT", bound=Iterable)
 
 
 def is_palindromic(s, i=0, j=None):
@@ -3041,8 +3042,11 @@ class NotIterable:
     """
     pass
 
-
-def iterable(i, exclude=(str, dict, NotIterable)):
+def iterable(
+    # Preserving the Iterable Generic as much as possible
+    i: object | IterableT | Iterable[T],
+    exclude: tuple[type, ...] = (str, dict, NotIterable)
+) -> TypeGuard[IterableT | Iterable[T]]:
     """
     Return a boolean indicating whether ``i`` is SymPy iterable.
     True also indicates that the iterator is finite, e.g. you can
@@ -3092,13 +3096,19 @@ def iterable(i, exclude=(str, dict, NotIterable)):
     if hasattr(i, '_iterable'):
         return i._iterable
     try:
-        iter(i)
+        iter(i)  # type: ignore[call-overload]
     except TypeError:
         return False
     if exclude:
         return not isinstance(i, exclude)
     return True
 
+def _(test: list[str] | None, b: object):
+    if iterable(test):
+        print(test)
+
+    if iterable(b):
+        print(b)
 
 def is_sequence(i, include=None):
     """

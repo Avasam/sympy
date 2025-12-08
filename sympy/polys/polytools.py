@@ -7909,6 +7909,9 @@ def schur_conditions(f, *gens, **args):
 @public
 class GroebnerBasis(Basic):
     """Represents a reduced Groebner basis. """
+    # Set in _new
+    _basis: tuple
+    _options: options.Options
 
     def __new__(cls, F, *gens, **args):
         """Compute a reduced Groebner basis for a system of polynomials. """
@@ -7930,7 +7933,7 @@ class GroebnerBasis(Basic):
         return cls._new(G, opt)
 
     @classmethod
-    def _new(cls, basis, options):
+    def _new(cls, basis, options: options.Options):
         obj = Basic.__new__(cls)
 
         obj._basis = tuple(basis)
